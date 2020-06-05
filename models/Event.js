@@ -7,12 +7,19 @@ const eventSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
+    venue:{
+        type:String
+    },
+    date : {
+        type: Date,
+        required : true
+    },
     description:{
         type: String,
         required: true
     },
-    poster:{
-        type: Buffer,
+    poster_url:{
+        type: String,
         required: true
     },
     owner:{
@@ -23,4 +30,3 @@ const eventSchema = new mongoose.Schema({
 },{
     timestamps: true
 })
-
