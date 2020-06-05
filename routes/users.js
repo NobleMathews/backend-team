@@ -22,8 +22,7 @@ router.route('/').post((req,res)=>{
 router.route('/update/:id').post((req,res)=>{
     const id = req.params.id;
     const change={
-        pswd : req.body.pswd,
-        dob : req.body.dob
+        // please fill it accordingly
     }
     Users.findByIdAndUpdate(id,change)
     .then((user)=>{
