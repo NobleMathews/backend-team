@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const Event = require('./Event')
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -14,6 +14,12 @@ const userSchema = new Schema({
 },{
     timestamps:true
 });
+
+userSchema.virtual('events',{
+    ref: 'Event',
+    localField: '_id',
+    foreignField: 'owner'
+})
 
 const Users = mongoose.model('Users',userSchema);
 
