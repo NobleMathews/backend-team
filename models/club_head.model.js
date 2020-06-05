@@ -20,6 +20,6 @@ const clubListSchema = new Schema({
     timestamps:true
 });
 
-const clubList = mongoose.model('ClubList',userSchema);
+const club_List = mongoose.model('Club_List',userSchema);
 
-module.exports = clubList;
+module.exports = club_List;
