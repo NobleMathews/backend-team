@@ -30,3 +30,5 @@ const eventSchema = new mongoose.Schema({
 },{
     timestamps: true
 })
+
+module.exports = Event
