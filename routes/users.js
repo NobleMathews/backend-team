@@ -1,5 +1,5 @@
 const router = require('express').Router();
-let Users = require('../models/users.model');
+let Users = require('../models/Users');
 
 router.route('/').post((req,res)=>{
     // console.log(req.body);
@@ -79,22 +79,17 @@ router.route('/profile/update/:id').post((req,res)=>{
         res.redirect('/users/profile');
     });
 });
-// setup the method on startup in server.js to get gfs set
-//
-// app.post('/upload', upload.single('file'), (req, res) => {
-//     res.sendStatus(200);
-// });
-router.route("/profile/image/:filename").get((req, res) => {
-    const file = gfs
-      .find({
-        filename: req.params.filename
-      })
-      .toArray((err, files) => {
-        if (!files || files.length === 0) {
-          return res.sendStatus(404);
-        }
-        gfs.openDownloadStreamByName(req.params.filename).pipe(res);
-      });
-  });
+
+router.route('/profile/image/update/').post((req,res)=>{
+    const id = req.query.id;
+    const url = req.query.url;
+    const change={
+        dp_url:url
+    }
+    Users.findByIdAndUpdate(id,change)
+    .then((user)=>{
+        res.sendStatus(200);
+    });
+});
 
 module.exports = router;
