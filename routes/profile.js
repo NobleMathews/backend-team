@@ -50,7 +50,8 @@ router.route('/update/:id').post((req,res)=>{
         res.redirect('/users/profile');
     });
 });
-// setup the method on startup in server.js
+// setup the method on startup in server.js to get gfs set
+//
 // app.post('/upload', upload.single('file'), (req, res) => {
 //     res.sendStatus(200);
 // });
