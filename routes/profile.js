@@ -57,5 +57,7 @@ router.route('/update/:id').post((req,res)=>{
         res.redirect('/users/profile');   //since /profile in use for updating passw might be good to rename that route
     })
 })
-
+// app.post('/upload', upload.single('file'), (req, res) => {
+//     res.sendStatus(200);
+// });
 module.exports = router;
