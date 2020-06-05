@@ -16,7 +16,7 @@ router.route('/:user_id').get((req,res)=>{
     // ○	Profile_pic
 
     // turn on the projections as per necessity
-    Profile.find(user,{club_head:0,club_name:0,_id:0,createdAt:0,updatedAt:0})
+    Profile.find(user,{club_head:0,club_name:0,createdAt:0,updatedAt:0})
     .then(user=>{
         if(user.length===1){  //shouldn't happen since it would mean user is at profile page without even signing up o.O
 
@@ -27,7 +27,7 @@ router.route('/:user_id').get((req,res)=>{
             else{
                 // front end -> updater view
                 // res.redirect(`/profile/${user[0].user_id}`);
-                res.sendStatus(404);
+                res.render('updateprof',{"id":user[0]._id,"user_id":user[0].user_id});
 
             }
         }
