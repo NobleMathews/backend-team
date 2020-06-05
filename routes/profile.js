@@ -48,10 +48,22 @@ router.route('/update/:id').post((req,res)=>{
     Profile.findByIdAndUpdate(id,change)
     .then((user)=>{
         res.redirect('/users/profile');
-    })
-})
+    });
+});
 // setup the method on startup in server.js
 // app.post('/upload', upload.single('file'), (req, res) => {
 //     res.sendStatus(200);
 // });
+router.route("/image/:filename").get((req, res) => {
+    const file = gfs
+      .find({
+        filename: req.params.filename
+      })
+      .toArray((err, files) => {
+        if (!files || files.length === 0) {
+          return res.sendStatus(404);
+        }
+        gfs.openDownloadStreamByName(req.params.filename).pipe(res);
+      });
+  });
 module.exports = router;
