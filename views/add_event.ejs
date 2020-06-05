@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="/users/add_event/<%=user_id%>/add_event/<%=club_name%>/add" method="POST">
+            <label for="event_name">Event name</label><br>
+            <input type="text" name="event_name" id="event_name"><br>
+            <label for="event_date">Date</label><br>
+            <input type="text" name="event_date" id="event_date"><br>
+            <label for="event_venue">Venue</label><br>
+            <input type="text" name="event_venue" id="event_venue"><br>
+            <label for="g_link">Google Embedded link</label><br>
+            <input type="text" name="g_link" id="g_link"><br>
+            <input type="submit" value="submit">
+    </form>
+</body>
+</html>

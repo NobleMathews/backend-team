@@ -10,7 +10,7 @@ app.use(cors());
 app.use(bodyParser.urlencoded({extended:true}));
 app.set('view engine','ejs');
 
-const uri = "mongodb+srv://heads:heads@cluster0-v6kuo.mongodb.net/test?retryWrites=true&w=majority";
+const uri = "mongodb+srv://heads:heads@cluster0-v6kuo.mongodb.net/techsite?retryWrites=true&w=majority";
 
 mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true });
 
