@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const clubListSchema = new Schema({
+const clubListsSchema = new Schema({
     club_name: {type:String,required:true},
     club_head: {type:String,required:true},
     event_list: [
@@ -20,6 +20,6 @@ const clubListSchema = new Schema({
     timestamps:true
 });
 
-const club_List = mongoose.model('Club_List',userSchema);
+const club_lists = mongoose.model('club_lists',clubListsSchema);
 
-module.exports = club_List;
+module.exports = club_lists;
