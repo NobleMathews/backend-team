@@ -106,17 +106,24 @@ router.route('/add_event/:club_head_id/add_event/:club_name').get((req,res)=>{
 router.route('/add_event/:club_head_id/add_event/:club_name/add').post((req,res)=>{
     const club_name = req.params.club_name;
     const club_head_id = req.params.club_head_id;
-
     const event_name = req.body['event_name'];
     const event_date = req.body['event_date'];
     const event_venue = req.body['event_venue'];
-    const g_link = req.body['g_link'];
+    const p_url = req.body['p_url'];
+    const categories = req.body['categories'];
+    const description = req.body['description'];
+    const speaker = req.body['speaker'];
 
     const event = new Event({
         name:event_name,
         venue:event_venue,
         date:event_date,
+        description:description,
+        poster_url:p_url,
         owner:club_head_id,
+        categories:categories,
+        speaker:speaker,
+        
     });
 
     event.save((err,event) => {
