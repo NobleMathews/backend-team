@@ -30,7 +30,8 @@ const eventSchema = new Schema({
     participants : [],
     categories : {type:String,required:true},       // workshop, competiotion, talk-show
     speaker : {type:String},
-    event_summary = {type:Schema.Types.ObjectId, ref: 'event_summary'}
+    event_summary : {type:Schema.Types.ObjectId, ref: 'event_summary'},
+    showcase_url : []
 },{
     timestamps: true
 })
