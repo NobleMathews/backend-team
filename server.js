@@ -102,6 +102,6 @@ app.get("/users/profile/image/:filename", (req, res) => {
 app.post("/users/profile/image/del/:img", (req, res) => {
   gfs.delete(new mongoose.Types.ObjectId(req.params.img), (err, data) => {
     if (err) return res.status(404).json({ err: err.message });
-    res.sendStatus(200);
+    res.status(200);
   });
 });
