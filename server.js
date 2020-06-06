@@ -34,6 +34,7 @@ connection.once('open', () => {
 
 const userRouter = require('./routes/users');
 const gformRouter = require('./routes/gform');
+const eventRouter = require('./routes/events');
 
 app.get('/',(req,res)=>{
   res.render('index');
@@ -45,6 +46,7 @@ app.get('/profile',(req,res)=>{
 // app.use(morgan('tiny'));
 app.use('/users',userRouter);
 app.use('/gform',gformRouter);
+app.use('/events',eventRouter);
 
 app.listen(port,()=>{
     console.log(`listening on port : ${port}`);

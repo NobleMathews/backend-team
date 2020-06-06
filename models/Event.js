@@ -16,19 +16,19 @@ const eventSchema = new Schema({
         required: true,
         ref: 'User'
     },
-    participants : [],
+    participants : [String],
     categories : {type:String,required:true},       // workshop, competiotion, talk-show
     speaker : {type:String},
     event_summary : {
-        gallery : [],                           // will contain url of the uploaded images in simple array
+        gallery : [String],                           // will contain url of the uploaded images in simple array
         chief_guest : {type:String},
         award_winners : {type:String},
         summary : {type:String},
-        outside_links : [],
-        file_attachment : [],
+        outside_links : [String],
+        file_attachment : [String],
         video_links : {type:String}
     },
-    showcase_url : []
+    showcase_url : [String]
 },{
     timestamps: true
 })
