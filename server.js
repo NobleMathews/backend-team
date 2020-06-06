@@ -32,8 +32,8 @@ connection.once('open', () => {
   gfs = new mongoose.mongo.GridFSBucket(connection.db, {bucketName: "uploads"});
 });
 
-const homeRouter = require('./routes/home');
 const userRouter = require('./routes/users');
+const gformRouter = require('./routes/gform');
 
 app.get('/',(req,res)=>{
   res.render('index');
@@ -44,6 +44,7 @@ app.get('/profile',(req,res)=>{
 })
 // app.use(morgan('tiny'));
 app.use('/users',userRouter);
+app.use('/gform',gformRouter);
 
 app.listen(port,()=>{
     console.log(`listening on port : ${port}`);
