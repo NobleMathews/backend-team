@@ -1,5 +1,6 @@
 const router = require('express').Router();
 let Users = require('../models/Users');
+let Event = require('../models/Event');
 
 router.route('/').post((req,res)=>{
     // console.log(req.body);
@@ -80,5 +81,72 @@ router.route('/profile/image/update/').post((req,res)=>{
         res.sendStatus(200);
     });
 });
+
+router.route('/add_event/:user_id').get((req,res)=>{
+    const u_id = req.params.user_id;
+    Users.findOne({user_id:u_id})
+    .then((user)=>{
+        if(user.club_head){
+            res.redirect(`/users/add_event/${user._id}/add_event/${user.club_name}`)
+        }
+        else{
+            res.send('you are not club head');
+        }
+    }).catch(err=>{
+        console.log(err);
+    })
+});
+
+router.route('/add_event/:club_head_id/add_event/:club_name').get((req,res)=>{
+    const club_name = req.params.club_name;
+    const club_head_id = req.params.club_head_id;
+    res.render('add_event',{club_name:club_name,club_head_id:club_head_id});
+});
+
+router.route('/add_event/:club_head_id/add_event/:club_name/add').post((req,res)=>{
+    const club_name = req.params.club_name;
+    const club_head_id = req.params.club_head_id;
+    const event_name = req.body['event_name'];
+    const event_date = req.body['event_date'];
+    const event_venue = req.body['event_venue'];
+    const p_url = req.body['p_url'];
+    const categories = req.body['categories'];
+    const description = req.body['description'];
+    const speaker = req.body['speaker'];
+
+    const event = new Event({
+        name:event_name,
+        venue:event_venue,
+        date:event_date,
+        description:description,
+        poster_url:p_url,
+        owner:club_head_id,
+        categories:categories,
+        speaker:speaker,
+        
+    });
+
+    event.save((err,event) => {
+        if (err) throw err;
+        console.log(event);
+        
+    });
+
+    Event.findById(event._id)
+    .populate('owner')
+    .exec((err,event)=>{
+        if (err) throw err;
+        console.log(event);   
+    })
+
+    Users.findById(club_head_id)
+    .then((user)=>{
+        res.redirect(`/users/add_event/${user.user_id}`)
+    })
+    .catch((err)=>console.log((err))
+    )
+    
+});
+
 
 module.exports = router;

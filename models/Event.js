@@ -1,5 +1,6 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const Users = require('./Users');
 
 const eventSchema = new Schema({
     name:{
@@ -14,7 +15,7 @@ const eventSchema = new Schema({
     owner:{
         type: Schema.Types.ObjectId,
         required: true,
-        ref: 'User'
+        ref: 'Users'
     },
     participants : [String],
     categories : {type:String,required:true},       // workshop, competiotion, talk-show

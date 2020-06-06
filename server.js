@@ -18,6 +18,7 @@ app.use(cors());
 app.use(methodOverride('_method'))
 app.use(bodyParser.urlencoded({extended:true,}));
 app.set('view engine','ejs');
+app.set('useFindAndModify',false);
 
 const uri = "mongodb+srv://heads:heads@cluster0-v6kuo.mongodb.net/techsite?retryWrites=true&w=majority";
 // for testing
