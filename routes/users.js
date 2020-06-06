@@ -19,17 +19,6 @@ router.route('/').post((req,res)=>{
     })
 });
 
-router.route('/update/:id').post((req,res)=>{
-    const id = req.params.id;
-    const change={
-        // please fill it accordingly
-    }
-    Users.findByIdAndUpdate(id,change)
-    .then((user)=>{
-        res.redirect('/');
-    })
-})
-
 router.route('/profile/:user_id').get((req,res)=>{
 
     const user_id =req.params.user_id;  
