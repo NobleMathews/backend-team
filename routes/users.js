@@ -131,6 +131,14 @@ router.route('/add_event/:club_head_id/add_event/:club_name/add').post((req,res)
         console.log(event);
         
     });
+
+    Event.findById(event._id)
+    .populate('owner')
+    .exec((err,event)=>{
+        if (err) throw err;
+        console.log(event);   
+    })
+
     Users.findById(club_head_id)
     .then((user)=>{
         res.redirect(`/users/add_event/${user.user_id}`)
