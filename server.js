@@ -18,6 +18,7 @@ app.use(cors());
 app.use(methodOverride('_method'))
 app.use(bodyParser.urlencoded({extended:true,}));
 app.set('view engine','ejs');
+app.set('useFindAndModify',false);
 
 const uri = "mongodb+srv://heads:heads@cluster0-v6kuo.mongodb.net/techsite?retryWrites=true&w=majority";
 // for testing
@@ -34,6 +35,7 @@ connection.once('open', () => {
 
 const userRouter = require('./routes/users');
 const gformRouter = require('./routes/gform');
+const eventRouter = require('./routes/events');
 
 app.get('/',(req,res)=>{
   res.render('index');
@@ -45,6 +47,7 @@ app.get('/profile',(req,res)=>{
 // app.use(morgan('tiny'));
 app.use('/users',userRouter);
 app.use('/gform',gformRouter);
+app.use('/events',eventRouter);
 
 app.listen(port,()=>{
     console.log(`listening on port : ${port}`);
