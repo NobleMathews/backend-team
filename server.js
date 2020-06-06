@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const mongoose =  require('mongoose');
 const bodyParser = require('body-parser');
+const clubList = require('./models/club_head.model')
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -9,6 +10,7 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(bodyParser.urlencoded({extended:true}));
 app.set('view engine','ejs');
+app.set('useFindAndModify',false);
 
 const uri = "mongodb+srv://heads:heads@cluster0-v6kuo.mongodb.net/techsite?retryWrites=true&w=majority";
 
