@@ -36,6 +36,7 @@ connection.once('open', () => {
 const userRouter = require('./routes/users');
 const gformRouter = require('./routes/gform');
 const eventRouter = require('./routes/events');
+const registerRouter = require('./routes/register');
 
 app.get('/',(req,res)=>{
   res.render('index');
@@ -48,6 +49,7 @@ app.get('/profile',(req,res)=>{
 app.use('/users',userRouter);
 app.use('/gform',gformRouter);
 app.use('/events',eventRouter);
+app.use('/register',registerRouter);
 
 app.listen(port,()=>{
     console.log(`listening on port : ${port}`);
