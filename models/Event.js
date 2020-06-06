@@ -1,17 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const eventsSummarySchema = new Schema({
-    gallery : [],                           // will contain url of the uploaded images in simple array
-    chief_guest : {type:String},
-    award_winners : {type:String},
-    summary : {type:String},
-    outside_links : [],
-    file_attachment : [],
-    video_links : {type:String}
-})
-
-
 const eventSchema = new Schema({
     name:{
         type: String,
@@ -27,16 +16,23 @@ const eventSchema = new Schema({
         required: true,
         ref: 'User'
     },
-    participants : [],
+    participants : [String],
     categories : {type:String,required:true},       // workshop, competiotion, talk-show
     speaker : {type:String},
-    event_summary : {type:Schema.Types.ObjectId, ref: 'event_summary'},
-    showcase_url : []
+    event_summary : {
+        gallery : [String],                           // will contain url of the uploaded images in simple array
+        chief_guest : {type:String},
+        award_winners : {type:String},
+        summary : {type:String},
+        outside_links : [String],
+        file_attachment : [String],
+        video_links : {type:String}
+    },
+    showcase_url : [String]
 },{
     timestamps: true
 })
 
-const event_summary = mongoose.model('event_summary',eventsSummarySchema)
 const Event = mongoose.model('Events',eventSchema);
 
 module.exports = Event
