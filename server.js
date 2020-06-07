@@ -8,6 +8,7 @@ const multer = require("multer");
 const GridFsStorage = require("multer-gridfs-storage");
 const Grid = require("gridfs-stream");
 const methodOverride = require("method-override");
+const Event = require('./models/Event');
 
 // const morgan = require('morgan');
 
@@ -109,3 +110,64 @@ app.post("/users/profile/image/del/:img", (req, res) => {
     res.status(200);
   });
 });
+
+app.post('/users/add_event/:club_head_id/add_event/:club_name/add',upload.single('poster'),(req,res)=>{
+  const club_name = req.params.club_name;
+  const club_head_id = req.params.club_head_id;
+  const event_name = req.body['event_name'];
+  const event_date = req.body['event_date'];
+  const event_venue = req.body['event_venue'];
+  const categories = req.body['categories'];
+  const description = req.body['description'];
+  const speaker = req.body['speaker'];
+
+  const event = new Event({
+      name:event_name,
+      venue:event_venue,
+      date:event_date,
+      description:description,
+      poster_url:`/events/posters/${req.file.filename}`,
+      owner:new mongoose.Types.ObjectId(club_head_id),
+      categories:categories,
+      speaker:speaker,
+      
+  });
+
+  event.save((err,event) => {
+      if (err) throw err;
+      console.log(event);
+      
+  });
+
+  Event.findById(event._id)
+  .populate({
+    path: 'owner',
+    model: 'Users'
+  })
+  .exec((err,event)=>{
+      if (err) throw err;
+      console.log(event);   
+  })
+
+  res.send('success')
+  
+});
+
+//returns poster
+app.get('/events/posters/:poster',(req,res)=>{
+      const filename = req.params.poster;
+
+      const file = gfs
+      .find({
+        filename: req.params.poster
+      })
+      .toArray((err, files) => {
+        if (!files || files.length === 0) {
+          return res.status(404).json({
+            err: "no files exist"
+          });
+        }
+        gfs.openDownloadStreamByName(req.params.poster).pipe(res);
+      });
+
+})
