@@ -1,6 +1,8 @@
 const router = require('express').Router();
 let Events = require('../models/Event');
 
+//update summary fields all fields arent neceassary and only those passed will be affected keeping other parameters unchanged
+//on front end make sure primary fields that are essential to define the event are kep as required.
 router.route('/summary_update/:id').post((req,res)=>{
     const id = req.params.id;
     const evsum={
@@ -19,7 +21,7 @@ router.route('/summary_update/:id').post((req,res)=>{
         res.sendStatus(200);
     });
 });
-
+// use state variable supplied by this route to populate react layout
 router.route('/summary/:id').get((req,res)=>{
     const id =req.params.id;  
     const event={_id:id};
@@ -30,6 +32,7 @@ router.route('/summary/:id').get((req,res)=>{
                 /// The following are state variables to be used within react
                 res.send(event[0].event_summary);
             }
+            // take care the following error reponses are handled separately. 
             else{
                 res.json("no_summary");
 

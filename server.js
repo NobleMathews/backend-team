@@ -10,7 +10,7 @@ const GridFsStorage = require("multer-gridfs-storage");
 const Grid = require("gridfs-stream");
 const methodOverride = require("method-override");
 const Event = require('./models/Event');
-
+// activate morgan in order to get an idea of the get and post requests which are being send to 
 // const morgan = require('morgan');
 
 const app = express()
@@ -24,11 +24,11 @@ app.set('view engine','ejs');
 app.set('useFindAndModify',false);
 
 const uri = 'mongodb+srv://heads:heads@cluster0-v6kuo.mongodb.net/techsite?retryWrites=true&w=majority'
-// for testing
+// for testing if using a local server for gridfs
 // const uri ="mongodb://127.0.0.1:27017/database";
 
 mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true })
-
+// the following gridFS structure assumes a collection name of uploads, please change accordingly once it is in place.
 let gfs
 const connection = mongoose.connection
 connection.once('open', () => {
@@ -44,7 +44,7 @@ const registerRouter = require('./routes/register');
 
 const userRouter = require('./routes/users')
 const gformRouter = require('./routes/gform')
-const adminrouter = require('./routes/admin')
+const adminRouter = require('./routes/admin')
 app.get('/', (req, res) => {
   res.render('index')
 })
@@ -58,12 +58,13 @@ app.use('/users',userRouter);
 app.use('/gform',gformRouter);
 app.use('/events',eventRouter);
 app.use('/register',registerRouter);
+app.use('/admin',adminRouter);
 
 app.listen(port,()=>{
     console.log(`listening on port : ${port}`);
 });
 
-
+// the following uses the crypto module to generate random names hence make sure to use the corresponding data from fileinfo
 const storage = new GridFsStorage({
   url: uri,
   file: (req, file) => {
@@ -85,6 +86,7 @@ const storage = new GridFsStorage({
 
 const upload = multer({ storage })
 
+//<form method="POST" action="/users/profile/upload/<%=id%>"
 // invoked from form to upload
 app.post('/users/profile/image/upload/:id', upload.single('file'), (req, res) => {
   const id = req.params.id
@@ -110,6 +112,7 @@ app.get('/users/profile/image/:filename', (req, res) => {
 })
 
 // delete request as per documentation to clear all chunks probably need to preserve the object id
+//implement only if required based on front end design. Since it requires and additional param preserved
 app.post('/users/profile/image/del/:img', (req, res) => {
   gfs.delete(new mongoose.Types.ObjectId(req.params.img), (err, data) => {
     if (err) return res.status(404).json({ err: err.message });
