@@ -6,6 +6,8 @@ const achievementSchema = new Schema({
     caption:{type:String},
     description:{type:String},
     pics_url:[String]
+},{
+    timestamps : true
 })
 
 const Achievements = mongoose.model('achievements',achievementSchema)

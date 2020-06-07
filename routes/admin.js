@@ -1,6 +1,8 @@
 const router = require('express').Router()
-var clubmodel = require('../models/Club.model.js')
-var usermodel = require('../models/Users.js')
+const clubmodel = require('../models/Club.model.js')
+const usermodel = require('../models/Users.js')
+const achievementModel = require('../models/Achievement.model')
+
 router.route('/create_club').post((req, res) => {
   var club = new clubmodel({
     name: req.body.club_name,
@@ -27,7 +29,7 @@ router.route('/create_club').delete((req, res) => {
   res.end(club)
 })
 
-router.route('/create_club_head').post((req, res) => {
+router.route('/club_head/create').post((req, res) => {
   const club_name = req.body.club_name
   var user = new usermodel({
     user_id: club_name,
@@ -48,10 +50,10 @@ router.route('/create_club_head').post((req, res) => {
   res.end(user)
 })
 
-router.route('/create_club_head/update').post((req, res) => {
+router.route('/club_head/update').post((req, res) => {
   var club_name = req.body.club_name
   var change = {
-    user_id: club_name, // wo to waise bhhi raahega hi
+    user_id: club_name, 
     pswd: club_name,
     name: '',
     contact: '',
@@ -69,4 +71,45 @@ router.route('/create_club_head/update').post((req, res) => {
 
   res.status(200).send('Succesful')
 })
+
+router.route('/achievement/create').post((req,res)=>{
+  var achievement = {
+    title:req.body.title,
+    caption:req.body.caption,
+    description:req.body.description,
+    pics_url:req.body.pics_url
+  }
+
+  achievement.save(err=>{
+    console.log(err);
+  })
+  res.status(200).send('Achievement Created!')
+})
+
+router.route('/achievement/view/:id').get((req,res)=>{
+  const id = req.params.id
+  achievementModel.findById(id)
+  .then(achievement=>{
+    res.status(200).json(achievement)
+  }).catch(err=>{
+    res.status(400).send('Does not exist')
+  })
+})
+
+router.route('/achievement/update/:id').post((req,res)=>{
+  const id = req.params.id
+  var achievement = {
+    title:req.body.title,
+    caption:req.body.caption,
+    description:req.body.description,
+    pics_url:req.body.pics_url
+  }
+  achievementModel.findByIdAndUpdate(id,achievement)
+  .then(()=>{
+    res.status(200).send('updated')
+  }).catch(err=>{
+    res.status(400).send(err)
+  })
+})
+
 module.exports = router
