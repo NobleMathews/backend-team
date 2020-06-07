@@ -54,8 +54,8 @@ router.route('/profile/:user_id').get((req,res)=>{
     })
 });
 
-//<form method="POST" action="/profile/update/<%=id%>"
-
+//use the following format for update requests in this route
+//<form method="POST" action="/users/profile/update/<%=id%>"
 router.route('/profile/update/:id').post((req,res)=>{
     const id = req.params.id;
     const change={
@@ -69,7 +69,8 @@ router.route('/profile/update/:id').post((req,res)=>{
         res.redirect('/users/profile');
     });
 });
-
+// body of post request must contain the object id as well as the url saved from gfs
+// this is automatically done when invoking the upload image route
 router.route('/profile/image/update/').post((req,res)=>{
     const id = req.query.id;
     const url = req.query.url;

@@ -11,8 +11,8 @@
         <div class="row">
             <div class="col-md-6 m-auto">
                 <h1><%= user_id || '' %> </h1>
-
-                <form action="/users/profile/upload" method="POST" enctype="multipart/form-data">
+                <!-- keep encoding type throughout backend in mind while populating / testing with postman -->
+                <form action="/users/profile/image/upload/<%=id%>" method="POST" enctype="multipart/form-data">
                         <div class="custom-file mb-3">
                         <input type="file" name="file" id="file" class="custom-file-input">
                         <label for="file" class="custom-file-label">Choose File</label>
