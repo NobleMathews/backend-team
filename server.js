@@ -140,7 +140,10 @@ app.post('/users/add_event/:club_head_id/add_event/:club_name/add',upload.single
   });
 
   Event.findById(event._id)
-  .populate('owner','name')
+  .populate({
+    path: 'owner',
+    model: 'Users'
+  })
   .exec((err,event)=>{
       if (err) throw err;
       console.log(event);   
