@@ -1,5 +1,6 @@
 const router = require('express').Router();
 let Users = require('../models/Users');
+let Event = require('../models/Event');
 
 router.route('/').post((req,res)=>{
     // console.log(req.body);
@@ -80,5 +81,27 @@ router.route('/profile/image/update/').post((req,res)=>{
         res.sendStatus(200);
     });
 });
+
+router.route('/add_event/:user_id').get((req,res)=>{
+    const u_id = req.params.user_id;
+    Users.findOne({user_id:u_id})
+    .then((user)=>{
+        if(user.club_head){
+            res.redirect(`/users/add_event/${user._id}/add_event/${user.club_name}`)
+        }
+        else{
+            res.send('you are not club head');
+        }
+    }).catch(err=>{
+        console.log(err);
+    })
+});
+
+router.route('/add_event/:club_head_id/add_event/:club_name').get((req,res)=>{
+    const club_name = req.params.club_name;
+    const club_head_id = req.params.club_head_id;
+    res.render('add_event',{club_name:club_name,club_head_id:club_head_id});
+});
+
 
 module.exports = router;
