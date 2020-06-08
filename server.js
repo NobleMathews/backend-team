@@ -41,16 +41,22 @@ const userRouter = require('./routes/users');
 const gformRouter = require('./routes/gform');
 const eventRouter = require('./routes/events');
 const registerRouter = require('./routes/register');
-
-const userRouter = require('./routes/users')
-const gformRouter = require('./routes/gform')
 const adminRouter = require('./routes/admin')
+
 app.get('/', (req, res) => {
   res.render('index')
 })
 
 app.get('/profile', (req, res) => {
   res.render('profile', { id: req.query.id })
+})
+
+app.get('/admin/', (req, res) => {
+  res.render('adminLogin',{'alerts':""})
+})
+
+app.get('/admin/controls', (req, res) => {
+  res.render('adminControls', { id: req.query.id })
 })
 // app.use(morgan('tiny'));
 
