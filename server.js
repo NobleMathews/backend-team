@@ -44,8 +44,12 @@ const eventRouter = require('./routes/events');
 const registerRouter = require('./routes/register');
 const adminRouter = require('./routes/admin')
 
+// default login page can pass alerts to it on load
+// hence can notify user easily of failed login routes
 app.get('/', (req, res) => {
-  res.render('index')
+  // also add in a UI button to switch to admin login
+  // backend handles fallbacks to normal login
+  res.render('index',{'alerts':""})
 })
 
 app.get('/profile', (req, res) => {
@@ -67,7 +71,7 @@ app.get('/profile', (req, res) => {
 })
 
 app.get('/admin/', (req, res) => {
-  res.render('adminLogin',{'alerts':""})
+  res.render('adminLogin')
 })
 
 app.get('/admin/controls', (req, res) => {
