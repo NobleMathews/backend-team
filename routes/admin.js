@@ -27,7 +27,7 @@ router.route('/').post((req,res)=>{
   })
 });
 
-router.route('/create_club').post((req, res) => {
+router.route('/create_club').post((req, res) => { //route for creating  anew club by the admin
   var club = new clubmodel({
     name: req.body.club_name,
     head: req.body.head_name,
@@ -43,7 +43,7 @@ router.route('/create_club').post((req, res) => {
   res.end(club)
 })
 
-router.route('/create_club').delete((req, res) => {
+router.route('/create_club').delete((req, res) => { //this route will help in deleting a club
   const club = req.body.club_name
 
   clubmodel.deleteMany({ name: club }, (err) => {
@@ -53,7 +53,7 @@ router.route('/create_club').delete((req, res) => {
   res.end(club)
 })
 
-router.route('/club_head/create').post((req, res) => {
+router.route('/club_head/create').post((req, res) => { //this is for creating the club-head
   const club_name = req.body.club_name
   var user = new usermodel({
     user_id: club_name,
@@ -74,7 +74,7 @@ router.route('/club_head/create').post((req, res) => {
   res.end(user)
 })
 
-router.route('/club_head/update').post((req, res) => {
+router.route('/club_head/update').post((req, res) => { //by this route the club-head values will be set on default which can be changed by thhe club-head later on
   var club_name = req.body.club_name
   var change = {
     user_id: club_name, 
@@ -96,7 +96,7 @@ router.route('/club_head/update').post((req, res) => {
   res.status(200).send('Succesful')
 })
 
-router.route('/achievement/create').post((req,res)=>{
+router.route('/achievement/create').post((req,res)=>{ // for storing the achievement
   var achievement = {
     title:req.body.title,
     caption:req.body.caption,
@@ -110,7 +110,7 @@ router.route('/achievement/create').post((req,res)=>{
   res.status(200).send('Achievement Created!')
 })
 
-router.route('/achievement/view/:id').get((req,res)=>{
+router.route('/achievement/view/:id').get((req,res)=>{ //for displaying the achivement by using its id
   const id = req.params.id
   achievementModel.findById(id)
   .then(achievement=>{
@@ -120,7 +120,7 @@ router.route('/achievement/view/:id').get((req,res)=>{
   })
 })
 
-router.route('/achievement/update/:id').post((req,res)=>{
+router.route('/achievement/update/:id').post((req,res)=>{ // for updating the achievement of a given id 
   const id = req.params.id
   var achievement = {
     title:req.body.title,
