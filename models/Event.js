@@ -34,6 +34,18 @@ const eventSchema = new Schema({
     timestamps: true
 })
 
+eventSchema.methods.filterByMonth = function(month) {
+    const event = this
+    const mon_of_event = this.date.getMonth()+1
+
+    if(month===mon_of_event){
+        return true
+    }
+
+    return false
+}
+
+
 const Event = mongoose.model('Events',eventSchema);
 
 module.exports = Event
