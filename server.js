@@ -10,6 +10,7 @@ const GridFsStorage = require("multer-gridfs-storage");
 const Grid = require("gridfs-stream");
 const methodOverride = require("method-override");
 const Event = require('./models/Event');
+const Users = require('./models/Users');
 // activate morgan in order to get an idea of the get and post requests which are being send to 
 // const morgan = require('morgan');
 
@@ -48,7 +49,21 @@ app.get('/', (req, res) => {
 })
 
 app.get('/profile', (req, res) => {
-  res.render('profile', { id: req.query.id })
+  const id = req.query.id;
+  Users.findById(id,(err,user)=>{
+    res.render('profile', {
+      user_id:user.user_id,
+      name:user.name,
+      contact:user.contact,
+      email_id:user.email_id,
+      dp_url:user.dp_url,
+      club_head:user.club_head,
+      club_name:user.club_name,
+      bio:user.bio,
+
+    })  //it is ObjectId
+  })
+
 })
 
 app.get('/admin/', (req, res) => {
