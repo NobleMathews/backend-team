@@ -120,6 +120,10 @@ app.post('/users/profile/image/del/:img', (req, res) => {
   });
 });
 
+
+//to save the event in database
+// <form action="/users/add_event/<%=club_head_id%>/add_event/<%=club_name%>/add" method="POST" enctype="multipart/form-data">
+//from the add_event form 
 app.post('/users/add_event/:club_head_id/add_event/:club_name/add',upload.single('poster'),(req,res)=>{
   const club_name = req.params.club_name;
   const club_head_id = req.params.club_head_id;
@@ -135,19 +139,19 @@ app.post('/users/add_event/:club_head_id/add_event/:club_name/add',upload.single
       venue:event_venue,
       date:event_date,
       description:description,
-      poster_url:`/events/posters/${req.file.filename}`,
+      poster_url:`/events/posters/${req.file.filename}`, //url to find poster of the event
       owner:new mongoose.Types.ObjectId(club_head_id),
       categories:categories,
       speaker:speaker,
       
   });
 
-  event.save((err,event) => {
+  event.save((err,event) => {  //saving the event in database
       if (err) throw err;
-      console.log(event);
       
   });
 
+  //poupulate the owner field
   Event.findById(event._id)
   .populate({
     path: 'owner',
@@ -155,14 +159,14 @@ app.post('/users/add_event/:club_head_id/add_event/:club_name/add',upload.single
   })
   .exec((err,event)=>{
       if (err) throw err;
-      console.log(event);   
+      console.log(event);   //<--- you can delete this line 
   })
 
   res.send('success')
   
 });
 
-//returns poster
+//returns poster of the event and this url is saved in database as poster_url
 app.get('/events/posters/:poster',(req,res)=>{
       const filename = req.params.poster;
 
