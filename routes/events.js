@@ -46,4 +46,24 @@ router.route('/summary/:id').get((req,res)=>{
     });
 });
 
+//routes for collecting events based on month(1-12) and populating them
+router.route('/:month').get((req,res) => {
+    month = req.params.month
+    const resEvents = new Array()
+
+    Events.find().then((events) => {
+        events.forEach(event => {
+            if(event.filterByMonth(month)){
+                resEvents.push(event)
+            }
+        })
+
+        res.send(resEvents)
+    }).catch((e) => {
+        res.status(400).send(e)
+    })
+
+})
+
+
 module.exports = router;
