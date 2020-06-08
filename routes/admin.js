@@ -2,25 +2,23 @@ const router = require('express').Router()
 const clubmodel = require('../models/Club.model.js')
 const usermodel = require('../models/Users.js')
 const achievementModel = require('../models/Achievement.model')
+const superAdminModel = require('../models/SuperAdmin.model')
 
 router.route('/').post((req,res)=>{
   const user_id = req.body.user_id;
   const pswd = req.body.pswd;
   const user={user_id,pswd}
-  usermodel.find(user)
+  superAdminModel.find(user)
   .then(user=>{
       if(user.length===1){
-        if(user[0].club_head===true)
           // site to redirect to on login success : ! Change to valid Get route -> view with admin features 
           res.redirect(`/admin/controls?id=${user[0]._id}`);
-        else
-          // user doesnt have admin privileges (Show UI popup) , may redirect to user login 
-          // res.status(200).send('Sorry you donot have admin privileges !')
-          res.render('adminLogin',{'alerts':"Sorry you donot have admin privileges !"});
+
       }
       else{
-        //user doesn't exist :! change to admin login page retry
-          res.redirect('/admin/');
+          // user doesnt have admin privileges (Show UI popup) , may redirect to user login 
+          // res.status(200).send('Sorry you donot have admin privileges !')
+          res.render('index',{'alerts':"Sorry you donot have admin privileges !"});
       }
   }).catch((err)=>{
       res.json('Error: '+err);
