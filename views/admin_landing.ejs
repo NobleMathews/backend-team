@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <title>Profile</title>
+</head>
+<body>
+
+<div class="container emp-profile">
+            <form method="post">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="profile-img">
+                            <img src="<%=dp_url%>" alt='' width='300' height='300'/>
+                        </div>
+                    </div>
+   
+                    <div class="col-md-8">
+                        <div class="tab-content profile-tab" id="myTabContent">
+                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+                                  
+                                        <h1>Admin</h1>
+                                    
+
+                                    <br><br>
+
+                                     <div class="row">
+                                        <div class="col-md-6">
+                                            <label>Name</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p><%=name%></p>
+                                        </div>
+                                    </div>    
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>User Id</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p><%=user_id%></p>
+                                            </div>
+                                        </div>
+
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Email</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p><%=email_id%></p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Contact</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p><%=contact%></p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Bio</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p><%=bio%></p>
+                                            </div>
+                                        </div>
+                                </div>
+                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>           
+        </div>
+        <div>
+            <div class="row">
+                <div class="col-md-2">
+                    <button onclick="">update profile</button>
+                </div>
+                <div class="col-md-2">
+                    <button onclick="">view/create/reset club heads</button>
+                </div>
+                <div class="col-md-2">
+                    <button onclick="">view/create clubs</button>
+                </div>
+                <div class="col-md-2">
+                    <button onclick="">view/create achievements</button>
+                </div>
+            </div>
+        </div>
+    
+
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</body>
+</html>
