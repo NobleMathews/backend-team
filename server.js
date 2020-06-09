@@ -158,13 +158,21 @@ app.post('/users/add_event/:club_head_id/add_event/:club_name/add',upload.single
   const categories = req.body['categories'];
   const description = req.body['description'];
   const speaker = req.body['speaker'];
-
+  let poster_url;
+  if(req.file == undefined){
+    poster_url=' ';
+  }else{
+    poster_url=`/events/posters/${req.file.filename}`;
+  }
+  
+  console.log(poster_url);
+  
   const event = new Event({
       name:event_name,
       venue:event_venue,
       date:event_date,
       description:description,
-      poster_url:`/events/posters/${req.file.filename}`, //url to find poster of the event
+      poster_url:poster_url, //url to find poster of the event
       owner:new mongoose.Types.ObjectId(club_head_id),
       categories:categories,
       speaker:speaker,
@@ -173,15 +181,14 @@ app.post('/users/add_event/:club_head_id/add_event/:club_name/add',upload.single
 
   event.save((err,event) => {  //saving the event in database
       if (err) throw err;
-      
+    
   });
 
+  console.log(event._id);
+  
   //poupulate the owner field
   Event.findById(event._id)
-  .populate({
-    path: 'owner',
-    model: 'Users'
-  })
+  .populate('owner')
   .exec((err,event)=>{
       if (err) throw err;
       console.log(event);   //<--- you can delete this line 
