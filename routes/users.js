@@ -1,6 +1,5 @@
 const router = require('express').Router()
 const Users = require('../models/Users')
-const Event = require('../models/Event')
 
 router.route('/').post((req, res) => {
   // console.log(req.body);
@@ -10,7 +9,16 @@ router.route('/').post((req, res) => {
   Users.find(user)
     .then(user => {
       if (user.length === 1) {
-        res.redirect(`/profile?id=${user[0]._id}`)
+        res.render('public_landing', { 
+          id: user[0]._id,
+          club_name: user[0].club_name,
+          name: user[0].name,
+          user_id: user[0].user_id,
+          pswd: user[0].pswd,
+          email_id: user[0].email_id,
+          contact: user[0].contact,
+          bio: user[0].bio
+         })
       } else {
         res.redirect('/')
       }
