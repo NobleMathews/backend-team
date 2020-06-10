@@ -139,4 +139,15 @@ router.route('/achievement/update/:id').post((req,res)=>{ // for updating the ac
   })
 })
 
+router.route('/clubs/retrieve').get((req, res) => {
+  clubmodel.find()
+  .then(clubs=>{
+          res.render('view_club_heads', { 
+            clubs:clubs
+           })
+  }).catch((err)=>{
+      res.json('Error: '+err);
+  })
+})
+
 module.exports = router
