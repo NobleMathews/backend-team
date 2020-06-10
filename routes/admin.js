@@ -7,12 +7,12 @@ const superAdminModel = require('../models/SuperAdmin.model')
 router.route('/').post((req,res)=>{
   const user_id = req.body.user_id;
   const pswd = req.body.pswd;
-  const user={user_id,pswd}
-  superAdminModel.find(user)
-  .then(user=>{
-      if(user.length===1){
+  const admin={user_id,pswd}
+  superAdminModel.find(admin)
+  .then(admin=>{
+      if(admin.length===1){
           // site to redirect to on login success : ! Change to valid Get route -> view with admin features 
-          res.redirect(`/admin/controls?id=${user[0]._id}`);
+          res.redirect(`/admin/controls?id=${admin[0]._id}`);
 
       }
       else{

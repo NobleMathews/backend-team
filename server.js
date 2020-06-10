@@ -74,7 +74,7 @@ app.get('/admin/', (req, res) => {
 })
 
 app.get('/admin/controls', (req, res) => {
-  res.render('adminControls', { id: req.query.id })
+  res.render('admin_landing', { id: req.query.id })
 })
 // app.use(morgan('tiny'));
 
