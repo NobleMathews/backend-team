@@ -7,8 +7,6 @@ const superAdminSchema = new Schema({
     name:{type:String},
     contact:{type:String},
     email_id:{type:String},
-    dp_url:{type:String},
-    bio:{type:String}
 },{
     timestamps:true
 });
