@@ -7,17 +7,13 @@
     <title>Profile</title>
 </head>
 <body>
+    <div class="container h-100">
+        <div class="row h-100 justify-content-center align-items-center">
+          <form class="col-12">
+            <div class="form-group">
+                <div class="container emp-profile">
 
-<div class="container emp-profile">
-            <form method="post">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="profile-img">
-                            <img src= "<%=dp_url%>" alt='' width='300' height='300'/>
-                        </div>
-                    </div>
-   
-                    <div class="col-md-8">
+                    <div class="col-4 d-flex justify-content-center">
                         <div class="tab-content profile-tab" id="myTabContent">
                             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">        
                             <h1>Admin</h1>
@@ -55,38 +51,23 @@
                                     <p><%=contact%></p>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>Bio</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <p><%=bio%></p>
                                 </div>
                             </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>           
-        </div>
-        <div>
-            <div class="row">
-                <div class="col-md-2">
-                    <a href="#">update profile</a>
-                </div>
-                <div class="col-md-2">
-                    <a href="#">view/create/reset club heads</a>
-                </div>
-                <div class="col-md-2">
-                    <a href="#">view/create clubs</a>
-                </div>
-                <div class="col-md-2">
-                    <a href="#">view/create achievements</a>
                 </div>
             </div>
+                    <div class="btn-group" role="group" aria-label="First group">
+                        <form method="post">
+
+                        <button class="btn btn-outline-primary">Update Profile</button>
+                        <button class="btn btn-outline-danger">view/create/reset club heads</button>
+                        <button class="btn btn-outline-warning">view/create clubs</button>
+                        <button class="btn btn-outline-success">view/create achievements</button>
+                    </form> 
+
+                    </div>
+          </form>   
         </div>
-    
+      </div>
 
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

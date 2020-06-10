@@ -12,7 +12,7 @@ router.route('/').post((req,res)=>{
   .then(admin=>{
       if(admin.length===1){
           // site to redirect to on login success : ! Change to valid Get route -> view with admin features 
-          res.redirect(`/admin/controls?id=${admin[0]._id}`);
+          res.redirect(`/admin/controls?id=${admin[0]._id}&name=${admin[0].name}&user_id=${admin[0].user_id}&email_id=${admin[0].email_id}&contact=${admin[0].contact}`);
 
       }
       else{
