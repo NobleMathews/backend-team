@@ -71,9 +71,6 @@ app.get('/admin/', (req, res) => {
   res.render('adminLogin')
 })
 
-app.get('/admin/controls', (req, res) => {
-  res.render('admin_landing', { id: req.query.id })
-})
 // app.use(morgan('tiny'));
 
 app.use('/users', userRouter)
