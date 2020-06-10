@@ -158,8 +158,6 @@ app.post('/users/add_event/:club_head_id/save',upload.single('poster'),(req,res)
     poster_url=`/posters/${req.file.filename}`;
   }
   
-  console.log(poster_url);
-  
   const event = new Event({
       name:req.body['event_name'],
       venue:req.body['event_venue'],
@@ -177,10 +175,8 @@ app.post('/users/add_event/:club_head_id/save',upload.single('poster'),(req,res)
     
   });
 
-  console.log(event._id);
-  
   //poupulate the owner field
-  Event.findById(event._id)
+  Event.findById(mongoose.Schema.Types.ObjectId(event._id))
   .populate('owner')
   .exec((err,event)=>{
       if (err) throw err;

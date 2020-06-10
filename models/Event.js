@@ -46,6 +46,6 @@ eventSchema.methods.filterByMonth = function(month) {
 }
 
 
-const Event = mongoose.model('event',eventSchema);
+const Event = mongoose.model('event',eventSchema,'events');
 
 module.exports = Event
