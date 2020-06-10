@@ -86,13 +86,12 @@ router.route('/profile/image/update/').post((req,res)=>{
 
 //primary route to add event
 router.route('/add_event/:user_id').get((req,res)=>{
-    const u_id = req.params.user_id;
-    Users.findOne({user_id:u_id})
+    
+    Users.findOne({user_id:req.params.user_id})
     .then((user)=>{
         //check if the user is club head
         if(user.club_head){
-            //redirect to where club head can add event
-            res.redirect(`/users/add_event/${user._id}/add_event/${user.club_name}`) //this route is just below this 
+            res.render('add_event',{club_head_id:user._id});
         }
         else{
             res.send('you are not club head');
@@ -102,12 +101,7 @@ router.route('/add_event/:user_id').get((req,res)=>{
     })
 });
 
-//the club head will be redirected directly here
-router.route('/add_event/:club_head_id/add_event/:club_name').get((req,res)=>{
-    const club_name = req.params.club_name;
-    const club_head_id = req.params.club_head_id;
-    res.render('add_event',{club_name:club_name,club_head_id:club_head_id});
-});
+
 
 
 module.exports = router;
