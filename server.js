@@ -149,51 +149,46 @@ app.post('/users/profile/image/del/:img', (req, res) => {
 //to save the event in database
 // <form action="/users/add_event/<%=club_head_id%>/add_event/<%=club_name%>/add" method="POST" enctype="multipart/form-data">
 //from the add_event form 
-app.post('/users/add_event/:club_head_id/add_event/:club_name/add',upload.single('poster'),(req,res)=>{
-  const club_name = req.params.club_name;
-  const club_head_id = req.params.club_head_id;
-  const event_name = req.body['event_name'];
-  const event_date = req.body['event_date'];
-  const event_venue = req.body['event_venue'];
-  const categories = req.body['categories'];
-  const description = req.body['description'];
-  const speaker = req.body['speaker'];
+app.post('/users/add_event/:club_head_id/save',upload.single('poster'),(req,res)=>{
 
+  let poster_url;
+  if(req.file == undefined){
+    poster_url=' ';
+  }else{
+    poster_url=`/posters/${req.file.filename}`;
+  }
+  
   const event = new Event({
-      name:event_name,
-      venue:event_venue,
-      date:event_date,
-      description:description,
-      poster_url:`/events/posters/${req.file.filename}`, //url to find poster of the event
-      owner:new mongoose.Types.ObjectId(club_head_id),
-      categories:categories,
-      speaker:speaker,
+      name:req.body['event_name'],
+      venue:req.body['event_venue'],
+      date:req.body['event_date'],
+      description:req.body['description'],
+      poster_url:poster_url, //url to find poster of the event
+      owner:new mongoose.Types.ObjectId(req.params.club_head_id),
+      categories:req.body['categories'],
+      speaker:req.body['speaker'],
       
   });
 
   event.save((err,event) => {  //saving the event in database
       if (err) throw err;
-      
+    
   });
 
   //poupulate the owner field
-  Event.findById(event._id)
-  .populate({
-    path: 'owner',
-    model: 'Users'
-  })
+  Event.findById(mongoose.Schema.Types.ObjectId(event._id))
+  .populate('owner')
   .exec((err,event)=>{
       if (err) throw err;
       console.log(event);   //<--- you can delete this line 
   })
 
-  res.send('success')
+  res.status(200).send('success')
   
 });
 
 //returns poster of the event and this url is saved in database as poster_url
-app.get('/events/posters/:poster',(req,res)=>{
-      const filename = req.params.poster;
+app.get('/posters/:poster',(req,res)=>{
 
       const file = gfs
       .find({

@@ -3,32 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
     <title>Document</title>
 </head>
 <body>
-    <form action="/users/add_event/<%=club_head_id%>/add_event/<%=club_name%>/add" method="POST" enctype="multipart/form-data">
-            <label for="event_name">Event name:</label><br>
-            <input type="text" name="event_name" id="event_name"><br>
+    <form action="/users/add_event/<%=club_head_id%>/save" method="POST" enctype="multipart/form-data">
 
-            <label for="event_date">Date:</label><br>
-            <input type="date" name="event_date" id="event_date"><br>
+            <div class="form-group">
+                <label for="event_name">Event name:</label><br>
+                <input type="text" name="event_name" id="event_name"><br>
+            </div>
 
-            <label for="event_venue">Venue:</label><br>
-            <input type="text" name="event_venue" id="event_venue"><br>
+            <div class="form-group">
+                <label for="event_date">Date:</label><br>
+                <input type="date" name="event_date" id="event_date"><br>
+            </div>
 
-            <label for="poster">Poster:</label><br>
-            <input type="file" name="poster" id="poster"><br>
+            <div class="form-group">
+                <label for="event_venue">Venue:</label><br>
+                <input type="text" name="event_venue" id="event_venue"><br>
+            </div>
 
-            <label for="categories">Categories:</label><br>
-            <input type="text" name="categories" id="categories"><br>
+            <div class="form-group">
+                <label for="poster">Poster:</label><br>
+                <input type="file" name="poster" id="poster"><br>
+            </div>
 
-            <label for="description">Description:</label><br>
-            <input type="text" name="description" id="description"><br>
+            <div class="form-group">
+                <label for="categories">Categories:</label><br>
+                <input type="text" name="categories" id="categories"><br>
+            </div>
 
-            <label for="speaker">Speaker:</label><br>
-            <input type="text" name="speaker" id="speaker"><br>
+            <div class="form-group">
+                <label for="description">Description:</label><br>
+                <input type="text" name="description" id="description"><br>
+            </div>
+
+            <div class="form-group">
+                <label for="bio">Bio:</label><br>
+                <input type="text" name="bio" id="bio"><br>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="submit">
+            </div>
             
-            <input type="submit" value="submit">
     </form>
 </body>
 </html>
