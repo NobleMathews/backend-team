@@ -1,4 +1,3 @@
-
 const express = require('express');
 const cors = require('cors');
 const mongoose =  require('mongoose');
@@ -111,12 +110,13 @@ const storage = new GridFsStorage({
 
 const upload = multer({ storage })
 
-//<form method="POST" action="/users/profile/upload/<%=id%>"
+//<form method="POST" action="/users/profile/image/upload/<%=id%>"
 // invoked from form to upload
 app.post('/users/profile/image/upload/:id', upload.single('file'), (req, res) => {
   const id = req.params.id
   // Sending back file name to server
-  res.redirect(`/users/profile/image/update?id=${id}&?url=${req.file.filename}`)
+  // console.log(req.file);
+  res.redirect(`/users/profile/image/update?id=${id}&url=${req.file.filename}`)
   // res.json({file:req.file});
 })
 
