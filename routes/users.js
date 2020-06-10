@@ -71,11 +71,11 @@ router.route('/profile/update/:id').post((req,res)=>{
 });
 // body of post request must contain the object id as well as the url saved from gfs
 // this is automatically done when invoking the upload image route
-router.route('/profile/image/update/').post((req,res)=>{
+router.route('/profile/image/update/').get((req,res)=>{
     const id = req.query.id;
     const url = req.query.url;
     const change={
-        dp_url:url
+        dp_url : url
     }
     Users.findByIdAndUpdate(id,change)
     .then((user)=>{
