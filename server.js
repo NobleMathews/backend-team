@@ -193,3 +193,7 @@ app.get('/posters/:poster', (req, res) => {
       gfs.openDownloadStreamByName(req.params.poster).pipe(res)
     })
 })
+
+app.get('/test',(req,res)=>{
+  res.render('create_club')
+})
