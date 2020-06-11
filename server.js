@@ -51,8 +51,8 @@ app.get('/', (req, res) => {
 })
 
 app.get('/profile', (req, res) => {
-  const id = req.query.id
-  Users.findById(id, (err, user) => {
+ 
+  Users.findById(req.query.id, (err, user) => {
     res.render('profile', {
       user_id: user.user_id,
       name: user.name,

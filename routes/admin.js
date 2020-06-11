@@ -41,9 +41,8 @@ router.route('/create_club').post((req, res) => { //route for creating  anew clu
   club.save((err) => {
     console.error.bind(console, 'saving is not done yet')
   })
-
-  res.writeHead(200, { 'Content-Type': 'text/plain' })
-  res.end(club)
+  
+  res.status(200).send('club created successfully')
 })
 
 router.route('/create_club').delete((req, res) => { //this route will help in deleting a club
@@ -147,6 +146,51 @@ router.route('/clubs/retrieve').get((req, res) => {
            })
   }).catch((err)=>{
       res.json('Error: '+err);
+  })
+})
+
+router.route('/profile/update/:id').get((req,res)=>{
+    superAdminModel.find({_id:req.params.id})
+    .then(admin=>{
+      res.render('admin_updateprof',{id:req.params.id,user_id:admin.user_id});
+    })
+})
+
+router.route('/profile/update/:id').post((req,res)=>{
+  const change={
+          name:req.body.name,
+          contact:req.body.contact,
+          email_id:req.body.email_id
+       }
+  superAdminModel.findByIdAndUpdate(req.params.id,change)
+  .then(admin=>{
+    res.status(200).send('updated admin profile')
+  }).catch(err=>{
+    res.status(404).send(err)
+  })
+})
+
+router.route('/create_club/:id').get((req,res)=>{
+  superAdminModel.find({_id:req.params.id})
+  .then(admin=>{
+    if(admin.length===1){
+      res.render('create_club')
+    }else{
+      res.send('you dont have admin privilages')
+    }
+  }).catch(err=>{
+    res.status(404).send(err)
+  })
+})
+
+router.route('/achievement/create/:id').get((req,res)=>{
+  superAdminModel.find({_id:req.params.id})
+  .then(admin=>{
+    if(admin.length===1){
+      res.render('create_achievement')
+    }
+  }).catch(err=>{
+    res.status(404).send(err)
   })
 })
 
