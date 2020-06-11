@@ -42,13 +42,13 @@ router.route('/profile/:user_id').get((req, res) => {
     .then(user => {
       if (user.length === 1) {
         // shouldn't happen since it would mean user is at profile page without even signing up o.O
-        if (user[0].name) {
+        // if (user[0].name) {
           /// The following are state variables to be used within react
-          res.send(user[0])
-        } else {
+          // res.send(user[0])
+        // } else {
           // front end -> updater view
           res.render('updateprof', { id: user[0]._id, user_id: user[0].user_id })
-        }
+        // }
       } else {
         res.redirect('/')
       }
