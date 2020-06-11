@@ -121,4 +121,16 @@ router.route('/events/details/:id').get((req, res) => {
   })
 })
 
+// route for using in the notify section
+router.route('/notify/:id').get((req, res) => {
+  const event_id = req.params.id
+  Events.findById(event_id)
+  .then(event=>{
+    // res.json(events)
+    res.render('contact', { event:event })
+  }).catch((err)=>{
+    res.json('Error: '+err);
+  })
+})
+
 module.exports = router
