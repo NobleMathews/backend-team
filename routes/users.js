@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const Users = require('../models/Users')
+const Events = require('../models/Event')
 
 router.route('/').post((req, res) => {
   // console.log(req.body);
@@ -93,6 +94,19 @@ router.route('/add_event/:user_id').get((req, res) => {
     }).catch(err => {
       console.log(err)
     })
+})
+
+// for viewing the events in backend by the respective club-head
+router.route('/events/retrieve/:club_head_id').get((req, res) => {
+  const club_head_id = req.params.club_head_id
+  Events.find({owner:club_head_id})
+  .then(events=>{
+    res.json(events)
+    // making of a view_events page
+    // res.render('view_events', { events:events})
+  }).catch((err)=>{
+    res.json('Error: '+err);
+  })
 })
 
 module.exports = router
