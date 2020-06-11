@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const Users = require('../models/Users')
 const Events = require('../models/Event')
+const moment = require('moment');
 
 router.route('/').post((req, res) => {
   // console.log(req.body);
@@ -18,7 +19,8 @@ router.route('/').post((req, res) => {
           pswd: user[0].pswd,
           email_id: user[0].email_id,
           contact: user[0].contact,
-          bio: user[0].bio
+          bio: user[0].bio,
+          dp_url: user[0].dp_url
          })
       } else {
         res.redirect('/')
@@ -102,7 +104,7 @@ router.route('/events/retrieve/:club_head_id').get((req, res) => {
   Events.find({owner:club_head_id})
   .then(events=>{
     // res.json(events)
-    res.render('event_view', { events:events})
+    res.render('event_view', { events:events,moment:moment})
   }).catch((err)=>{
     res.json('Error: '+err);
   })

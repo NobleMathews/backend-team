@@ -175,7 +175,7 @@ app.post('/users/add_event/:club_head_id/save', upload.single('poster'), (req, r
       console.log(event) // <--- you can delete this line
     })
 
-  res.status(200).send('success')
+  res.sendStatus(200);
 })
 
 // returns poster of the event and this url is saved in database as poster_url
