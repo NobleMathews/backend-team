@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>View Clubs</title>
+    <style>
+        h5{
+            display: inline;
+        }
+        #club_head{
+            display: inline;
+            color: blue;
+            padding-left: 50px;
+        }
+    </style>
+    
+</head>
+<body>
+
+    <h3 style="text-align: center; text-decoration: underline; padding-top: 30px;">List of Clubs</h3>
+    <div class="container" style="padding-top:30px;">
+        <div class="col-md-8 m-auto">
+            <div class="list-group">
+            <a href="#" class="list-group-item list-group-item-action"><h5><b>Club Name : </b><%= club.name %></h5>
+            <p id="club_head" class="mb-1"><b>Club Head : </b><%= club.head %></p></a>
+            <a href="#" class="list-group-item list-group-item-action"><h5><b>Club Name : </b><%= club.name %></h5>
+            <p id="club_head" class="mb-1"><b>Club Head : </b><%= club.head %></p></a>
+            <a href="#" class="list-group-item list-group-item-action"><h5><b>Club Name : </b><%= club.name %></h5>
+            <p id="club_head" class="mb-1"><b>Club Head : </b><%= club.head %></p></a>
+            <!-- List goes on till all clubs are added -->
+            </div>
+            <br>  
+            <a class="btn btn-primary" href="#" role="button">Add Club</a>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</body>
+</html>
