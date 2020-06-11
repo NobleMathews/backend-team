@@ -5,52 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>All Events</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <style>
-    h5{
-        display:inline;
-    }
-    dl {
-    padding: 20px;
-    }
-    dl dd {
-    margin: 5px;
-    }
-    </style>
 </head>
 <body>
     <% if (events && events.length) { %>
     <h2 style="color: blue; text-decoration: underline;"> List of All Events </h2>
-    <dl><!-- Template for each event-->
-
-<!-- {
-  "event_summary": {
-    "gallery": [],
-    "outside_links": [],
-    "file_attachment": []
-  },
-  "participants": [],
-  "showcase_url": [],
-  "_id": "5ee1edda1bde1a272cd6acc2",
-  "name": "MegaCarnival",
-  "venue": "YourHome",
-  "date": "2020-06-27T00:00:00.000Z",
-  "description": "So much fun that this event is a crime",
-  "poster_url": "/posters/a5df7ee000196d10908f33c20a0ae067.png",
-  "owner": "5ed36527f03ccf5f0c44ecc5",
-  "categories": "ExplosiveFun",
-  "createdAt": "2020-06-11T08:39:54.180Z",
-  "updatedAt": "2020-06-11T08:39:54.180Z",
-  "__v": 0
-} -->
-
+    <!-- Template for each event-->
+    <div class="card-group">
         <% events.forEach((event) => { %>
-            <dt><h4><b>Event name : </b><%= event.name %></h4></dt>
-            <dd><img src="<%= event.poster_url %>" alt="thumbnail of poster"></dd>
-            <dd><h4><b> Date : </b><%= moment(event.date).format('Do MMMM, YYYY'); %></h4></dd>
-            <dd><h4><b>Venue : </b><%= event.venue %></h4></dd>
-            <dd><a href="#2"><h5>edit</h5></a><h5>  |  </h5><a href="#3"><h5>delete</h5></a><h5>  |  </h5><a href="#4"><h5>details</h5></a></dd>
+            <div class="card" style="width: 18rem;">
+                <img src="<%= event.poster_url %>" alt="thumbnail of poster" width="286px">
+                <div class="card-body">
+                    <h5 class="card-title"><%= event.name %></h5>
+                    <p class="card-text">
+                        <%= moment(event.date).format('Do MMMM, YYYY'); %>
+                        <%= event.venue %>
+                    </p>
+                    <p>
+                    <a href="#2">edit</a>  |  <a href="#3">delete</a>  |  <a href="#4">details</a>
+                    </p>
+                </div>
+            </div>
         <% }) %>
-    </dl>
+    </div>
     <% }else{ %>
         <div class="container">
             <h1 class="display-1">No events created yet</h1>
