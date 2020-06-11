@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Club Heads</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
+    <!-- create a view_club_head page which gives a list view of all the club heads present where  -->
+    <!-- each row gives info of club, name of club_head, their email_id. -->
+    <!-- Simpler Layout for ease of porting -->
+    
+    <!--<h2>Clubs & Heads</h2> 
+        <% if (clubs && clubs.length) { %>
+        <ul>
+          <% clubs.forEach((club) => { %>
+            <li>
+                <ul>
+                    <li><b>Club Name : </b><%= club.name %></li>
+                    <li><b>Club Head : </b><%= club.head %></li>
+                    <li><b>About : </b><%= club.description %></li>
+                </ul>
+            </li>
+          <% }) %>
+        </ul>
+    <% } %>   -->
+
+    <!-- A better layout in case each club profile shoule redirect to further options and not only view -->
+    <% if (clubs && clubs.length) { %>
+    <div class="container" style="padding-top:30px;">
+        <div class="row">
+            <div class="col-md-6 m-auto">
+                <div class="list-group">
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
+                      <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">Club Details</h5>
+                      </div>
+                    </a>
+                    <% clubs.forEach((club) => { %>
+
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                      <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1"><b>Club Name : </b><%= club.name %></h5>
+                      </div>
+                      <p class="mb-1"><b>Club Head : </b><%= club.head %></p>
+                      <p class="mb-1"><b>About : </b><%= club.description %></p>
+
+                      <!-- the email tag is not there in the model nor the db -->
+                      <!-- <p class="mb-1"><b>Email : </b><%= club.email_id %></p> -->
+
+                    </a>
+
+                    <% }) %>
+                  </div>
+            </div>
+        </div>
+    </div>
+    <% } %>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
+</html>
