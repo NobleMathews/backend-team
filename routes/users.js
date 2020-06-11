@@ -18,7 +18,8 @@ router.route('/').post((req, res) => {
           pswd: user[0].pswd,
           email_id: user[0].email_id,
           contact: user[0].contact,
-          bio: user[0].bio
+          bio: user[0].bio,
+          dp_url: user[0].dp_url
          })
       } else {
         res.redirect('/')
