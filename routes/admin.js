@@ -30,7 +30,7 @@ router.route('/').post((req,res)=>{
   })
 });
 
-router.route('/create_club').post((req, res) => { //route for creating  anew club by the admin
+router.route('/club/create').post((req, res) => { //route for creating  anew club by the admin
   var club = new clubmodel({
     name: req.body.club_name,
     head: req.body.head_name,
@@ -45,7 +45,7 @@ router.route('/create_club').post((req, res) => { //route for creating  anew clu
   res.status(200).send('club created successfully')
 })
 
-router.route('/create_club').delete((req, res) => { //this route will help in deleting a club
+router.route('/club/delete').delete((req, res) => { //this route will help in deleting a club
   const club = req.body.club_name
 
   clubmodel.deleteMany({ name: club }, (err) => {
