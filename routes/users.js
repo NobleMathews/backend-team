@@ -101,9 +101,8 @@ router.route('/events/retrieve/:club_head_id').get((req, res) => {
   const club_head_id = req.params.club_head_id
   Events.find({owner:club_head_id})
   .then(events=>{
-    res.json(events)
-    // making of a view_events page
-    // res.render('view_events', { events:events})
+    // res.json(events)
+    res.render('event_view', { events:events})
   }).catch((err)=>{
     res.json('Error: '+err);
   })
