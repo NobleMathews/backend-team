@@ -3,51 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <title>Document</title>
 </head>
 <body>
-    <form action="/users/add_event/<%=club_head_id%>/save" method="POST" enctype="multipart/form-data">
-
-            <div class="form-group">
-                <label for="event_name">Event name:</label><br>
-                <input type="text" name="event_name" id="event_name"><br>
+    <div class="container">
+        <div class="row">
+        <div class="col-8">
+            <div>
+                <h2>Create Event</h2>
+                <hr class="my-4">
             </div>
-
+        <form action="/users/add_event/<%=club_head_id%>/save" method="POST" enctype="multipart/form-data">
             <div class="form-group">
-                <label for="event_date">Date:</label><br>
-                <input type="date" name="event_date" id="event_date"><br>
+                <label for="event_name">Event name:</label>
+                <input class="form-control" type="text" name="event_name" id="event_name"><br>
             </div>
-
             <div class="form-group">
-                <label for="event_venue">Venue:</label><br>
-                <input type="text" name="event_venue" id="event_venue"><br>
+                <label for="event_date">Date:</label>
+                <input type="date" name="event_date" id="event_date">
             </div>
-
             <div class="form-group">
-                <label for="poster">Poster:</label><br>
-                <input type="file" name="poster" id="poster"><br>
+                <label for="event_venue">Venue:</label>
+                <input class="form-control" type="text" name="event_venue" id="event_venue">
             </div>
-
             <div class="form-group">
-                <label for="categories">Categories:</label><br>
-                <input type="text" name="categories" id="categories"><br>
+                <label for="poster">Poster:</label>
+                <input type="file" name="poster" id="poster">
             </div>
-
             <div class="form-group">
-                <label for="description">Description:</label><br>
-                <input type="text" name="description" id="description"><br>
+                <label for="categories">Categories:</label>
+                <input class="form-control" type="text" name="categories" id="categories">
             </div>
-
             <div class="form-group">
-                <label for="bio">Bio:</label><br>
-                <input type="text" name="bio" id="bio"><br>
+                <label for="description">Description:</label>
+            <textarea class="form-control" type="text" name="description" id="description" rows="4" ></textarea>
             </div>
-
             <div class="form-group">
-                <input type="submit" value="submit">
-            </div>
-            
-    </form>
+                <button type="button" class="btn btn-info" value="submit">Submit</button>
+            </div>  
+        </form>
+        </div>
+        </div>
+    </div>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </body>
 </html>

@@ -1,5 +1,7 @@
 const router = require('express').Router()
 const Users = require('../models/Users')
+const Events = require('../models/Event')
+const moment = require('moment');
 
 router.route('/').post((req, res) => {
   // console.log(req.body);
@@ -17,7 +19,8 @@ router.route('/').post((req, res) => {
           pswd: user[0].pswd,
           email_id: user[0].email_id,
           contact: user[0].contact,
-          bio: user[0].bio
+          bio: user[0].bio,
+          dp_url: user[0].dp_url
          })
       } else {
         res.redirect('/')
@@ -41,14 +44,8 @@ router.route('/profile/:user_id').get((req, res) => {
   Users.find(user, { club_head: 0, club_name: 0, createdAt: 0, updatedAt: 0 })
     .then(user => {
       if (user.length === 1) {
-        // shouldn't happen since it would mean user is at profile page without even signing up o.O
-        // if (user[0].name) {
-          /// The following are state variables to be used within react
-          // res.send(user[0])
-        // } else {
-          // front end -> updater view
-          res.render('updateprof', { id: user[0]._id, user_id: user[0].user_id })
-        // }
+        // front end -> updater view
+        res.render('updateprof', { id: user[0]._id, user_id: user[0].user_id })
       } else {
         res.redirect('/')
       }
@@ -99,6 +96,18 @@ router.route('/add_event/:user_id').get((req, res) => {
     }).catch(err => {
       console.log(err)
     })
+})
+
+// for viewing the events in backend by the respective club-head
+router.route('/events/retrieve/:club_head_id').get((req, res) => {
+  const club_head_id = req.params.club_head_id
+  Events.find({owner:club_head_id})
+  .then(events=>{
+    // res.json(events)
+    res.render('event_view', { events:events,moment:moment})
+  }).catch((err)=>{
+    res.json('Error: '+err);
+  })
 })
 
 module.exports = router
