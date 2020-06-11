@@ -194,4 +194,8 @@ router.route('/achievement/create/:id').get((req,res)=>{
   })
 })
 
+router.route('/club/view/').get((req,res)=>{
+  res.render('view_club')
+})
+
 module.exports = router
