@@ -12,71 +12,69 @@
           <form class="col-12">
             <div class="form-group">
                 <div class="container emp-profile">
-
                     <div class="col-4 d-flex justify-content-center">
                         <div class="tab-content profile-tab" id="myTabContent">
                             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">        
-                            <h1><%=club_name%></h1>
-                            <br><br>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>Name</label>
+                                <h1><%=club_name%></h1>
+                                <br><br>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Name</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p><%=name%></p>
+                                    </div>
+                                </div>    
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>User Id</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p><%=user_id%></p>
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <p><%=name%></p>
-                                </div>
-                            </div>    
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>User Id</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <p><%=user_id%></p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>Password</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <p><%=pswd%></p>
-                                </div>
-                            </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>Email</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <p><%=email_id%></p>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Password</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p><%=pswd%></p>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>Contact</label>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Email</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p><%=email_id%></p>
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <p><%=contact%></p>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Contact</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p><%=contact%></p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Desciption</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p><%=bio%></p>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>Desciption</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <p><%=bio%></p>
-                                </div>
-                            </div>
-                                </div>
-                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
                     <div class="btn-group" role="group" aria-label="First group">
                         <form method="post">
-
-                        <a href="users/profile/<%=user_id%>" class="btn btn-outline-primary">Update Profile</a>
+                        <a href='users/profile/<%= user_id %>'' class="btn btn-outline-primary">Update Profile</a>
                         <a href="users/add_event/<%=user_id%>" class="btn btn-outline-danger">View/Create Events</a>
-                     <%/*   <a href="/gform/push_notification/:event_id" class="btn btn-outline-warning">Send notifications for Events</a> */%>
+                        <!-- <a href="/gform/push_notification/:event_id" class="btn btn-outline-warning">Send notifications for Events</a> -->
                     </form> 
 
                     </div>
