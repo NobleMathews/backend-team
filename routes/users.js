@@ -83,21 +83,6 @@ router.route('/profile/:user_id').get((req, res) => {
     })
 })
 
-
-// // body of post request must contain the object id as well as the url saved from gfs
-// // this is automatically done when invoking the upload image route
-// router.route('/profile/image/update/').get((req, res) => {
-//   const id = req.query.id
-//   const url = req.query.url
-//   const change = {
-//     dp_url: url
-//   }
-//   Users.findByIdAndUpdate(id, change)
-//     .then((user) => {
-//       res.sendStatus(200)
-//     })
-// })
-
 // primary route to add event
 router.route('/add_event/:user_id').get((req, res) => {
   Users.findOne({ user_id: req.params.user_id })
