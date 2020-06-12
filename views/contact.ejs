@@ -37,7 +37,7 @@
               <div class="form-group">
                 <p>Contact: <%=user.contact%></p>
               </div>
-              <form method="POST" action="send">
+              <form method="POST" action="/gform/push_notification/send/<%=event._id%>">
                 <div class="form-group">
                   <label>Subject</label>
                   <input name="subject" class="form-control" placeholder="enter subject of mail"></textarea>

@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const Event = require('../models/Event');
 const Users = require('../models/Users');
+const nodemailer = require('nodemailer')
 
 router.route('/push_notification/:event_id').get((req, res) => {
     res.render('contact',{layout:false}); //For testing this I have rendered the contact form here
@@ -11,29 +12,33 @@ router.route('/push_notification/send/:id').post((req, res) => {
 
     const event_id = req.params.id
     var mailing_list
-    var mailer
+    var name,contact,email_id
+    var eventname
 
     Event.findById(event_id)
     .then(event=>{
         mailing_list = event.participants
+        eventname = event.name
         Users.findById(event.owner)
         .then(user=>{
-          mailer = user
+          name = user.name
+          contact = user.contact
+          email_id = user.email_id
         })
     }).catch(err=>{
         res.status(400).json(err)
     })
-
+    
     const output = 
     `
     <p>Dear All,</p>
-    <h3>Event name: ${req.body.eventname}</h3>
+    <h3>Event name: ${eventname}</h3>
     <p>${req.body.message}</p>
       <p>Regards,</p>
       <ul>  
-        <li>Name: ${mailer.name}</li>
-        <li>Email: ${mailer.email_id}</li>
-        <li>Phone: ${mailer.contact}</li>
+        <li>Name: ${name}</li>
+        <li>Email: ${email_id}</li>
+        <li>Phone: ${contact}</li>
       </ul>
       <h3>Message</h3>
     `;
