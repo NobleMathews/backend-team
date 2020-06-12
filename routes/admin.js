@@ -183,15 +183,8 @@ router.route('/create_club/:id').get((req,res)=>{
   })
 })
 
-router.route('/achievement/create/:id').get((req,res)=>{
-  superAdminModel.find({_id:req.params.id})
-  .then(admin=>{
-    if(admin.length===1){
-      res.render('create_achievement')
-    }
-  }).catch(err=>{
-    res.status(404).send(err)
-  })
+router.route('/achievement/create/').get((req,res)=>{
+  res.render('create_achievement')
 })
 
 router.route('/club/view/').get((req,res)=>{
