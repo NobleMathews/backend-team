@@ -185,11 +185,17 @@ app.get('/test',(req,res)=>{
 })
 
 // use the following format for update requests in this route
-app.post('/users/profile/:id', upload.single('profpic'), (req, res) => {
-  const id = req.body.id
-  const uid = req.params.id
+app.post('/users/profile/:id', upload.single('profpic'), function (req, res, next) {
+  const id = req.body.id;
+  const uid = req.params.id;
+  console.log(req.file.filename);
+  var dpurl = req.file.filename;
+  if(!dpurl){
+    dpurl=req.body.dp_url;
+  }
   const change = {
-    pswd: req.body.pswd,
+    // pswd: req.body.pswd,
+    dp_url:dpurl,
     name: req.body.name,
     contact: req.body.contact,
     email_id: req.body.email_id

@@ -21,7 +21,7 @@
                 </form> -->
                 <!-- action="/users/profile/update/<%=id%>" -->
 
-                <form method="POST">
+                <form method="POST" enctype="multipart/form-data">
                     <div class="form-group">
                         <img src="/image/<%=dp_url%>" class="rounded" alt=" No File Selected " height="100px" style="margin-bottom: .5rem;">
                         <input type="file" name="profpic" id="profpic" style="display:none;"/>
@@ -39,6 +39,7 @@
                         <label for="email">Please enter your email id</label>
                         <input placeholder="NULL" value="<%=email_id%>" type="email" class="form-control" id="email" name="email_id" >
                     </div>
+                    <input name="dp_url" value="<%=dp_url%>" style="display: none;"/>
                     <input value="<%= id %>" name="id" style="display: none;"/>
                     <button type="submit" class="btn btn-primary">SUBMIT</button>
                 </form>
