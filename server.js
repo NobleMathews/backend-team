@@ -179,5 +179,5 @@ app.post('/users/add_event/:club_head_id/save', upload.single('poster'), (req, r
 })
 
 app.get('/test',(req,res)=>{
-  res.render('add_summary')
+  res.render('contact')
 })

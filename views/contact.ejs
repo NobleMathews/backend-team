@@ -15,52 +15,39 @@
     <h1 class="brand"><span>IITTP</span> Tech Hub Mail </h1>
     <div class="wrapper animated bounceInLeft">
       <div class="company-info">
-        <h3>Mail Sender</h3>
+        <h3>Mailing account...</h3>
         <ul>
           <li><i class="fa fa-road"></i>  IIT Tirupati </li>
-          <li><i class="fa fa-phone"></i>   xxxxxxxxxx </li>
           <li><i class="fa fa-envelope"></i>  Tech.iittp@gmail.com</li>
         </ul>
       </div>
-
-      <div class="container" style="padding-top: 30px;">
+      <div class="container" style="padding-top: 10px;">
           <div class="col-md-5 m-auto">
         
-              <h3>Send an e-mail</h3>
-              {{msg}}
-              <form method="POST" action="send">
-                <div class="form-group">
-                  <label>Name</label>
-                  <input type="text" class="form-control" name="name">
-                </div>
-                <div class="form-group">
-                  <label>Event name</label>
-                  <input type="text" class="form-control" name="eventname">
-                </div>
-                
-                <div class="form-group">
-                  <label>Email Address</label>
-                  <input type="email" class="form-control" name="email">
-                </div>
-                
-
-                <div class="form-group">
-                  <label>Phone Number</label>
-                  <input type="text" class="form-control" name="phone">
-                </div>
-                
+              <h3>Send E-mail</h3>
               <div class="form-group">
-                <label>File uploads</label>
-                <input type="file"  name="file" >
+                <p>Event Name: //the name of event will be displayed</p>
               </div>
-
+              <div class="form-group">
+                <p>Name: //the name of club head will be displayed</p>
+              </div>
+              <div class="form-group">
+                <p>E-Mail ID: //the email-id of club head will be displayed</p>
+              </div>
+              <div class="form-group">
+                <p>Contact: //the contact of club head will be displayed</p>
+              </div>
+              <form method="POST" action="send">
               <div class="form-group">
                 <label>Message</label>
                 <textarea name="message" class="form-control" rows="5"></textarea>
               </div>
-
+              <div class="form-group">
+                <label>File uploads</label>
+                <input type="file"  name="file" >
+              </div>
                 <div class="form-group">
-                  <button class="btn btn-primary" type="submit">Send to all registered in event</button>
+                  <button class="btn btn-primary" type="submit">Send Notification</button>
                 </div>
 
               </form>
