@@ -154,7 +154,7 @@ app.post('/users/add_event/:club_head_id/save', upload.single('poster'), (req, r
   }
 
   const event = new Event({
-    name: req.body.event_name,
+    name: req.body.event_name+"",
     venue: req.body.event_venue,
     date: req.body.event_date,
     description: req.body.description,
@@ -176,8 +176,8 @@ app.post('/users/add_event/:club_head_id/save', upload.single('poster'), (req, r
       if (err) throw err
       console.log(event) // <--- you can delete this line
     })
-
-  res.sendStatus(200)
+  let headid = req.params.club_head_id;
+  res.redirect("/users/events/retrieve/"+headid);
 })
 
 app.get('/test', (req, res) => {
@@ -188,11 +188,11 @@ app.get('/test', (req, res) => {
 app.post('/users/profile/:id', upload.single('profpic'), function (req, res, next) {
   const id = req.body.id;
   const uid = req.params.id;
-  console.log(req.file.filename);
-  var dpurl = req.file.filename;
-  if(!dpurl){
-    dpurl=req.body.dp_url;
-  }
+  var dpurl=req.body.dp_url;
+
+  if (req.file != undefined) {
+     dpurl = req.file.filename;
+  } 
   const change = {
     // pswd: req.body.pswd,
     dp_url:dpurl,

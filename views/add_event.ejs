@@ -22,11 +22,11 @@
         <form action="/users/add_event/<%=club_head_id%>/save" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="event_name">Event name:</label>
-                <input class="form-control" type="text" name="event_name" id="event_name"><br>
+                <input class="form-control" type="text" name="event_name" id="event_name" required><br>
             </div>
             <div class="form-group">
                 <label for="event_date">Date:</label>
-                <input type="date" name="event_date" id="event_date">
+                <input type="date" name="event_date" id="event_date" required>
             </div>
             <div class="form-group">
                 <label for="event_venue">Venue:</label>
@@ -38,11 +38,11 @@
             </div>
             <div class="form-group">
                 <label for="categories">Categories:</label>
-                <input class="form-control" type="text" name="categories" id="categories">
+                <input class="form-control" type="text" name="categories" id="categories"required>
             </div>
             <div class="form-group">
                 <label for="description">Description:</label>
-            <textarea class="form-control" type="text" name="description" id="description" rows="4" ></textarea>
+            <textarea class="form-control" type="text" name="description" id="description" rows="4" required></textarea>
             </div>
             <div class="form-group">
                 <input type="submit" class="btn btn-info" value="SUBMIT"/>
