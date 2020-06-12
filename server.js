@@ -195,5 +195,5 @@ app.get('/posters/:poster', (req, res) => {
 })
 
 app.get('/test',(req,res)=>{
-  res.render('create_club')
+  res.render('update_event')
 })

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+        <div class="col-8">
+            <div>
+                <h2>Update Event</h2>
+                <hr class="my-4">
+            </div>
+        <form method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="event_name">Event name:</label>
+                <input class="form-control" type="text" name="event_name" id="event_name" value="<%=event.name%>" ><br>
+            </div>
+            <div class="form-group">
+                <label for="event_date">Date:</label>
+                <input type="date" name="event_date" id="event_date" value="<%=event.date%>" >
+            </div>
+            <div class="form-group">
+                <label for="event_venue">Venue:</label>
+                <input class="form-control" type="text" name="event_venue" id="event_venue" value="<%=event.venue%>" >
+            </div>
+            <div class="form-group">
+                <label for="poster">Poster:</label>
+                <input type="file" name="poster" id="poster">
+            </div>
+            <div class="form-group">
+                <label for="categories">Category:</label>
+                <input class="form-control" type="text" name="categories" id="categories">
+            </div>
+            <div class="form-group">
+                <label for="description">Description:</label>
+            <textarea class="form-control" type="text" name="description" id="description" rows="4"><%=event.description%></textarea>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-info" value="UPDATE"/>
+            </div>  
+        </form>
+        </div>
+        </div>
+    </div>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</body>
+</html>

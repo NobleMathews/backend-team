@@ -65,5 +65,14 @@ router.route('/:month').get((req,res) => {
 
 })
 
+router.route('/update/:id').get((req,res)=>{
+    const id = req.params.id
+    Events.findById(id)
+    .then(event=>{
+        res.render('update_event',{event:event})
+    }).catch(err=>{
+        res.json(err)
+    })
+})
 
 module.exports = router;
