@@ -21,19 +21,21 @@
             </div>
             <div class="form-group">
                 <label for="event_date">Date:</label>
-                <input type="date" name="event_date" id="event_date" value="<%=event.date%>" >
+                <input type="date" name="event_date" id="event_date" value="<%= moment(event.date).format('YYYY-MM-DD');%>" >
             </div>
             <div class="form-group">
                 <label for="event_venue">Venue:</label>
                 <input class="form-control" type="text" name="event_venue" id="event_venue" value="<%=event.venue%>" >
             </div>
             <div class="form-group">
-                <label for="poster">Poster:</label>
-                <input type="file" name="poster" id="poster">
+                <p>Poster:</p>
+                <img src="<%= event.poster_url %>" class="rounded" alt=" No File Selected " height="100px" style="margin-bottom: .5rem;">
+                <input type="file" name="poster" id="poster" style="display:none;"/>
+                <label for="poster" class="btn btn-secondary" style="height: 100px; max-width: 100px; padding-top:25px; ">Update Poster</label>
             </div>
             <div class="form-group">
                 <label for="categories">Category:</label>
-                <input class="form-control" type="text" name="categories" id="categories">
+                <input class="form-control" type="text" name="categories" value="<%=event.categories%>" id="categories">
             </div>
             <div class="form-group">
                 <label for="description">Description:</label>
@@ -46,7 +48,7 @@
         </div>
         </div>
     </div>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 </body>
 </html>
