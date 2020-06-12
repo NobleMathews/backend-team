@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Events</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container" style="padding-top: 40px; padding-bottom: 40px;">
+    <% if (events && events.length) { %>
+        <% var event=events[0]; %>
+    <div class="card-group">
+            <div class="card" style="width: 85vw;">
+                <div class="card-body">
+                    <% if (event.name && event.name!="") { %>
+                        <h1 class="card-title"><%= event.name %></h1>
+                    <% }else{ %>
+                        <h1 class="card-title">NULL</h1>
+                    <% }%>
+                    <img src="<%= event.poster_url %>" class="rounded" alt="thumbnail of poster" width="286px">
+                    <div style="margin-top:20px;"></div>
+                    <% if (event.categories && event.categories!="") { %>
+                        <p class="card-text">
+                            <b>Category : <%= event.categories %> </b>
+                        </p>
+                    <% }else{ %>
+                        <p class="card-text">
+                            <b>Category : NULL </b>
+                        </p>
+                    <% }%>
+                    <% if (event.date && event.date!="") { %>
+                        <p class="card-text">
+                            <b>Date : </b><%= moment(event.date).format('Do MMMM, YYYY'); %>
+                        </p>
+                    <% }else{ %>
+                        <p class="card-text">
+                            <b>Date : </b>NULL
+                        </p>
+                    <% }%>
+                    <% if (event.venue && event.venue!="") { %>
+                        <p class="card-text">
+                            <b>Venue : </b><%= event.venue %>
+                        </p>
+                    <% }else{ %>
+                        <p class="card-text">
+                            <b>Venue : </b>NULL
+                        </p>
+                    <% }%>
+                    <% if (event.venue && event.venue!="") { %>
+                        <p class="card-text">
+                            <b>Description : </b><%= event.description %>
+                        </p>
+                    <% }else{ %>
+                        <p class="card-text">
+                            <b>Description : </b>NULL
+                        </p>
+                    <% }%>
+                    <ul class="list-group list-group-flush" >
+                        <li class="list-group-item"><b>Participants</b></li>
+                        <div style="max-height: 150px; overflow-y: scroll;">
+                        <% if ((event.participants) && (event.participants).length) { %>
+                        <% (event.participants).forEach((participant) => { %>
+                        <li class="list-group-item"><%= participant %></li>
+                        <% }) %>
+                        <% }else{ %>
+                            <li class="list-group-item">NULL</li>
+                        <% }%>
+                        </div>
+                    </ul>
+                    <ul class="list-group list-group-flush" >
+                        <li class="list-group-item"><b>Showcase URL's</b></li>
+                        <div style="max-height: 150px; overflow-y: scroll;">
+                        <% if ((event.showcase_url) && (event.showcase_url).length) { %>
+                        <% (event.showcase_url).forEach((url) => { %>
+                        <li class="list-group-item"><a href="<%= url %>"><%= url %></a></li>
+                        
+                        <% }) %>
+                        <% }else{ %>
+                            <li class="list-group-item">NULL</li>
+                        <% }%>
+                        </div>
+                    </ul>
+                    <p>
+                        <div class="card border-dark mb-3">
+                            <div class="card-header">Event Summary</div>
+                            <div class="card-body text-dark">
+                              <h5 class="card-title">Gallery</h5>
+                              <p class="card-text">
+                                <ul class="list-group list-group-flush" >
+                                    <div style="max-height: 150px; overflow-y: scroll;">
+                                    <% if ((event.event_summary.gallery) && (event.event_summary.gallery).length) { %>
+                                    <% (event.event_summary.gallery).forEach((url) => { %>
+                                    <li class="list-group-item"><a href="<%= url %>"><%= url %></a></li>
+                                    
+                                    <% }) %>
+                                    <% }else{ %>
+                                        <li class="list-group-item">NULL</li>
+                                    <% }%>
+                                    </div>
+                                </ul>
+                              </p>
+                              <h5 class="card-title">Reference Links</h5>
+                              <p class="card-text">
+                                <ul class="list-group list-group-flush" >
+                                    <div style="max-height: 150px; overflow-y: scroll;">
+                                    <% if ((event.event_summary.outside_links) && (event.event_summary.outside_links).length) { %>
+                                    <% (event.event_summary.outside_links).forEach((url) => { %>
+                                    <li class="list-group-item"><a href="<%= url %>"><%= url %></a></li>
+                                    
+                                    <% }) %>
+                                    <% }else{ %>
+                                        <li class="list-group-item">NULL</li>
+                                    <% }%>
+                                    </div>
+                                </ul>
+                              </p>
+                              <h5 class="card-title">Attachments</h5>
+                              <p class="card-text">
+                                <ul class="list-group list-group-flush" >
+                                    <div style="max-height: 150px; overflow-y: scroll;">
+                                    <% if ((event.event_summary.file_attachment) && (event.event_summary.file_attachment).length) { %>
+                                    <% (event.event_summary.file_attachment).forEach((url) => { %>
+                                    <li class="list-group-item"><a href="<%= url %>"><%= url %></a></li>
+                                    
+                                    <% }) %>
+                                    <% }else{ %>
+                                        <li class="list-group-item">NULL</li>
+                                    <% }%>
+                                    </div>
+                                </ul>
+                              </p>
+                            </div>
+                          </div>
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                              Created at :
+                              <span class="badge badge-primary badge-pill"><%= moment(event.createdAt).format('LLL'); %></span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                              Last Updated at :
+                              <span class="badge badge-primary badge-pill"><%= moment(event.updatedAt).format('LLL'); %></span>
+                            </li>
+                          </ul>    
+                          <div style="margin-top:20px;"></div>
+                          <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+
+                        
+                            <form method="GET">
+                            <div class="btn-group" role="group" >
+                            <!-- <button type="button" href='#' class="btn btn-outline-primary">View Summary</button> -->
+                            <!-- Dont see the point of edit summary without actually viewing it first -->
+                            <!-- In case view summary is required activate the line above and the next commented out line.. delete immediate next -->
+                            <a type="button" href='#' class="btn btn-outline-primary">Edit Summary</a>
+
+                            </div>                    
+                            <div class="btn-group" role="group" >
+                            <a type="button" href="#" class="btn btn-outline-warning">Edit Event Info</a>
+                            <!-- <button type="button" href="#" class="btn btn-outline-warning">Edit Summary</button> -->
+                            </div> 
+                            <div class="btn-group" role="group" >
+                            <a type="button" href="/users/notify/<%=event._id%>" class="btn btn-outline-success">Notify</a>
+                            </div> 
+                            </form> 
+    
+                    </div>
+                </p>
+                </div>
+            </div>
+
+    </div>
+    <% }else{ %>
+        <div class="container">
+            <h1 class="display-1">Invalid Event ID</h1>
+        </div>
+    <% }%>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
+</html>

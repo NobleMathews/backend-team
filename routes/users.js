@@ -110,6 +110,17 @@ router.route('/events/retrieve/:club_head_id').get((req, res) => {
   })
 })
 
+router.route('/events/details/:id').get((req, res) => {
+  const id = req.params.id
+  Events.find({_id:id})
+  .then(events=>{
+    // res.json(events)
+    res.render('event_details', { events:events,moment:moment})
+  }).catch((err)=>{
+    res.json('Error: '+err);
+  })
+})
+
 // route for using in the notify section
 router.route('/notify/:id').get((req, res) => {
   const event_id = req.params.id
