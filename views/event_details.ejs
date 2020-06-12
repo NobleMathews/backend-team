@@ -18,7 +18,7 @@
                     <% }else{ %>
                         <h1 class="card-title">NULL</h1>
                     <% }%>
-                    <img src="<%= event.poster_url %>" class="rounded" alt="thumbnail of poster" width="286px">
+                    <img src="/image/<%= event.poster_url %>" class="rounded" alt="thumbnail of poster" width="286px">
                     <div style="margin-top:20px;"></div>
                     <% if (event.categories && event.categories!="") { %>
                         <p class="card-text">
