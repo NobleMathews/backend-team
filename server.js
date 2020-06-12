@@ -10,15 +10,16 @@ const Grid = require('gridfs-stream')
 const methodOverride = require('method-override')
 const Event = require('./models/Event')
 const Users = require('./models/Users')
-const session = require('express-session');
+const session = require('express-session')
+
 // activate morgan in order to get an idea of the get and post requests which are being send to
 // const morgan = require('morgan');
 
 const app = express()
 const port = process.env.PORT || 5000
-
+app.use(session({ secret: 'test', saveUninitialized: true, resave: true }))
 app.use(cors())
-app.use(session({secret: 'secret_key',saveUninitialized: true,resave: true}));
+app.use(session({ secret: 'secret_key', saveUninitialized: true, resave: true }))
 app.use(methodOverride('_method'))
 
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -53,7 +54,6 @@ app.get('/', (req, res) => {
 })
 
 app.get('/profile', (req, res) => {
- 
   Users.findById(req.query.id, (err, user) => {
     res.render('profile', {
       user_id: user.user_id,
@@ -177,9 +177,9 @@ app.post('/users/add_event/:club_head_id/save', upload.single('poster'), (req, r
       console.log(event) // <--- you can delete this line
     })
 
-  res.sendStatus(200);
+  res.sendStatus(200)
 })
 
-app.get('/test',(req,res)=>{
+app.get('/test', (req, res) => {
   res.render('contact')
 })
