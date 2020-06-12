@@ -19,7 +19,7 @@
     <div class="card-group">
         <% events.forEach((event) => { %>
             <div class="card" style="width: 18rem;">
-                <img src="<%= event.poster_url %>" alt="thumbnail of poster" width="286px">
+                <img src="/image/<%= event.poster_url %>" alt="thumbnail of poster" width="286px">
                 <div class="card-body">
                     <h5 class="card-title"><%= event.name %></h5>
                     <p class="card-text">
@@ -27,7 +27,7 @@
                         <%= event.venue %>
                     </p>
                     <p>
-                    <a href="#2">edit</a>  |  <a href="#3">delete</a>  |  <a href="/users/events/details/<%= event._id %>">details</a> | <a href="/users/notify/<%=event._id%>">notify</a>
+                    <a href="/events/update/<%=event._id%>">edit</a>  |  <a href="#3">delete</a>  |  <a href="/users/events/details/<%= event._id %>">details</a> | <a href="/users/notify/<%=event._id%>">notify</a>
                     </p>
                 </div>
             </div>

@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const moment = require('moment');
 let Events = require('../models/Event');
 
 //update summary fields all fields arent neceassary and only those passed will be affected keeping other parameters unchanged
@@ -65,5 +66,14 @@ router.route('/:month').get((req,res) => {
 
 })
 
+router.route('/update/:id').get((req,res)=>{
+    const id = req.params.id
+    Events.findById(id)
+    .then(event=>{
+        res.render('update_event',{event:event,moment:moment})
+    }).catch(err=>{
+        res.json(err)
+    })
+})
 
 module.exports = router;

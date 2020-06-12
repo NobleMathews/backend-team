@@ -18,7 +18,7 @@
                     <% }else{ %>
                         <h1 class="card-title">NULL</h1>
                     <% }%>
-                    <img src="<%= event.poster_url %>" class="rounded" alt="thumbnail of poster" width="286px">
+                    <img src="/image/<%= event.poster_url %>" class="rounded" alt="thumbnail of poster" width="286px">
                     <div style="margin-top:20px;"></div>
                     <% if (event.categories && event.categories!="") { %>
                         <p class="card-text">
@@ -58,7 +58,7 @@
                     <% }%>
                     <ul class="list-group list-group-flush" >
                         <li class="list-group-item"><b>Participants</b></li>
-                        <div style="max-height: 150px; overflow-y: scroll;">
+                        <div style="max-height: 120px; overflow-y: scroll;">
                         <% if ((event.participants) && (event.participants).length) { %>
                         <% (event.participants).forEach((participant) => { %>
                         <li class="list-group-item"><%= participant %></li>
@@ -70,7 +70,7 @@
                     </ul>
                     <ul class="list-group list-group-flush" >
                         <li class="list-group-item"><b>Showcase URL's</b></li>
-                        <div style="max-height: 150px; overflow-y: scroll;">
+                        <div style="max-height: 120px; overflow-y: scroll;">
                         <% if ((event.showcase_url) && (event.showcase_url).length) { %>
                         <% (event.showcase_url).forEach((url) => { %>
                         <li class="list-group-item"><a href="<%= url %>"><%= url %></a></li>
@@ -155,7 +155,7 @@
 
                             </div>                    
                             <div class="btn-group" role="group" >
-                            <a type="button" href="#" class="btn btn-outline-warning">Edit Event Info</a>
+                            <a type="button" href="/events/update/<%=event._id%>" class="btn btn-outline-warning">Edit Event Info</a>
                             <!-- <button type="button" href="#" class="btn btn-outline-warning">Edit Summary</button> -->
                             </div> 
                             <div class="btn-group" role="group" >

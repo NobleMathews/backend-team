@@ -54,21 +54,6 @@ router.route('/').post((req, res) => {
     })
 })
 
-router.route('/club/create').post((req, res) => { // route for creating  anew club by the admin
-  var club = new clubmodel({
-    name: req.body.club_name,
-    head: req.body.head_name,
-    description: req.body.club_description,
-    logo: req.body.logo
-  })
-
-  club.save((err) => {
-    console.error.bind(console, 'saving is not done yet')
-  })
-
-  res.status(200).send('club created successfully')
-})
-
 router.route('/club/delete').delete((req, res) => { // this route will help in deleting a club
   const club = req.body.club_name
 
@@ -79,28 +64,37 @@ router.route('/club/delete').delete((req, res) => { // this route will help in d
   res.end(club)
 })
 
-router.route('/club_head/create').post((req, res) => { // this is for creating the club-head
+router.route('/club/create').post((req, res) => { // this is for creating the club-head
   const club_name = req.body.club_name
   var user = new usermodel({
     user_id: club_name,
     pswd: club_name,
-    name: req.body.name,
-    contact: req.body.contact,
-    email_id: req.body.email_id,
-    dp_url: req.body.dq_url,
+    name: '',
+    contact: '',
+    email_id: '',
+    dp_url: '',
     club_head: true,
     club_name: club_name,
-    bio: req.body.bio
+    bio: ''
   })
   console.log(user.user_id)
-  user.save((err) => {
-    console.error.bind(console, 'saving not done yet')
+  user.save((err, user) => {
+    var club = new clubmodel({
+      name: req.body.club_name,
+      head: user._id,
+      description: req.body.club_description,
+      logo_url: req.body.logo
+    })
+
+    club.save((err) => {
+      console.error.bind(console, 'saving is not done yet')
+    }).then(() => {
+      res.redirect('/admin/clubs/retrieve')
+    })
   })
-  res.writeHead(200, { 'Content-Type': 'text/plain' })
-  res.end(user)
 })
 
-router.route('/club_head/update').post((req, res) => { // by this route the club-head values will be set on default which can be changed by thhe club-head later on
+router.route('/club/update').post((req, res) => { // by this route the club-head values will be set on default which can be changed by thhe club-head later on
   var club_name = req.body.club_name
   var change = {
     user_id: club_name,
@@ -207,15 +201,8 @@ router.route('/create_club/:id').get((req, res) => {
     })
 })
 
-router.route('/achievement/create/:id').get((req, res) => {
-  superAdminModel.find({ _id: req.params.id })
-    .then(admin => {
-      if (admin.length === 1) {
-        res.render('create_achievement')
-      }
-    }).catch(err => {
-      res.status(404).send(err)
-    })
+router.route('/achievement/create/').get((req, res) => {
+  res.render('create_achievement')
 })
 
 router.route('/club/view/').get((req, res) => {

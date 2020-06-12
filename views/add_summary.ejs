@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <title>Event Summary</title>
+  </head>
+  <body>
+    <h3 style="text-align: center; text-decoration: underline; padding-top: 30px;">Event Summary</h3>
+    <!-- gallery : [String],                           // will contain url of the uploaded images in simple array
+        chief_guest : {type:String},
+        award_winners : {type:String},
+        summary : {type:String},
+        outside_links : [String],
+        file_attachment : [String],
+        video_links : {type:String} -->
+    <div class="container" style="padding-top:30px;">
+        <div class="col-md-5 m-auto">
+        <form action="/admin/club/create" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+            <label>Chief Guest</label>
+            <input class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Award Winners</label>
+                <input class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Summary</label>
+                <textarea class="form-control" rows="4" placeholder="Provide a short summary..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>Video Links</label>
+                <input class="form-control" placeholder="provide any video-links if present" >
+            </div>
+            <div class="form-group">
+                <label>External Links</label>
+                <input class="form-control" placeholder="provide any external-links if present" >
+            </div>
+            <div class="form-group">
+                <label>File Attachemnts</label>
+                <input type="file" class="form-control-file">
+            </div>
+            <div class="form-group">
+                <label>Upload Photos</label>
+                <input type="file" class="form-control-file">
+            </div>
+            <button type="submit" class="btn btn-primary" style="margin-bottom: 5px;">Create Summary</button>
+        </form>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+  </body>
+</html>

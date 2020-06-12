@@ -11,6 +11,7 @@ const methodOverride = require('method-override')
 const Event = require('./models/Event')
 const Users = require('./models/Users')
 const session = require('express-session')
+
 // activate morgan in order to get an idea of the get and post requests which are being send to
 // const morgan = require('morgan');
 
@@ -18,6 +19,7 @@ const app = express()
 const port = process.env.PORT || 5000
 app.use(session({ secret: 'test', saveUninitialized: true, resave: true }))
 app.use(cors())
+app.use(session({ secret: 'secret_key', saveUninitialized: true, resave: true }))
 app.use(methodOverride('_method'))
 
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -116,7 +118,7 @@ app.post('/users/profile/image/upload/:id', upload.single('file'), (req, res) =>
 })
 
 // returns an image stream to show as prof pic    || todo add it to the ejs once the server is made online
-app.get('/users/profile/image/:filename', (req, res) => {
+app.get('/image/:filename', (req, res) => {
   const file = gfs
     .find({
       filename: req.params.filename
@@ -133,7 +135,7 @@ app.get('/users/profile/image/:filename', (req, res) => {
 
 // delete request as per documentation to clear all chunks probably need to preserve the object id
 // implement only if required based on front end design. Since it requires and additional param preserved
-app.post('/users/profile/image/del/:img', (req, res) => {
+app.post('/image/del/:img', (req, res) => {
   gfs.delete(new mongoose.Types.ObjectId(req.params.img), (err, data) => {
     if (err) return res.status(404).json({ err: err.message })
     res.status(200)
@@ -148,7 +150,7 @@ app.post('/users/add_event/:club_head_id/save', upload.single('poster'), (req, r
   if (req.file == undefined) {
     poster_url = ' '
   } else {
-    poster_url = `/posters/${req.file.filename}`
+    poster_url = `${req.file.filename}`
   }
 
   const event = new Event({
@@ -178,22 +180,6 @@ app.post('/users/add_event/:club_head_id/save', upload.single('poster'), (req, r
   res.sendStatus(200)
 })
 
-// returns poster of the event and this url is saved in database as poster_url
-app.get('/posters/:poster', (req, res) => {
-  const file = gfs
-    .find({
-      filename: req.params.poster
-    })
-    .toArray((err, files) => {
-      if (!files || files.length === 0) {
-        return res.status(404).json({
-          err: 'no files exist'
-        })
-      }
-      gfs.openDownloadStreamByName(req.params.poster).pipe(res)
-    })
-})
-
 app.get('/test', (req, res) => {
-  res.render('create_club')
+  res.render('contact')
 })
