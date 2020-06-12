@@ -22,6 +22,8 @@ router.route('/').post((req, res) => {
           bio: user[0].bio,
           dp_url: user[0].dp_url
          })
+         sess = req.session;
+         sess._id = 'hello'
       } else {
         res.redirect('/')
       }
@@ -106,7 +108,12 @@ router.route('/notify/:id').get((req, res) => {
   Events.findById(event_id)
   .then(event=>{
     // res.json(events)
-    res.render('contact', { event:event })
+    Users.findById(event.owner)
+    .then(user=>{
+      res.render('contact', { event:event,user:user })
+    }).catch((err)=>{
+      res.json('Error: '+err);
+    })
   }).catch((err)=>{
     res.json('Error: '+err);
   })

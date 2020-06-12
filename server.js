@@ -10,6 +10,7 @@ const Grid = require('gridfs-stream')
 const methodOverride = require('method-override')
 const Event = require('./models/Event')
 const Users = require('./models/Users')
+const session = require('express-session');
 // activate morgan in order to get an idea of the get and post requests which are being send to
 const morgan = require('morgan');
 
@@ -17,6 +18,7 @@ const app = express()
 const port = process.env.PORT || 5000
 
 app.use(cors())
+app.use(session({secret: 'secret_key',saveUninitialized: true,resave: true}));
 app.use(methodOverride('_method'))
 
 app.use(bodyParser.urlencoded({ extended: true }))
