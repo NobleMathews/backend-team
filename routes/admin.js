@@ -53,43 +53,60 @@ router.route('/club/create').post((req, res) => { //this is for creating the clu
     club_name: club_name,
     bio: ''
   })
-  console.log(user.user_id)
   user.save((err,user) => {
     var club = new clubmodel({
       name: req.body.club_name,
       head: user._id,
+      head_exists: false,
       description: req.body.club_description,
       logo_url: req.body.logo
-    })
-  
+    })  
     club.save((err) => {
-      console.error.bind(console, 'saving is not done yet')
+      res.json(err)
     }).then(()=>{
       res.redirect('/admin/clubs/retrieve')
     })
   })
 })
 
-router.route('/club/update').post((req, res) => { //by this route the club-head values will be set on default which can be changed by thhe club-head later on
-  var club_name = req.body.club_name
-  var change = {
-    user_id: club_name, 
-    pswd: club_name,
-    name: '',
-    contact: '',
-    email_id: '',
-    dp_url: '',
-    club_head: true,
-    club_name: club_name,
-    bio: ''
-  }
-
-  usermodel.findOneAndUpdate({ club_name: club_name }, change)
-    .catch(err => {
-      console.log(err)
+router.route('/club_head/reset/:id').post((req, res) => { //by this route the club-head values will be set on default which can be changed by thhe club-head later on
+  var id = req.params.id
+  clubmodel.findById(id)
+  .then(club=>{
+    usermodel.findByIdAndDelete(club.head)
+    .then(()=>{
+      const club_name = club.name
+      var user = new usermodel({
+        user_id: club_name, 
+        pswd: club_name,
+        name: '',
+        contact: '',
+        email_id: '',
+        dp_url: '',
+        club_head: true,
+        club_name: club_name,
+        bio: ''
+      })
+      user.save((err,user) => {
+        var club = new clubmodel({
+          name: req.body.club_name,
+          head: user._id,
+          head_exists: false,
+          description: req.body.club_description,
+          logo_url: req.body.logo
+        })  
+        club.save((err) => {
+          res.json(err)
+        }).then(()=>{
+          res.redirect('/admin/clubs/retrieve')
+        })
+      })
+    }).catch(err=>{
+      res.json(err)
     })
-
-  res.status(200).send('Succesful')
+  }).catch(err=>{
+    res.json(err)
+  })
 })
 
 router.route('/achievement/create').post((req,res)=>{ // for storing the achievement
