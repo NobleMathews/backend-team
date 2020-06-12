@@ -13,7 +13,7 @@ const Users = require('./models/Users')
 const session = require('express-session')
 
 // activate morgan in order to get an idea of the get and post requests which are being send to
-// const morgan = require('morgan');
+const morgan = require('morgan');
 
 const app = express()
 const port = process.env.PORT || 5000
@@ -73,7 +73,7 @@ app.get('/admin/', (req, res) => {
   res.render('adminLogin')
 })
 
-// app.use(morgan('tiny'));
+app.use(morgan('tiny'));
 
 app.use('/users', userRouter)
 app.use('/gform', gformRouter)
@@ -117,7 +117,7 @@ app.post('/users/profile/image/upload/:id', upload.single('file'), (req, res) =>
   // res.json({file:req.file});
 })
 
-// returns an image stream to show as prof pic    || todo add it to the ejs once the server is made online
+// returns an image stream to show as prof pic  
 app.get('/image/:filename', (req, res) => {
   const file = gfs
     .find({
@@ -154,7 +154,7 @@ app.post('/users/add_event/:club_head_id/save', upload.single('poster'), (req, r
   }
 
   const event = new Event({
-    name: req.body.event_name,
+    name: req.body.event_name+"",
     venue: req.body.event_venue,
     date: req.body.event_date,
     description: req.body.description,
@@ -176,10 +176,32 @@ app.post('/users/add_event/:club_head_id/save', upload.single('poster'), (req, r
       if (err) throw err
       console.log(event) // <--- you can delete this line
     })
-
-  res.sendStatus(200)
+  let headid = req.params.club_head_id;
+  res.redirect("/users/events/retrieve/"+headid);
 })
 
 app.get('/test', (req, res) => {
   res.render('contact')
+})
+
+// use the following format for update requests in this route
+app.post('/users/profile/:id', upload.single('profpic'), function (req, res, next) {
+  const id = req.body.id;
+  const uid = req.params.id;
+  var dpurl=req.body.dp_url;
+
+  if (req.file != undefined) {
+     dpurl = req.file.filename;
+  } 
+  const change = {
+    // pswd: req.body.pswd,
+    dp_url:dpurl,
+    name: req.body.name,
+    contact: req.body.contact,
+    email_id: req.body.email_id
+  }
+  Users.findByIdAndUpdate(id, change)
+    .then((user) => {
+      res.redirect('/users/profile/'+uid)
+    })
 })

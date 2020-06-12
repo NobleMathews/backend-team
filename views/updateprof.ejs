@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 </head>
 <body>
     <div>
@@ -16,34 +17,49 @@
         <div class="row">
             <div class="col-md-6 m-auto">
                 <h1><%= user_id || '' %> </h1>
-                <!-- keep encoding type throughout backend in mind while populating / testing with postman -->
-                <form action="/users/profile/image/upload/<%=id%>" method="POST" enctype="multipart/form-data">
-                        <div class="custom-file mb-3">
-                        <input type="file" name="file" id="file" class="custom-file-input">
-                        <label for="file" class="custom-file-label">Choose File</label>
-                        </div>
-                    <input type="submit" value="Submit" class="btn btn-primary btn-block">
-                </form>
 
-                <form method="POST" action="/users/profile/update/<%=id%>" >
+                <form method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <img src="/image/<%=dp_url%>" id="preview" class="rounded" alt=" No File Selected " height="100px" style="margin-bottom: .5rem;">
+                        <input type="file" name="profpic" id="profpic" style="display:none;"/>
+                        <label for="profpic" class="btn btn-secondary" style="height: 100px; max-width: 100px; padding-top:25px; ">Upload Profile Pic</label>
+                    </div>
                     <div class="form-group">
                         <label for="name">Enter your Name</label>
-                        <input type="text" class="form-control" id="name" name="name">
+                        <input placeholder="NULL" value="<%=name%>" type="text" class="form-control" id="name" name="name">
                     </div>
                     <div class="form-group">
                         <label for="contact">How can we reach you ?</label>
-                        <input type="text" class="form-control" id="contact" name="contact" >
+                        <input placeholder="NULL" value="<%=contact%>" type="text" class="form-control" id="contact" name="contact" >
                     </div>
                     <div class="form-group">
                         <label for="email">Please enter your email id</label>
-                        <input type="email" class="form-control" id="email" name="email_id" >
+                        <input placeholder="NULL" value="<%=email_id%>" type="email" class="form-control" id="email" name="email_id" >
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <input name="dp_url" value="<%=dp_url%>" style="display: none;"/>
+                    <input value="<%= id %>" name="id" style="display: none;"/>
+                    <button type="submit" class="btn btn-primary">SUBMIT</button>
                 </form>
             </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+    function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#preview').attr('src', e.target.result);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+    }
+
+    $("#profpic").change(function(){
+        readURL(this);
+    });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </body>
