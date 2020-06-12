@@ -12,28 +12,35 @@
             <div class="col-md-6 m-auto">
                 <h1><%= user_id || '' %> </h1>
                 <!-- keep encoding type throughout backend in mind while populating / testing with postman -->
-                <form action="/users/profile/image/upload/<%=id%>" method="POST" enctype="multipart/form-data">
+                <!-- <form action="/users/profile/image/upload/<%=id%>" method="POST" enctype="multipart/form-data">
                         <div class="custom-file mb-3">
-                        <input type="file" name="file" id="file" class="custom-file-input">
+                        <input  type="file" name="file" id="file" class="custom-file-input">
                         <label for="file" class="custom-file-label">Choose File</label>
                         </div>
                     <input type="submit" value="Submit" class="btn btn-primary btn-block">
-                </form>
+                </form> -->
+                <!-- action="/users/profile/update/<%=id%>" -->
 
-                <form method="POST" action="/users/profile/update/<%=id%>" >
+                <form method="POST">
+                    <div class="form-group">
+                        <img src="/image/<%=dp_url%>" class="rounded" alt=" No File Selected " height="100px" style="margin-bottom: .5rem;">
+                        <input type="file" name="profpic" id="profpic" style="display:none;"/>
+                        <label for="profpic" class="btn btn-secondary" style="height: 100px; max-width: 100px; padding-top:25px; ">Upload Profile Pic</label>
+                    </div>
                     <div class="form-group">
                         <label for="name">Enter your Name</label>
-                        <input type="text" class="form-control" id="name" name="name">
+                        <input placeholder="NULL" value="<%=name%>" type="text" class="form-control" id="name" name="name">
                     </div>
                     <div class="form-group">
                         <label for="contact">How can we reach you ?</label>
-                        <input type="text" class="form-control" id="contact" name="contact" >
+                        <input placeholder="NULL" value="<%=contact%>" type="text" class="form-control" id="contact" name="contact" >
                     </div>
                     <div class="form-group">
                         <label for="email">Please enter your email id</label>
-                        <input type="email" class="form-control" id="email" name="email_id" >
+                        <input placeholder="NULL" value="<%=email_id%>" type="email" class="form-control" id="email" name="email_id" >
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <input value="<%= id %>" name="id" style="display: none;"/>
+                    <button type="submit" class="btn btn-primary">SUBMIT</button>
                 </form>
             </div>
         </div>

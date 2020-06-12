@@ -33,19 +33,12 @@ router.route('/').post((req, res) => {
 router.route('/profile/:user_id').get((req, res) => {
   const user_id = req.params.user_id
   const user = { user_id: user_id }
-  // ○    Name
-  // ○    Contact number
-  // ○    Email_id
-  // ○    User_id
-  // ○    Pswd
-  // ○    Profile_pic
-
   // turn on the projections as per necessity
   Users.find(user, { club_head: 0, club_name: 0, createdAt: 0, updatedAt: 0 })
     .then(user => {
       if (user.length === 1) {
         // front end -> updater view
-        res.render('updateprof', { id: user[0]._id, user_id: user[0].user_id })
+        res.render('updateprof', { id: user[0]._id, user_id: user[0].user_id, contact: user[0].contact, email_id: user[0].email_id,dp_url: user[0].dp_url,name: user[0].name })
       } else {
         res.redirect('/')
       }
@@ -54,21 +47,7 @@ router.route('/profile/:user_id').get((req, res) => {
     })
 })
 
-// use the following format for update requests in this route
-// <form method="POST" action="/users/profile/update/<%=id%>"
-router.route('/profile/update/:id').post((req, res) => {
-  const id = req.params.id
-  const change = {
-    pswd: req.body.pswd,
-    name: req.body.name,
-    contact: req.body.contact,
-    email_id: req.body.email_id
-  }
-  Users.findByIdAndUpdate(id, change)
-    .then((user) => {
-      res.redirect('/users/profile')
-    })
-})
+
 // body of post request must contain the object id as well as the url saved from gfs
 // this is automatically done when invoking the upload image route
 router.route('/profile/image/update/').get((req, res) => {
