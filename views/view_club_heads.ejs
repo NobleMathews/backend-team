@@ -4,9 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Club Heads</title>
+  
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 </head>
 <body>
+  <div>
+        <form method="POST" style="position: fixed; left: 0; top:0; padding: 10px;" action="/admin/" >
+                 <button type="submit" class='btn btn-outline-info btn-sm'>HOME</button> 
+            </form>
+        </div>
     <!-- A better layout in case each club profile shoule redirect to further options and not only view -->
     <div class="container" style="padding-top:30px;">
     <% if (clubs && clubs.length) { %>
