@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Club Heads</title>
-  
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 </head>
 <body>
@@ -15,9 +15,9 @@
         </div>
     <!-- A better layout in case each club profile shoule redirect to further options and not only view -->
     <div class="container" style="padding-top:30px;">
-      <h1 class="display-3">Click on the respective club to reset</h1>
+      <h1 class="display-4" style="text-align: center;">Click on the respective club to reset</h1>
     <% if (clubs && clubs.length) { %>
-        <div class="row">
+        <div class="row" style="margin-top: 30px;">
             <div class="col-md-6 m-auto">
                 <div class="list-group">
                     <div class="list-group-item list-group-item-action flex-column align-items-start active">
@@ -26,13 +26,21 @@
                       </div>
                     </div>
                     <% clubs.forEach((club) => { %>
-
-                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                      <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1"><b>Club Name : </b><%= club.name %></h5>
-                      </div>
-                      <p class="mb-1"><b>Club Head : </b><%= club.head %></p>
-                      <p class="mb-1"><b>About : </b><%= club.description %></p>
+                      <%if(club.head_exists){%>
+                        <a href="/club_head/reset/<%=club._id%>" class="list-group-item list-group-item-action flex-column align-items-start">
+                          <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1"><b>Club Name : </b><%= club.name %></h5>
+                          </div>
+                            <p class="mb-1"><b>Club Head : </b><%= club.club_head_name %></p>
+                          <p class="mb-1"><b>About : </b><%= club.description %></p>
+                      <%}else{%>
+                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                          <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1"><b>Club Name : </b><%= club.name %></h5>
+                          </div>
+                            <p class="mb-1">No head assigned yet</p>
+                          <p class="mb-1"><b>About : </b><%= club.description %></p>
+                      <%}%>
                       <!-- the email tag is not there in the model nor the db -->
                       <!-- <p class="mb-1"><b>Email : </b><%= club.email_id %></p> -->
 
@@ -42,9 +50,13 @@
                   </div>
             </div>
         </div>
-    <% } %>
-    <div class="justify-content-between">
-    <a href="#">Create Club</a>
+    <% }else{%>
+      <div class="container">
+        <h1 class="display-1">No clubs exist as of now.</h1>
+      </div>
+    <%}%>
+    <div style="text-align: center; margin-top: 20px;">
+    <a href="#"><span class="material-icons">add</span>Create Club</a>
     </div>
   </div>
 
