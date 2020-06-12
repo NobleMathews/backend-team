@@ -6,6 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Send Mail</title>
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css" />
   <link rel="stylesheet" href="/public/css/style.css">
 </head>
@@ -21,39 +22,53 @@
           <li><i class="fa fa-envelope"></i>  Tech.iittp@gmail.com</li>
         </ul>
       </div>
-      <div class="contact">
-        <h3>Send an e-mail</h3>
-        {{msg}}
-        <form method="POST" action="send">
-          <p>
-            <label>Name</label>
-            <input type="text" name="name">
-          </p>
-          <p>
-            <label>Event name</label>
-            <input type="text" name="eventname">
-          </p>
-          <p>
-            <label>Email Address</label>
-            <input type="email" name="email">
-          </p>
-          <p>
-            <label>Phone Number</label>
-            <input type="text" name="phone">
-          </p>
-          <p>
-            <label>File uploads</label>
-            <input type="file" name="file" >
-          </p>
-          <p class="full">
-            <label>Message</label>
-            <textarea name="message" rows="5"></textarea>
-          </p>
-          <p class="full">
-            <button type="submit">Send to all registered in event</button>
-          </p>
-        </form>
+
+      <div class="container" style="padding-top: 30px;">
+          <div class="col-md-5 m-auto">
+        
+              <h3>Send an e-mail</h3>
+              {{msg}}
+              <form method="POST" action="send">
+                <div class="form-group">
+                  <label>Name</label>
+                  <input type="text" class="form-control" name="name">
+                </div>
+                <div class="form-group">
+                  <label>Event name</label>
+                  <input type="text" class="form-control" name="eventname">
+                </div>
+                
+                <div class="form-group">
+                  <label>Email Address</label>
+                  <input type="email" class="form-control" name="email">
+                </div>
+                
+
+                <div class="form-group">
+                  <label>Phone Number</label>
+                  <input type="text" class="form-control" name="phone">
+                </div>
+                
+              <div class="form-group">
+                <label>File uploads</label>
+                <input type="file"  name="file" >
+              </div>
+
+              <div class="form-group">
+                <label>Message</label>
+                <textarea name="message" class="form-control" rows="5"></textarea>
+              </div>
+
+                <div class="form-group">
+                  <button class="btn btn-primary" type="submit">Send to all registered in event</button>
+                </div>
+
+              </form>
+        
+          </div>
       </div>
+
+     
     </div>
   </div>
 </body>
