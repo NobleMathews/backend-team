@@ -6,14 +6,7 @@ const superAdminModel = require('../models/SuperAdmin.model')
 const projectmodel = require('../models/Project.model.js')
 
 var sess
-router.route('/').get((req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      return console.log(err)
-    }
-    res.redirect('/')
-  })
-})
+
 router.route('/').post((req, res) => {
   sess = req.session
   console.log(sess.user_id)
