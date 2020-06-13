@@ -76,4 +76,21 @@ router.route('/update/:id').get((req,res)=>{
     })
 })
 
+router.route('/delete/:id').get((req,res)=>{
+    const id = req.params.id
+    Events.findByIdAndDelete(id)
+    .then(()=>{
+        var club_head_id = req.session._id
+        Events.find({ owner: club_head_id })
+        .then(events => {
+        // res.json(events)
+            res.render('event_view', { events: events, moment: moment })
+        }).catch((err) => {
+        res.json('Error: ' + err)
+        })
+    }).catch(err=>{
+        res.json(err)
+    })
+})
+
 module.exports = router;
