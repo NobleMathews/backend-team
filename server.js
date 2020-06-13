@@ -13,7 +13,7 @@ const Users = require('./models/Users')
 const session = require('express-session')
 
 // activate morgan in order to get an idea of the get and post requests which are being send to
-const morgan = require('morgan');
+// const morgan = require('morgan');
 
 const app = express()
 const port = process.env.PORT || 5000
@@ -73,7 +73,7 @@ app.get('/admin/', (req, res) => {
   res.render('adminLogin')
 })
 
-app.use(morgan('tiny'));
+// app.use(morgan('tiny'));
 
 app.use('/users', userRouter)
 app.use('/gform', gformRouter)
