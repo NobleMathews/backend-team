@@ -47,6 +47,11 @@ router.route('/summary/:id').get((req,res)=>{
     });
 });
 
+router.route('/summary_edit/').get((req,res)=>{
+    res.render('add_summary')
+})
+
+
 //routes for collecting events based on month(1-12) and populating them
 router.route('/:month').get((req,res) => {
     month = req.params.month
