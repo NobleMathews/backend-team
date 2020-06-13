@@ -4,14 +4,6 @@ const Events = require('../models/Event')
 const moment = require('moment')
 
 var sess
-router.route('/').get((req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      return console.log(err)
-    }
-    res.redirect('/')
-  })
-})
 
 router.route('/').post((req, res) => {
   // console.log(req.body);

@@ -44,6 +44,7 @@ const gformRouter = require('./routes/gform')
 const eventRouter = require('./routes/events')
 const registerRouter = require('./routes/register')
 const adminRouter = require('./routes/admin')
+const logoutRouter = require('./routes/logout')
 // default login page can pass alerts to it on load
 // hence can notify user easily of failed login routes
 app.get('/', (req, res) => {
@@ -79,6 +80,7 @@ app.use('/gform', gformRouter)
 app.use('/events', eventRouter)
 app.use('/register', registerRouter)
 app.use('/admin', adminRouter)
+app.use('/logout', logoutRouter)
 app.listen(port, () => {
   console.log(`listening on port : ${port}`)
 })
