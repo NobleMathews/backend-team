@@ -5,8 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-
-    <title>Add Club</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <title>Update Club</title>
   </head>
   <body>
      <div>
@@ -15,7 +15,7 @@
             </form>
         </div>
  
-    <h3 style="text-align: center; text-decoration: underline; padding-top: 30px;">Add New Club</h3>
+    <h3 style="text-align: center; text-decoration: underline; padding-top: 30px;">Update Club</h3>
 
     <div class="container" style="padding-top:30px;">
         <div class="col-md-5 m-auto">
@@ -23,26 +23,42 @@
 
         <div class="form-group">
           <label>Club Name</label>
-          <input class="form-control" placeholder="Enter Club name here">
+          <input class="form-control" placeholder="Enter Club name here" value="<%=club.name%>">
         </div>
 
         <div class="form-group">
           <label>Description</label>
-          <textarea class="form-control" rows="3" placeholder="Provide Club description"></textarea>
+          <textarea class="form-control" rows="3" placeholder="Provide Club description..."><%=club.description%></textarea>
         </div>
 
         <div class="form-group">
-            <label for="exampleFormControlFile1">Club Logo</label>
-            <input type="file" class="form-control-file">
+            <img src="/image/<%=club.logo_url%>" id="preview" class="rounded" alt=" No File Selected " height="100px" style="margin-bottom: .5rem;">
+            <input type="file" name="logo" id="logo" style="display:none;"/>
+            <label for="logo" class="btn btn-secondary" style="height: 100px; max-width: 100px; padding-top:25px; ">Upload Logo</label>
         </div>
         
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <input type="submit" class="btn btn-primary" value="Update">
 
         </form>
         </div>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+    
+            reader.onload = function (e) {
+                $('#preview').attr('src', e.target.result);
+            }
+    
+            reader.readAsDataURL(input.files[0]);
+        }
+        }
+    
+        $("#logo").change(function(){
+            readURL(this);
+        });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
   </body>

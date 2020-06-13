@@ -196,17 +196,8 @@ router.route('/profile/update/:id').post((req, res) => {
     })
 })
 
-router.route('/create_club/:id').get((req, res) => {
-  superAdminModel.find({ _id: req.params.id })
-    .then(admin => {
-      if (admin.length === 1) {
-        res.render('create_club')
-      } else {
-        res.send('you dont have admin privilages')
-      }
-    }).catch(err => {
-      res.status(404).send(err)
-    })
+router.route('/create_club/').get((req, res) => {
+  res.render('create_club')
 })
 
 router.route('/project/create').post((req, res) => {
@@ -266,6 +257,16 @@ router.route('/create_project/:id').get((req, res) => {
     }).catch(err => {
       res.status(404).send(err)
     })
+})
+
+router.route('/club/update/:id').get((req,res)=>{
+  const club_id = req.params.id
+  clubmodel.findById(club_id)
+  .then(club=>{
+    res.render('update_club',{club:club})
+  }).catch(err=>{
+    res.json(err)
+  })
 })
 
 router.route('/achievement/create/').get((req, res) => {
