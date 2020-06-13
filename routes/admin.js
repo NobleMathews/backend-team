@@ -9,16 +9,17 @@ var sess
 
 router.route('/').post((req, res) => {
   sess = req.session
-  console.log(sess.user_id)
   if (sess.user_id) {
-    return res.render('admin_landing', {
-      id: sess._id,
+    admin = {
+      _id : sess._id,
       name: sess.name,
-      user_id: sess.user_id,
-      email_id: sess.email_id,
+      user_id : sess.user_id,
+      email_id : sess.email_id,
       contact: sess.contact
-    })
-  }
+    }
+    console.log(sess.user_id)
+    return res.render('admin_landing', {admin:admin})
+  }else{
   const user_id = req.body.user_id
   const pswd = req.body.pswd
   const admin = { user_id, pswd }
@@ -31,13 +32,7 @@ router.route('/').post((req, res) => {
         sess.email_id = admin[0].email_id
         sess.contact = admin[0].contact
         // site to redirect to on login success : ! Change to valid Get route -> view with admin features
-        res.render('admin_landing', {
-          id: admin[0]._id,
-          name: admin[0].name,
-          user_id: admin[0].user_id,
-          email_id: admin[0].email_id,
-          contact: admin[0].contact
-        })
+        res.render('admin_landing', {admin:admin[0]})
       } else {
         // user doesnt have admin privileges (Show UI popup) , may redirect to user login
         // res.status(200).send('Sorry you donot have admin privileges !')
@@ -46,6 +41,7 @@ router.route('/').post((req, res) => {
     }).catch((err) => {
       res.json('Error: ' + err)
     })
+  }
 })
 
 router.route('/club/delete').delete((req, res) => { // this route will help in deleting a club
