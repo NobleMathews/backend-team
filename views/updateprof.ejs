@@ -16,28 +16,28 @@
     <div class="container" style="margin-top: 20vh;" >
         <div class="row">
             <div class="col-md-6 m-auto">
-                <h1><%= user_id || '' %> </h1>
+                <h1><%= user.user_id || '' %> </h1>
 
                 <form method="POST" enctype="multipart/form-data">
                     <div class="form-group">
-                        <img src="/image/<%=dp_url%>" id="preview" class="rounded" alt=" No File Selected " height="100px" style="margin-bottom: .5rem;">
+                        <img src="/image/<%=user.dp_url%>" id="preview" class="rounded" alt=" No File Selected " height="100px" style="margin-bottom: .5rem;">
                         <input type="file" name="profpic" id="profpic" style="display:none;"/>
                         <label for="profpic" class="btn btn-secondary" style="height: 100px; max-width: 100px; padding-top:25px; ">Upload Profile Pic</label>
                     </div>
                     <div class="form-group">
                         <label for="name">Enter your Name</label>
-                        <input placeholder="NULL" value="<%=name%>" type="text" class="form-control" id="name" name="name">
+                        <input placeholder="NULL" value="<%=user.name%>" type="text" class="form-control" id="name" name="name">
                     </div>
                     <div class="form-group">
                         <label for="contact">How can we reach you ?</label>
-                        <input placeholder="NULL" value="<%=contact%>" type="text" class="form-control" id="contact" name="contact" >
+                        <input placeholder="NULL" value="<%=user.contact%>" type="text" class="form-control" id="contact" name="contact" >
                     </div>
                     <div class="form-group">
                         <label for="email">Please enter your email id</label>
-                        <input placeholder="NULL" value="<%=email_id%>" type="email" class="form-control" id="email" name="email_id" >
+                        <input placeholder="NULL" value="<%=user.email_id%>" type="email" class="form-control" id="email" name="email_id" >
                     </div>
-                    <input name="dp_url" value="<%=dp_url%>" style="display: none;"/>
-                    <input value="<%= id %>" name="id" style="display: none;"/>
+                    <input name="dp_url" value="<%=user.dp_url%>" style="display: none;"/>
+                    <input value="<%= user.id %>" name="id" style="display: none;"/>
                     <button type="submit" class="btn btn-primary">SUBMIT</button>
                 </form>
             </div>

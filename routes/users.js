@@ -66,26 +66,19 @@ router.route('/').post((req, res) => {
     })
 })
 
-router.route('/profile/:user_id').get((req, res) => {
-  const user_id = req.params.user_id
-  const user = { user_id: user_id }
+router.route('/profile/').get((req, res) => {
   // turn on the projections as per necessity
-  Users.find(user, { club_head: 0, club_name: 0, createdAt: 0, updatedAt: 0 })
+  Users.findById(req.session._id)
     .then(user => {
-      if (user.length === 1) {
-        // front end -> updater view
-        res.render('updateprof', { id: user[0]._id, user_id: user[0].user_id, contact: user[0].contact, email_id: user[0].email_id,dp_url: user[0].dp_url,name: user[0].name })
-      } else {
-        res.redirect('/')
-      }
+      res.render('updateprof',{user:user})
     }).catch((err) => {
-      res.json('Error: ' + err)
+      res.json(err)
     })
 })
 
 // primary route to add event
-router.route('/add_event/:user_id').get((req, res) => {
-  Users.findOne({ user_id: req.params.user_id })
+router.route('/add_event/').get((req, res) => {
+  Users.findById(req.session._id)
     .then((user) => {
       // check if the user is club head
       if (user.club_head) {
@@ -99,9 +92,8 @@ router.route('/add_event/:user_id').get((req, res) => {
 })
 
 // for viewing the events in backend by the respective club-head
-router.route('/events/retrieve/:club_head_id').get((req, res) => {
-  const club_head_id = req.params.club_head_id
-  Events.find({ owner: club_head_id })
+router.route('/events/retrieve/').get((req, res) => {
+  Events.find({ owner: req.session._id })
     .then(events => {
     // res.json(events)
       res.render('event_view', { events: events, moment: moment })
