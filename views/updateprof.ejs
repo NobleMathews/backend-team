@@ -18,7 +18,7 @@
             <div class="col-md-6 m-auto">
                 <h1><%= user.user_id || '' %> </h1>
 
-                <form method="POST" enctype="multipart/form-data">
+                <form method="POST" enctype="multipart/form-data" action="/users/">
                     <div class="form-group">
                         <img src="/image/<%=user.dp_url%>" id="preview" class="rounded" alt=" No File Selected " height="100px" style="margin-bottom: .5rem;">
                         <input type="file" name="profpic" id="profpic" style="display:none;"/>
