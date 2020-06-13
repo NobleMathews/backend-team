@@ -3,6 +3,7 @@ const clubmodel = require('../models/Club.model.js')
 const usermodel = require('../models/Users.js')
 const achievementModel = require('../models/Achievement.model')
 const superAdminModel = require('../models/SuperAdmin.model')
+const projectmodel = require('../models/Project.model.js')
 
 var sess
 router.route('/').get((req, res) => {
@@ -211,6 +212,65 @@ router.route('/create_club/:id').get((req, res) => {
     .then(admin => {
       if (admin.length === 1) {
         res.render('create_club')
+      } else {
+        res.send('you dont have admin privilages')
+      }
+    }).catch(err => {
+      res.status(404).send(err)
+    })
+})
+
+router.route('/project/create').post((req, res) => {
+  var project = new projectmodel({
+    title: req.body.title,
+    team_members: req.body.team_member,
+    description: req.body.description,
+    branch: req.body.branch,
+    club: req.body.club,
+    degree: req.body.degree,
+    snapshot_url: req.body.snapshot_url
+  })
+
+  project.save((err) => {
+    console.error.bind(console, 'saving of project not done yet!')
+  })
+  let id = req.body.id;
+  res.redirect("/admin/create_project/"+id)
+})
+router.route('/project/delete').post((req, res) => {
+  const project_title = req.body.title
+  projectmodel.deleteOne({ title: project_title }, (err) => {
+    console.error.bind(console, 'not yet deleted')
+  })
+  res.status(200).send('Successfully Deleted')
+})
+
+router.route('/project/update').post((req, res) => {
+  const project_title = req.body.previous_title
+  	var change = {
+
+  		title: req.body.title,
+    	team_members: req.body.team_member,
+    	description: req.body.description,
+    	branch: req.body.branch,
+    	club: req.body.club,
+    	degree: req.body.degree,
+    	snapshot_url: req.body.snapshot_url
+  }
+
+  projectmodel.findOneAndUpdate({ title: project_title }, change)
+    .catch(err => {
+      console.log(err)
+    })
+
+  res.status(200).send(req.body)
+})
+
+router.route('/create_project/:id').get((req, res) => {
+  superAdminModel.find({ _id: req.params.id })
+    .then(admin => {
+      if (admin.length === 1) {
+        res.render('create_project',{id:req.params.id})
       } else {
         res.send('you dont have admin privilages')
       }
