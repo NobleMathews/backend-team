@@ -124,6 +124,10 @@ router.route('/club_head/reset/:id').post((req, res) => { // by this route the c
     })
 })
 
+router.route('/achievement/create/').get((req, res) => {
+  res.render('create_achievement')
+})
+
 router.route('/achievement/create').post((req, res) => { // for storing the achievement
   var achievement = {
     title: req.body.title,
@@ -271,10 +275,6 @@ router.route('/create_project/:id').get((req, res) => {
     }).catch(err => {
       res.status(404).send(err)
     })
-})
-
-router.route('/achievement/create/').get((req, res) => {
-  res.render('create_achievement')
 })
 
 router.route('/club/view/').get((req, res) => {
