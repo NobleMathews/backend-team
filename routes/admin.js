@@ -273,6 +273,13 @@ router.route('/achievement/create/').get((req, res) => {
   res.render('create_achievement')
 })
 
+router.route('/achievement/').get((req, res) => {
+  achievementModel.find()
+  .then(achievements=>{
+    res.render('view_achievement',{achievements})
+  })
+})
+
 router.route('/club/view/').get((req, res) => {
   res.render('view_club')
 })
