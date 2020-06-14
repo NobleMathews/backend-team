@@ -145,7 +145,7 @@ app.post('/image/del/:img', (req, res) => {
 // to save the event in database
 // <form action="/users/add_event/<%=club_head_id%>/add_event/<%=club_name%>/add" method="POST" enctype="multipart/form-data">
 // from the add_event form
-app.post('/users/add_event/:club_head_id/save', upload.single('poster'), (req, res) => {
+app.post('/users/add_event/save', upload.single('poster'), (req, res) => {
   let poster_url
   if (req.file == undefined) {
     poster_url = ' '
@@ -159,25 +159,20 @@ app.post('/users/add_event/:club_head_id/save', upload.single('poster'), (req, r
     date: req.body.event_date,
     description: req.body.description,
     poster_url: poster_url, // url to find poster of the event
-    owner: new mongoose.Types.ObjectId(req.params.club_head_id),
+    owner: req.session._id,
     categories: req.body.categories,
     speaker: req.body.speaker
 
   })
 
-  event.save((err, event) => { // saving the event in database
-    if (err) throw err
+  event.save((err,event) => { // saving the event in database
+    if(err){
+      res.json(err)
+    }else{
+      res.redirect('/users/events/retrieve/');
+    }
   })
-
-  // poupulate the owner field
-  Event.findById(mongoose.Schema.Types.ObjectId(event._id))
-    .populate('owner')
-    .exec((err, event) => {
-      if (err) throw err
-      console.log(event) // <--- you can delete this line
-    })
-  let headid = req.params.club_head_id;
-  res.redirect("/users/events/retrieve/"+headid);
+  // let headid = req.params.club_head_id;
 })
 
 app.get('/test', (req, res) => {
