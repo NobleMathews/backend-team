@@ -15,7 +15,6 @@
         </div>
     <!-- A better layout in case each club profile shoule redirect to further options and not only view -->
     <div class="container" style="padding-top:30px;">
-      <h1 class="display-4" style="text-align: center;">Click on the respective club to reset</h1>
     <% if (clubs && clubs.length) { %>
         <div class="row" style="margin-top: 30px;">
             <div class="col-md-6 m-auto">
@@ -27,24 +26,41 @@
                     </div>
                     <% clubs.forEach((club) => { %>
                       <%if(club.head_exists){%>
-                        <a href="/club_head/reset/<%=club._id%>" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="list-group-item list-group-item-action flex-column align-items-start" >
+                          <div style="float: left;">
                           <div class="d-flex w-100 justify-content-between">
                             <h5 class="mb-1"><b>Club Name : </b><%= club.name %></h5>
                           </div>
                             <p class="mb-1"><b>Club Head : </b><%= club.club_head_name %></p>
                           <p class="mb-1"><b>About : </b><%= club.description %></p>
+                          <p>
+                            <a href="#">reset</a> | <a href="/admin/club/update/<%=club._id%>">update</a>
+                          </p>
+                        </div>
+                        <div style="float: right;">
+                          <img src="/image/<%=club.logo_url%>" alt="club_logo" width="70px">
+                        </div>
+                        </div>
                       <%}else{%>
-                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="list-group-item list-group-item-action flex-column align-items-start" >
+                          <div style="float: left;">
                           <div class="d-flex w-100 justify-content-between">
                             <h5 class="mb-1"><b>Club Name : </b><%= club.name %></h5>
                           </div>
                             <p class="mb-1">No head assigned yet</p>
                           <p class="mb-1"><b>About : </b><%= club.description %></p>
+                          <p>
+                            <a href="#">update</a>
+                          </p>
+                        </div>
+                        <div style="float: right;">
+                          <img src="/image/<%=club.logo_url%>" alt="club_logo" width="70px">
+                        </div>
+                        </div>
                       <%}%>
                       <!-- the email tag is not there in the model nor the db -->
                       <!-- <p class="mb-1"><b>Email : </b><%= club.email_id %></p> -->
 
-                    </a>
 
                     <% }) %>
                   </div>
@@ -56,7 +72,7 @@
       </div>
     <%}%>
     <div style="text-align: center; margin-top: 20px;">
-    <a href="#"><span class="material-icons">add</span>Create Club</a>
+    <a href="/admin/create_club/"><span class="material-icons">add</span>Create Club</a>
     </div>
   </div>
 
