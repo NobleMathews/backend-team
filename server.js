@@ -243,6 +243,6 @@ app.post('/admin/project/create', upload.any('snapshot_url',20), function (req, 
   project.save((err) => {
     console.error.bind(console, 'saving of project not done yet!')
   })
-  const id = req.body.id
-  res.redirect('/admin/create_project/' + id)
+  // const id = req.body.id
+  res.redirect('/admin/project_details')
 })

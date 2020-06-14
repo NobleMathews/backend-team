@@ -51,11 +51,23 @@
             <div class="form-group">
                 <div class="form-group">
                     <!-- <input class="form-control" type="text" name="categories" id="categories"required> -->
+
                     <label for="categories">Category :</label>
                     <select name="categories" id="categories" required>
-                    <option value="Workshop">Workshop</option>
+                    <option value="none" selected disabled hidden> 
+                        Select Category 
+                    </option> 
+                    <%
+                        var options = [ "Workshop", "Competition", "Talk-show"];
+                        for ( var i = 0; i < options.length; i++ )
+                        {
+                            var selected = ( options[i] == event.categories ) ? "selected" : "";
+                            %><option value="<%=options[ i ] %>" <%=selected %>><%= options[i] %></option><%
+                        }
+                    %>
+                    <!-- <option value="Workshop">Workshop</option>
                     <option value="Competition">Competition</option>
-                    <option value="Talk-show">Talk-show</option>
+                    <option value="">Talk-show</option> -->
                     </select>
                 </div>
             </div>
