@@ -195,7 +195,8 @@ app.post('/users/profile/', upload.single('profpic'), function (req, res, next) 
     dp_url:dpurl,
     name: req.body.name,
     contact: req.body.contact,
-    email_id: req.body.email_id
+    email_id: req.body.email_id,
+    bio : req.body.bio
   }
   sess.dp_url = dpurl
   sess.email_id = req.body.email_id
