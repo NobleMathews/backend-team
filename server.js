@@ -10,6 +10,7 @@ const Grid = require('gridfs-stream')
 const methodOverride = require('method-override')
 const Event = require('./models/Event')
 const Users = require('./models/Users')
+const projectmodel = require('./models/Project.model.js')
 const session = require('express-session')
 
 // activate morgan in order to get an idea of the get and post requests which are being send to
@@ -199,4 +200,30 @@ app.post('/users/profile/:id', upload.single('profpic'), function (req, res, nex
     .then((user) => {
       res.redirect('/users/profile/'+uid)
     })
+})
+// this route handle project creation currently i have set a arbitrary maximum of 20 images simultaneously
+// change as per necessity
+app.post('/admin/project/create', upload.any('snapshot_url',20), function (req, res, next) {
+  var snaps=[];
+  // console.log(req.files);
+  if (req.files != undefined) {
+      snaps = req.files.map(function(file) {
+      return file.filename;
+    });
+  } 
+  var project = new projectmodel({
+    title: req.body.title,
+    team_members: req.body.team_member,
+    description: req.body.description,
+    branch: req.body.branch,
+    club: req.body.club,
+    degree: req.body.degree,
+    snapshot_url: snaps
+  })
+
+  project.save((err) => {
+    console.error.bind(console, 'saving of project not done yet!')
+  })
+  const id = req.body.id
+  res.redirect('/admin/create_project/' + id)
 })

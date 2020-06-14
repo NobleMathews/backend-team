@@ -217,23 +217,6 @@ router.route('/create_club/').get((req, res) => {
   res.render('create_club')
 })
 
-router.route('/project/create').post((req, res) => {
-  var project = new projectmodel({
-    title: req.body.title,
-    team_members: req.body.team_member,
-    description: req.body.description,
-    branch: req.body.branch,
-    club: req.body.club,
-    degree: req.body.degree,
-    snapshot_url: req.body.snapshot_url
-  })
-
-  project.save((err) => {
-    console.error.bind(console, 'saving of project not done yet!')
-  })
-  const id = req.body.id
-  res.redirect('/admin/create_project/' + id)
-})
 router.route('/project/delete').post((req, res) => {
   const project_title = req.body.title
   projectmodel.deleteOne({ title: project_title }, (err) => {
