@@ -19,26 +19,26 @@
 
     <div class="container" style="padding-top:30px;">
         <div class="col-md-5 m-auto">
-        <form>
+        <form method="POST" action="/admin/achievement/create" enctype="multipart/form-data">
 
         <div class="form-group">
           <label>Title:</label>
-          <input class="form-control" placeholder="Title of Achievement here">
+          <input class="form-control" name="title" placeholder="Title of Achievement here">
         </div>
 
         <div class="form-group">
             <label>Caption:</label>
-            <input class="form-control" placeholder="Enter Caption">
+            <input class="form-control" name="caption" placeholder="Enter Caption">
         </div>
 
         <div class="form-group">
           <label>Description:</label>
-          <textarea class="form-control" rows="3" placeholder="Provide description of Achievement"></textarea>
+          <textarea class="form-control" rows="3" name="des" placeholder="Provide description of Achievement"></textarea>
         </div>
 
         <div class="form-group">
-            <label for="exampleFormControlFile1">Snapshot:</label>
-            <input type="file" class="form-control-file" placeholder="pics_url">
+            <label for="pics">Snapshot:</label>
+            <input type="file" class="form-control-file" placeholder="pics" name="pics" id="pics">
         </div>
         
         <button type="submit" class="btn btn-primary">Submit</button>
