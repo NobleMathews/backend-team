@@ -181,8 +181,9 @@ app.get('/test', (req, res) => {
 })
 
 // use the following format for update requests in this route
-app.post('/users/profile/:id', upload.single('profpic'), function (req, res, next) {
-  const id = req.body.id;
+app.post('/users/profile/', upload.single('profpic'), function (req, res, next) {
+  var sess = req.session
+  const id = req.session._id;
   const uid = req.params.id;
   var dpurl=req.body.dp_url;
 
@@ -194,11 +195,29 @@ app.post('/users/profile/:id', upload.single('profpic'), function (req, res, nex
     dp_url:dpurl,
     name: req.body.name,
     contact: req.body.contact,
-    email_id: req.body.email_id
+    email_id: req.body.email_id,
+    bio : req.body.bio
   }
+  sess.dp_url = dpurl
+  sess.email_id = req.body.email_id
+  sess.contact = req.body.contact
+  sess.name = req.body.name
+  sess.bio = req.body.bio
   Users.findByIdAndUpdate(id, change)
-    .then((user) => {
-      res.redirect('/users/profile/'+uid)
+    .then(() => {
+      res.render('public_landing', {
+        id: sess._id,
+        club_name: sess.club_name,
+        name: sess.name,
+        user_id: sess.user_id,
+        pswd: sess.pswd,
+        email_id: sess.email_id,
+        contact: sess.contact,
+        bio: sess.bio,
+        dp_url: sess.dp_url
+      })
+    }).catch(err=>{
+      res.json(err)
     })
 })
 // this route handle project creation currently i have set a arbitrary maximum of 20 images simultaneously

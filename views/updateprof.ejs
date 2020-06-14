@@ -18,7 +18,7 @@
             <div class="col-md-6 m-auto">
                 <h1><%= user.user_id || '' %> </h1>
 
-                <form method="POST" enctype="multipart/form-data" action="/users/">
+                <form method="POST" enctype="multipart/form-data" action="/users/profile">
                     <div class="form-group">
                         <img src="/image/<%=user.dp_url%>" id="preview" class="rounded" alt=" No File Selected " height="100px" style="margin-bottom: .5rem;">
                         <input type="file" name="profpic" id="profpic" style="display:none;"/>
@@ -35,6 +35,10 @@
                     <div class="form-group">
                         <label for="email">Please enter your email id</label>
                         <input placeholder="NULL" value="<%=user.email_id%>" type="email" class="form-control" id="email" name="email_id" >
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Desribe about yourself</label>
+                        <input placeholder="NULL" value="<%=user.bio%>" type="text" class="form-control" id="email" name="bio" >
                     </div>
                     <input name="dp_url" value="<%=user.dp_url%>" style="display: none;"/>
                     <input value="<%= user.id %>" name="id" style="display: none;"/>
