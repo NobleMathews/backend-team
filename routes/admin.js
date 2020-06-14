@@ -254,7 +254,14 @@ router.route('/project/update').post((req, res) => {
 
   res.status(200).send(req.body)
 })
-
+router.route('/project_details').get((req, res) => {
+  projectmodel.find({})
+    .then(projects => {
+        res.render('project_details',{projects:projects,_id:sess._id})
+    }).catch(err => {
+      res.status(404).send(err)
+    })
+})
 router.route('/create_project/:id').get((req, res) => {
   superAdminModel.find({ _id: req.params.id })
     .then(admin => {
