@@ -11,6 +11,7 @@ const methodOverride = require('method-override')
 const Event = require('./models/Event')
 const Users = require('./models/Users')
 const Acheievement = require('./models/Achievement.model')
+const projectmodel = require('./models/Project.model.js')
 const session = require('express-session')
 
 // activate morgan in order to get an idea of the get and post requests which are being send to
@@ -181,8 +182,9 @@ app.get('/test', (req, res) => {
 })
 
 // use the following format for update requests in this route
-app.post('/users/profile/:id', upload.single('profpic'), function (req, res, next) {
-  const id = req.body.id;
+app.post('/users/profile/', upload.single('profpic'), function (req, res, next) {
+  var sess = req.session
+  const id = req.session._id;
   const uid = req.params.id;
   var dpurl=req.body.dp_url;
 
@@ -194,22 +196,40 @@ app.post('/users/profile/:id', upload.single('profpic'), function (req, res, nex
     dp_url:dpurl,
     name: req.body.name,
     contact: req.body.contact,
-    email_id: req.body.email_id
+    email_id: req.body.email_id,
+    bio : req.body.bio
   }
+  sess.dp_url = dpurl
+  sess.email_id = req.body.email_id
+  sess.contact = req.body.contact
+  sess.name = req.body.name
+  sess.bio = req.body.bio
   Users.findByIdAndUpdate(id, change)
-    .then((user) => {
-      res.redirect('/users/profile/'+uid)
+    .then(() => {
+      res.render('public_landing', {
+        id: sess._id,
+        club_name: sess.club_name,
+        name: sess.name,
+        user_id: sess.user_id,
+        pswd: sess.pswd,
+        email_id: sess.email_id,
+        contact: sess.contact,
+        bio: sess.bio,
+        dp_url: sess.dp_url
+      })
+    }).catch(err=>{
+      res.json(err)
     })
 })
 
-app.post('/admin/achievement/create/',upload.single('pics'),(req,res)=>{
+app.post('/admin/achievement/create/',upload.any('pics',20),(req,res)=>{
 
-  var pics_url;
+  var pics_url=[];
 
   if (req.file != undefined) {
-    pics_url = '/achievement_pics/'+req.file.filename;
- }else{
-   pics_url=' '
+      pics_url = req.files.map((file)=>{
+                       return file.filename
+                      })
  }
 
     var acheievement = new  Acheievement({
@@ -239,5 +259,33 @@ app.get('/achievement_pics/:filename', (req, res) => {
         })
       }
       gfs.openDownloadStreamByName(req.params.filename).pipe(res)
+    })
+
+
+// this route handle project creation currently i have set a arbitrary maximum of 20 images simultaneously
+// change as per necessity
+app.post('/admin/project/create', upload.any('snapshot_url',20), function (req, res, next) {
+  var snaps=[];
+  // console.log(req.files);
+  if (req.files != undefined) {
+      snaps = req.files.map(function(file) {
+      return file.filename;
+    });
+  } 
+  var project = new projectmodel({
+    title: req.body.title,
+    team_members: req.body.team_member,
+    description: req.body.description,
+    branch: req.body.branch,
+    club: req.body.club,
+    degree: req.body.degree,
+    snapshot_url: snaps
+  })
+
+  project.save((err) => {
+    console.error.bind(console, 'saving of project not done yet!')
+  })
+  // const id = req.body.id
+  res.redirect('/admin/project_details')
     })
 })

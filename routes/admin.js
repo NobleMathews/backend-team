@@ -205,31 +205,6 @@ router.route('/create_club/').get((req, res) => {
   res.render('create_club')
 })
 
-router.route('/project/create').post((req, res) => {
-  var project = new projectmodel({
-    title: req.body.title,
-    team_members: req.body.team_member,
-    description: req.body.description,
-    branch: req.body.branch,
-    club: req.body.club,
-    degree: req.body.degree,
-    snapshot_url: req.body.snapshot_url
-  })
-
-  project.save((err) => {
-    console.error.bind(console, 'saving of project not done yet!')
-  })
-  const id = req.body.id
-  res.redirect('/admin/create_project/' + id)
-})
-router.route('/project/delete').post((req, res) => {
-  const project_title = req.body.title
-  projectmodel.deleteOne({ title: project_title }, (err) => {
-    console.error.bind(console, 'not yet deleted')
-  })
-  res.status(200).send('Successfully Deleted')
-})
-
 router.route('/project/update').post((req, res) => {
   const project_title = req.body.previous_title
   var change = {
@@ -251,7 +226,7 @@ router.route('/project/update').post((req, res) => {
   res.status(200).send(req.body)
 })
 router.route('/project_details').get((req, res) => {
-  projectmodel.find({})
+  projectmodel.find()
     .then(projects => {
         res.render('project_details',{projects:projects,_id:sess._id})
     }).catch(err => {
@@ -276,6 +251,16 @@ router.route('/club/update/:id').get((req,res)=>{
   clubmodel.findById(club_id)
   .then(club=>{
     res.render('update_club',{club:club})
+  }).catch(err=>{
+    res.json(err)
+  })
+})
+
+router.route('/projects/delete/:id').get((req,res)=>{
+  const project_id = req.params.id
+  projectmodel.findByIdAndDelete(project_id)
+  .then(()=>{
+    res.redirect('/admin/project_details')
   }).catch(err=>{
     res.json(err)
   })

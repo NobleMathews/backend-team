@@ -44,7 +44,7 @@
 
                             <% if (project.snapshot_url && project.snapshot_url.length) { %>
                             <% (project.snapshot_url).forEach((snap) => { %>
-                            <img  src="<%= snap %>" alt="img" height="100px" width="100px" >
+                            <img  src="/image/<%=snap%>" alt="img" height="100px" width="100px" >
                           <% }) %>
                           <% }else{ %>
                               <p>NULL</p>
@@ -52,7 +52,7 @@
 
                         </div>
                       </div>
-                    <a href="/projects/update/<%=project._id%>">edit</a>  |  <a href="/projects/delete/<%=project._id%>">delete</a>
+                    <a href="/admin/projects/update/<%=project._id%>">edit</a>  |  <a href="/admin/projects/delete/<%=project._id%>">delete</a>
                     </p>
                 </div>
             </div>
