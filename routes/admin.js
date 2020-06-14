@@ -197,11 +197,19 @@ router.route('/profile/update/:id').post((req, res) => {
     contact: req.body.contact,
     email_id: req.body.email_id
   }
+
+  admin = {
+    _id: sess._id,
+    name: sess.name,
+    user_id: sess.user_id,
+    email_id: sess.email_id,
+    contact: sess.contact
+  }
   superAdminModel.findByIdAndUpdate(req.params.id, change)
-    .then(admin => {
-      res.status(200).send('updated admin profile')
+    .then(() => {
+      res.render('admin_landing',{admin:admin})
     }).catch(err => {
-      res.status(404).send(err)
+      res.json(err)
     })
 })
 
