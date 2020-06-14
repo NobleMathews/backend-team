@@ -95,8 +95,12 @@
                 <input class="form-control" name="club" placeholder="Enter Club"/>
             </div>
             <div class="form-group">
-                <label>Degree</label>
-                <input class="form-control" name="degree" placeholder="Enter Degree"/>
+                <label for="degree">Degree :</label>
+                <select name="degree" id="degree" >
+                <option value="Btech">Btech</option>
+                <option value="Mtech">Mtech</option>
+                <option value="Phd">Phd</option>
+                </select>
             </div>
             <input style="display: none;" name="id" value="<%=id%>"/>
             <div class="field">
