@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Achievements</title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>All Clubs</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 </head>
 <body>
@@ -14,38 +13,25 @@
             </form>
         </div>
     <div class="container">
-    <% if (achievements && achievements.length) { %>
-    <h2 style="color: blue; text-decoration: underline;"> List of All Achievements </h2>
-    <!-- Template for each achievement-->
+    <h2 style="color: blue; text-decoration: underline;"> Club head credentials </h2>
+    <!-- Template for each club-->
     <div class="card-group" style="align-content: center;">
-        <% achievements.forEach((achievement) => { %>
             <div class="card" style="width: 18rem;">
-                <% if (achievement.pics_url && achievement.pics_url.length) { %>
-                    <% (achievement.pics_url).forEach((pic) => { %>
-                    <img  src="/image/<%=pic%>" alt="img" height="100px" width="100px" >
-                  <% }) %>
-                  <% }%>
                 <div class="card-body">
-                    <h5 class="card-title"><%= achievement.title %></h5>
-                    <h6 class="card-subtitle mb-2 text-muted"><%= achievement.caption %></h6>
+                    <h5 class="card-title mb-4"><%= user.club_name %></h5>
+                    <h6 class="card-subtitle mb-4 text-muted"><%= user.name %></h6>
                     <p class="card-text">
-                        <%= achievement.description %>
+                       user_Id : <%= user.user_id %>
+                    </p>
+                    <p class="card-text">
+                       password : <%= user.pswd %>
                     </p>
                     <p>
-                    <a href="#">edit</a>  |  <a href="/admin/achievements/delete/<%=achievement._id%>">delete</a>  |  <a href="#">details</a>
+                    <a href="/admin/club_head/reset/<%=user._id%>" class="btn btn-primary btn-sm">reset</a>
                     </p>
                 </div>
             </div>
-        <% }) %>
     </div>
-    <% }else{ %>
-        <div class="container">
-            <h1 class="display-2">No achievements exist yet</h1>
-        </div>
-    <% }%>
-    <div style="text-align: center; margin-top: 20px;">
-        <a href="/admin/achievement/create/"><span class="material-icons">add</span>Add achievements</a>
-        </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>

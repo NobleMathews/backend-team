@@ -21,43 +21,24 @@
                 <div class="list-group">
                     <div class="list-group-item list-group-item-action flex-column align-items-start active">
                       <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">Club Details</h5>
+                        <h5 class="mb-1">Clubs </h5>
                       </div>
                     </div>
                     <% clubs.forEach((club) => { %>
-                      <%if(club.head_exists){%>
                         <div class="list-group-item list-group-item-action flex-column align-items-start" >
                           <div style="float: left;">
                           <div class="d-flex w-100 justify-content-between">
                             <h5 class="mb-1"><b>Club Name : </b><%= club.name %></h5>
                           </div>
-                            <p class="mb-1"><b>Club Head : </b><%= club.club_head_name %></p>
                           <p class="mb-1"><b>About : </b><%= club.description %></p>
                           <p>
-                            <a href="#">reset</a> | <a href="/admin/club/update/<%=club._id%>">update</a>
+                            <a href="/admin/club/update/<%=club._id%>">update</a> | <a href="/admin/club/view/<%=club.head%>">details</a>
                           </p>
                         </div>
                         <div style="float: right;">
                           <img src="/image/<%=club.logo_url%>" alt="club_logo" width="70px">
                         </div>
                         </div>
-                      <%}else{%>
-                        <div class="list-group-item list-group-item-action flex-column align-items-start" >
-                          <div style="float: left;">
-                          <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1"><b>Club Name : </b><%= club.name %></h5>
-                          </div>
-                            <p class="mb-1">No head assigned yet</p>
-                          <p class="mb-1"><b>About : </b><%= club.description %></p>
-                          <p>
-                            <a href="#">update</a>
-                          </p>
-                        </div>
-                        <div style="float: right;">
-                          <img src="/image/<%=club.logo_url%>" alt="club_logo" width="70px">
-                        </div>
-                        </div>
-                      <%}%>
                       <!-- the email tag is not there in the model nor the db -->
                       <!-- <p class="mb-1"><b>Email : </b><%= club.email_id %></p> -->
 

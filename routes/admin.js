@@ -55,73 +55,28 @@ router.route('/club/delete').delete((req, res) => { // this route will help in d
   res.end(club)
 })
 
-router.route('/club/create').post((req, res) => { // this is for creating the club-head
-  const club_name = req.body.club_name
-  var user = new usermodel({
-    user_id: club_name,
-    pswd: club_name,
+
+router.route('/club_head/reset/:id').get((req, res) => { // by this route the club-head values will be set on default which can be changed by thhe club-head later on
+  const club_head_id = req.params.id
+  usermodel.findById(club_head_id)
+  .then(user=>{
+    const l_club_name = user.club_name.toLowerCase()
+    usermodel.findByIdAndUpdate(user._id,{
+    pswd: l_club_name,
     name: '',
     contact: '',
     email_id: '',
     dp_url: '',
-    club_head: true,
-    club_name: club_name,
     bio: ''
-  })
-  user.save((err, user) => {
-    var club = new clubmodel({
-      name: req.body.club_name,
-      head: user._id,
-      head_exists: false,
-      description: req.body.club_description,
-      logo_url: req.body.logo
     })
-    club.save((err) => {
-      res.json(err)
-    }).then(() => {
+    .then(()=>{
       res.redirect('/admin/clubs/retrieve')
-    })
-  })
-})
-
-router.route('/club_head/reset/:id').post((req, res) => { // by this route the club-head values will be set on default which can be changed by thhe club-head later on
-  var id = req.params.id
-  clubmodel.findById(id)
-    .then(club => {
-      usermodel.findByIdAndDelete(club.head)
-        .then(() => {
-          const club_name = club.name
-          var user = new usermodel({
-            user_id: club_name,
-            pswd: club_name,
-            name: '',
-            contact: '',
-            email_id: '',
-            dp_url: '',
-            club_head: true,
-            club_name: club_name,
-            bio: ''
-          })
-          user.save((err, user) => {
-            var club = new clubmodel({
-              name: req.body.club_name,
-              head: user._id,
-              head_exists: false,
-              description: req.body.club_description,
-              logo_url: req.body.logo
-            })
-            club.save((err) => {
-              res.json(err)
-            }).then(() => {
-              res.redirect('/admin/clubs/retrieve')
-            })
-          })
-        }).catch(err => {
-          res.json(err)
-        })
-    }).catch(err => {
+    }).catch(err=>{
       res.json(err)
     })
+  }).catch(err=>{
+    res.json(err)
+  })
 })
 
 router.route('/achievement/create/').get((req, res) => {
@@ -271,6 +226,16 @@ router.route('/achievement/create/').get((req, res) => {
   res.render('create_achievement')
 })
 
+router.route('/achievements/delete/:id').get((req,res)=>{
+  const achievement_id = req.params.id
+  achievementModel.findByIdAndDelete(achievement_id)
+  .then(()=>{
+    res.redirect('/admin/achievement')
+  }).catch(err=>{
+    res.json(err)
+  })
+})
+
 
 router.route('/achievement/').get((req, res) => {
   achievementModel.find()
@@ -279,8 +244,14 @@ router.route('/achievement/').get((req, res) => {
   })
 })
 
-router.route('/club/view/').get((req, res) => {
-  res.render('view_club')
+router.route('/club/view/:id').get((req, res) => {
+  const club_head_id = req.params.id
+  usermodel.findById(club_head_id)
+  .then(user=>{
+    res.render('club_details',{user:user})
+  }).catch(err=>{
+    res.json(err)
+  })
 })
 
 module.exports = router

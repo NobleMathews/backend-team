@@ -5,8 +5,41 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <title>Add Achievement</title>
+    <style>
+      input[type="file"] {
+      display: block;
+      }
+      .imageThumb {
+      height: 100px;
+      width: 100px;
+      border: 2px solid;
+      padding: 1px;
+      cursor: pointer;
+      }
+      .pip {
+      display: inline-block;
+      margin: 10px;
+      }
+      .remove {
+      display: block;
+      background: #444;
+      border: 1px solid black;
+      color: white;
+      text-align: center;
+      cursor: pointer;
+      }
+      .remove:hover {
+      background: white;
+      color: black;
+      }
+      #snapholder{
+            height:auto;
+            min-height:50px;
+            height:auto !important;  /* for IE as it does not support min-height */
+        }
+  </style>
   </head>
   <body>
     <div>
@@ -37,17 +70,70 @@
         </div>
 
         <div class="form-group">
-            <label for="pics">Snapshot:</label>
-            <input type="file" class="form-control-file" placeholder="pics" name="pics" id="pics" multiple>
-        </div>
-        
+          <label for="degree">Degree :</label>
+          <option value="none" selected disabled hidden> 
+              Select Degree 
+          </option> 
+          <select name="degree" id="degree" >
+          <option value="Btech">Btech</option>
+          <option value="Mtech">Mtech</option>
+          <option value="Phd">Phd</option>
+          </select>
+      </div>
+      <div class="field">
+          <label>Upload snapshots</label>
+          <input type="file" id="snapshot_url" name="snapshot_url[]" multiple />
+          <div id="snapholder">
+
+          </div>
+      </div>
         <button type="submit" class="btn btn-primary">Submit</button>
 
         </form>
         </div>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script>
+     $(document).ready(function() {
+        $("#snapshot_url").on("change", function(e) {
+        $(".pip").remove();
+        // $('#ignore').val("");
+        var files = e.target.files,
+            filesLength = files.length;
+        for (var i = 0; i < filesLength; i++) {
+            var f = files[i]
+            var fileReader = new FileReader();
+            let id=i;
+            fileReader.onload = (function(e) {
+            var file = e.target;
+            $("#snapholder").append(
+                "<span class=\"pip\">" +
+                "<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + id + "\"/>" +
+                "<br/><span class=\"remove\">Remove </span>" +
+                "</span>"
+                );
+            $(".remove").off("click");
+            $(".remove").click(function(){
+                let title=($("#snapholder").children(".pip")).index($(this).parent(".pip"));
+                console.log(title);
+                $(this).parent(".pip").remove();
+                // let title=$(this).parent(".pip").children(".imageThumb").attr('title');
+                // var data=$('#ignore').val()+title;
+                // $('#ignore').val(data);
+                const dt = new DataTransfer()
+                let files=$("#snapshot_url").prop('files');
+                for (let file of files)
+                    if (file !== files[title]) 
+                    dt.items.add(file)
+                    document.getElementById("snapshot_url").files=dt.files;
+                console.log($("#snapshot_url").prop('files'));
+            });
+            
+            });
+            fileReader.readAsDataURL(f);
+        }
+        });
+    });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
   </body>
