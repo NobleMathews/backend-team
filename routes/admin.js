@@ -128,19 +128,7 @@ router.route('/achievement/create/').get((req, res) => {
   res.render('create_achievement')
 })
 
-router.route('/achievement/create').post((req, res) => { // for storing the achievement
-  var achievement = {
-    title: req.body.title,
-    caption: req.body.caption,
-    description: req.body.description,
-    pics_url: req.body.pics_url
-  }
 
-  achievement.save(err => {
-    console.log(err)
-  })
-  res.status(200).send('Achievement Created!')
-})
 
 router.route('/achievement/view/:id').get((req, res) => { // for displaying the achivement by using its id
   const id = req.params.id
@@ -281,6 +269,7 @@ router.route('/projects/delete/:id').get((req,res)=>{
 router.route('/achievement/create/').get((req, res) => {
   res.render('create_achievement')
 })
+
 
 router.route('/achievement/').get((req, res) => {
   achievementModel.find()

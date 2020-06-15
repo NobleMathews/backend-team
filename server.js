@@ -10,6 +10,7 @@ const Grid = require('gridfs-stream')
 const methodOverride = require('method-override')
 const Event = require('./models/Event')
 const Users = require('./models/Users')
+const Acheievement = require('./models/Achievement.model')
 const projectmodel = require('./models/Project.model.js')
 const session = require('express-session')
 
@@ -220,6 +221,50 @@ app.post('/users/profile/', upload.single('profpic'), function (req, res, next) 
       res.json(err)
     })
 })
+
+//to create achievement and upload it into database
+app.post('/admin/achievement/create/',upload.any('pics',20),(req,res)=>{
+
+  var pics_url=[];
+
+  if (req.files != undefined) {
+      pics_url = req.files.map((file)=>{
+                       return '/achievement_pics/'+file.filename
+                      })
+ }
+
+    var acheievement = new  Acheievement({
+      title:req.body.title,
+      caption:req.body.caption,
+      description:req.body.des,
+      pics_url:pics_url
+    })
+
+    acheievement.save((err,ach)=>{
+      if (err) throw err;
+    res.status(200).send('Achievement created')
+      
+    })
+  
+})
+
+
+//to create readstream for achievement pics
+app.get('/achievement_pics/:filename', (req, res) => {
+  const file = gfs
+    .find({
+      filename: req.params.filename
+    })
+    .toArray((err, files) => {
+      if (!files || files.length === 0) {
+        return res.status(404).json({
+          err: 'no files exist'
+        })
+      }
+      gfs.openDownloadStreamByName(req.params.filename).pipe(res)
+    })
+
+
 // this route handle project creation currently i have set a arbitrary maximum of 20 images simultaneously
 // change as per necessity
 app.post('/admin/project/create', upload.any('snapshot_url',20), function (req, res, next) {
@@ -245,4 +290,5 @@ app.post('/admin/project/create', upload.any('snapshot_url',20), function (req, 
   })
   // const id = req.body.id
   res.redirect('/admin/project_details')
+    })
 })
