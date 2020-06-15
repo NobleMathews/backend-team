@@ -10,7 +10,7 @@
     <div class="container">
         <div class="row">
             <div class="column-2">
-                <form method="POST" style="position: relative; left: 0; top:0; padding: 10px;" action="/users/" >
+                <form method="POST" style="position: relative; left: 0; top:0; padding: 10px;" action="/admin/" >
                  <button type="submit" class='btn btn-outline-info btn-sm'>HOME</button> 
                  </form>        
             </div>
@@ -36,11 +36,11 @@
             </div>
             <div class="form-group">
                 <label for="caption">Caption:</label><br>
-                <input type="text" name="caption" id="caption" value="<%=ach.caption%>" >
+                <input class="form-control" type="text" name="caption" id="caption" value="<%=ach.caption%>" >
             </div>
             <div class="form-group">
                 <label for="des">Description:</label>
-                <input class="form-control" type="text" name="des" id="des" value="<%=ach.description%>" >
+                <textarea class="form-control" type="text" name="des" id="des" rows="4" placeholder="Describe about the achievement..."><%=ach.description%></textarea>
             </div>
             <div class="form-group">
                 <p>Pics:</p>

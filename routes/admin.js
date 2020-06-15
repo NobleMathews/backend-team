@@ -238,6 +238,15 @@ router.route('/achievement/').get((req, res) => {
   })
 })
 
+router.route('/achievement/edit/:id').get((req, res) => {
+  const acv_id = req.params.id
+  achievementModel.findById(acv_id)
+  .then(achievement=>{
+    res.render('update_achievement',{ach:achievement})
+  })
+})
+
+
 router.route('/club/view/:id').get((req, res) => {
   const club_head_id = req.params.id
   usermodel.findById(club_head_id)
