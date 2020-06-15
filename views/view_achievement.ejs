@@ -20,7 +20,11 @@
     <div class="card-group" style="align-content: center;">
         <% achievements.forEach((achievement) => { %>
             <div class="card" style="width: 18rem;">
-                <img src="/image/<%= achievement.pics_url %>" alt="Snaphot of Achievement" width="286px">
+                <% if (achievement.pics_url && achievement.pics_url.length) { %>
+                    <% (achievement.pics_url).forEach((pic) => { %>
+                    <img  src="/image/<%=pic%>" alt="img" height="100px" width="100px" >
+                  <% }) %>
+                  <% }%>
                 <div class="card-body">
                     <h5 class="card-title"><%= achievement.title %></h5>
                     <h6 class="card-subtitle mb-2 text-muted"><%= achievement.caption %></h6>
@@ -28,7 +32,7 @@
                         <%= achievement.description %>
                     </p>
                     <p>
-                    <a href="#">edit</a>  |  <a href="#">delete</a>  |  <a href="#">details</a>
+                    <a href="#">edit</a>  |  <a href="/admin/achievements/delete/<%=achievement._id%>">delete</a>  |  <a href="#">details</a>
                     </p>
                 </div>
             </div>

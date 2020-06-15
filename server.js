@@ -228,22 +228,21 @@ app.post('/admin/achievement/create/',upload.any('pics',20),(req,res)=>{
   var pics_url=[];
 
   if (req.files != undefined) {
-      pics_url = req.files.map((file)=>{
-                       return '/achievement_pics/'+file.filename
-                      })
- }
-
-    var acheievement = new  Acheievement({
-      title:req.body.title,
-      caption:req.body.caption,
-      description:req.body.des,
-      pics_url:pics_url
+    pics_url = req.files.map((file)=>{
+      return file.filename
     })
+  }
+
+  var acheievement = new  Acheievement({
+    title:req.body.title,
+    caption:req.body.caption,
+    description:req.body.des,
+    pics_url:pics_url
+  })
 
     acheievement.save((err,ach)=>{
-      if (err) throw err;
-    res.status(200).send('Achievement created')
-      
+      if (err) res,json(err);
+    res.redirect('/admin/achievement/')  
     })
   
 })

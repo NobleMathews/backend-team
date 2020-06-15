@@ -270,6 +270,16 @@ router.route('/achievement/create/').get((req, res) => {
   res.render('create_achievement')
 })
 
+router.route('/achievements/delete/:id').get((req,res)=>{
+  const achievement_id = req.params.id
+  achievementModel.findByIdAndDelete(achievement_id)
+  .then(()=>{
+    res.redirect('/admin/achievement')
+  }).catch(err=>{
+    res.json(err)
+  })
+})
+
 
 router.route('/achievement/').get((req, res) => {
   achievementModel.find()
