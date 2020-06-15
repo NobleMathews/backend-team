@@ -19,7 +19,14 @@
             <div class="card" style="width: 18rem;">
                 <div class="card-body">
                     <h5 class="card-title mb-4"><%= user.club_name %></h5>
-                    <h6 class="card-subtitle mb-4 text-muted"><%= user.name %></h6>
+                    <%if(user.name){%>
+                        <div style="display: flex;">
+                            <h3 class="card-subtitle mb-4 text-muted">Club Head: <%= user.name %></h3>
+                            <img src="/image/<%=user.dp_url%>" alt="profile pic" style="margin-left: 100px;" >
+                        </div>
+                    <%}else{%>
+                        <h6 class="card-subtitle mb-4 text-muted">Club head not assigned yet.</h6>
+                    <%}%>
                     <p class="card-text">
                        user_Id : <%= user.user_id %>
                     </p>
