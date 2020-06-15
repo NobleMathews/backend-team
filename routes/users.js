@@ -123,4 +123,20 @@ router.route('/notify/:id').get((req, res) => {
     })
 })
 
+//change password rendering route
+router.route('/change_password').get((req,res)=>{
+  res.render('password')
+})
+
+// for changing the password
+router.route('/password/change').post((req,res)=>{
+  var pswd = req.body.pswd
+  Users.findByIdAndUpdate(req.session._id,{pswd:pswd})
+  .then(()=>{
+    res.redirect(307,'/users/')
+  }).catch(err=>{
+    res.json(err)
+  })
+})
+
 module.exports = router
