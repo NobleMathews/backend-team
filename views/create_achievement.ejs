@@ -34,6 +34,11 @@
       background: white;
       color: black;
       }
+      #snapholder{
+            height:auto;
+            min-height:50px;
+            height:auto !important;  /* for IE as it does not support min-height */
+        }
   </style>
   </head>
   <body>
@@ -65,33 +70,62 @@
         </div>
 
         <div class="form-group">
-            <label for="pics">Snapshots:</label>
-            <input type="file" class="form-control-file" placeholder="pics" name="pics" id="pics" multiple>
-        </div>
-        
+          <label for="degree">Degree :</label>
+          <option value="none" selected disabled hidden> 
+              Select Degree 
+          </option> 
+          <select name="degree" id="degree" >
+          <option value="Btech">Btech</option>
+          <option value="Mtech">Mtech</option>
+          <option value="Phd">Phd</option>
+          </select>
+      </div>
+      <div class="field">
+          <label>Upload snapshots</label>
+          <input type="file" id="snapshot_url" name="snapshot_url[]" multiple />
+          <div id="snapholder">
+
+          </div>
+      </div>
         <button type="submit" class="btn btn-primary">Submit</button>
 
         </form>
         </div>
     </div>
-
     <script>
-      $(document).ready(function() {
-        $("#pics").on("change", function(e) {
+     $(document).ready(function() {
+        $("#snapshot_url").on("change", function(e) {
         $(".pip").remove();
+        // $('#ignore').val("");
         var files = e.target.files,
             filesLength = files.length;
         for (var i = 0; i < filesLength; i++) {
             var f = files[i]
             var fileReader = new FileReader();
+            let id=i;
             fileReader.onload = (function(e) {
             var file = e.target;
-            $("<span class=\"pip\">" +
-                "<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + file.name + "\"/>" +
+            $("#snapholder").append(
+                "<span class=\"pip\">" +
+                "<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + id + "\"/>" +
                 "<br/><span class=\"remove\">Remove </span>" +
-                "</span>").insertAfter("#pics");
+                "</span>"
+                );
+            $(".remove").off("click");
             $(".remove").click(function(){
+                let title=($("#snapholder").children(".pip")).index($(this).parent(".pip"));
+                console.log(title);
                 $(this).parent(".pip").remove();
+                // let title=$(this).parent(".pip").children(".imageThumb").attr('title');
+                // var data=$('#ignore').val()+title;
+                // $('#ignore').val(data);
+                const dt = new DataTransfer()
+                let files=$("#snapshot_url").prop('files');
+                for (let file of files)
+                    if (file !== files[title]) 
+                    dt.items.add(file)
+                    document.getElementById("snapshot_url").files=dt.files;
+                console.log($("#snapshot_url").prop('files'));
             });
             
             });

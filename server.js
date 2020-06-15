@@ -223,7 +223,7 @@ app.post('/users/profile/', upload.single('profpic'), function (req, res, next) 
 })
 
 //to create achievement and upload it into database
-app.post('/admin/achievement/create/',upload.any('pics',20),(req,res)=>{
+app.post('/admin/achievement/create/',upload.any('snapshot_url',20),(req,res)=>{
 
   var pics_url=[];
 
@@ -262,7 +262,7 @@ app.get('/achievement_pics/:filename', (req, res) => {
       }
       gfs.openDownloadStreamByName(req.params.filename).pipe(res)
     })
-
+  })
 
 // this route handle project creation currently i have set a arbitrary maximum of 20 images simultaneously
 // change as per necessity
@@ -290,4 +290,3 @@ app.post('/admin/project/create', upload.any('snapshot_url',20), function (req, 
   // const id = req.body.id
   res.redirect('/admin/project_details')
     })
-})
