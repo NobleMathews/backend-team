@@ -229,7 +229,7 @@ app.post('/admin/achievement/create/',upload.any('pics',20),(req,res)=>{
 
   if (req.files != undefined) {
       pics_url = req.files.map((file)=>{
-                       return '/achievement_pics/'+file.filename
+                       return file.filename
                       })
  }
 
