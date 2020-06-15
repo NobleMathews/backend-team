@@ -95,21 +95,16 @@ router.route('/achievement/view/:id').get((req, res) => { // for displaying the 
     })
 })
 
-router.route('/achievement/update/:id').post((req, res) => { // for updating the achievement of a given id
-  const id = req.params.id
-  var achievement = {
-    title: req.body.title,
-    caption: req.body.caption,
-    description: req.body.description,
-    pics_url: req.body.pics_url
-  }
-  achievementModel.findByIdAndUpdate(id, achievement)
-    .then(() => {
-      res.status(200).send('updated')
-    }).catch(err => {
-      res.status(400).send(err)
-    })
+router.route('/achievement/update/:id').get((req,res)=>{
+  achievementModel.findById(req.params.id)
+  .then(ach=>{
+    res.render('update_achievement',{ach:ach})
+  }).catch(err=>{
+    res.status(404).send('Does nit exist')
+  })
 })
+
+
 
 router.route('/clubs/retrieve').get((req, res) => {
   clubmodel.find()
