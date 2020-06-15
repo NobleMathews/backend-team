@@ -10,6 +10,7 @@ const Grid = require('gridfs-stream')
 const methodOverride = require('method-override')
 const Event = require('./models/Event')
 const Users = require('./models/Users')
+const clubmodel = require('./models/Club.model.js')
 const Acheievement = require('./models/Achievement.model')
 const projectmodel = require('./models/Project.model.js')
 const session = require('express-session')
@@ -23,6 +24,7 @@ app.use(session({ secret: 'test', saveUninitialized: true, resave: true }))
 app.use(cors())
 app.use(session({ secret: 'secret_key', saveUninitialized: true, resave: true }))
 app.use(methodOverride('_method'))
+
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.set('view engine', 'ejs')
@@ -289,4 +291,39 @@ app.post('/admin/project/create', upload.any('snapshot_url',20), function (req, 
   })
   // const id = req.body.id
   res.redirect('/admin/project_details')
+    })
+
+app.post('/admin/club/create', upload.single('logo'), function (req, res) { // this is for creating the club-head
+      const club_name = req.body.club_name;
+      let logo;
+      if (req.file == undefined) {
+        logo = ' '
+      } else {
+        logo = `${req.file.filename}`
+      }
+      var u_club_name = club_name.toUpperCase()
+      var l_club_name = club_name.toLowerCase()
+      var user = new Users({
+        user_id: l_club_name,
+        pswd: l_club_name,
+        name: '',
+        contact: '',
+        email_id: '',
+        dp_url: '',
+        club_head: true,
+        club_name: u_club_name,
+        bio: ''
+      })
+      user.save((err, user) => {
+        var club = new clubmodel({
+          name: u_club_name,
+          head: user._id,
+          description: req.body.club_description,
+          logo_url: logo
+        })
+        club.save((err) => {
+          console.error.bind(console, 'Creating new user failed')
+        })
+        res.redirect('/admin/clubs/retrieve')
+      })
     })

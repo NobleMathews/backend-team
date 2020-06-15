@@ -55,36 +55,6 @@ router.route('/club/delete').delete((req, res) => { // this route will help in d
   res.end(club)
 })
 
-router.route('/club/create').post((req, res) => { // this is for creating the club-head
-  const club_name = req.body.club_name
-  console.log(req.body.club_name);
-  var u_club_name = club_name.toUpperCase()
-  var l_club_name = club_name.toLowerCase()
-  var user = new usermodel({
-    user_id: l_club_name,
-    pswd: l_club_name,
-    name: '',
-    contact: '',
-    email_id: '',
-    dp_url: '',
-    club_head: true,
-    club_name: u_club_name,
-    bio: ''
-  })
-  user.save((err, user) => {
-    var club = new clubmodel({
-      name: u_club_name,
-      head: user._id,
-      description: req.body.club_description,
-      logo_url: req.body.logo
-    })
-    club.save((err) => {
-      res.json(err)
-    }).then(() => {
-      res.redirect('/admin/clubs/retrieve')
-    })
-  })
-})
 
 router.route('/club_head/reset/:id').get((req, res) => { // by this route the club-head values will be set on default which can be changed by thhe club-head later on
   const club_head_id = req.params.id

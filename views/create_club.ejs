@@ -19,11 +19,12 @@
 
     <div class="container" style="padding-top:30px;">
         <div class="col-md-5 m-auto">
-        <form action="/admin/club/create" method="POST" enctype="multipart/form-data">
+          <!-- multipart/form-data -->
+        <form enctype="multipart/form-data" method="POST" action="/admin/club/create">
 
         <div class="form-group">
           <label>Club Name</label>
-          <input class="form-control" name="club_name" placeholder="Enter Club name here">
+          <input class="form-control" name="club_name" placeholder="Enter Club name here"></input>
         </div>
 
         <div class="form-group">
@@ -33,7 +34,7 @@
 
         <div class="form-group">
             <label for="exampleFormControlFile1">Club Logo</label>
-            <input type="file" class="form-control-file" name="logo">
+            <input type="file" class="form-control-file" name="logo"></input>
         </div>
         
         <button type="submit" class="btn btn-primary">Submit</button>
