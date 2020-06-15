@@ -36,6 +36,11 @@
         background: white;
         color: black;
         }
+        #snapholder{
+            height:auto;
+            min-height:50px;
+            height:auto !important;  /* for IE as it does not support min-height */
+        }
     </style>
      <div>
         <form method="POST" style="position: fixed; left: 0; top:0; padding: 10px;" action="/admin/" >
@@ -106,9 +111,13 @@
                 </select>
             </div>
             <input style="display: none;" name="id" value="<%=id%>"/>
+            <!-- <input style="display: none;" id="ignore" name="ignore" value=""/> -->
             <div class="field">
                 <label>Upload snapshots</label>
                 <input type="file" id="snapshot_url" name="snapshot_url[]" multiple />
+                <div id="snapholder">
+
+                </div>
             </div>
         <button type="submit" class="btn btn-primary">Submit</button>
 
@@ -151,19 +160,36 @@
     $(document).ready(function() {
         $("#snapshot_url").on("change", function(e) {
         $(".pip").remove();
+        // $('#ignore').val("");
         var files = e.target.files,
             filesLength = files.length;
         for (var i = 0; i < filesLength; i++) {
             var f = files[i]
             var fileReader = new FileReader();
+            let id=i;
             fileReader.onload = (function(e) {
             var file = e.target;
-            $("<span class=\"pip\">" +
-                "<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + file.name + "\"/>" +
+            $("#snapholder").append(
+                "<span class=\"pip\">" +
+                "<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + id + "\"/>" +
                 "<br/><span class=\"remove\">Remove </span>" +
-                "</span>").insertAfter("#snapshot_url");
+                "</span>"
+                );
+            $(".remove").off("click");
             $(".remove").click(function(){
+                let title=($("#snapholder").children(".pip")).index($(this).parent(".pip"));
+                console.log(title);
                 $(this).parent(".pip").remove();
+                // let title=$(this).parent(".pip").children(".imageThumb").attr('title');
+                // var data=$('#ignore').val()+title;
+                // $('#ignore').val(data);
+                const dt = new DataTransfer()
+                let files=$("#snapshot_url").prop('files');
+                for (let file of files)
+                    if (file !== files[title]) 
+                    dt.items.add(file)
+                    document.getElementById("snapshot_url").files=dt.files;
+                console.log($("#snapshot_url").prop('files'));
             });
             
             });
@@ -171,7 +197,6 @@
         }
         });
     });
-
     </script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
