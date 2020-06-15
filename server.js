@@ -222,13 +222,14 @@ app.post('/users/profile/', upload.single('profpic'), function (req, res, next) 
     })
 })
 
+//to create achievement and upload it into database
 app.post('/admin/achievement/create/',upload.any('pics',20),(req,res)=>{
 
   var pics_url=[];
 
-  if (req.file != undefined) {
+  if (req.files != undefined) {
       pics_url = req.files.map((file)=>{
-                       return file.filename
+                       return '/achievement_pics/'+file.filename
                       })
  }
 
@@ -247,6 +248,8 @@ app.post('/admin/achievement/create/',upload.any('pics',20),(req,res)=>{
   
 })
 
+
+//to create readstream for achievement pics
 app.get('/achievement_pics/:filename', (req, res) => {
   const file = gfs
     .find({
