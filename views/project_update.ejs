@@ -61,7 +61,7 @@
     <div class="container" style="padding-top:30px;">
         <div class="col-md-5 m-auto">
 <!-- enctype='text/json' -->
-        <form enctype="multipart/form-data" method="POST" action="admin/project/update/<%=project._id%>">
+        <form enctype="multipart/form-data" method="POST">
         <div class="form-group">
             <label>Title</label>
             <input class="form-control" name="title" placeholder="Enter Title of Project" value="<%=project.title%>" required/>
@@ -96,7 +96,7 @@
             </div>
             <div class="form-group">
                 <label>Description</label>
-                <textarea class="form-control" rows="3"  name="description" value="<%=project.description%>" placeholder="Describe the project" ></textarea>
+                <textarea class="form-control" rows="3"  name="description" placeholder="Describe the project" ><%=project.description%></textarea>
             </div>
 
             <div class="form-group">
