@@ -308,7 +308,7 @@ app.post('/admin/club/create', upload.single('logo'), function (req, res) { // t
   })
 })
 
-app.post('admin/project/update/:id', upload.any('pics', 20), (req, res) => {
+app.post('/admin/update_project/:id', upload.any('pics', 20), (req, res) => {
   const id = req.params.id
   var snapshots_url
   if (req.files != undefined) {
@@ -329,7 +329,7 @@ app.post('admin/project/update/:id', upload.any('pics', 20), (req, res) => {
 
   projectmodel.findByIdAndUpdate(id, change)
     .then(() => {
-      res.status(200).send('successfully updated')
+      res.redirect('/admin/project_details/')
     }).catch(err => {
       res.status(400).send(err)
     })
