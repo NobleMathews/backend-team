@@ -19,16 +19,16 @@
 
     <div class="container" style="padding-top:30px;">
         <div class="col-md-5 m-auto">
-        <form action="/admin/club/create" method="POST" enctype="multipart/form-data">
+        <form method="POST" enctype="multipart/form-data">
 
         <div class="form-group">
           <label>Club Name</label>
-          <input class="form-control" placeholder="Enter Club name here" value="<%=club.name%>">
+          <input class="form-control" name="name" placeholder="Enter Club name here" value="<%=club.name%>" required>
         </div>
 
         <div class="form-group">
           <label>Description</label>
-          <textarea class="form-control" rows="3" placeholder="Provide Club description..."><%=club.description%></textarea>
+          <textarea class="form-control" name="description" rows="3" placeholder="Provide Club description..."><%=club.description%></textarea>
         </div>
 
         <div class="form-group">
