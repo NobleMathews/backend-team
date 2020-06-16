@@ -55,35 +55,32 @@ router.route('/club/delete').delete((req, res) => { // this route will help in d
   res.end(club)
 })
 
-
 router.route('/club_head/reset/:id').get((req, res) => { // by this route the club-head values will be set on default which can be changed by thhe club-head later on
   const club_head_id = req.params.id
   usermodel.findById(club_head_id)
-  .then(user=>{
-    const l_club_name = user.club_name.toLowerCase()
-    usermodel.findByIdAndUpdate(user._id,{
-    pswd: l_club_name,
-    name: '',
-    contact: '',
-    email_id: '',
-    dp_url: '',
-    bio: ''
-    })
-    .then(()=>{
-      res.redirect('/admin/clubs/retrieve')
-    }).catch(err=>{
+    .then(user => {
+      const l_club_name = user.club_name.toLowerCase()
+      usermodel.findByIdAndUpdate(user._id, {
+        pswd: l_club_name,
+        name: '',
+        contact: '',
+        email_id: '',
+        dp_url: '',
+        bio: ''
+      })
+        .then(() => {
+          res.redirect('/admin/clubs/retrieve')
+        }).catch(err => {
+          res.json(err)
+        })
+    }).catch(err => {
       res.json(err)
     })
-  }).catch(err=>{
-    res.json(err)
-  })
 })
 
 router.route('/achievement/create/').get((req, res) => {
   res.render('create_achievement')
 })
-
-
 
 router.route('/achievement/view/:id').get((req, res) => { // for displaying the achivement by using its id
   const id = req.params.id
@@ -95,16 +92,14 @@ router.route('/achievement/view/:id').get((req, res) => { // for displaying the 
     })
 })
 
-router.route('/achievement/update/:id').get((req,res)=>{
+router.route('/achievement/update/:id').get((req, res) => {
   achievementModel.findById(req.params.id)
-  .then(ach=>{
-    res.render('update_achievement',{ach:ach})
-  }).catch(err=>{
-    res.status(404).send('Does nit exist')
-  })
+    .then(ach => {
+      res.render('update_achievement', { ach: ach })
+    }).catch(err => {
+      res.status(404).send('Does nit exist')
+    })
 })
-
-
 
 router.route('/clubs/retrieve').get((req, res) => {
   clubmodel.find()
@@ -145,7 +140,7 @@ router.route('/profile/update/:id').post((req, res) => {
   }
   superAdminModel.findByIdAndUpdate(req.params.id, change)
     .then(() => {
-      res.render('admin_landing',{admin:admin})
+      res.render('admin_landing', { admin: admin })
     }).catch(err => {
       res.json(err)
     })
@@ -155,30 +150,10 @@ router.route('/create_club/').get((req, res) => {
   res.render('create_club')
 })
 
-router.route('/project/update').post((req, res) => {
-  const project_title = req.body.previous_title
-  var change = {
-
-    title: req.body.title,
-    team_members: req.body.team_member,
-    description: req.body.description,
-    branch: req.body.branch,
-    club: req.body.club,
-    degree: req.body.degree,
-    snapshot_url: req.body.snapshot_url
-  }
-
-  projectmodel.findOneAndUpdate({ title: project_title }, change)
-    .catch(err => {
-      console.log(err)
-    })
-
-  res.status(200).send(req.body)
-})
 router.route('/project_details').get((req, res) => {
   projectmodel.find()
     .then(projects => {
-        res.render('project_details',{projects:projects,_id:sess._id})
+      res.render('project_details', { projects: projects, _id: sess._id })
     }).catch(err => {
       res.status(404).send(err)
     })
@@ -195,66 +170,63 @@ router.route('/create_project/:id').get((req, res) => {
       res.status(404).send(err)
     })
 })
-
-router.route('/club/update/:id').get((req,res)=>{
+router.route('/club/update/:id').get((req, res) => {
   const club_id = req.params.id
   clubmodel.findById(club_id)
-  .then(club=>{
-    res.render('update_club',{club:club})
-  }).catch(err=>{
-    res.json(err)
-  })
+    .then(club => {
+      res.render('update_club', { club: club })
+    }).catch(err => {
+      res.json(err)
+    })
 })
 
-router.route('/projects/delete/:id').get((req,res)=>{
+router.route('/projects/delete/:id').get((req, res) => {
   const project_id = req.params.id
   projectmodel.findByIdAndDelete(project_id)
-  .then(()=>{
-    res.redirect('/admin/project_details')
-  }).catch(err=>{
-    res.json(err)
-  })
+    .then(() => {
+      res.redirect('/admin/project_details')
+    }).catch(err => {
+      res.json(err)
+    })
 })
 
 router.route('/achievement/create/').get((req, res) => {
   res.render('create_achievement')
 })
 
-router.route('/achievements/delete/:id').get((req,res)=>{
+router.route('/achievements/delete/:id').get((req, res) => {
   const achievement_id = req.params.id
   achievementModel.findByIdAndDelete(achievement_id)
-  .then(()=>{
-    res.redirect('/admin/achievement')
-  }).catch(err=>{
-    res.json(err)
-  })
+    .then(() => {
+      res.redirect('/admin/achievement')
+    }).catch(err => {
+      res.json(err)
+    })
 })
-
 
 router.route('/achievement/').get((req, res) => {
   achievementModel.find()
-  .then(achievements=>{
-    res.render('view_achievement',{achievements})
-  })
+    .then(achievements => {
+      res.render('view_achievement', { achievements })
+    })
 })
 
 router.route('/achievement/edit/:id').get((req, res) => {
   const acv_id = req.params.id
   achievementModel.findById(acv_id)
-  .then(achievement=>{
-    res.render('update_achievement',{ach:achievement})
-  })
+    .then(achievement => {
+      res.render('update_achievement', { ach: achievement })
+    })
 })
-
 
 router.route('/club/view/:id').get((req, res) => {
   const club_head_id = req.params.id
   usermodel.findById(club_head_id)
-  .then(user=>{
-    res.render('club_details',{user:user})
-  }).catch(err=>{
-    res.json(err)
-  })
+    .then(user => {
+      res.render('club_details', { user: user })
+    }).catch(err => {
+      res.json(err)
+    })
 })
 
 module.exports = router
