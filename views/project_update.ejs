@@ -61,7 +61,7 @@
     <div class="container" style="padding-top:30px;">
         <div class="col-md-5 m-auto">
 <!-- enctype='text/json' -->
-        <form enctype="multipart/form-data" method="POST" action="/admin/project/create">
+        <form enctype="multipart/form-data" method="POST" action="admin/project/update/<%=project._id%>">
         <div class="form-group">
             <label>Title</label>
             <input class="form-control" name="title" placeholder="Enter Title of Project" value="<%=project.title%>" required/>

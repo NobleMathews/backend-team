@@ -219,6 +219,14 @@ router.route('/achievement/edit/:id').get((req, res) => {
     })
 })
 
+router.route('/update_project/:id').get((req,res)=>{
+  const proj_id = req.params.id
+  projectmodel.findById(proj_id)
+  .then(project=>{
+    res.render('project_update',{project:project})
+  })
+})
+
 router.route('/club/view/:id').get((req, res) => {
   const club_head_id = req.params.id
   usermodel.findById(club_head_id)
