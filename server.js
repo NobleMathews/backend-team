@@ -335,3 +335,42 @@ app.post('/admin/club/create', upload.single('logo'), function (req, res) { // t
           res.status(400).send(err)
         })
     })
+    // route to update the club details
+    app.post('/admin/club/update/:id', upload.single('logo') ,(req, res) => {
+      const id = req.params.id
+      let club_name=req.body.name;
+      if (req.file == undefined) {
+        var change = {
+          name: club_name,
+          description: req.body.description,
+        }
+      } else {
+        var change = {
+          name: club_name,
+          description: req.body.description,
+          logo_url: req.file.filename
+        }
+      }
+
+      var u_club_name = club_name.toUpperCase()
+      var l_club_name = club_name.toLowerCase()
+      var changeU={
+        user_id: l_club_name,
+        pswd: l_club_name,
+        club_name: u_club_name
+      }
+      clubmodel.findByIdAndUpdate(id, change,
+        function(err, result) {
+          if (err) {
+            res.status(400).send(err)
+          } else {
+            Users.findByIdAndUpdate({ _id: result.head },changeU)
+            .then(admin => {
+              res.redirect("/admin/clubs/retrieve")
+            }).catch(err => {
+              res.status(404).send(err)
+            })          
+          }
+        }
+        );
+    })
