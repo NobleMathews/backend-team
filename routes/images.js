@@ -24,7 +24,22 @@ const storage = new GridFsStorage({
   }
 })
 
-const upload = multer({ storage })
+const upload = multer({ storage,
+fileFilter: function (req, file, callback) {
+    var ext = path.extname(file.originalname);
+    // png jpg gif and jpeg allowed
+    if(ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') {
+      //enable this line if abort should be aborted || currently the file is just ignored & not sent for upload
+        // return callback(new Error('Only images are allowed'))              
+        return callback(null, false)
+
+    }
+    callback(null, true)
+},
+limits:{
+    fileSize: 50 * 1024 // 50 Mb limit imposed
+} 
+})
 
 // <form method="POST" action="/users/profile/upload/<%=id%>"
 // invoked from form to upload
