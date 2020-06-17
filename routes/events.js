@@ -5,10 +5,16 @@ var upload = require('./images');
 
 //update summary fields all fields arent neceassary and only those passed will be affected keeping other parameters unchanged
 //on front end make sure primary fields that are essential to define the event are kep as required.
-router.route('/summary_update/:id').post((req,res)=>{
+router.route('/summary_update/:id').post( upload.any('gallery',20), (req, res)=>{
     const id = req.params.id;
+    var pics_url
+    if (req.files != undefined) {
+      pics_url = req.files.map((file) => {
+        return file.filename
+      })
+    }
     const evsum={
-        'event_summary.gallery' : req.body.gallery,                          
+        'event_summary.gallery' : pics_url,                          
         'event_summary.chief_guest' : req.body.chief_guest,
         'event_summary.award_winners' : req.body.award_winners,
         'event_summary.summary' : req.body.summary,
@@ -16,13 +22,13 @@ router.route('/summary_update/:id').post((req,res)=>{
         'event_summary.file_attachment' : req.body.file_attachment,
         'event_summary.video_links' : req.body.video_links
     }
-    //{"$push": { "arrays": if they need to retains values } }
     for(let field in evsum) if(!evsum[field]) delete evsum[field];
     Events.findByIdAndUpdate(id,evsum)
     .then((event)=>{
         res.redirect("/users/events/retrieve");
     });
 });
+
 router.route('/update/:id').post( upload.single('poster'), (req, res) => {
     const id = req.params.id;
     var evsum;
@@ -74,8 +80,8 @@ router.route('/summary/:id').get((req,res)=>{
     });
 });
 
-router.route('/summary_edit/').get((req,res)=>{
-    res.render('add_summary')
+router.route('/summary_edit/:id').get((req,res)=>{
+    res.render('add_summary',{id:req.params.id})
 })
 
 

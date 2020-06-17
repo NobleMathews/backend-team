@@ -19,42 +19,169 @@
         video_links : {type:String} -->
     <div class="container" style="padding-top:30px;">
         <div class="col-md-5 m-auto">
-        <form action="/admin/club/create" method="POST" enctype="multipart/form-data">
+        <form action="/events/summary_update/<%=id%>" method="POST" enctype="multipart/form-data">
             <div class="form-group">
             <label>Chief Guest</label>
-            <input class="form-control">
+            <input class="form-control" name="chief_guest">
             </div>
             <div class="form-group">
                 <label>Award Winners</label>
-                <input class="form-control">
+                <input class="form-control" name="award_winners">
             </div>
             <div class="form-group">
                 <label>Summary</label>
-                <textarea class="form-control" rows="4" placeholder="Provide a short summary..."></textarea>
+                <textarea class="form-control" name="summary" rows="4" placeholder="Provide a short summary..."></textarea>
             </div>
+            <div class="form-group">
+                <div class="container">
+                    <div class="row clearfix">
+                        <div class="col-md-12 column">
+                            <table class="table table-bordered table-hover" id="tab_logic">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">
+                                            #
+                                        </th>
+                                        <th class="text-center">
+                                            File attachments
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr id='addr0'>
+                                        <td>1</td>
+                                        <td>
+                                        <input type="text" name='file_attachment[]'  placeholder='Links to docs/files' class="form-control"/>
+                                        </td>
+                                    </tr>
+                                    <tr id='addr1'></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <button type="button" id="add_row" class="btn btn-default pull-left">Add Row</button><button id='delete_row' class="pull-right btn btn-default">Delete Row</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="container">
+                    <div class="row clearfix">
+                        <div class="col-md-12 column">
+                            <table class="table table-bordered table-hover" id="tab_logic2">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">
+                                            #
+                                        </th>
+                                        <th class="text-center">
+                                            External Links
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr id='addr20'>
+                                        <td>1</td>
+                                        <td>
+                                        <input type="text" name='outside_links[]'  placeholder='Provide links to google docs/ uploads' class="form-control"/>
+                                        </td>
+                                    </tr>
+                                    <tr id='addr21'></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <button type="button" id="add_row2" class="btn btn-default pull-left">Add Row</button><button id='delete_row2' class="pull-right btn btn-default">Delete Row</button>
+                </div>
+            </div>
+            <!-- <div class="form-group">
+                <div class="container">
+                    <div class="row clearfix">
+                        <div class="col-md-12 column">
+                            <table class="table table-bordered table-hover" id="tab_logic3">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">
+                                            #
+                                        </th>
+                                        <th class="text-center">
+                                            Video Links
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr id='addr30'>
+                                        <td>1</td>
+                                        <td>
+                                        <input type="text" name='video_links[]'  placeholder='Provide any video-links if present' class="form-control"/>
+                                        </td>
+                                    </tr>
+                                    <tr id='addr31'></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <button type="button" id="add_row3" class="btn btn-default pull-left">Add Row</button><button id='delete_row3' class="pull-right btn btn-default">Delete Row</button>
+                </div>
+            </div> -->
             <div class="form-group">
                 <label>Video Links</label>
-                <input class="form-control" placeholder="provide any video-links if present" >
-            </div>
-            <div class="form-group">
-                <label>External Links</label>
-                <input class="form-control" placeholder="Provide links to google docs/ uploads" >
-            </div>
-            <div class="form-group">
-                <label>File Attachemnts</label>
-                <input type="file" class="form-control-file">
+                <input class="form-control" name="video_links" placeholder="Provide link to a video if any.."></input>
             </div>
             <div class="form-group">
                 <label>Upload Photos</label>
-                <input type="file" accept='image/*' class="form-control-file">
+                <input type="file" accept='image/*' name="gallery[]" class="form-control-file" multiple>
             </div>
-            <button type="submit" class="btn btn-primary" style="margin-bottom: 5px;">Create Summary</button>
+            <button type="submit" class="btn btn-primary" style="margin-bottom: 5px;">Update Summary</button>
         </form>
         </div>
     </div>
-
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-  </body>
+    <script>
+        $(document).ready(function(){
+            var i=1;
+            $("#add_row").click(function(){b=i-1;
+            $('#addr'+i).html($('#addr'+b).html()).find('td:first-child').html(i+1);
+            $('#tab_logic').append('<tr id="addr'+(i+1)+'"></tr>');
+            i++; 
+            });
+            $("#delete_row").click(function(){
+                if(i>1){
+                $("#addr"+(i-1)).html('');
+                i--;
+                }
+            });
+        });
+        $(document).ready(function(){
+                var j=1;
+                $("#add_row2").click(function(){b=j-1;
+                $('#addr2'+j).html($('#addr2'+b).html()).find('td:first-child').html(j+1);
+                $('#tab_logic2').append('<tr id="addr2'+(j+1)+'"></tr>');
+                j++; 
+                });
+                $("#delete_row2").click(function(){
+                    if(j>1){
+                    $("#addr2"+(j-1)).html('');
+                    j--;
+                    }
+                });
+        });
+        // if ever deside video links should be an array
+        // $(document).ready(function(){
+        //         var j=1;
+        //         $("#add_row3").click(function(){b=j-1;
+        //         $('#addr3'+j).html($('#addr3'+b).html()).find('td:first-child').html(j+1);
+        //         $('#tab_logic3').append('<tr id="addr3'+(j+1)+'"></tr>');
+        //         j++; 
+        //     });
+        //         $("#delete_row3").click(function(){
+        //             if(j>1){
+        //             $("#addr3"+(j-1)).html('');
+        //             j--;
+        //             }
+        //         });
+            
+        // });
+    </script>
+ </body>
 </html>

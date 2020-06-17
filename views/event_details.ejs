@@ -106,7 +106,7 @@
                                     <div style="max-height: 150px; overflow-y: scroll;">
                                     <% if ((event.event_summary.gallery) && (event.event_summary.gallery).length) { %>
                                     <% (event.event_summary.gallery).forEach((url) => { %>
-                                    <li class="list-group-item"><a href="<%= url %>"><%= url %></a></li>
+                                    <li class="list-group-item"><img src="/image/<%= url %>"></img></li>
                                     
                                     <% }) %>
                                     <% }else{ %>
@@ -166,7 +166,7 @@
                             <!-- <button type="button" href='#' class="btn btn-outline-primary">View Summary</button> -->
                             <!-- Dont see the point of edit summary without actually viewing it first -->
                             <!-- In case view summary is required activate the line above and the next commented out line.. delete immediate next -->
-                            <a type="button" href='/events/summary_edit/' class="btn btn-outline-primary">Edit Summary</a>
+                            <a type="button" href='/events/summary_edit/<%=event._id%>' class="btn btn-outline-primary">Edit Summary</a>
 
                             </div>                    
                             <div class="btn-group" role="group" >
