@@ -52,10 +52,12 @@ router.route('/').post((req, res) => {
 
         })
       } else {
-        res.redirect('/')
+        // res.redirect('/')
+        res.render('index', { alerts: 'Wrong Username / Password' })
       }
     }).catch((err) => {
-      res.json('Error: ' + err)
+      res.render('index', { alerts: 'Invalid Request' })
+      // res.json('Error: ' + err)
     })
 })
 

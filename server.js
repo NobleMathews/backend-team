@@ -96,7 +96,7 @@ app.get('/profile', (req, res) => {
 })
 
 app.get('/admin/', (req, res) => {
-  res.render('adminLogin')
+  res.render('adminLogin',{alerts:''})
 })
 
 app.get('/test', (req, res) => {
