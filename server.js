@@ -31,7 +31,7 @@ connection.once('open', () => {
 })
 
 const userRouter = require('./routes/users')
-const gformRouter = require('./routes/gform')
+const gformRouter = require('./routes/notify')
 const eventRouter = require('./routes/events')
 const registerRouter = require('./routes/register')
 const adminRouter = require('./routes/admin')
@@ -46,30 +46,6 @@ app.listen(port, () => {
   console.log(`listening on port : ${port}`)
 })
 
-// returns an image stream to show as prof pic
-app.get('/image/:filename', (req, res) => {
-  const file = gfs
-    .find({
-      filename: req.params.filename
-    })
-    .toArray((err, files) => {
-      if (!files || files.length === 0) {
-        return res.status(404).json({
-          err: 'no files exist'
-        })
-      }
-      gfs.openDownloadStreamByName(req.params.filename).pipe(res)
-    })
-})
-
-// delete request as per documentation to clear all chunks probably need to preserve the object id
-// implement only if required based on front end design. Since it requires and additional param preserved
-app.post('/image/del/:img', (req, res) => {
-  gfs.delete(new mongoose.Types.ObjectId(req.params.img), (err, data) => {
-    if (err) return res.status(404).json({ err: err.message })
-    res.status(200)
-  })
-})
 
 // default login page can pass alerts to it on load
 // hence can notify user easily of failed login routes
@@ -79,22 +55,6 @@ app.get('/', (req, res) => {
   res.render('index', { alerts: '' })
 })
 
-app.get('/profile', (req, res) => {
-  Users.findById(req.query.id, (err, user) => {
-    res.render('profile', {
-      user_id: user.user_id,
-      name: user.name,
-      contact: user.contact,
-      email_id: user.email_id,
-      dp_url: user.dp_url,
-      club_head: user.club_head,
-      club_name: user.club_name,
-      bio: user.bio
-
-    }) // it is ObjectId
-  })
-})
-
 app.get('/admin/', (req, res) => {
   res.render('adminLogin',{alerts:''})
 })
@@ -102,3 +62,5 @@ app.get('/admin/', (req, res) => {
 app.get('/test', (req, res) => {
   res.render('contact')
 })
+
+module.exports = connection

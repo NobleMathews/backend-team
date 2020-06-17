@@ -22,6 +22,12 @@ userSchema.virtual('events',{
     foreignField: 'owner'
 })
 
+userSchema.virtual('clubs',{
+    ref: 'Club',
+    localField: '_id',
+    foreignField: 'head'
+})
+
 const Users = mongoose.model('Users',userSchema);
 
 module.exports = Users;

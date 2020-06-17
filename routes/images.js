@@ -36,9 +36,9 @@ fileFilter: function (req, file, callback) {
     }
     callback(null, true)
 },
-limits:{
-    fileSize: 50 * 1024 // 50 Mb limit imposed
-} 
+  limits:{
+      fileSize: 50 * 1024 // 50 Mb limit imposed
+  } 
 })
 
 // <form method="POST" action="/users/profile/upload/<%=id%>"

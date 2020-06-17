@@ -3,7 +3,11 @@ const Schema = mongoose.Schema;
 
 const clubSchema = new Schema({
     name:{type:String,required:true},
-    head:{type:Schema.Types.ObjectId,required:true,ref:'Users'},
+    head:{
+        type:Schema.Types.ObjectId,
+        required:true,
+        ref:'Club_Heads'
+    },
     description:{type:String},
     logo_url:{type:String}
 })

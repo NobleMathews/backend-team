@@ -3,11 +3,25 @@ const Event = require('../models/Event');
 const Users = require('../models/Users');
 const nodemailer = require('nodemailer')
 
-router.route('/push_notification/:event_id').get((req, res) => {
-    res.render('contact',{layout:false}); //For testing this I have rendered the contact form here
-});
+// route for rendering the mailing page
+router.route('/notify/:id').get((req, res) => {
+  const event_id = req.params.id
+  Events.findById(event_id)
+    .then(event => {
+    // res.json(events)
 
-//The values sent from the contact form all retrived below.
+      Users.findById(event.owner)
+        .then(user => {
+          res.render('contact', { event: event, user: user })
+        }).catch((err) => {
+          res.json('Error: ' + err)
+        })
+    }).catch((err) => {
+      res.json('Error: ' + err)
+    })
+})
+
+// route to send the mail to all registered participants
 router.route('/push_notification/send/:id').post((req, res) => {
 
     const event_id = req.params.id
