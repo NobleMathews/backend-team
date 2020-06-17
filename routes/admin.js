@@ -4,6 +4,7 @@ const usermodel = require('../models/Users.js')
 const achievementModel = require('../models/Achievement.model')
 const superAdminModel = require('../models/SuperAdmin.model')
 const projectmodel = require('../models/Project.model.js')
+var upload = require('./images');
 
 var sess
 
@@ -113,9 +114,9 @@ router.route('/clubs/retrieve').get((req, res) => {
 })
 
 router.route('/profile/update/:id').get((req, res) => {
-  superAdminModel.find({ _id: req.params.id })
+  superAdminModel.findOne({ _id: req.params.id })
     .then(admin => {
-      res.render('admin_updateprof', { id: req.params.id, user_id: admin.user_id, pswd: admin.pswd })
+      res.render('admin_updateprof', { id: req.params.id, user_id: admin.user_id,name: admin.name,contact:admin.contact ,email_id:admin.email_id })
     })
 })
 
@@ -218,6 +219,51 @@ router.route('/achievement/edit/:id').get((req, res) => {
       res.render('update_achievement', { ach: achievement })
     })
 })
+router.route('/achievement/update/:id').post( upload.any('pics', 20), (req, res) => { // for updating the achievement of a given id
+  const id = req.params.id
+  var pics_url
+  if (req.files != undefined) {
+    pics_url = req.files.map((file) => {
+      return file.filename
+    })
+  }
+
+  var achievement = {
+    title: req.body.title,
+    caption: req.body.caption,
+    description: req.body.des,
+    pics_url: pics_url
+  }
+
+  achievementModel.findByIdAndUpdate(id, achievement)
+    .then(() => {
+      res.status(200).send('Achievement updated successfully')
+    }).catch(err => {
+      res.status(400).send(err)
+    })
+})
+// to create achievement and upload it into database
+router.route('/achievement/create/').post(upload.any('snapshot_url', 20), (req, res) => {
+  var pics_url = []
+
+  if (req.files != undefined) {
+    pics_url = req.files.map((file) => {
+      return file.filename
+    })
+  }
+
+  var acheievement = new achievementModel({
+    title: req.body.title,
+    caption: req.body.caption,
+    description: req.body.des,
+    pics_url: pics_url
+  })
+
+  acheievement.save((err, ach) => {
+    if (err) res, json(err)
+    res.redirect('/admin/achievement/')
+  })
+})
 
 router.route('/update_project/:id').get((req,res)=>{
   const proj_id = req.params.id
@@ -225,6 +271,60 @@ router.route('/update_project/:id').get((req,res)=>{
   .then(project=>{
     res.render('project_update',{project:project})
   })
+})
+
+// this route handle project creation currently i have set a arbitrary maximum of 20 images simultaneously
+// change as per necessity
+router.route('/project/create').post( upload.any('snapshot_url', 20),  (req, res, next) => {
+  var snaps = []
+  // console.log(req.files);
+  if (req.files != undefined) {
+    snaps = req.files.map(function (file) {
+      return file.filename
+    })
+  }
+  var project = new projectmodel({
+    title: req.body.title,
+    team_members: req.body.team_member,
+    description: req.body.description,
+    branch: req.body.branch,
+    club: req.body.club,
+    degree: req.body.degree,
+    snapshot_url: snaps
+  })
+
+  project.save((err) => {
+    console.error.bind(console, 'saving of project not done yet!')
+  })
+  // const id = req.body.id
+  res.redirect('/admin/project_details')
+})
+
+router.route('/update_project/:id').post( upload.any('pics', 20), (req, res) => {
+  const id = req.params.id
+  var snapshots_url
+  if (req.files != undefined) {
+    snapshots_url = req.files.map((file) => {
+      return file.filename
+    })
+  }
+
+  var change = {
+    title: req.body.title,
+    team_members: req.body.team_member,
+    description: req.body.description,
+    branch: req.body.branch,
+    club: req.body.club,
+    degree: req.body.degree,
+    snapshot_url: snapshots_url
+  }
+
+  projectmodel.findByIdAndUpdate(id, change)
+    .then(() => {
+      res.redirect('/admin/project_details/')
+    }).catch(err => {
+      res.status(400).send(err)
+    })
 })
 
 router.route('/club/view/:id').get((req, res) => {
@@ -237,4 +337,79 @@ router.route('/club/view/:id').get((req, res) => {
     })
 })
 
+router.route('/club/create').post( upload.single('logo'), (req, res) => { // this is for creating the club-head
+  const club_name = req.body.club_name
+  let logo
+  if (req.file == undefined) {
+    logo = ' '
+  } else {
+    logo = `${req.file.filename}`
+  }
+  var u_club_name = club_name.toUpperCase()
+  var l_club_name = club_name.toLowerCase()
+  var user = new usermodel({
+    user_id: l_club_name,
+    pswd: l_club_name,
+    name: '',
+    contact: '',
+    email_id: '',
+    dp_url: '',
+    club_head: true,
+    club_name: u_club_name,
+    bio: ''
+  })
+  user.save((err, user) => {
+    var club = new clubmodel({
+      name: u_club_name,
+      head: user._id,
+      description: req.body.club_description,
+      logo_url: logo
+    })
+    club.save((err) => {
+      console.error.bind(console, 'Creating new user failed')
+    })
+    res.redirect('/admin/clubs/retrieve')
+  })
+})
+
+// route to update the club details
+router.route('/club/update/:id').post( upload.single('logo') ,(req, res) => {
+  
+  const id = req.params.id
+  let club_name=req.body.name;
+  if (req.file == undefined) {
+    var change = {
+      name: club_name,
+      description: req.body.description,
+    }
+  } else {
+    var change = {
+      name: club_name,
+      description: req.body.description,
+      logo_url: req.file.filename
+    }
+  }
+
+  var u_club_name = club_name.toUpperCase()
+  var l_club_name = club_name.toLowerCase()
+  var changeU={
+    user_id: l_club_name,
+    pswd: l_club_name,
+    club_name: u_club_name
+  }
+  clubmodel.findByIdAndUpdate(id, change,
+    function(err, result) {
+      if (err) {
+        res.status(400).send(err)
+      } else {
+        usermodel.findByIdAndUpdate({ _id: result.head },changeU)
+        .then(admin => {
+          res.redirect("/admin/clubs/retrieve")
+        }).catch(err => {
+          res.status(404).send(err)
+        })          
+      }
+    }
+    );
+})
 module.exports = router

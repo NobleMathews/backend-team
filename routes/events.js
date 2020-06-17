@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const moment = require('moment');
 let Events = require('../models/Event');
+var upload = require('./images');
 
 //update summary fields all fields arent neceassary and only those passed will be affected keeping other parameters unchanged
 //on front end make sure primary fields that are essential to define the event are kep as required.
@@ -19,7 +20,33 @@ router.route('/summary_update/:id').post((req,res)=>{
     for(let field in evsum) if(!evsum[field]) delete evsum[field];
     Events.findByIdAndUpdate(id,evsum)
     .then((event)=>{
-        res.sendStatus(200);
+        res.redirect("/users/events/retrieve");
+    });
+});
+router.route('/update/:id').post( upload.single('poster'), (req, res) => {
+    const id = req.params.id;
+    var evsum;
+    if (req.file == undefined) {
+        ev={
+            'name':req.body.event_name,
+            'venue':req.body.event_venue,
+            'date':req.body.event_date,
+            'description':req.body.description,
+            'categories':req.body.categories
+        }
+    } else {
+        ev={
+            'name':req.body.event_name,
+            'venue':req.body.event_venue,
+            'date':req.body.event_date,
+            'description':req.body.description,
+            'poster_url':`${req.file.filename}`,
+            'categories':req.body.categories
+        }
+    }
+    Events.findByIdAndUpdate(id,ev)
+    .then((event)=>{
+        res.redirect("/users/events/retrieve");
     });
 });
 // use state variable supplied by this route to populate react layout
