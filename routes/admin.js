@@ -114,9 +114,9 @@ router.route('/clubs/retrieve').get((req, res) => {
 })
 
 router.route('/profile/update/:id').get((req, res) => {
-  superAdminModel.find({ _id: req.params.id })
+  superAdminModel.findOne({ _id: req.params.id })
     .then(admin => {
-      res.render('admin_updateprof', { id: req.params.id, user_id: admin.user_id, pswd: admin.pswd })
+      res.render('admin_updateprof', { id: req.params.id, user_id: admin.user_id,name: admin.name,contact:admin.contact ,email_id:admin.email_id })
     })
 })
 

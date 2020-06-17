@@ -21,8 +21,7 @@ app.set('view engine', 'ejs')
 app.set('useFindAndModify', false)
 
 const uri = 'mongodb+srv://heads:heads@cluster0-v6kuo.mongodb.net/techsite?retryWrites=true&w=majority'
-
-mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true })
+mongoose.connect(uri, { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true })
 // the following gridFS structure assumes a collection name of uploads, please change accordingly once it is in place.
 let gfs
 const connection = mongoose.connection
