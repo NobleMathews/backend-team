@@ -71,3 +71,5 @@ view_all_achievement
 *notify
 write_mail
 send_mail
+
+*register

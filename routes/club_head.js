@@ -1,7 +1,12 @@
+const router = require('express').Router()
 const connection = require('../server')
 const crypto = require('crypto')
 const path = require('path')
 const multer = require('multer')
+const Users = require('../models/Users')
+const Events = require('../models/Event')
+const moment = require('moment')
+var upload = require('./images');
 const GridFsStorage = require('multer-gridfs-storage')
 
 const uri = 'mongodb+srv://heads:heads@cluster0-v6kuo.mongodb.net/techsite?retryWrites=true&w=majority'
@@ -201,4 +206,13 @@ router.post('/image/del/:img', (req, res) => {
       res.status(200)
     })
 })
-  
+
+router.route('/profile/image/upload/:id').post( upload.single('file'), (req, res) => {
+  const id = req.params.id
+  // Sending back file name to server
+  // console.log(req.file);
+  res.redirect(`/users/profile/image/update?id=${id}&url=${req.file.filename}`)
+  // res.json({file:req.file});
+})
+
+module.exports = router

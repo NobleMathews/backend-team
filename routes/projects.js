@@ -1,3 +1,54 @@
+const router = require('express').Router()
+const connection = require('../server')
+const crypto = require('crypto')
+const path = require('path')
+const multer = require('multer')
+const Users = require('../models/Users')
+const Events = require('../models/Event')
+const moment = require('moment')
+var upload = require('./images');
+const GridFsStorage = require('multer-gridfs-storage')
+
+const uri = 'mongodb+srv://heads:heads@cluster0-v6kuo.mongodb.net/techsite?retryWrites=true&w=majority'
+let gfs
+connection.once('open', () => {
+  console.log('MongoDB database connection established successfully')
+  gfs = new mongoose.mongo.GridFSBucket(connection.db, { bucketName: 'uploads' })
+})
+
+const storage = new GridFsStorage({
+  url: uri,
+  file: (req, file) => {
+    return new Promise((resolve, reject) => {
+      crypto.randomBytes(16, (err, buf) => {
+        if (err) {
+          return reject(err)
+        }
+        const filename = buf.toString('hex') + path.extname(file.originalname)
+        const fileInfo = {
+          filename: filename,
+          bucketName: 'uploads'
+        }
+        resolve(fileInfo)
+      })
+    })
+  }
+})
+
+const upload = multer({ storage,
+fileFilter: function (req, file, callback) {
+    var ext = path.extname(file.originalname);
+    // png jpg gif and jpeg allowed
+    if(ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') {  
+        return callback(null, false)
+    }
+    callback(null, true)
+},
+  limits:{
+      fileSize: 50 * 1024 // 50 Mb limit imposed
+  } 
+})
+
 // route for rendering the project creating page
 router.route('/create_project/:id').get((req, res) => {
     superAdminModel.find({ _id: req.params.id })
