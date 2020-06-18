@@ -1,5 +1,6 @@
 const multer = require('multer')
 const storage = require('./storage')
+const path = require('path')
 
 const upload = multer({ storage,
     fileFilter: function (req, file, callback) {
