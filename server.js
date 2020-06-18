@@ -19,11 +19,9 @@ const uri = 'mongodb+srv://heads:heads@cluster0-v6kuo.mongodb.net/techsite?retry
 mongoose.connect(uri, { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true })
 
 
-let gfs
 const connection = mongoose.connection
 connection.once('open', () => {
   console.log('MongoDB database connection established successfully')
-  gfs = new mongoose.mongo.GridFSBucket(connection.db, { bucketName: 'uploads' })
 })
 
 
