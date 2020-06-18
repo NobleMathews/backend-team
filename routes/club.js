@@ -11,12 +11,12 @@ connection.once('open', () => {
 
 
 // for rendering the create club page
-router.route('/create_club/').get((req, res) => {
+router.route('/create/').get((req, res) => {
     res.render('create_club')
-  })
+})
 
-  // route to create the club
-router.route('/club/create').post( upload.single('logo'), (req, res) => { // this is for creating the club-head
+// route to create the club
+router.route('/create').post( upload.single('logo'), (req, res) => { // this is for creating the club-head
     const club_name = req.body.club_name
     let logo
     if (req.file == undefined) {
@@ -49,10 +49,10 @@ router.route('/club/create').post( upload.single('logo'), (req, res) => { // thi
       })
       res.redirect('/admin/clubs/retrieve')
     })
-  })
+})
 
 // for rendering the club update page
-router.route('/club/update/:id').get((req, res) => {
+router.route('/update/:id').get((req, res) => {
     const club_id = req.params.id
     clubmodel.findById(club_id)
       .then(club => {
@@ -60,10 +60,10 @@ router.route('/club/update/:id').get((req, res) => {
       }).catch(err => {
         res.json(err)
       })
-  })
+})
 
 // route to update the club details
-router.route('/club/update/:id').post( upload.single('logo') ,(req, res) => {
+router.route('/update/:id').post( upload.single('logo') ,(req, res) => {
     
     const id = req.params.id
     let club_name=req.body.name;
@@ -101,10 +101,10 @@ router.route('/club/update/:id').post( upload.single('logo') ,(req, res) => {
         }
       }
       );
-  })
+})
 
 // route to delete club
-router.route('/club/delete').delete((req, res) => { // this route will help in deleting a club
+router.route('/delete/:id').delete((req, res) => { // this route will help in deleting a club
     const club = req.body.club_name
   
     clubmodel.deleteMany({ name: club }, (err) => {
@@ -112,10 +112,10 @@ router.route('/club/delete').delete((req, res) => { // this route will help in d
     })
     res.writeHead(200, { 'Content-Type': 'text/plain' })
     res.end(club)
-  })
+})
 
 //   for rendering view page of all clubs
-  router.route('/clubs/retrieve').get((req, res) => {
+router.route('/view_all').get((req, res) => {
     clubmodel.find()
       .then(clubs => {
         res.render('view_club_heads', {
@@ -124,10 +124,10 @@ router.route('/club/delete').delete((req, res) => { // this route will help in d
       }).catch((err) => {
         res.json('Error: ' + err)
       })
-  })
+})
 
 // for rendering details of specific club
-  router.route('/club/view/:id').get((req, res) => {
+router.route('/details/:id').get((req, res) => {
     const club_head_id = req.params.id
     usermodel.findById(club_head_id)
       .then(user => {
@@ -135,5 +135,5 @@ router.route('/club/delete').delete((req, res) => { // this route will help in d
       }).catch(err => {
         res.json(err)
       })
-  })
+})
   

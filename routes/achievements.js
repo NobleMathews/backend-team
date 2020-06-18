@@ -11,12 +11,12 @@ connection.once('open', () => {
 
 
 // for rendering achievement create page
-router.route('/achievement/create/').get((req, res) => {
+router.route('/create/').get((req, res) => {
     res.render('create_achievement')
 })
 
 // route to create achievement
-router.route('/achievement/create/').post(upload.any('snapshot_url', 20), (req, res) => {
+router.route('/create/').post(upload.any('snapshot_url', 20), (req, res) => {
     var pics_url = []
   
     if (req.files != undefined) {
@@ -39,7 +39,7 @@ router.route('/achievement/create/').post(upload.any('snapshot_url', 20), (req, 
 })
 
 // route for rendering achievement update page
-router.route('/achievement/update/:id').get((req, res) => {
+router.route('/update/:id').get((req, res) => {
     achievementModel.findById(req.params.id)
       .then(ach => {
         res.render('update_achievement', { ach: ach })
@@ -49,7 +49,7 @@ router.route('/achievement/update/:id').get((req, res) => {
 })
 
 // route to update achievement
-router.route('/achievement/update/:id').post( upload.any('pics', 20), (req, res) => { // for updating the achievement of a given id
+router.route('/update/:id').post( upload.any('pics', 20), (req, res) => { // for updating the achievement of a given id
     const id = req.params.id
     var pics_url
     if (req.files != undefined) {
@@ -74,7 +74,7 @@ router.route('/achievement/update/:id').post( upload.any('pics', 20), (req, res)
 })
 
 // route to delete achievement
-router.route('/achievements/delete/:id').get((req, res) => {
+router.route('/delete/:id').get((req, res) => {
     const achievement_id = req.params.id
     achievementModel.findByIdAndDelete(achievement_id)
       .then(() => {
@@ -85,7 +85,7 @@ router.route('/achievements/delete/:id').get((req, res) => {
 })
 
 // route to view all achievemnts
-router.route('/achievement/').get((req, res) => {
+router.route('/view_all/').get((req, res) => {
     achievementModel.find()
     .then(achievements => {
         res.render('view_achievement', { achievements })

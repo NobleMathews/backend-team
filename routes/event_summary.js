@@ -12,20 +12,20 @@ connection.once('open', () => {
 
 
 //  for rendering summary creation page
-router.route('/event_summary/create').get((req,res)=>{
+router.route('/create').get((req,res)=>{
 })
 
 // route to create event_summary
-router.route('/event_summary/create').post((req,res)=>{
+router.route('/create').post((req,res)=>{
 })
 
 // for rendering event_summary updating page
-router.route('/summary_edit/:id').get((req,res)=>{
+router.route('/update/:id').get((req,res)=>{
     res.render('add_summary',{id:req.params.id})
 })
 
 //  route to update event_summary
-router.route('/summary_update/:id').post( upload.any('gallery',20), (req, res)=>{
+router.route('/update/:id').post( upload.any('gallery',20), (req, res)=>{
     const id = req.params.id;
     var pics_url
     if (req.files != undefined) {
@@ -50,4 +50,4 @@ router.route('/summary_update/:id').post( upload.any('gallery',20), (req, res)=>
 });
 
 // route to delete event_summary
-router.route('/event_summary/delete').delete((req,res)=>{})
+router.route('/delete/:id').delete((req,res)=>{})

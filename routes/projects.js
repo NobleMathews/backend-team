@@ -11,7 +11,7 @@ connection.once('open', () => {
 
 
 // route for rendering the project creating page
-router.route('/create_project/:id').get((req, res) => {
+router.route('/create').get((req, res) => {
     superAdminModel.find({ _id: req.params.id })
       .then(admin => {
         if (admin.length === 1) {
@@ -25,7 +25,7 @@ router.route('/create_project/:id').get((req, res) => {
 })
 
 // route to create project
-router.route('/project/create').post( upload.any('snapshot_url', 20),  (req, res, next) => {
+router.route('/create').post( upload.any('snapshot_url', 20),  (req, res, next) => {
     var snaps = []
     // console.log(req.files);
     if (req.files != undefined) {
@@ -51,7 +51,7 @@ router.route('/project/create').post( upload.any('snapshot_url', 20),  (req, res
 })
 
 // route for rendering pre-filled form to update project
-router.route('/update_project/:id').get((req,res)=>{
+router.route('/update/:id').get((req,res)=>{
     const proj_id = req.params.id
     projectmodel.findById(proj_id)
     .then(project=>{
@@ -60,7 +60,7 @@ router.route('/update_project/:id').get((req,res)=>{
 })
 
 // route to update project
-router.route('/update_project/:id').post( upload.any('pics', 20), (req, res) => {
+router.route('/update/:id').post( upload.any('pics', 20), (req, res) => {
     const id = req.params.id
     var snapshots_url
     if (req.files != undefined) {
@@ -88,7 +88,7 @@ router.route('/update_project/:id').post( upload.any('pics', 20), (req, res) => 
 })
 
 // route to delete project
-router.route('/projects/delete/:id').get((req, res) => {
+router.route('/delete/:id').get((req, res) => {
     const project_id = req.params.id
     projectmodel.findByIdAndDelete(project_id)
       .then(() => {
@@ -99,7 +99,7 @@ router.route('/projects/delete/:id').get((req, res) => {
 })
 
 // route to view all projects
-router.route('/project_details').get((req, res) => {
+router.route('/view_all').get((req, res) => {
     projectmodel.find()
       .then(projects => {
         res.render('project_details', { projects: projects, _id: sess._id })

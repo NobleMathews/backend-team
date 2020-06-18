@@ -11,12 +11,12 @@ connection.once('open', () => {
 
 
 // route for rendering event creation page
-router.route('/add_event/').get((req, res) => {
+router.route('/create/').get((req, res) => {
   res.render('add_event', { club_head_id: user._id })
 })
 
 //   route to create event
-router.route('/add_event/save').post( upload.single('poster'), (req, res) => {
+router.route('/create/').post( upload.single('poster'), (req, res) => {
     let poster_url
     if (req.file == undefined) {
       poster_url = ' '
@@ -47,7 +47,7 @@ router.route('/add_event/save').post( upload.single('poster'), (req, res) => {
   })
   
 // route for viewing all events
-router.route('/events/retrieve/').get((req, res) => {
+router.route('/view_all/').get((req, res) => {
     Events.find({ owner: req.session._id })
       .then(events => {
       // res.json(events)
@@ -58,7 +58,7 @@ router.route('/events/retrieve/').get((req, res) => {
 })
   
 // route for rendering details of an event
-  router.route('/events/details/:id').get((req, res) => {
+  router.route('/details/:id').get((req, res) => {
     const id = req.params.id
     Events.find({ _id: id })
       .then(events => {

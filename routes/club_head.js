@@ -27,10 +27,10 @@ router.route('/password/change').post((req,res)=>{
 })
 
 // route to create club
-router.route('/club_head/create').post((req,res)=>{})
+router.route('/create').post((req,res)=>{})
 
 // route to render club create page
-router.route('/club_head/create').get((req,res)=>{})
+router.route('/create').get((req,res)=>{})
 
 // route for updating profile
 router.route('/profile/').post( upload.single('profpic'), function (req, res, next) {
