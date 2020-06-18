@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Event = require('./Event')
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema({
+const clubHeadSchema = new Schema({
     user_id:{type:String,required:true},
     pswd:{type:String,required:true},
     name:{type:String},
@@ -28,6 +28,6 @@ userSchema.virtual('clubs',{
     foreignField: 'head'
 })
 
-const Users = mongoose.model('Users',userSchema);
+const ClubHeads = mongoose.model('Users',clubHeadSchema);
 
-module.exports = Users;
+module.exports = ClubHeads;

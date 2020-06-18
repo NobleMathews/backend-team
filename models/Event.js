@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const Users = require('./Users');
+const Users = require('./ClubHeads');
 
 const eventSchema = new Schema({
     name:{

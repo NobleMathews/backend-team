@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const connection = require('../server')
-const Users = require('../models/Users')
+const ClubHeads = require('../models/ClubHeads')
 const upload = require('../upload');
 
 let gfs
