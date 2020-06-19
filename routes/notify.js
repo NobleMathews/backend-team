@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const Event = require('../models/Event');
+const Event = require('../models/Event.model');
 const Users = require('../models/Users');
 const nodemailer = require('nodemailer')
 

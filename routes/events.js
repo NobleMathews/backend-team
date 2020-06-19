@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const connection = require('../server')
-const Events = require('../models/Event')
+const Events = require('../models/Event.model')
 const upload = require('../upload');
 
 let gfs
