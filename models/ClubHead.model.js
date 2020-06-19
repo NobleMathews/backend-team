@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
-const Event = require('./Event')
+const Event = require('./Event.model')
 const Schema = mongoose.Schema;
 
 const clubHeadSchema = new Schema({
-    user_id:{type:String,required:true},
+    user_id:{type:String,required:true,trim:true},
     pswd:{type:String,required:true},
     name:{type:String},
     contact:{type:String},

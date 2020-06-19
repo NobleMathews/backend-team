@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const connection = require('../server')
-const ClubHeads = require('../models/ClubHeads')
+const ClubHeads = require('../models/ClubHead.model')
 const upload = require('../upload');
 
 let gfs
@@ -26,14 +26,25 @@ router.route('/password/change').post((req,res)=>{
     })
 })
 
-// route to create club
-router.route('/create').post((req,res)=>{})
+// route to create club_head
+router.route('/create').post((req,res)=>{
+  const user = new ClubHeads(req.body)
 
-// route to render club create page
+  user.save((err, user) => {
+    if(err){
+      throw new Error()
+    }
+
+    return res.json(user)
+  })
+
+})
+
+// route to render club_head create page
 router.route('/create').get((req,res)=>{})
 
 // route for updating profile
-router.route('/profile/').post( upload.single('profpic'), function (req, res, next) {
+router.route('/profile/').post(upload.single('profpic'), function (req, res, next) {
     var sess = req.session
     const id = req.session._id
     const uid = req.params.id
@@ -140,35 +151,5 @@ router.route('/').post((req, res) => {
       })
 })
 
-
-router.get('/image/:filename', (req, res) => {
-    const file = gfs
-      .find({
-        filename: req.params.filename
-      })
-      .toArray((err, files) => {
-        if (!files || files.length === 0) {
-          return res.status(404).json({
-            err: 'no files exist'
-          })
-        }
-        gfs.openDownloadStreamByName(req.params.filename).pipe(res)
-      })
-})
-
-router.post('/image/del/:img', (req, res) => {
-    gfs.delete(new mongoose.Types.ObjectId(req.params.img), (err, data) => {
-      if (err) return res.status(404).json({ err: err.message })
-      res.status(200)
-    })
-})
-
-router.route('/profile/image/upload/:id').post( upload.single('file'), (req, res) => {
-  const id = req.params.id
-  // Sending back file name to server
-  // console.log(req.file);
-  res.redirect(`/users/profile/image/update?id=${id}&url=${req.file.filename}`)
-  // res.json({file:req.file});
-})
 
 module.exports = router
