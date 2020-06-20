@@ -1,13 +1,6 @@
 const router = require('express').Router()
-const connection = require('../server')
 const Achievements = require('../models/Achievement.model')
 const upload = require('../upload');
-
-let gfs
-connection.once('open', () => {
-  console.log('MongoDB database connection established successfully')
-  gfs = new mongoose.mongo.GridFSBucket(connection.db, { bucketName: 'uploads' })
-})
 
 
 // for rendering achievement create page

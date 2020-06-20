@@ -1,13 +1,7 @@
 const router = require('express').Router()
-const connection = require('../server')
 const Events = require('../models/Event.model')
 const upload = require('../upload');
 
-let gfs
-connection.once('open', () => {
-  console.log('MongoDB database connection established successfully')
-  gfs = new mongoose.mongo.GridFSBucket(connection.db, { bucketName: 'uploads' })
-})
 
 
 // route for rendering event creation page
