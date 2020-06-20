@@ -30,7 +30,6 @@ app.set('useFindAndModify', false)
 app.use('/admin',adminRouter)           // was /admin before
 app.use('/users', clubHeadRouter)      // was /users before
 app.use('/events', eventsRouter)      // was /events before
-app.use('/register', registerRouter) // was /register before
 //  --- the following are totally new and were added by removing sub-dir
 app.use('/clubs',clubsRouter)
 app.use('/images',imagesRouter)
@@ -41,7 +40,7 @@ app.use('/eventSum',eventSummaryRouter)
 // ---- the following were scrapped so takeout from views
 // app.use('/gform', gformRouter)
 // app.use('/logout', logoutRouter)
-
+// app.use('/register', registerRouter) // was /register before
 // const uri = process.env.URI
 const uri = 'mongodb+srv://heads:heads@cluster0-v6kuo.mongodb.net/techsite?retryWrites=true&w=majority'
 

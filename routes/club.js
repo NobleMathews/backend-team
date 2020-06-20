@@ -1,14 +1,7 @@
 const router = require('express').Router()
-const connection = require('../server')
 const clubModel = require('../models/Club.model')
 const clubHeadsModel = require('../models/ClubHead.model')
 const upload = require('../upload');
-
-// let gfs
-// connection.once('open', () => {
-//   console.log('MongoDB database connection established successfully')
-//   gfs = new mongoose.mongo.GridFSBucket(connection.db, { bucketName: 'uploads' })
-// })
 
 
 // for rendering the create club page

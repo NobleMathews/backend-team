@@ -1,14 +1,6 @@
 const router = require('express').Router()
-const connection = require('../server')
 const clubHeadsModel = require('../models/ClubHead.model')
 const upload = require('../upload');
-
-// let gfs
-// connection.once('open', () => {
-//   console.log('MongoDB database connection established successfully')
-//   gfs = new mongoose.mongo.GridFSBucket(connection.db, { bucketName: 'uploads' })
-// })
-
 
 //for rendering password page
 router.route('/change_password').get((req,res)=>{
