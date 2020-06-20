@@ -5,7 +5,7 @@ const upload = require('../db/upload');
 
 // route for rendering event creation page
 router.route('/create/').get((req, res) => {
-  res.render('create_event', { club_head_id: user._id }) /////// Use new system to get the actual user id here
+  res.render('create_event') /////// Use new system to get the actual user id here
 })
 
 //   route to create event
