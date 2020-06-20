@@ -5,7 +5,7 @@ const upload = require('../upload');
 
 //for rendering password page
 router.route('/change_password').get((req,res)=>{
-    res.render('password')
+    res.render('update_password_clubHead')
 })
 
 // route for changing the password
