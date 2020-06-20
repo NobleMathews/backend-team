@@ -1,7 +1,6 @@
 const router = require('express').Router()
 const blogsModel = require('../models/Blog.model')
 const upload = require('../upload');
-
 //  for rendering summary creation page
 router.route('/create').get((req,res)=>{
 })
@@ -12,7 +11,7 @@ router.route('/create').post((req,res)=>{
 
 // for rendering event_summary updating page
 router.route('/update/:id').get((req,res)=>{
-    res.render('add_summary',{id:req.params.id})
+    res.render('create_summary',{id:req.params.id})
 })
 
 //  route to update event_summary
@@ -36,7 +35,7 @@ router.route('/update/:id').post( upload.any('gallery',20), (req, res)=>{
     for(let field in evsum) if(!evsum[field]) delete evsum[field];
     blogsModel.findByIdAndUpdate(id,evsum)
     .then((event)=>{
-        res.redirect("/users/events/retrieve");
+        res.redirect("/events/view_all");
     });
 });
 

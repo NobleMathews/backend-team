@@ -29,7 +29,7 @@ router.route('/').post((req, res) => {
       contact: sess.contact
     }
 
-    return res.render('admin_landing', { admin: admins })
+    return res.render('landing_admin', { admin: admins })
   }
 
   const user_id = req.body.user_id
@@ -44,7 +44,7 @@ router.route('/').post((req, res) => {
         sess.email_id = admin.email_id
         sess.contact = admin.contact
         // site to redirect to on login success 
-        res.render('admin_landing', { admin: admin })
+        res.render('landing_admin', { admin: admin })
       } else {
         // user doesnt have admin privileges (Show UI popup) ,redirect to user login
         res.render('index', { alerts: 'Sorry you donot have admin privileges !' })
@@ -58,7 +58,7 @@ router.route('/').post((req, res) => {
 router.route('/profile/update/:id').get((req, res) => {
   superAdminModel.findOne({ _id: req.params.id })
     .then(admin => {
-      res.render('admin_updateprof', { id: req.params.id, user_id: admin.user_id,name: admin.name,contact:admin.contact ,email_id:admin.email_id })
+      res.render('update_profile_admin', { id: req.params.id, user_id: admin.user_id,name: admin.name,contact:admin.contact ,email_id:admin.email_id })
     })
 })
 
@@ -84,7 +84,7 @@ router.route('/profile/update/:id').post((req, res) => {
   }
   superAdminModel.findByIdAndUpdate(req.params.id, change)
     .then(() => {
-      res.render('admin_landing', { admin: admin })
+      res.render('landing_admin', { admin: admin })
     }).catch(err => {
       res.json(err)
     })
@@ -106,7 +106,7 @@ router.route('/club_head/reset/:id').get((req, res) => { // by this route the cl
         bio: ''
       })
         .then(() => {
-          res.redirect('/admin/clubs/retrieve')
+          res.redirect('/clubs/view_all')
         }).catch(err => {
           res.json(err)
         })

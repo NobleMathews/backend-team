@@ -4,7 +4,7 @@ const upload = require('../upload');
 
 //for rendering password page
 router.route('/change_password').get((req,res)=>{
-    res.render('password')
+    res.render('update_password_clubHead')
 })
 
 // route for changing the password
@@ -12,7 +12,7 @@ router.route('/password/change').post((req,res)=>{
     var pswd = req.body.pswd
     clubHeadsModel.findByIdAndUpdate(req.session._id,{pswd:pswd})
     .then(()=>{
-      res.redirect(307,'/users/')
+      res.redirect(307,'/profile/')
     }).catch(err=>{
       res.json(err)
     })
@@ -60,7 +60,7 @@ router.route('/profile/').post(upload.single('profpic'), function (req, res, nex
     sess.bio = req.body.bio
     clubHeadsModel.findByIdAndUpdate(id, change)
       .then(() => {
-        res.render('public_landing', {
+        res.render('landing_clubHead', {
           id: sess._id,
           club_name: sess.club_name,
           name: sess.name,
@@ -81,7 +81,7 @@ router.route('/profile/').get((req, res) => {
     // turn on the projections as per necessity
     clubHeadsModel.findById(req.session._id)
       .then(user => {
-        res.render('updateprof',{user:user})
+        res.render('update_profile_clubHead',{user:user})
       }).catch((err) => {
         res.json(err)
       })
@@ -93,7 +93,7 @@ router.route('/').post((req, res) => {
     sess = req.session
   
     if (sess.user_id) {
-      return res.render('public_landing', {
+      return res.render('landing_clubHead', {
         id: sess._id,
         club_name: sess.club_name,
         name: sess.name,
@@ -121,7 +121,7 @@ router.route('/').post((req, res) => {
           sess.bio = user[0].bio
           sess.dp_url = user[0].dp_url
   
-          res.render('public_landing', {
+          res.render('landing_clubHead', {
             id: user[0]._id,
             club_name: user[0].club_name,
             name: user[0].name,
@@ -134,7 +134,6 @@ router.route('/').post((req, res) => {
   
           })
         } else {
-          // res.redirect('/')
           res.render('index', { alerts: 'Wrong Username / Password' })
         }
       }).catch((err) => {

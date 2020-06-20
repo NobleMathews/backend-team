@@ -41,7 +41,7 @@ router.route('/create').post( upload.any('snapshot_url', 20),  (req, res, next) 
       console.error.bind(console, 'saving of project not done yet!')
     })
     // const id = req.body.id
-    res.redirect('/admin/project_details')
+    res.redirect('/projects/view_all')
 })
 
 // route for rendering pre-filled form to update project
@@ -49,7 +49,7 @@ router.route('/update/:id').get((req,res)=>{
     const proj_id = req.params.id
     projectsModel.findById(proj_id)
     .then(project=>{
-      res.render('project_update',{project:project})
+      res.render('update_project',{project:project})
     })
 })
 
@@ -75,7 +75,7 @@ router.route('/update/:id').post( upload.any('pics', 20), (req, res) => {
   
     projectsModel.findByIdAndUpdate(id, change)
       .then(() => {
-        res.redirect('/admin/project_details/')
+        res.redirect('/projects/view_all')
       }).catch(err => {
         res.status(400).send(err)
       })
@@ -86,7 +86,7 @@ router.route('/delete/:id').get((req, res) => {
     const project_id = req.params.id
     projectsModel.findByIdAndDelete(project_id)
       .then(() => {
-        res.redirect('/admin/project_details')
+        res.redirect('/projects/view_all')
       }).catch(err => {
         res.json(err)
       })
@@ -96,7 +96,7 @@ router.route('/delete/:id').get((req, res) => {
 router.route('/view_all').get((req, res) => {
     projectsModel.find()
       .then(projects => {
-        res.render('project_details', { projects: projects, _id: sess._id })
+        res.render('details_project', { projects: projects, _id: sess._id })
       }).catch(err => {
         res.status(404).send(err)
       })

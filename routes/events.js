@@ -4,7 +4,7 @@ const upload = require('../upload');
 
 // route for rendering event creation page
 router.route('/create/').get((req, res) => {
-  res.render('add_event', { club_head_id: user._id })
+  res.render('create_event', { club_head_id: user._id })
 })
 
 //   route to create event
@@ -32,18 +32,18 @@ router.route('/create/').post( upload.single('poster'), (req, res) => {
       if (err) {
         res.json(err)
       } else {
-        res.redirect('/users/events/retrieve/')
+        res.redirect("/events/view_all")
       }
     })
     // let headid = req.params.club_head_id;
   })
   
 // route for viewing all events
-router.route('/view_all/').get((req, res) => {
+router.route('/view_all').get((req, res) => {
     eventsModel.find({ owner: req.session._id })
       .then(events => {
       // res.json(events)
-        res.render('event_view', { events: events, moment: moment })
+        res.render('view_events', { events: events, moment: moment })
       }).catch((err) => {
         res.json('Error: ' + err)
       })
@@ -55,7 +55,7 @@ router.route('/view_all/').get((req, res) => {
     eventsModel.find({ _id: id })
       .then(events => {
       // res.json(events)
-        res.render('event_details', { events: events, moment: moment })
+        res.render('details_event', { events: events, moment: moment })
       }).catch((err) => {
         res.json('Error: ' + err)
       })
@@ -95,7 +95,7 @@ router.route('/update/:id').post( upload.single('poster'), (req, res) => {
     }
     eventsModel.findByIdAndUpdate(id,ev)
     .then((event)=>{
-        res.redirect("/users/events/retrieve");
+        res.redirect("/events/view_all");
     });
 });
 
@@ -108,7 +108,7 @@ router.route('/delete/:id').get((req,res)=>{
         eventsModel.find({ owner: club_head_id })
         .then(events => {
         // res.json(events)
-            res.render('event_view', { events: events, moment: moment })
+            res.render('view_events', { events: events, moment: moment })
         }).catch((err) => {
         res.json('Error: ' + err)
         })

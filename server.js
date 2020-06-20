@@ -14,7 +14,7 @@ const projectRouter = require('./routes/projects')
 const achievementsRouter = require('./routes/achievements') 
 const notifyRouter = require('./routes/notify')
 const eventSummaryRouter = require('./routes/event_summary')
-const registerRouter = require('./routes/register')
+// const registerRouter = require('./routes/register')
 
 const app = express()
 const port = process.env.PORT || 5000
