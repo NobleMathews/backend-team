@@ -19,7 +19,7 @@
 
     <div class="container" style="padding-top:30px;">
         <div class="col-md-5 m-auto">
-        <form method="POST" enctype="multipart/form-data" action="/clubs/update/<%=club._id%>">
+        <form method="POST" enctype="multipart/form-data" action="/club/update/<%=club._id%>">
 
         <div class="form-group">
           <label>Club Name</label>
@@ -32,7 +32,7 @@
         </div>
 
         <div class="form-group">
-            <img src="/image/<%=club.logo_url%>" id="preview" class="rounded" alt=" No File Selected " height="100px" style="margin-bottom: .5rem;">
+            <img src="/images/<%=club.logo_url%>" id="preview" class="rounded" alt=" No File Selected " height="100px" style="margin-bottom: .5rem;">
             <input type="file" name="logo" id="logo" accept='image/*' style="display:none;"/>
             <label for="logo" class="btn btn-secondary" style="height: 100px; max-width: 100px; padding-top:25px; ">Upload Logo</label>
         </div>

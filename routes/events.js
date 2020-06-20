@@ -75,7 +75,7 @@ router.route('/update/:id').get((req,res)=>{
 // route to update the event
 router.route('/update/:id').post( upload.single('poster'), (req, res) => {
     const id = req.params.id;
-    var evsum;
+    var ev;
     if (req.file == undefined) {
         ev={
             'name':req.body.event_name,

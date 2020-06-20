@@ -19,7 +19,7 @@ router.route('/create').get((req, res) => {
 })
 
 // route to create project
-router.route('/create').post( upload.any('snapshot_url', 20),  (req, res, next) => {
+router.route('/create/').post( upload.any('snapshot_url', 20),  (req, res, next) => {
     var snaps = []
     // console.log(req.files);
     if (req.files != undefined) {
@@ -95,8 +95,8 @@ router.route('/delete/:id').get((req, res) => {
 // route to view all projects
 router.route('/view_all').get((req, res) => {
     projectsModel.find()
-      .then(projects => {
-        res.render('details_project', { projects: projects, _id: sess._id })
+      .then(project => {
+        res.render('details_project', { projects: project,_id:0}) //, _id: sess._id
       }).catch(err => {
         res.status(404).send(err)
       })

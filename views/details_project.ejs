@@ -14,7 +14,7 @@
             </form>
         </div>
     <div class="container">
-    <% if (projects && projects.length) { %>
+    <% if (projects) { %>
     <h2 style="color: blue; text-decoration: underline;"> List of All projects </h2>
     <!-- Template for each project-->
     <div class="card-group">
@@ -44,7 +44,7 @@
 
                             <% if (project.snapshot_url && project.snapshot_url.length) { %>
                             <% (project.snapshot_url).forEach((snap) => { %>
-                            <img  src="/image/<%=snap%>" alt="img" height="100px" width="100px" >
+                            <img  src="/images/<%=snap%>" alt="img" height="100px" width="100px" >
                           <% }) %>
                           <% }else{ %>
                               <p>NULL</p>
@@ -52,7 +52,7 @@
 
                         </div>
                       </div>
-                    <a href="/admin/update_project/<%=project._id%>">edit</a>  |  <a href="/admin/projects/delete/<%=project._id%>">delete</a>
+                    <a href="/projects/update/<%=project._id%>">edit</a>  |  <a href="/admin/projects/delete/<%=project._id%>">delete</a>
                     </p>
                 </div>
             </div>
@@ -65,7 +65,7 @@
     <% }%>
     </div>
     <div style="text-align: center; margin: 20px; vertical-align: middle;">
-        <a href="/admin/create_project/<%=_id%>"><span class="material-icons" style="  vertical-align: middle !important; padding-bottom: 3px;">add</span>Add Project</a>
+        <a href="/projects/create/<%=_id%>"><span class="material-icons" style="  vertical-align: middle !important; padding-bottom: 3px;">add</span>Add Project</a>
     </div>
         
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>

@@ -10,7 +10,7 @@
     <div class="container">
         <div class="row">
             <div class="column-2">
-                <form method="POST" style="position: relative; left: 0; top:0; padding: 10px;" action="/clubhead/" >
+                <form method="POST" style="position: relative; left: 0; top:0; padding: 10px;" action="/club_head/" >
                  <button type="submit" class='btn btn-outline-info btn-sm'>HOME</button> 
                  </form>        
             </div>
@@ -24,7 +24,7 @@
     <div class="card-group">
         <% events.forEach((event) => { %>
             <div class="card" style="width: 18rem;">
-                <img src="/image/<%= event.poster_url %>" alt="thumbnail of poster" width="286px">
+                <img src="/images/<%= event.poster_url %>" alt="thumbnail of poster" width="286px">
                 <div class="card-body">
                     <h5 class="card-title"><%= event.name %></h5>
                     <p class="card-text">

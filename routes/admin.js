@@ -19,7 +19,6 @@ router.route('/password/change/').post((req, res) => {
 // view profile
 router.route('/').post((req, res) => {
   sess = req.session
-  console.log(sess.user_id)
   if (sess.user_id) {
     admins = {
       _id: sess._id,
@@ -106,7 +105,7 @@ router.route('/club_head/reset/:id').get((req, res) => {
         bio: ''
       })
         .then(() => {
-          res.redirect('/clubs/view_all')
+          res.redirect('/club/view_all')
         }).catch(err => {
           res.json(err)
         })
