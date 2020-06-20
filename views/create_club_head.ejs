@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <title>Add Club</title>
+  </head>
+  <body>
+     <div>
+        <form method="POST" style="position: fixed; left: 0; top:0; padding: 10px;" action="/admin/" >
+                 <button type="submit" class='btn btn-outline-info btn-sm'>HOME</button> 
+            </form>
+        </div>
+ 
+    <h3 style="text-align: center; text-decoration: underline; padding-top: 30px;">Fill Details Here!</h3>
+
+    <div class="container" style="padding-top:30px;">
+        <div class="col-md-5 m-auto">
+          <!-- multipart/form-data -->
+        <form enctype="multipart/form-data" method="POST" action="/club_head/create">
+        
+        <div class="form-group">
+          <label>User_id</label>
+          <input class="form-control" name="user_id" placeholder="User_id"></input>
+        </div>
+
+        <div class="form-group">
+          <label>User Name</label>
+          <input class="form-control" name="name" placeholder="User Name"></input>
+        </div>
+
+        <div class="form-group">
+          <label>Password</label>
+          <input class="form-control" name="pswd" placeholder="Password"></input>
+        </div>
+
+        <div class="form-group">
+          <label>email id</label>
+          <input class="form-control" name="email_id" placeholder="email id"></input>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+
+        </form>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+  </body>
+</html>
