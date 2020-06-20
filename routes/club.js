@@ -112,7 +112,7 @@ router.route('/delete/:id').delete((req, res) => { // this route will help in de
 router.route('/view_all').get((req, res) => {
     clubModel.find()
       .then(clubs => {
-        res.render('view_club_heads', {
+        res.render('view_clubs', {
           clubs: clubs
         })
       }).catch((err) => {

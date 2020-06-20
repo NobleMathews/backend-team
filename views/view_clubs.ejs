@@ -20,22 +20,34 @@
 </head>
 <body>
 
-    <h3 style="text-align: center; text-decoration: underline; padding-top: 30px;">List of Clubs</h3>
+    <h3 style="text-align: center; text-decoration: underline; padding-top: 30px;">List of Club Heads</h3>
+    <% if (clubs && clubs.length) { %>
     <div class="container" style="padding-top:30px;">
-        <div class="col-md-8 m-auto">
+        <div class="col-md-6 m-auto">
+            <!-- template for each club -->
             <div class="list-group">
-            <a href="#" class="list-group-item list-group-item-action"><h5><b>Club Name : </b><%= club.name %></h5>
-            <p id="club_head" class="mb-1"><b>Club Head : </b><%= club.head %></p></a>
-            <a href="#" class="list-group-item list-group-item-action"><h5><b>Club Name : </b><%= club.name %></h5>
-            <p id="club_head" class="mb-1"><b>Club Head : </b><%= club.head %></p></a>
-            <a href="#" class="list-group-item list-group-item-action"><h5><b>Club Name : </b><%= club.name %></h5>
-            <p id="club_head" class="mb-1"><b>Club Head : </b><%= club.head %></p></a>
-            <!-- List goes on till all clubs are added -->
+
+            <% clubs.forEach((club) => { %>
+            <div class="list-group-item list-group-item-action">
+                <p><h5><b>Club Name : </b><%= club.name %></h5></p>
+                <p id="club_head" class="mb-2"><b>Club Head : </b><%= club.head %></p>
             </div>
+            <% }) %>
+
+            </div>
+            
+        </div>
+        <br>  
+        <a class="btn btn-primary" href="#" role="button">Add Club</a>
+
+    </div>
+    <% }else{ %>
+        <div class="container">
+            <h1 class="display-5">No clubs created yet</h1>
             <br>  
             <a class="btn btn-primary" href="#" role="button">Add Club</a>
         </div>
-    </div>
+    <% }%>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

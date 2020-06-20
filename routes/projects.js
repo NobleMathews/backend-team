@@ -19,7 +19,7 @@ router.route('/create').get((req, res) => {
 })
 
 // route to create project
-router.route('/create').post( upload.any('snapshot_url', 20),  (req, res, next) => {
+router.route('/create/').post( upload.any('snapshot_url', 20),  (req, res, next) => {
     var snaps = []
     // console.log(req.files);
     if (req.files != undefined) {

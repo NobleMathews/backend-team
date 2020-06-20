@@ -26,7 +26,6 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.set('view engine', 'ejs')
 app.set('useFindAndModify', false)
 
-//fill all the used routes with appropriate names
 app.use('/admin',adminRouter)           // was /admin before
 app.use('/clubhead', clubHeadRouter)      // was /users before
 app.use('/events', eventsRouter)      // was /events before

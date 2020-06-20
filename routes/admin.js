@@ -19,7 +19,6 @@ router.route('/password/change/').post((req,res)=>{
 // view profile
 router.route('/').post((req, res) => {
   sess = req.session
-  console.log(sess.user_id)
   if (sess.user_id) {
     admins = {
       _id: sess._id,
