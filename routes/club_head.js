@@ -149,4 +149,14 @@ router.route('/').post((req, res) => {
     })
 })
 
+// route to view all club_heads
+router.route('/view_all').get((req, res) => {
+  clubHeadsModel.find({},(err,club_heads)=>{
+    if(err){
+      res.json(err)
+    }else{
+    res.render('view_club_heads',{club_heads:club_heads})
+    }
+  })
+})
 module.exports = router
