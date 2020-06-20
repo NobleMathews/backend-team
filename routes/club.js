@@ -1,13 +1,14 @@
 const router = require('express').Router()
 const connection = require('../server')
-const Clubs = require('../models/Club.model')
+const clubModel = require('../models/Club.model')
+const clubHeadsModel = require('../models/ClubHead.model')
 const upload = require('../upload');
 
-let gfs
-connection.once('open', () => {
-  console.log('MongoDB database connection established successfully')
-  gfs = new mongoose.mongo.GridFSBucket(connection.db, { bucketName: 'uploads' })
-})
+// let gfs
+// connection.once('open', () => {
+//   console.log('MongoDB database connection established successfully')
+//   gfs = new mongoose.mongo.GridFSBucket(connection.db, { bucketName: 'uploads' })
+// })
 
 
 // for rendering the create club page
@@ -26,7 +27,7 @@ router.route('/create').post( upload.single('logo'), (req, res) => { // this is 
     }
     var u_club_name = club_name.toUpperCase()
     var l_club_name = club_name.toLowerCase()
-    var user = new usermodel({
+    var user = new clubHeadsModel({
       user_id: l_club_name,
       pswd: l_club_name,
       name: '',
@@ -38,7 +39,7 @@ router.route('/create').post( upload.single('logo'), (req, res) => { // this is 
       bio: ''
     })
     user.save((err, user) => {
-      var club = new clubmodel({
+      var club = new clubModel({
         name: u_club_name,
         head: user._id,
         description: req.body.club_description,
@@ -54,7 +55,7 @@ router.route('/create').post( upload.single('logo'), (req, res) => { // this is 
 // for rendering the club update page
 router.route('/update/:id').get((req, res) => {
     const club_id = req.params.id
-    clubmodel.findById(club_id)
+    clubModel.findById(club_id)
       .then(club => {
         res.render('update_club', { club: club })
       }).catch(err => {
@@ -87,12 +88,12 @@ router.route('/update/:id').post( upload.single('logo') ,(req, res) => {
       pswd: l_club_name,
       club_name: u_club_name
     }
-    clubmodel.findByIdAndUpdate(id, change,
+    clubModel.findByIdAndUpdate(id, change,
       function(err, result) {
         if (err) {
           res.status(400).send(err)
         } else {
-          usermodel.findByIdAndUpdate({ _id: result.head },changeU)
+          clubHeadsModel.findByIdAndUpdate({ _id: result.head },changeU)
           .then(admin => {
             res.redirect("/admin/clubs/retrieve")
           }).catch(err => {
@@ -107,7 +108,7 @@ router.route('/update/:id').post( upload.single('logo') ,(req, res) => {
 router.route('/delete/:id').delete((req, res) => { // this route will help in deleting a club
     const club = req.body.club_name
   
-    clubmodel.deleteMany({ name: club }, (err) => {
+    clubModel.deleteMany({ name: club }, (err) => {
       console.error.bind(console, 'not deleted')
     })
     res.writeHead(200, { 'Content-Type': 'text/plain' })
@@ -116,7 +117,7 @@ router.route('/delete/:id').delete((req, res) => { // this route will help in de
 
 //   for rendering view page of all clubs
 router.route('/view_all').get((req, res) => {
-    clubmodel.find()
+    clubModel.find()
       .then(clubs => {
         res.render('view_club_heads', {
           clubs: clubs
@@ -129,11 +130,12 @@ router.route('/view_all').get((req, res) => {
 // for rendering details of specific club
 router.route('/details/:id').get((req, res) => {
     const club_head_id = req.params.id
-    usermodel.findById(club_head_id)
+    clubHeadsModel.findById(club_head_id)
       .then(user => {
         res.render('club_details', { user: user })
       }).catch(err => {
         res.json(err)
       })
 })
-  
+
+module.exports = router

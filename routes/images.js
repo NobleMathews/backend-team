@@ -1,10 +1,10 @@
 const connection = require('../server')
 const router = require('express').Router()
 
-let gfs
-connection.once('open', ()=>{
-  gfs = new mongoose.mongo.GridFSBucket(connection.db, { bucketName: 'uploads' })
-})
+// let gfs
+// connection.once('open', ()=>{
+//   gfs = new mongoose.mongo.GridFSBucket(connection.db, { bucketName: 'uploads' })
+// })
 
 
 router.get('/:filename', (req, res) => {

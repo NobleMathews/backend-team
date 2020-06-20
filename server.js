@@ -14,6 +14,7 @@ const projectRouter = require('./routes/projects')
 const achievementsRouter = require('./routes/achievements') 
 const notifyRouter = require('./routes/notify')
 const eventSummaryRouter = require('./routes/event_summary')
+const registerRouter = require('./routes/register')
 
 const app = express()
 const port = process.env.PORT || 5000
@@ -26,10 +27,24 @@ app.set('view engine', 'ejs')
 app.set('useFindAndModify', false)
 
 //fill all the used routes with appropriate names
-app.use('/admin',adminRouter)
+app.use('/admin',adminRouter)           // was /admin before
+app.use('/users', clubHeadRouter)      // was /users before
+app.use('/events', eventsRouter)      // was /events before
+app.use('/register', registerRouter) // was /register before
+//  --- the following are totally new and were added by removing sub-dir
+app.use('/clubs',clubsRouter)
+app.use('/images',imagesRouter)
+app.use('/projects',projectRouter)
+app.use('/achievements',achievementsRouter)
+app.use('/notify',notifyRouter)
+app.use('/eventSum',eventSummaryRouter)
+// ---- the following were scrapped so takeout from views
+// app.use('/gform', gformRouter)
+// app.use('/logout', logoutRouter)
 
+// const uri = process.env.URI
+const uri = 'mongodb+srv://heads:heads@cluster0-v6kuo.mongodb.net/techsite?retryWrites=true&w=majority'
 
-const uri = process.env.URI
 mongoose.connect(uri, { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true })
 
 const connection = mongoose.connection

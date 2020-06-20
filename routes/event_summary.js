@@ -1,13 +1,13 @@
 const router = require('express').Router()
 const connection = require('../server')
-const Blogs = require('../models/Blog.model')
+const blogsModel = require('../models/Blog.model')
 const upload = require('../upload');
 
-let gfs
-connection.once('open', () => {
-  console.log('MongoDB database connection established successfully')
-  gfs = new mongoose.mongo.GridFSBucket(connection.db, { bucketName: 'uploads' })
-})
+// let gfs
+// connection.once('open', () => {
+//   console.log('MongoDB database connection established successfully')
+//   gfs = new mongoose.mongo.GridFSBucket(connection.db, { bucketName: 'uploads' })
+// })
 
 
 
@@ -43,7 +43,7 @@ router.route('/update/:id').post( upload.any('gallery',20), (req, res)=>{
         'event_summary.video_links' : req.body.video_links
     }
     for(let field in evsum) if(!evsum[field]) delete evsum[field];
-    Events.findByIdAndUpdate(id,evsum)
+    blogsModel.findByIdAndUpdate(id,evsum)
     .then((event)=>{
         res.redirect("/users/events/retrieve");
     });
@@ -51,3 +51,5 @@ router.route('/update/:id').post( upload.any('gallery',20), (req, res)=>{
 
 // route to delete event_summary
 router.route('/delete/:id').delete((req,res)=>{})
+
+module.exports = router

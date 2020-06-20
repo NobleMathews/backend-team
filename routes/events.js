@@ -1,13 +1,13 @@
 const router = require('express').Router()
 const connection = require('../server')
-const Events = require('../models/Event.model')
+const eventsModel = require('../models/Event.model')
 const upload = require('../upload');
 
-let gfs
-connection.once('open', () => {
-  console.log('MongoDB database connection established successfully')
-  gfs = new mongoose.mongo.GridFSBucket(connection.db, { bucketName: 'uploads' })
-})
+// let gfs
+// connection.once('open', () => {
+//   console.log('MongoDB database connection established successfully')
+//   gfs = new mongoose.mongo.GridFSBucket(connection.db, { bucketName: 'uploads' })
+// })
 
 
 // route for rendering event creation page
@@ -24,7 +24,7 @@ router.route('/create/').post( upload.single('poster'), (req, res) => {
       poster_url = `${req.file.filename}`
     }
   
-    const event = new Events({
+    const event = new eventsModel({
       name: req.body.event_name + '',
       venue: req.body.event_venue,
       date: req.body.event_date,
@@ -48,7 +48,7 @@ router.route('/create/').post( upload.single('poster'), (req, res) => {
   
 // route for viewing all events
 router.route('/view_all/').get((req, res) => {
-    Events.find({ owner: req.session._id })
+    eventsModel.find({ owner: req.session._id })
       .then(events => {
       // res.json(events)
         res.render('event_view', { events: events, moment: moment })
@@ -60,7 +60,7 @@ router.route('/view_all/').get((req, res) => {
 // route for rendering details of an event
   router.route('/details/:id').get((req, res) => {
     const id = req.params.id
-    Events.find({ _id: id })
+    eventsModel.find({ _id: id })
       .then(events => {
       // res.json(events)
         res.render('event_details', { events: events, moment: moment })
@@ -71,7 +71,7 @@ router.route('/view_all/').get((req, res) => {
 // route for rendering update event page
 router.route('/update/:id').get((req,res)=>{
     const id = req.params.id
-    Events.findById(id)
+    eventsModel.findById(id)
     .then(event=>{
         res.render('update_event',{event:event,moment:moment})
     }).catch(err=>{
@@ -101,7 +101,7 @@ router.route('/update/:id').post( upload.single('poster'), (req, res) => {
             'categories':req.body.categories
         }
     }
-    Events.findByIdAndUpdate(id,ev)
+    eventsModel.findByIdAndUpdate(id,ev)
     .then((event)=>{
         res.redirect("/users/events/retrieve");
     });
@@ -110,10 +110,10 @@ router.route('/update/:id').post( upload.single('poster'), (req, res) => {
 // route to delete the event
 router.route('/delete/:id').get((req,res)=>{
     const id = req.params.id
-    Events.findByIdAndDelete(id)
+    eventsModel.findByIdAndDelete(id)
     .then(()=>{
         var club_head_id = req.session._id
-        Events.find({ owner: club_head_id })
+        eventsModel.find({ owner: club_head_id })
         .then(events => {
         // res.json(events)
             res.render('event_view', { events: events, moment: moment })
@@ -131,7 +131,7 @@ router.route('/:month').get((req,res) => {
     month = req.params.month
     const resEvents = new Array()
 
-    Events.find().then((events) => {
+    eventsModel.find().then((events) => {
         events.forEach(event => {
             if(event.filterByMonth(month)){
                 resEvents.push(event)

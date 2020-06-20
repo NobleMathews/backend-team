@@ -1,13 +1,13 @@
 const router = require('express').Router()
 const connection = require('../server')
-const Achievements = require('../models/Achievement.model')
+const achievementModel = require('../models/Achievement.model')
 const upload = require('../upload');
 
-let gfs
-connection.once('open', () => {
-  console.log('MongoDB database connection established successfully')
-  gfs = new mongoose.mongo.GridFSBucket(connection.db, { bucketName: 'uploads' })
-})
+// let gfs
+// connection.once('open', () => {
+//   console.log('MongoDB database connection established successfully')
+//   gfs = new mongoose.mongo.GridFSBucket(connection.db, { bucketName: 'uploads' })
+// })
 
 
 // for rendering achievement create page
@@ -34,7 +34,7 @@ router.route('/create/').post(upload.any('snapshot_url', 20), (req, res) => {
   
     acheievement.save((err, ach) => {
       if (err) res, json(err)
-      res.redirect('/admin/achievement/')
+      res.redirect('/achievements/view_all')
     })
 })
 
@@ -78,17 +78,18 @@ router.route('/delete/:id').get((req, res) => {
     const achievement_id = req.params.id
     achievementModel.findByIdAndDelete(achievement_id)
       .then(() => {
-        res.redirect('/admin/achievement')
+        res.redirect('/achievements/view_all')
       }).catch(err => {
         res.json(err)
       })
 })
 
 // route to view all achievemnts
-router.route('/view_all/').get((req, res) => {
+router.route('/view_all').get((req, res) => {
     achievementModel.find()
     .then(achievements => {
-        res.render('view_achievement', { achievements })
+        res.render('view_achievements', { achievements })
     })
 })
 
+module.exports = router
