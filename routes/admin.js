@@ -1,19 +1,19 @@
 const router = require('express').Router()
 const clubHeadsModel = require('../models/ClubHead.model')
 const superAdminModel = require('../models/SuperAdmin.model')
-var upload = require('./images');
+var upload = require('./images')
 
 var sess
 
 // password changing route
-router.route('/password/change/').post((req,res)=>{
+router.route('/password/change/').post((req, res) => {
   var pswd = req.body.pswd
-  superAdminModel.findByIdAndUpdate(req.session._id,{pswd:pswd})
-  .then(()=>{
-    res.redirect(307,'/admin/')
-  }).catch(err=>{
-    res.json(err)
-  })
+  superAdminModel.findByIdAndUpdate(req.session._id, { pswd: pswd })
+    .then(() => {
+      res.redirect(307, '/admin/')
+    }).catch(err => {
+      res.json(err)
+    })
 })
 
 // view profile
@@ -43,7 +43,7 @@ router.route('/').post((req, res) => {
         sess.user_id = admin.user_id
         sess.email_id = admin.email_id
         sess.contact = admin.contact
-        // site to redirect to on login success 
+        // site to redirect to on login success
         res.render('landing_admin', { admin: admin })
       } else {
         // user doesnt have admin privileges (Show UI popup) ,redirect to user login
@@ -58,7 +58,7 @@ router.route('/').post((req, res) => {
 router.route('/profile/update/:id').get((req, res) => {
   superAdminModel.findOne({ _id: req.params.id })
     .then(admin => {
-      res.render('update_profile_admin', { id: req.params.id, user_id: admin.user_id,name: admin.name,contact:admin.contact ,email_id:admin.email_id })
+      res.render('update_profile_admin', { id: req.params.id, user_id: admin.user_id, name: admin.name, contact: admin.contact, email_id: admin.email_id })
     })
 })
 
@@ -90,9 +90,9 @@ router.route('/profile/update/:id').post((req, res) => {
     })
 })
 
+// by this route the club-head values will be set on default which can be changed by thhe club-head later on
 
-
-router.route('/club_head/reset/:id').get((req, res) => { // by this route the club-head values will be set on default which can be changed by thhe club-head later on
+router.route('/club_head/reset/:id').get((req, res) => {
   const club_head_id = req.params.id
   clubHeadsModel.findById(club_head_id)
     .then(user => {
