@@ -36,7 +36,7 @@ app.use('/images',imagesRouter)
 app.use('/projects',projectRouter)
 app.use('/achievements',achievementsRouter)
 app.use('/notify',notifyRouter)
-app.use('/eventSum',eventSummaryRouter)
+app.use('/event_summary',eventSummaryRouter)
 // ---- the following were scrapped so takeout from views
 // app.use('/gform', gformRouter)
 // app.use('/logout', logoutRouter)
