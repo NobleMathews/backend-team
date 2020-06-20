@@ -4,7 +4,7 @@ const clubHeadsModel = require('../models/ClubHead.model')
 const nodemailer = require('nodemailer')
 
 // route for rendering the mailing page
-router.route('/notify/:id').get((req, res) => {
+router.route('/:id').get((req, res) => {
   const event_id = req.params.id
   eventsModel.findById(event_id)
     .then(event => {
