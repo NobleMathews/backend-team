@@ -4,7 +4,7 @@ const Users = require('../models/Users');
 const nodemailer = require('nodemailer')
 
 // route for rendering the mailing page
-router.route('/notify/:id').get((req, res) => {
+router.route('/:id').get((req, res) => {
   const event_id = req.params.id
   Events.findById(event_id)
     .then(event => {

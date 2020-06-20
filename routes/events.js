@@ -6,7 +6,7 @@ const upload = require('../upload');
 
 // route for rendering event creation page
 router.route('/create/').get((req, res) => {
-  res.render('add_event', { club_head_id: user._id })
+  res.render('create_event', { club_head_id: user._id })
 })
 
 //   route to create event
@@ -34,7 +34,7 @@ router.route('/create/').post( upload.single('poster'), (req, res) => {
       if (err) {
         res.json(err)
       } else {
-        res.redirect('/users/events/retrieve/')
+        res.redirect('/events/view_all/')
       }
     })
     // let headid = req.params.club_head_id;
@@ -45,7 +45,7 @@ router.route('/view_all/').get((req, res) => {
     Events.find({ owner: req.session._id })
       .then(events => {
       // res.json(events)
-        res.render('event_view', { events: events, moment: moment })
+        res.render('view_events', { events: events, moment: moment })
       }).catch((err) => {
         res.json('Error: ' + err)
       })

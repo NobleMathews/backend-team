@@ -38,7 +38,7 @@ router.route('/update/:id').post( upload.any('gallery',20), (req, res)=>{
     for(let field in evsum) if(!evsum[field]) delete evsum[field];
     Events.findByIdAndUpdate(id,evsum)
     .then((event)=>{
-        res.redirect("/users/events/retrieve");
+        res.redirect("/events/view_all");
     });
 });
 

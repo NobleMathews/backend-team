@@ -27,7 +27,7 @@ router.route('/create/').post(upload.any('snapshot_url', 20), (req, res) => {
   
     acheievement.save((err, ach) => {
       if (err) res, json(err)
-      res.redirect('/admin/achievement/')
+      res.redirect('/achievements/view_all/')
     })
 })
 
@@ -71,7 +71,7 @@ router.route('/delete/:id').get((req, res) => {
     const achievement_id = req.params.id
     achievementModel.findByIdAndDelete(achievement_id)
       .then(() => {
-        res.redirect('/admin/achievement')
+        res.redirect('/achievements/view_all/')
       }).catch(err => {
         res.json(err)
       })
@@ -81,7 +81,7 @@ router.route('/delete/:id').get((req, res) => {
 router.route('/view_all/').get((req, res) => {
     achievementModel.find()
     .then(achievements => {
-        res.render('view_achievement', { achievements })
+        res.render('view_achievements', { achievements })
     })
 })
 

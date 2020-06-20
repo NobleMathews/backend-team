@@ -41,7 +41,7 @@ router.route('/create').post( upload.single('logo'), (req, res) => { // this is 
       club.save((err) => {
         console.error.bind(console, 'Creating new user failed')
       })
-      res.redirect('/admin/clubs/retrieve')
+      res.redirect('/clubs/view_all')
     })
 })
 
@@ -88,7 +88,7 @@ router.route('/update/:id').post( upload.single('logo') ,(req, res) => {
         } else {
           usermodel.findByIdAndUpdate({ _id: result.head },changeU)
           .then(admin => {
-            res.redirect("/admin/clubs/retrieve")
+            res.redirect("/clubs/view_all")
           }).catch(err => {
             res.status(404).send(err)
           })          
@@ -125,7 +125,7 @@ router.route('/details/:id').get((req, res) => {
     const club_head_id = req.params.id
     usermodel.findById(club_head_id)
       .then(user => {
-        res.render('club_details', { user: user })
+        res.render('details_club', { user: user })
       }).catch(err => {
         res.json(err)
       })

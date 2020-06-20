@@ -15,7 +15,7 @@
                  </form>        
             </div>
             <div class="column-2">
-                 <form method="GET" style="position: relative; left:20; top:0; padding: 10px;" action="/users/events/retrieve" >
+                 <form method="GET" style="position: relative; left:20; top:0; padding: 10px;" action="/events/view_all" >
                  <button type="submit" class='btn btn-outline-info btn-sm'>ALL Events</button> 
                     </form>         
             </div>
@@ -29,7 +29,7 @@
                 <h2>Update Event</h2>
                 <hr class="my-4">
             </div>
-        <form method="POST" enctype="multipart/form-data">
+        <form method="POST" action="/events/update/<%=events._id%>" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="event_name">Event name:</label>
                 <input class="form-control" type="text" name="event_name" id="event_name" value="<%=event.name%>" ><br>
