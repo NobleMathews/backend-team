@@ -28,7 +28,7 @@ app.set('useFindAndModify', false)
 
 //fill all the used routes with appropriate names
 app.use('/admin',adminRouter)           // was /admin before
-app.use('/users', clubHeadRouter)      // was /users before
+app.use('/clubhead', clubHeadRouter)      // was /users before
 app.use('/events', eventsRouter)      // was /events before
 //  --- the following are totally new and were added by removing sub-dir
 app.use('/clubs',clubsRouter)

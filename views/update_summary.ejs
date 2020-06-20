@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
-    <title>Create Event Summary</title>
+    <title>Event Summary</title>
   </head>
   <body>
     <h3 style="text-align: center; text-decoration: underline; padding-top: 30px;">Event Summary</h3>
@@ -19,19 +19,20 @@
         video_links : {type:String} -->
     <div class="container" style="padding-top:30px;">
         <div class="col-md-5 m-auto">
-        <form action="/eventSum/create/<%=id%>" method="POST" enctype="multipart/form-data">
+        <form action="/eventSum/update/<%=id%>" method="POST" enctype="multipart/form-data">
             <div class="form-group">
             <label>Chief Guest</label>
-            <input class="form-control" name="chief_guest">
+            <input class="form-control" name="chief_guest" value="<%=summary.chief_guest||'NULL'%>"></input>
             </div>
             <div class="form-group">
                 <label>Award Winners</label>
-                <input class="form-control" name="award_winners">
+                <input class="form-control" name="award_winners" value="<%=summary.award_winners||'NULL'%>"></input>
             </div>
             <div class="form-group">
                 <label>Summary</label>
-                <textarea class="form-control" name="summary" rows="4" placeholder="Provide a short summary..."></textarea>
+                <textarea class="form-control" name="summary" rows="4" placeholder="Provide a short summary..."><%=summary.summary||"NULL"%></textarea>
             </div>
+            <!-- for now these next 2 fields are not prefilled so that script isnt disturbed just for ejs but do execute logic on frontend -->
             <div class="form-group">
                 <div class="container">
                     <div class="row clearfix">
@@ -124,7 +125,7 @@
             </div> -->
             <div class="form-group">
                 <label>Video Links</label>
-                <input class="form-control" name="video_links" placeholder="Provide link to a video if any.."></input>
+                <input class="form-control" name="video_links" placeholder="Provide link to a video if any.." value="<%=summary.video_links||'NULL'%>"></input>
             </div>
             <div class="form-group">
                 <label>Upload Photos</label>
