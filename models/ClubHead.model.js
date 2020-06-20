@@ -9,7 +9,7 @@ const clubHeadSchema = new Schema({
     contact:{type:String},
     email_id:{type:String},
     dp_url:{type:String},
-    club_head:{type:Boolean,required:true},
+    club_head:{type:Boolean},
     club_name:{type:String},
     bio:{type:String}
 },{

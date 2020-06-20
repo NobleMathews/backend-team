@@ -22,18 +22,17 @@ router.route('/password/change').post((req, res) => {
 router.route('/create').post((req, res) => {
   const club_head = new clubHeadsModel({
     user_id: req.body.user_id,
-    name: req.body.name,
     pswd: req.body.pswd,
     email_id: req.body.email_id,
-    club_head: true
+    club_name: req.body.club_name.toUpperCase()
   })
 
   club_head.save((err, user) => {
     if (err) {
-      console.error.bind(console, 'error ')
+      res.json(err)
+    }else{
+      res.redirect('/club_head/view_all')
     }
-    console.log('succesfull saved')
-    return res.json(club_head)
   })
 })
 
@@ -159,4 +158,16 @@ router.route('/view_all').get((req, res) => {
     }
   })
 })
+
+// route to delete a club_head
+router.route('/delete/:id').get((req,res)=>{
+  const club_head_id = req.params.id
+  clubHeadsModel.findByIdAndRemove(club_head_id)
+  .then(()=>{
+    res.redirect('/club_head/view_all')
+  }).catch(err=>{
+    res.json(err)
+  })
+})
+
 module.exports = router
