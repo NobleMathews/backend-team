@@ -11,9 +11,9 @@ router.route('/change_password').get((req,res)=>{
 // route for changing the password
 router.route('/password/change').post((req,res)=>{
     var pswd = req.body.pswd
-    Users.findByIdAndUpdate(req.session._id,{pswd:pswd})
+    ClubHeads.findByIdAndUpdate(req.session._id,{pswd:pswd})
     .then(()=>{
-      res.redirect(307,'/users/')
+      res.redirect(307,'/')
     }).catch(err=>{
       res.json(err)
     })
@@ -61,7 +61,7 @@ router.route('/profile/').post(upload.single('profpic'), function (req, res, nex
     sess.bio = req.body.bio
     Users.findByIdAndUpdate(id, change)
       .then(() => {
-        res.render('public_landing', {
+        res.render('landing_clubHead', {
           id: sess._id,
           club_name: sess.club_name,
           name: sess.name,
@@ -82,7 +82,7 @@ router.route('/profile/').get((req, res) => {
     // turn on the projections as per necessity
     Users.findById(req.session._id)
       .then(user => {
-        res.render('updateprof',{user:user})
+        res.render('update_profile_clubHead',{user:user})
       }).catch((err) => {
         res.json(err)
       })
@@ -94,7 +94,7 @@ router.route('/').post((req, res) => {
     sess = req.session
   
     if (sess.user_id) {
-      return res.render('public_landing', {
+      return res.render('landing_clubHead', {
         id: sess._id,
         club_name: sess.club_name,
         name: sess.name,
@@ -122,7 +122,7 @@ router.route('/').post((req, res) => {
           sess.bio = user[0].bio
           sess.dp_url = user[0].dp_url
   
-          res.render('public_landing', {
+          res.render('landing_clubHead', {
             id: user[0]._id,
             club_name: user[0].club_name,
             name: user[0].name,
