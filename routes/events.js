@@ -1,10 +1,11 @@
 const router = require('express').Router()
 const eventsModel = require('../models/Event.model')
+const moment = require('moment');
 const upload = require('../upload');
 
 // route for rendering event creation page
 router.route('/create/').get((req, res) => {
-  res.render('create_event', { club_head_id: user._id })
+  res.render('create_event', { club_head_id: user._id }) /////// Use new system to get the actual user id here
 })
 
 //   route to create event
