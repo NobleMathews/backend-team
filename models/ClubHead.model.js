@@ -7,7 +7,7 @@ const clubHeadSchema = new Schema({
     pswd:{type:String,required:true},
     name:{type:String},
     contact:{type:String},
-    email_id:{type:String},
+    email_id:{type:String,required:true},
     dp_url:{type:String},
     club_head:{type:Boolean},
     club_name:{type:String},

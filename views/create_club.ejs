@@ -24,7 +24,7 @@
 
         <div class="form-group">
           <label>Club Name</label>
-          <input class="form-control" name="club_name" placeholder="Enter Club name here"></input>
+          <input class="form-control" name="club_name" placeholder="Enter Club name here" required></input>
         </div>
 
         <div class="form-group">
@@ -36,7 +36,11 @@
             <label for="exampleFormControlFile1">Club Logo</label>
             <input type="file" accept='image/*' class="form-control-file" name="logo"></input>
         </div>
-        
+        <div class="form-group">
+          <label for="exampleInputEmail1">Email address</label>
+          <input type="email" class="form-control" id="exampleInputEmail1" placeholder="enter club-head email-id" aria-describedby="emailHelp" required>
+          <small id="emailHelp" class="form-text text-muted">Note: Club head must exist priorto formation of any new club</small>
+        </div>
         <button type="submit" class="btn btn-primary">Submit</button>
 
         </form>

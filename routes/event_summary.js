@@ -67,6 +67,10 @@ router.route('/update/:id').post( upload.any('gallery',20), (req, res)=>{
     });
 });
 
+router.route('/view_all').get((req,res)=>{
+  
+})
+
 // route to delete event_summary
 router.route('/delete/:id').delete((req,res)=>{})
 
