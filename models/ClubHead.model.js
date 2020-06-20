@@ -16,13 +16,13 @@ const clubHeadSchema = new Schema({
     timestamps:true
 });
 
-userSchema.virtual('events',{
+clubHeadSchema.virtual('events',{
     ref: 'Event',
     localField: '_id',
     foreignField: 'owner'
 })
 
-userSchema.virtual('clubs',{
+clubHeadSchema.virtual('clubs',{
     ref: 'Club',
     localField: '_id',
     foreignField: 'head'

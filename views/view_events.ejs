@@ -10,7 +10,7 @@
     <div class="container">
         <div class="row">
             <div class="column-2">
-                <form method="POST" style="position: relative; left: 0; top:0; padding: 10px;" action="/users/" >
+                <form method="POST" style="position: relative; left: 0; top:0; padding: 10px;" action="/clubhead/" >
                  <button type="submit" class='btn btn-outline-info btn-sm'>HOME</button> 
                  </form>        
             </div>
@@ -32,7 +32,7 @@
                         <%= event.venue %>
                     </p>
                     <p>
-                    <a href="/events/update/<%=event._id%>">edit</a>  |  <a href="/events/delete/<%=event._id%>">delete</a>  |  <a href="/events/details/<%= event._id %>">details</a> | <a href="/users/notify/<%=event._id%>">notify</a>
+                    <a href="/events/update/<%=event._id%>">edit</a>  |  <a href="/events/delete/<%=event._id%>">delete</a>  |  <a href="/events/details/<%= event._id %>">details</a> | <a href="/notify/<%=event._id%>">notify</a>
                     </p>
                 </div>
             </div>

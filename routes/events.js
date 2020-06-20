@@ -1,12 +1,11 @@
 const router = require('express').Router()
-const Events = require('../models/Event.model')
+const eventsModel = require('../models/Event.model')
+const moment = require('moment');
 const upload = require('../upload');
-
-
 
 // route for rendering event creation page
 router.route('/create/').get((req, res) => {
-  res.render('create_event', { club_head_id: user._id })
+  res.render('create_event', { club_head_id: user._id }) /////// Use new system to get the actual user id here
 })
 
 //   route to create event
@@ -18,7 +17,7 @@ router.route('/create/').post( upload.single('poster'), (req, res) => {
       poster_url = `${req.file.filename}`
     }
   
-    const event = new Events({
+    const event = new eventsModel({
       name: req.body.event_name + '',
       venue: req.body.event_venue,
       date: req.body.event_date,
@@ -34,15 +33,15 @@ router.route('/create/').post( upload.single('poster'), (req, res) => {
       if (err) {
         res.json(err)
       } else {
-        res.redirect('/events/view_all/')
+        res.redirect("/events/view_all")
       }
     })
     // let headid = req.params.club_head_id;
   })
   
 // route for viewing all events
-router.route('/view_all/').get((req, res) => {
-    Events.find({ owner: req.session._id })
+router.route('/view_all').get((req, res) => {
+    eventsModel.find({ owner: req.session._id })
       .then(events => {
       // res.json(events)
         res.render('view_events', { events: events, moment: moment })
@@ -54,10 +53,10 @@ router.route('/view_all/').get((req, res) => {
 // route for rendering details of an event
   router.route('/details/:id').get((req, res) => {
     const id = req.params.id
-    Events.find({ _id: id })
+    eventsModel.find({ _id: id })
       .then(events => {
       // res.json(events)
-        res.render('event_details', { events: events, moment: moment })
+        res.render('details_event', { events: events, moment: moment })
       }).catch((err) => {
         res.json('Error: ' + err)
       })
@@ -65,7 +64,7 @@ router.route('/view_all/').get((req, res) => {
 // route for rendering update event page
 router.route('/update/:id').get((req,res)=>{
     const id = req.params.id
-    Events.findById(id)
+    eventsModel.findById(id)
     .then(event=>{
         res.render('update_event',{event:event,moment:moment})
     }).catch(err=>{
@@ -95,22 +94,22 @@ router.route('/update/:id').post( upload.single('poster'), (req, res) => {
             'categories':req.body.categories
         }
     }
-    Events.findByIdAndUpdate(id,ev)
+    eventsModel.findByIdAndUpdate(id,ev)
     .then((event)=>{
-        res.redirect("/users/events/retrieve");
+        res.redirect("/events/view_all");
     });
 });
 
 // route to delete the event
 router.route('/delete/:id').get((req,res)=>{
     const id = req.params.id
-    Events.findByIdAndDelete(id)
+    eventsModel.findByIdAndDelete(id)
     .then(()=>{
         var club_head_id = req.session._id
-        Events.find({ owner: club_head_id })
+        eventsModel.find({ owner: club_head_id })
         .then(events => {
         // res.json(events)
-            res.render('event_view', { events: events, moment: moment })
+            res.render('view_events', { events: events, moment: moment })
         }).catch((err) => {
         res.json('Error: ' + err)
         })
@@ -125,7 +124,7 @@ router.route('/:month').get((req,res) => {
     month = req.params.month
     const resEvents = new Array()
 
-    Events.find().then((events) => {
+    eventsModel.find().then((events) => {
         events.forEach(event => {
             if(event.filterByMonth(month)){
                 resEvents.push(event)

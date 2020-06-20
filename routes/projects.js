@@ -1,14 +1,14 @@
 const router = require('express').Router()
-const Projects = require('../models/Project.model')
+const superAdminModel = require('../models/SuperAdmin.model')
+const projectsModel = require('../models/Project.model')
 const upload = require('../upload');
-
 
 
 // route for rendering the project creating page
 router.route('/create').get((req, res) => {
-    superAdminModel.find({ _id: req.params.id })
+    superAdminModel.findOne({ _id: req.params.id })
       .then(admin => {
-        if (admin.length === 1) {
+        if (admin) {
           res.render('create_project', { id: req.params.id })
         } else {
           res.send('you dont have admin privilages')
@@ -27,7 +27,7 @@ router.route('/create').post( upload.any('snapshot_url', 20),  (req, res, next) 
         return file.filename
       })
     }
-    var project = new projectmodel({
+    var project = new projectsModel({
       title: req.body.title,
       team_members: req.body.team_member,
       description: req.body.description,
@@ -41,15 +41,15 @@ router.route('/create').post( upload.any('snapshot_url', 20),  (req, res, next) 
       console.error.bind(console, 'saving of project not done yet!')
     })
     // const id = req.body.id
-    res.redirect('/admin/project_details')
+    res.redirect('/projects/view_all')
 })
 
 // route for rendering pre-filled form to update project
 router.route('/update/:id').get((req,res)=>{
     const proj_id = req.params.id
-    projectmodel.findById(proj_id)
+    projectsModel.findById(proj_id)
     .then(project=>{
-      res.render('project_update',{project:project})
+      res.render('update_project',{project:project})
     })
 })
 
@@ -73,9 +73,9 @@ router.route('/update/:id').post( upload.any('pics', 20), (req, res) => {
       snapshot_url: snapshots_url
     }
   
-    projectmodel.findByIdAndUpdate(id, change)
+    projectsModel.findByIdAndUpdate(id, change)
       .then(() => {
-        res.redirect('/admin/project_details/')
+        res.redirect('/projects/view_all')
       }).catch(err => {
         res.status(400).send(err)
       })
@@ -84,9 +84,9 @@ router.route('/update/:id').post( upload.any('pics', 20), (req, res) => {
 // route to delete project
 router.route('/delete/:id').get((req, res) => {
     const project_id = req.params.id
-    projectmodel.findByIdAndDelete(project_id)
+    projectsModel.findByIdAndDelete(project_id)
       .then(() => {
-        res.redirect('/admin/project_details')
+        res.redirect('/projects/view_all')
       }).catch(err => {
         res.json(err)
       })
@@ -94,10 +94,12 @@ router.route('/delete/:id').get((req, res) => {
 
 // route to view all projects
 router.route('/view_all').get((req, res) => {
-    projectmodel.find()
+    projectsModel.find()
       .then(projects => {
-        res.render('project_details', { projects: projects, _id: sess._id })
+        res.render('details_project', { projects: projects, _id: sess._id })
       }).catch(err => {
         res.status(404).send(err)
       })
 })
+
+module.exports = router

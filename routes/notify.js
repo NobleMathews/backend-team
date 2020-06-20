@@ -1,16 +1,16 @@
 const router = require('express').Router();
-const Event = require('../models/Event.model');
-const Users = require('../models/Users');
+const eventsModel = require('../models/Event.model');
+const clubHeadsModel = require('../models/ClubHead.model')
 const nodemailer = require('nodemailer')
 
 // route for rendering the mailing page
 router.route('/:id').get((req, res) => {
   const event_id = req.params.id
-  Events.findById(event_id)
+  eventsModel.findById(event_id)
     .then(event => {
     // res.json(events)
 
-      Users.findById(event.owner)
+      clubHeadsModel.findById(event.owner)
         .then(user => {
           res.render('contact', { event: event, user: user })
         }).catch((err) => {
@@ -29,14 +29,14 @@ router.route('/push_notification/send/:id').post((req, res) => {
     var name,contact,email_id
     var eventname
 
-    Event.findById(event_id)
+    eventsModel.findById(event_id)
     .then(event=>{
         event.participants.forEach(person => {
           mailing_list.push(person)
         });
         console.log(event)
         eventname = event.name
-        Users.findById(event.owner)
+        clubHeadsModel.findById(event.owner)
         .then(user=>{
           name = user.name
           contact = user.contact

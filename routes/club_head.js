@@ -1,7 +1,6 @@
 const router = require('express').Router()
-const ClubHeads = require('../models/ClubHead.model')
+const clubHeadsModel = require('../models/ClubHead.model')
 const upload = require('../upload');
-
 
 //for rendering password page
 router.route('/change_password').get((req,res)=>{
@@ -11,9 +10,9 @@ router.route('/change_password').get((req,res)=>{
 // route for changing the password
 router.route('/password/change').post((req,res)=>{
     var pswd = req.body.pswd
-    ClubHeads.findByIdAndUpdate(req.session._id,{pswd:pswd})
+    clubHeadsModel.findByIdAndUpdate(req.session._id,{pswd:pswd})
     .then(()=>{
-      res.redirect(307,'/')
+      res.redirect(307,'/profile/')
     }).catch(err=>{
       res.json(err)
     })
@@ -21,7 +20,7 @@ router.route('/password/change').post((req,res)=>{
 
 // route to create club_head
 router.route('/create').post((req,res)=>{
-  const user = new ClubHeads(req.body)
+  const user = new clubHeadsModel(req.body)
 
   user.save((err, user) => {
     if(err){
@@ -59,7 +58,7 @@ router.route('/profile/').post(upload.single('profpic'), function (req, res, nex
     sess.contact = req.body.contact
     sess.name = req.body.name
     sess.bio = req.body.bio
-    Users.findByIdAndUpdate(id, change)
+    clubHeadsModel.findByIdAndUpdate(id, change)
       .then(() => {
         res.render('landing_clubHead', {
           id: sess._id,
@@ -80,7 +79,7 @@ router.route('/profile/').post(upload.single('profpic'), function (req, res, nex
 // for rendering update profile 
 router.route('/profile/').get((req, res) => {
     // turn on the projections as per necessity
-    Users.findById(req.session._id)
+    clubHeadsModel.findById(req.session._id)
       .then(user => {
         res.render('update_profile_clubHead',{user:user})
       }).catch((err) => {
@@ -109,7 +108,7 @@ router.route('/').post((req, res) => {
     const user_id = req.body.user_id
     const pswd = req.body.pswd
     const user = { user_id, pswd }
-    Users.find(user)
+    clubHeadsModel.find(user)
       .then(user => {
         if (user.length === 1) {
           sess._id = user[0]._id
@@ -135,7 +134,6 @@ router.route('/').post((req, res) => {
   
           })
         } else {
-          // res.redirect('/')
           res.render('index', { alerts: 'Wrong Username / Password' })
         }
       }).catch((err) => {
