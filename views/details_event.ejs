@@ -10,7 +10,7 @@
     <div class="container">
         <div class="row">
             <div class="column-2">
-                <form method="POST" style="position: relative; left: 0; top:0; padding: 10px;" action="/clubhead/" >
+                <form method="POST" style="position: relative; left: 0; top:0; padding: 10px;" action="/club_head/" >
                  <button type="submit" class='btn btn-outline-info btn-sm'>HOME</button> 
                  </form>        
             </div>
@@ -33,7 +33,7 @@
                     <% }else{ %>
                         <h1 class="card-title">NULL</h1>
                     <% }%>
-                    <img src="/image/<%= event.poster_url %>" class="rounded" alt="thumbnail of poster" width="286px">
+                    <img src="/images/<%= event.poster_url %>" class="rounded" alt="thumbnail of poster" width="286px">
                     <div style="margin-top:20px;"></div>
                     <% if (event.categories && event.categories!="") { %>
                         <p class="card-text">
@@ -106,7 +106,7 @@
                                     <div style="max-height: 150px; overflow-y: scroll;">
                                     <% if ((event.event_summary.gallery) && (event.event_summary.gallery).length) { %>
                                     <% (event.event_summary.gallery).forEach((url) => { %>
-                                    <li class="list-group-item"><img src="/image/<%= url %>"></img></li>
+                                    <li class="list-group-item"><img src="/images/<%= url %>"></img></li>
                                     
                                     <% }) %>
                                     <% }else{ %>

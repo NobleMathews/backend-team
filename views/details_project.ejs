@@ -14,7 +14,7 @@
             </form>
         </div>
     <div class="container">
-    <% if (projects && projects.length) { %>
+    <% if (projects) { %>
     <h2 style="color: blue; text-decoration: underline;"> List of All projects </h2>
     <!-- Template for each project-->
     <div class="card-group">
@@ -44,7 +44,7 @@
 
                             <% if (project.snapshot_url && project.snapshot_url.length) { %>
                             <% (project.snapshot_url).forEach((snap) => { %>
-                            <img  src="/image/<%=snap%>" alt="img" height="100px" width="100px" >
+                            <img  src="/images/<%=snap%>" alt="img" height="100px" width="100px" >
                           <% }) %>
                           <% }else{ %>
                               <p>NULL</p>

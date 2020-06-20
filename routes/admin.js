@@ -105,7 +105,7 @@ router.route('/club_head/reset/:id').get((req, res) => { // by this route the cl
         bio: ''
       })
         .then(() => {
-          res.redirect('/clubs/view_all')
+          res.redirect('/club/view_all')
         }).catch(err => {
           res.json(err)
         })

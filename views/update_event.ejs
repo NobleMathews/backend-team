@@ -10,7 +10,7 @@
     <div class="container">
         <div class="row">
             <div class="column-2">
-                <form method="POST" style="position: relative; left: 0; top:0; padding: 10px;" action="/clubhead/" >
+                <form method="POST" style="position: relative; left: 0; top:0; padding: 10px;" action="/club_head/" >
                  <button type="submit" class='btn btn-outline-info btn-sm'>HOME</button> 
                  </form>        
             </div>
@@ -44,7 +44,7 @@
             </div>
             <div class="form-group">
                 <p>Poster:</p>
-                <img src="/image/<%= event.poster_url %>" class="rounded" alt=" No File Selected " height="100px" style="margin-bottom: .5rem;">
+                <img src="/images/<%= event.poster_url %>" class="rounded" alt=" No File Selected " height="100px" style="margin-bottom: .5rem;">
                 <input type="file" name="poster" id="poster" accept='image/*' style="display:none;"/>
                 <label for="poster" class="btn btn-secondary" style="height: 100px; max-width: 100px; padding-top:25px; ">Update Poster</label>
             </div>

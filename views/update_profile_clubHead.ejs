@@ -9,7 +9,7 @@
 </head>
 <body>
     <div>
-        <form method="POST" style="position: fixed; left: 0; top:0; padding: 10px;" action="/clubhead/" >
+        <form method="POST" style="position: fixed; left: 0; top:0; padding: 10px;" action="/club_head/" >
                  <button type="submit" class='btn btn-outline-info btn-sm'>HOME</button> 
             </form>
         </div>
@@ -18,9 +18,9 @@
             <div class="col-md-6 m-auto">
                 <h1><%= user.user_id || '' %> </h1>
 
-                <form method="POST" enctype="multipart/form-data" action="/clubhead/profile">
+                <form method="POST" enctype="multipart/form-data" action="/club_head/profile">
                     <div class="form-group">
-                        <img src="/image/<%=user.dp_url%>" id="preview" class="rounded" alt=" No File Selected " height="100px" style="margin-bottom: .5rem;">
+                        <img src="/images/<%=user.dp_url%>" id="preview" class="rounded" alt=" No File Selected " height="100px" style="margin-bottom: .5rem;">
                         <input type="file" name="profpic" id="profpic" accept='image/*' style="display:none;"/>
                         <label for="profpic" class="btn btn-secondary" style="height: 100px; max-width: 100px; padding-top:25px; ">Upload Profile Pic</label>
                     </div>
