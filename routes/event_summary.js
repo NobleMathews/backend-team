@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const eventsModel = require('../models/Event.model')
-const upload = require('../upload');
+const upload = require('../db/upload');
 //  for rendering summary creation page
 router.route('/create/:id').get((req,res)=>{
   res.render('create_summary',{id:req.params.id})

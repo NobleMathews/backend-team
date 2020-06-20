@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const eventsModel = require('../models/Event.model')
 const moment = require('moment');
-const upload = require('../upload');
+const upload = require('../db/upload');
 
 // route for rendering event creation page
 router.route('/create/').get((req, res) => {

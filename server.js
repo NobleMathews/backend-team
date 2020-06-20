@@ -42,14 +42,7 @@ app.use('/event_summary',eventSummaryRouter)
 // app.use('/logout', logoutRouter)
 // app.use('/register', registerRouter) // was /register before
 // const uri = process.env.URI
-const uri = 'mongodb+srv://heads:heads@cluster0-v6kuo.mongodb.net/techsite?retryWrites=true&w=majority'
 
-mongoose.connect(uri, { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true })
-
-const connection = mongoose.connection
-connection.once('open', () => {
-  console.log('MongoDB database connection established successfully')
-})
 
 
 app.listen(port, () => {
@@ -63,5 +56,3 @@ app.get('/', (req, res) => {
 app.get('/admin/', (req, res) => {
   res.render('adminLogin',{alerts:''})
 })
-
-module.exports = connection

@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const achievementModel = require('../models/Achievement.model')
-const upload = require('../upload');
+const upload = require('../db/upload');
 
 // for rendering achievement create page
 router.route('/create/').get((req, res) => {

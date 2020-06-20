@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const clubHeadsModel = require('../models/ClubHead.model')
-const upload = require('../upload');
+const upload = require('../db/upload');
 
 //for rendering password page
 router.route('/change_password').get((req,res)=>{

@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const clubModel = require('../models/Club.model')
 const clubHeadsModel = require('../models/ClubHead.model')
-const upload = require('../upload');
+const upload = require('../db/upload');
 
 
 // for rendering the create club page
