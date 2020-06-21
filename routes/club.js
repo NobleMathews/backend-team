@@ -18,7 +18,7 @@ router.route('/create').post( upload.single('logo'), (req, res) => {
     logo = `${req.file.filename}`
   }
   clubHeadsModel.findOne({email_id:req.body.email_id})
-  .then(clun_head=>{
+  .then(club_head=>{
     var club = new clubModel({
       name: req.body.club_name.toUpperCase(),
       head: club_head._id,
