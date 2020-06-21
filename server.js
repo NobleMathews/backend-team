@@ -13,7 +13,7 @@ const imagesRouter = require('./routes/images')
 const projectRouter = require('./routes/projects')
 const achievementsRouter = require('./routes/achievements')
 const notifyRouter = require('./routes/notify')
-const eventSummaryRouter = require('./routes/event_summary')
+const blogRouter = require('./routes/blog')
 // const registerRouter = require('./routes/register')
 
 const app = express()
@@ -26,17 +26,16 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.set('view engine', 'ejs')
 app.set('useFindAndModify', false)
 
-// fill all the used routes with appropriate names
 app.use('/admin', adminRouter) // was /admin before
 app.use('/club_head', clubHeadRouter) // was /users before
 app.use('/events', eventsRouter) // was /events before
 //  --- the following are totally new and were added by removing sub-dir
 app.use('/club', clubsRouter)
-app.use('/image', imagesRouter)
+app.use('/images', imagesRouter)
 app.use('/projects', projectRouter)
 app.use('/achievements', achievementsRouter)
 app.use('/notify', notifyRouter)
-app.use('/event_summary', eventSummaryRouter)
+app.use('/blog', blogRouter)
 
 // ---- the following were scrapped so takeout from views
 // app.use('/gform', gformRouter)

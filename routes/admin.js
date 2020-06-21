@@ -1,7 +1,6 @@
 const router = require('express').Router()
 const clubHeadsModel = require('../models/ClubHead.model')
 const superAdminModel = require('../models/SuperAdmin.model')
-var upload = require('./images')
 
 var sess
 

@@ -20,7 +20,7 @@ const eventSchema = new Schema({
     participants : [String],
     categories : {type:String,required:true},       // workshop, competiotion, talk-show
     speaker : {type:String},
-    event_summary : {
+    blog : {
         gallery : [String],                           // will contain url of the uploaded images in simple array
         chief_guest : {type:String},
         award_winners : {type:String},

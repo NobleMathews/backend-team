@@ -40,11 +40,11 @@ view_poster
 update_poster
 delete_poster
 
-*event_summary
-create_event_summary
-update_event_summary
-delete_event_summary
-view_event_summary
+*blog
+create_blog
+update_blog
+delete_blog
+view_blog
 add_gallery
 view_gallery
 edit_gallery (#remove picture)

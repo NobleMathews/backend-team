@@ -112,7 +112,7 @@
                 "</span>"
                 );
             $(".remove").off("click");
-            $(".remove").click(function(){
+            $(".remove").click(function(event){event.preventDefault();
                 let title=($("#snapholder").children(".pip")).index($(this).parent(".pip"));
                 console.log(title);
                 $(this).parent(".pip").remove();

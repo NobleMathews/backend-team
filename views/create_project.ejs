@@ -127,12 +127,12 @@
     <script>		
         $(document).ready(function(){
               var j=1;
-             $("#add_row2").click(function(){b=j-1;
+             $("#add_row2").click(function(event){event.preventDefault();b=j-1;
               $('#addr2'+j).html($('#addr2'+b).html()).find('td:first-child').html(j+1);
               $('#tab_logic2').append('<tr id="addr2'+(j+1)+'"></tr>');
               j++; 
           });
-             $("#delete_row2").click(function(){
+             $("#delete_row2").click(function(event){event.preventDefault();
                  if(j>1){
                  $("#addr2"+(j-1)).html('');
                  j--;
@@ -143,12 +143,12 @@
 
         $(document).ready(function(){
       var i=1;
-     $("#add_row").click(function(){b=i-1;
+     $("#add_row").click(function(event){event.preventDefault();b=i-1;
       $('#addr'+i).html($('#addr'+b).html()).find('td:first-child').html(i+1);
       $('#tab_logic').append('<tr id="addr'+(i+1)+'"></tr>');
       i++; 
     });
-     $("#delete_row").click(function(){
+     $("#delete_row").click(function(event){event.preventDefault();
     	 if(i>1){
 		 $("#addr"+(i-1)).html('');
 		 i--;
@@ -176,7 +176,7 @@
                 "</span>"
                 );
             $(".remove").off("click");
-            $(".remove").click(function(){
+            $(".remove").click(function(event){event.preventDefault();
                 let title=($("#snapholder").children(".pip")).index($(this).parent(".pip"));
                 console.log(title);
                 $(this).parent(".pip").remove();

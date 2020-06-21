@@ -1,7 +1,13 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const Users = require('./ClubHead.model');
 
 const blogSchema = new Schema({
+    owner:{
+        type: Schema.Types.ObjectId,
+        required: true,
+        ref: 'Users'
+    },
     gallery : [String],                           
     chief_guest : {type:String},
     award_winners : {type:String},

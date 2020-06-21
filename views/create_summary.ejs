@@ -19,7 +19,7 @@
         video_links : {type:String} -->
     <div class="container" style="padding-top:30px;">
         <div class="col-md-5 m-auto">
-        <form action="/event_summary/create/<%=id%>" method="POST" enctype="multipart/form-data">
+        <form action="/blog/create" method="POST" enctype="multipart/form-data">
             <div class="form-group">
             <label>Chief Guest</label>
             <input class="form-control" name="chief_guest">
@@ -130,7 +130,7 @@
                 <label>Upload Photos</label>
                 <input type="file" accept='image/*' name="gallery[]" class="form-control-file" multiple>
             </div>
-            <button type="submit" class="btn btn-primary" style="margin-bottom: 5px;">Update Summary</button>
+            <button type="submit" class="btn btn-primary" style="margin-bottom: 5px;">Publish Blog</button>
         </form>
         </div>
     </div>
@@ -140,12 +140,12 @@
     <script>
         $(document).ready(function(){
             var i=1;
-            $("#add_row").click(function(){b=i-1;
+            $("#add_row").click(function(event){event.preventDefault();b=i-1;
             $('#addr'+i).html($('#addr'+b).html()).find('td:first-child').html(i+1);
             $('#tab_logic').append('<tr id="addr'+(i+1)+'"></tr>');
             i++; 
             });
-            $("#delete_row").click(function(){
+            $("#delete_row").click(function(event){event.preventDefault();
                 if(i>1){
                 $("#addr"+(i-1)).html('');
                 i--;
@@ -154,12 +154,12 @@
         });
         $(document).ready(function(){
                 var j=1;
-                $("#add_row2").click(function(){b=j-1;
+                $("#add_row2").click(function(event){event.preventDefault();b=j-1;
                 $('#addr2'+j).html($('#addr2'+b).html()).find('td:first-child').html(j+1);
                 $('#tab_logic2').append('<tr id="addr2'+(j+1)+'"></tr>');
                 j++; 
                 });
-                $("#delete_row2").click(function(){
+                $("#delete_row2").click(function(event){event.preventDefault();
                     if(j>1){
                     $("#addr2"+(j-1)).html('');
                     j--;
@@ -169,12 +169,12 @@
         // if ever deside video links should be an array
         // $(document).ready(function(){
         //         var j=1;
-        //         $("#add_row3").click(function(){b=j-1;
+        //         $("#add_row3").click(function(event){event.preventDefault();b=j-1;
         //         $('#addr3'+j).html($('#addr3'+b).html()).find('td:first-child').html(j+1);
         //         $('#tab_logic3').append('<tr id="addr3'+(j+1)+'"></tr>');
         //         j++; 
         //     });
-        //         $("#delete_row3").click(function(){
+        //         $("#delete_row3").click(function(event){event.preventDefault();
         //             if(j>1){
         //             $("#addr3"+(j-1)).html('');
         //             j--;
