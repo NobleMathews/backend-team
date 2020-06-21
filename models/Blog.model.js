@@ -14,7 +14,7 @@ const blogSchema = new Schema({
     summary : {type:String},
     outside_links : [String],
     file_attachment : [String],
-    video_links : {type:String}
+    video_links : [String]
 })
 
 const Blog = mongoose.model('blogs',blogSchema);
