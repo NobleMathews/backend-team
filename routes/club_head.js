@@ -3,7 +3,7 @@ const clubHeadsModel = require('../models/ClubHead.model')
 const upload = require('../db/upload')
 
 // for rendering password page
-router.route('/change_password').get((req, res) => {
+router.route('/password/change').get((req, res) => {
   res.render('update_password_clubHead')
 })
 

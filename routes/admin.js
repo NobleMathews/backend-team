@@ -4,6 +4,11 @@ const superAdminModel = require('../models/SuperAdmin.model')
 
 var sess
 
+// for rendering password page
+router.route('/password/change').get((req, res) => {
+  res.render('update_password_admin')
+})
+
 // password changing route
 router.route('/password/change/').post((req, res) => {
   var pswd = req.body.pswd
