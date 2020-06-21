@@ -32,7 +32,7 @@ app.use('/club_head', clubHeadRouter) // was /users before
 app.use('/events', eventsRouter) // was /events before
 //  --- the following are totally new and were added by removing sub-dir
 app.use('/club', clubsRouter)
-app.use('/images', imagesRouter)
+app.use('/image', imagesRouter)
 app.use('/projects', projectRouter)
 app.use('/achievements', achievementsRouter)
 app.use('/notify', notifyRouter)

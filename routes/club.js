@@ -112,13 +112,18 @@ router.route('/view_all').get((req, res) => {
 
 // for rendering details of specific club
 router.route('/details/:id').get((req, res) => {
-    const club_head_id = req.params.id
-    clubHeadsModel.findById(club_head_id)
-      .then(user => {
-        res.render('details_club', { user: user })
-      }).catch(err => {
+    const club_id = req.params.id
+    clubModel.findById(club_id)
+    .then(club => {
+      clubHeadsModel.findById(club.head)
+      .then(club_head=>{
+        res.render('details_club',{club_head:club_head,club:club})
+      }).catch(err=>{
         res.json(err)
       })
+    }).catch(err=>{
+      res.json(err)
+    })
 })
 
 module.exports = router

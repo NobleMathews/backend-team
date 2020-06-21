@@ -21,7 +21,7 @@
 </head>
 <body>
 
-    <h3 style="text-align: center; text-decoration: underline; padding-top: 30px;">List of Club Heads</h3>
+    <h3 style="text-align: center; text-decoration: underline; padding-top: 30px;">List of Clubs</h3>
     <% if (clubs && clubs.length) { %>
     <div class="container" style="padding-top:30px;">
         <div class="col-md-6 m-auto">
@@ -30,8 +30,16 @@
 
             <% clubs.forEach((club) => { %>
             <div class="list-group-item list-group-item-action">
-                <p><h5><b>Club Name : </b><%= club.name %></h5></p>
-                <p id="club_head" class="mb-2"><b>Club Head : </b><%= club.head %></p>
+                <div style="float: left;">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-1"><b>Club Name : </b><%= club.name %></h5>
+                    </div>
+                    <p class="mb-1"><b>About : </b><%= club.description %></p>
+                    <p> <a href="#">reset</a> | <a href="/club/details/<%=club._id%>">details</a></p>
+                  </div>
+                  <div style="float: right;">
+                    <img src="/image/<%=club.logo_url%>" alt="club_logo" width="70px">
+                  </div>
             </div>
             <% }) %>
 
