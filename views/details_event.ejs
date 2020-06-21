@@ -104,8 +104,8 @@
                               <p class="card-text">
                                 <ul class="list-group list-group-flush" >
                                     <div style="max-height: 150px; overflow-y: scroll;">
-                                    <% if ((event.event_summary.gallery) && (event.event_summary.gallery).length) { %>
-                                    <% (event.event_summary.gallery).forEach((url) => { %>
+                                    <% if ((event.blog.gallery) && (event.blog.gallery).length) { %>
+                                    <% (event.blog.gallery).forEach((url) => { %>
                                     <li class="list-group-item"><img src="/images/<%= url %>"></img></li>
                                     
                                     <% }) %>
@@ -119,8 +119,8 @@
                               <p class="card-text">
                                 <ul class="list-group list-group-flush" >
                                     <div style="max-height: 150px; overflow-y: scroll;">
-                                    <% if ((event.event_summary.outside_links) && (event.event_summary.outside_links).length) { %>
-                                    <% (event.event_summary.outside_links).forEach((url) => { %>
+                                    <% if ((event.blog.outside_links) && (event.blog.outside_links).length) { %>
+                                    <% (event.blog.outside_links).forEach((url) => { %>
                                     <li class="list-group-item"><a href="<%= url %>"><%= url %></a></li>
                                     
                                     <% }) %>
@@ -134,8 +134,8 @@
                               <p class="card-text">
                                 <ul class="list-group list-group-flush" >
                                     <div style="max-height: 150px; overflow-y: scroll;">
-                                    <% if ((event.event_summary.file_attachment) && (event.event_summary.file_attachment).length) { %>
-                                    <% (event.event_summary.file_attachment).forEach((url) => { %>
+                                    <% if ((event.blog.file_attachment) && (event.blog.file_attachment).length) { %>
+                                    <% (event.blog.file_attachment).forEach((url) => { %>
                                     <li class="list-group-item"><a href="<%= url %>"><%= url %></a></li>
                                     
                                     <% }) %>
@@ -166,7 +166,7 @@
                             <!-- <button type="button" href='#' class="btn btn-outline-primary">View Summary</button> -->
                             <!-- Dont see the point of edit summary without actually viewing it first -->
                             <!-- In case view summary is required activate the line above and the next commented out line.. delete immediate next -->
-                            <a type="button" href='/event_summary/update/<%=event._id%>' class="btn btn-outline-primary">Edit Summary</a>
+                            <a type="button" href='/blog/update/<%=event._id%>' class="btn btn-outline-primary">Edit Summary</a>
 
                             </div>                    
                             <div class="btn-group" role="group" >
