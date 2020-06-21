@@ -35,15 +35,29 @@
                             <div class="card-body text-dark">
                             <!-- use required format of the following if fields missing -->
                             <h5 class="card-title">Chief Guest</h5>
-                            <p class="card-text"><%= blog.chief_guest||NULL %></p>
+                            <p class="card-text"><%= blog.chief_guest||"NULL" %></p>
                             <h5 class="card-title">Award Winners</h5>
-                            <p class="card-text"><%= blog.award_winners||NULL %></p>
+                            <p class="card-text"><%= blog.award_winners||"NULL" %></p>
                             <h5 class="card-title">Summary</h5>
-                            <p class="card-text"><%= blog.summary||NULL %></p>
-                            <% if ((blog.video_links).length>2) { %>
+                            <p class="card-text"><%= blog.summary||"NULL" %></p>
                             <h5 class="card-title">Check out the Video</h5>
-                            <a class="card-text" href="<%= blog.video_links %>" ><%= blog.video_links %></a>
-                            <% } %>
+                            <p class="card-text">
+                                <ul class="list-group list-group-flush" >
+                                    <div style="max-height: 150px; overflow-y: scroll;">
+                                    <% if ((blog.video_links) && (blog.video_links).length) { %>
+                                    <% (blog.video_links).forEach((url) => { %>
+                                        <% if ((url.length)>2) { %>
+                                            <li class="list-group-item"><a href="<%= url %>"><%= url %></a></li>
+                                    <% }else{ %>
+                                        <li class="list-group-item">NULL</li>
+                                    <% }%>
+                                    <% }) %>
+                                    <% }else{ %>
+                                        <li class="list-group-item">NULL</li>
+                                    <% }%>
+                                    </div>
+                                </ul>
+                              </p>
                               <h5 class="card-title">Gallery</h5>
                               <p class="card-text">
                                 <ul class="list-group list-group-flush" >
@@ -65,7 +79,11 @@
                                     <div style="max-height: 150px; overflow-y: scroll;">
                                     <% if ((blog.outside_links) && (blog.outside_links).length) { %>
                                     <% (blog.outside_links).forEach((url) => { %>
-                                    <li class="list-group-item"><a href="<%= url %>"><%= url %></a></li>
+                                        <% if ((url.length)>2) { %>
+                                            <li class="list-group-item"><a href="<%= url %>"><%= url %></a></li>
+                                            <% }else{ %>
+                                                <li class="list-group-item">NULL</li>
+                                            <% }%>
                                     
                                     <% }) %>
                                     <% }else{ %>
@@ -80,7 +98,11 @@
                                     <div style="max-height: 150px; overflow-y: scroll;">
                                     <% if ((blog.file_attachment) && (blog.file_attachment).length) { %>
                                     <% (blog.file_attachment).forEach((url) => { %>
-                                    <li class="list-group-item"><a href="<%= url %>"><%= url %></a></li>
+                                        <% if ((url.length)>2) { %>
+                                            <li class="list-group-item"><a href="<%= url %>"><%= url %></a></li>
+                                            <% }else{ %>
+                                                <li class="list-group-item">NULL</li>
+                                            <% }%>
                                     
                                     <% }) %>
                                     <% }else{ %>

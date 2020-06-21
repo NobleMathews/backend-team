@@ -10,13 +10,6 @@
   </head>
   <body>
     <h3 style="text-align: center; text-decoration: underline; padding-top: 30px;">Event Summary</h3>
-    <!-- gallery : [String],                           // will contain url of the uploaded images in simple array
-        chief_guest : {type:String},
-        award_winners : {type:String},
-        summary : {type:String},
-        outside_links : [String],
-        file_attachment : [String],
-        video_links : {type:String} -->
     <div class="container" style="padding-top:30px;">
         <div class="col-md-5 m-auto">
         <form action="/blog/update/<%=id%>" method="POST" enctype="multipart/form-data">
@@ -93,7 +86,7 @@
                     <button type="button" id="add_row2" class="btn btn-default pull-left">Add Row</button><button id='delete_row2' class="pull-right btn btn-default">Delete Row</button>
                 </div>
             </div>
-            <!-- <div class="form-group">
+            <div class="form-group">
                 <div class="container">
                     <div class="row clearfix">
                         <div class="col-md-12 column">
@@ -104,7 +97,7 @@
                                             #
                                         </th>
                                         <th class="text-center">
-                                            Video Links
+                                            Linked Videos
                                         </th>
                                     </tr>
                                 </thead>
@@ -112,7 +105,7 @@
                                     <tr id='addr30'>
                                         <td>1</td>
                                         <td>
-                                        <input type="text" name='video_links[]'  placeholder='Provide any video-links if present' class="form-control"/>
+                                        <input type="text" name='video_links[]' placeholder='Provide links to videos if any..' class="form-control"/>
                                         </td>
                                     </tr>
                                     <tr id='addr31'></tr>
@@ -122,10 +115,6 @@
                     </div>
                     <button type="button" id="add_row3" class="btn btn-default pull-left">Add Row</button><button id='delete_row3' class="pull-right btn btn-default">Delete Row</button>
                 </div>
-            </div> -->
-            <div class="form-group">
-                <label>Video Links</label>
-                <input class="form-control" name="video_links" placeholder="Provide link to a video if any.." value="<%=summary.video_links||'NULL'%>"></input>
             </div>
             <div class="form-group">
                 <label>Upload Photos</label>
@@ -152,8 +141,6 @@
                 i--;
                 }
             });
-        });
-        $(document).ready(function(){
                 var j=1;
                 $("#add_row2").click(function(event){event.preventDefault();b=j-1;
                 $('#addr2'+j).html($('#addr2'+b).html()).find('td:first-child').html(j+1);
@@ -166,23 +153,19 @@
                     j--;
                     }
                 });
+                var k=1;
+                $("#add_row3").click(function(event){event.preventDefault();b=k-1;
+                $('#addr3'+k).html($('#addr3'+b).html()).find('td:first-child').html(k+1);
+                $('#tab_logic3').append('<tr id="addr3'+(k+1)+'"></tr>');
+                k++; 
+                });
+                $("#delete_row3").click(function(event){event.preventDefault();
+                    if(k>1){
+                    $("#addr3"+(k-1)).html('');
+                    k--;
+                    }
+                });
         });
-        // if ever deside video links should be an array
-        // $(document).ready(function(){
-        //         var j=1;
-        //         $("#add_row3").click(function(event){event.preventDefault();b=j-1;
-        //         $('#addr3'+j).html($('#addr3'+b).html()).find('td:first-child').html(j+1);
-        //         $('#tab_logic3').append('<tr id="addr3'+(j+1)+'"></tr>');
-        //         j++; 
-        //     });
-        //         $("#delete_row3").click(function(event){event.preventDefault();
-        //             if(j>1){
-        //             $("#addr3"+(j-1)).html('');
-        //             j--;
-        //             }
-        //         });
-            
-        // });
     </script>
  </body>
 </html>
