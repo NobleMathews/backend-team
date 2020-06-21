@@ -20,7 +20,11 @@
     
 </head>
 <body>
-
+    <div>
+        <form method="POST" style="position: fixed; left: 0; top:0; padding: 10px;" action="/admin/" >
+            <button type="submit" class='btn btn-outline-info btn-sm'>HOME</button> 
+        </form>
+    </div>
     <h3 style="text-align: center; text-decoration: underline; padding-top: 30px;">List of Clubs</h3>
     <% if (clubs && clubs.length) { %>
     <div class="container" style="padding-top:30px;">
@@ -35,7 +39,7 @@
                       <h5 class="mb-1"><b>Club Name : </b><%= club.name %></h5>
                     </div>
                     <p class="mb-1"><b>About : </b><%= club.description %></p>
-                    <p> <a href="#">reset</a> | <a href="/club/details/<%=club._id%>">details</a></p>
+                    <p> <a href="/club/reset/<%=club._id%>">reset</a> | <a href="/club/details/<%=club._id%>">details</a></p>
                   </div>
                   <div style="float: right;">
                     <img src="/image/<%=club.logo_url%>" alt="club_logo" width="70px">

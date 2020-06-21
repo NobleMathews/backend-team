@@ -126,4 +126,24 @@ router.route('/details/:id').get((req, res) => {
     })
 })
 
+// for rendering the reset page
+router.route('/reset/:id').get((req,res)=>{
+  const club_id = req.params.id
+  res.render('reset_club',{club_id:club_id})
+})
+
+// route to reset any club
+router.route('/reset/:id').post((req,res)=>{
+  const club_id = req.params.id
+  const email_id = req.body.email_id
+  clubHeadsModel.findOne({email_id:email_id},(err,club_head)=>{
+    clubModel.findByIdAndUpdate(club_id,{head:club_head.email_id})
+    .then(()=>{
+      res.redirect('/admin',307)
+    }).catch(err=>{
+      res.json(err)
+    })
+  })
+})
+
 module.exports = router
