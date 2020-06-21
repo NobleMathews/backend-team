@@ -38,8 +38,8 @@ router.route('/create').post( upload.any('gallery',20), (req, res)=>{
 router.route('/update/:id').get((req,res)=>{
   const id = req.params.id
   blogModel.findById(id)
-  .then(event=>{
-      res.render('update_summary',{id:req.params.id,summary:event.blog})
+  .then(blog=>{
+      res.render('update_summary',{id:req.params.id,summary:blog})
   }).catch(err=>{
       res.json(err)
   })

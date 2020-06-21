@@ -26,21 +26,30 @@
         <% blogs.forEach((blog) => { %>
             <div class="card" style="width: 18rem;">
 
-                
-                <img src="/images/<%= blog.poster_url %>" alt="thumbnail of poster" width="286px">
-                <div class="card-body">
+                    <div class="card-body">
                     <!-- <h5 class="card-title"><%= blog.name %></h5> -->
                     <p>
                         <div class="card border-dark mb-3">
                             <div class="card-header">Event Summary</div>
                             <div class="card-body text-dark">
+                            <!-- use required format of the following if fields missing -->
+                            <h5 class="card-title">Chief Guest</h5>
+                            <p class="card-text"><%= blog.chief_guest||NULL %></p>
+                            <h5 class="card-title">Award Winners</h5>
+                            <p class="card-text"><%= blog.award_winners||NULL %></p>
+                            <h5 class="card-title">Summary</h5>
+                            <p class="card-text"><%= blog.summary||NULL %></p>
+                            <% if ((blog.video_links).length>2) { %>
+                            <h5 class="card-title">Check out the Video</h5>
+                            <a class="card-text" href="<%= blog.video_links %>" ><%= blog.video_links %></a>
+                            <% } %>
                               <h5 class="card-title">Gallery</h5>
                               <p class="card-text">
                                 <ul class="list-group list-group-flush" >
                                     <div style="max-height: 150px; overflow-y: scroll;">
                                     <% if ((blog.gallery) && (blog.gallery).length) { %>
                                     <% (blog.gallery).forEach((url) => { %>
-                                    <li class="list-group-item"><img src="/image/<%= url %>"></img></li>
+                                    <li class="list-group-item"><img src="/images/<%= url %>"></img></li>
                                     
                                     <% }) %>
                                     <% }else{ %>
