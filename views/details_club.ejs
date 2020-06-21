@@ -13,32 +13,30 @@
             </form>
         </div>
     <div class="container">
-    <h2 style="color: blue; text-decoration: underline;"> Club head credentials </h2>
+    <h1 class="display-2"> Club Details </h1>
     <!-- Template for each club-->
     <div class="card-group" style="align-content: center;">
             <div class="card" style="width: 18rem;">
                 <div class="card-body">
-                    <h5 class="card-title mb-4"><%= user.club_name %></h5>
-                    <%if(user.name){%>
-                        <div style="display: flex;">
-                            <h3 class="card-subtitle mb-4 text-muted">Club Head: <%= user.name %></h3>
-                            <img src="/images/<%=user.dp_url%>" alt="profile pic" style="margin-left: 100px;" >
-                        </div>
-                    <%}else{%>
-                        <h6 class="card-subtitle mb-4 text-muted">Club head not assigned yet.</h6>
-                    <%}%>
+                    <h5 class="card-title mb-4"><%= club.name %></h5>
+                    <div style="float: right; margin-right: 40px;">
+                        <img src="/image/<%=club.logo_url%>" alt="club_logo" style="margin-left: 100px;" width="150px">
+                    </div>
                     <p class="card-text">
-                       user_Id : <%= user.user_id %>
+                        <h3 class="card-subtitle mb-4 text-muted">Club Head: <%= club_head.name %></h3>
                     </p>
                     <p class="card-text">
-                       password : <%= user.pswd %>
+                        <b>Email-id : </b><%= club_head.email_id %>
+                    </p>
+                    <p class="card-text">
+                        <b>About : </b><%= club.description %>
                     </p>
                     <p>
-                    <a href="/admin/club_head/reset/<%=user._id%>" class="btn btn-primary btn-sm">reset</a>
+                    <a href="#" class="btn btn-primary btn-sm">reset</a>
                     </p>
                 </div>
             </div>
-    </div>
+        </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>

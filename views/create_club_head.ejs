@@ -13,35 +13,36 @@
         <form method="POST" style="position: fixed; left: 0; top:0; padding: 10px;" action="/admin/" >
                  <button type="submit" class='btn btn-outline-info btn-sm'>HOME</button> 
             </form>
-        </div>
+      </div>
  
-    <h3 style="text-align: center; text-decoration: underline; padding-top: 30px;">Add New Club</h3>
+    <h3 style="text-align: center; text-decoration: underline; padding-top: 30px;">Create Club Head</h3>
 
     <div class="container" style="padding-top:30px;">
         <div class="col-md-5 m-auto">
           <!-- multipart/form-data -->
-        <form enctype="multipart/form-data" method="POST" action="/club/create">
+        <form enctype="application/x-www-form-urlencoded" method="POST" action="/club_head/create">
+        
+          <div class="form-group">
+            <label>User_id</label>
+            <input type="text" class="form-control" name="user_id" placeholder="User_id"/>
+          </div>
 
-        <div class="form-group">
-          <label>Club Name</label>
-          <input class="form-control" name="club_name" placeholder="Enter Club name here" required></input>
-        </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" class="form-control" name="pswd" placeholder="Password"/>
+          </div>
 
-        <div class="form-group">
-          <label>Description</label>
-          <textarea class="form-control" rows="3" name="club_description" placeholder="Provide Club description"></textarea>
-        </div>
+          <div class="form-group">
+            <label>email id</label>
+            <input type="email" class="form-control" name="email_id" placeholder="email id of the club head"/>
+          </div>
 
-        <div class="form-group">
-            <label for="exampleFormControlFile1">Club Logo</label>
-            <input type="file" accept='image/*' class="form-control-file" name="logo"></input>
-        </div>
-        <div class="form-group">
-          <label for="exampleInputEmail1">Email address</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" placeholder="enter club-head email-id" aria-describedby="emailHelp" required>
-          <small id="emailHelp" class="form-text text-muted">Note: Club head must exist priorto formation of any new club</small>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+          <div class="form-group">
+            <label>Club Name</label>
+            <input type="text" class="form-control" name="club_name" placeholder="Enter name of club"/>
+          </div>
+
+          <input type="submit" class="btn btn-primary" value="Create" />
 
         </form>
         </div>

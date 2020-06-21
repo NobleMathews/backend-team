@@ -10,39 +10,29 @@ router.route('/create/').get((req, res) => {
 })
 
 // route to create the club
-router.route('/create').post( upload.single('logo'), (req, res) => { // this is for creating the club-head
-    const club_name = req.body.club_name
-    let logo
-    if (req.file == undefined) {
-      logo = ' '
-    } else {
-      logo = `${req.file.filename}`
-    }
-    var u_club_name = club_name.toUpperCase()
-    var l_club_name = club_name.toLowerCase()
-    var user = new clubHeadsModel({
-      user_id: l_club_name,
-      pswd: l_club_name,
-      name: '',
-      contact: '',
-      email_id: '',
-      dp_url: '',
-      club_head: true,
-      club_name: u_club_name,
-      bio: ''
+router.route('/create').post( upload.single('logo'), (req, res) => {
+  let logo
+  if(req.file == undefined){
+    logo = ''
+  }else{
+    logo = `${req.file.filename}`
+  }
+  clubHeadsModel.findOne({email_id:req.body.email_id})
+  .then(clun_head=>{
+    var club = new clubModel({
+      name: req.body.club_name.toUpperCase(),
+      head: club_head._id,
+      description: req.body.club_description,
+      logo_url: logo
     })
-    user.save((err, user) => {
-      var club = new clubModel({
-        name: u_club_name,
-        head: user._id,
-        description: req.body.club_description,
-        logo_url: logo
-      })
-      club.save((err) => {
-        console.error.bind(console, 'Creating new user failed')
-      })
-      res.redirect('/club/view_all')
+    club.save((err,club)=>{
+      if(err){
+        res.json(err)
+      }else{
+        res.redirect('/club/view_all')
+      }
     })
+  })
 })
 
 // for rendering the club update page
@@ -122,13 +112,18 @@ router.route('/view_all').get((req, res) => {
 
 // for rendering details of specific club
 router.route('/details/:id').get((req, res) => {
-    const club_head_id = req.params.id
-    clubHeadsModel.findById(club_head_id)
-      .then(user => {
-        res.render('details_club', { user: user })
-      }).catch(err => {
+    const club_id = req.params.id
+    clubModel.findById(club_id)
+    .then(club => {
+      clubHeadsModel.findById(club.head)
+      .then(club_head=>{
+        res.render('details_club',{club_head:club_head,club:club})
+      }).catch(err=>{
         res.json(err)
       })
+    }).catch(err=>{
+      res.json(err)
+    })
 })
 
 module.exports = router

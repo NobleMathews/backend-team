@@ -4,6 +4,7 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title>View Clubs</title>
     <style>
@@ -20,7 +21,7 @@
 </head>
 <body>
 
-    <h3 style="text-align: center; text-decoration: underline; padding-top: 30px;">List of Club Heads</h3>
+    <h3 style="text-align: center; text-decoration: underline; padding-top: 30px;">List of Clubs</h3>
     <% if (clubs && clubs.length) { %>
     <div class="container" style="padding-top:30px;">
         <div class="col-md-6 m-auto">
@@ -29,25 +30,33 @@
 
             <% clubs.forEach((club) => { %>
             <div class="list-group-item list-group-item-action">
-                <p><h5><b>Club Name : </b><%= club.name %></h5></p>
-                <p id="club_head" class="mb-2"><b>Club Head : </b><%= club.head %></p>
+                <div style="float: left;">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-1"><b>Club Name : </b><%= club.name %></h5>
+                    </div>
+                    <p class="mb-1"><b>About : </b><%= club.description %></p>
+                    <p> <a href="#">reset</a> | <a href="/club/details/<%=club._id%>">details</a></p>
+                  </div>
+                  <div style="float: right;">
+                    <img src="/image/<%=club.logo_url%>" alt="club_logo" width="70px">
+                  </div>
             </div>
             <% }) %>
 
             </div>
             
         </div>
-        <br>  
-        <a class="btn btn-primary" href="#" role="button">Add Club</a>
 
     </div>
     <% }else{ %>
         <div class="container">
             <h1 class="display-5">No clubs created yet</h1>
             <br>  
-            <a class="btn btn-primary" href="#" role="button">Add Club</a>
         </div>
     <% }%>
+    <div style="text-align: center; margin-top: 20px; margin-bottom: 30px;">
+        <a href="/club/create" ><span class="material-icons">add</span>Add Club</a>
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
