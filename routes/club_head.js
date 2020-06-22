@@ -64,17 +64,7 @@ router.route('/profile/update').post(clubAuth, upload.single('profpic'), async (
 
     await user.save()
 
-    res.render('landing_clubHead', {
-      id: user._id,
-      club_name: user.club_name,
-      name: user.name,
-      user_id: user.user_id,
-      pswd: user.pswd,
-      email_id: user.email_id,
-      contact: user.contact,
-      bio: user.bio,
-      dp_url: user.dp_url
-    })
+    res.render('landing_clubHead', {user:user})
 
   }catch(e){
     res.status(400).json(e)
@@ -107,17 +97,7 @@ router.route('/login').post(async (req, res) => {
     const token = await user.generateAuthToken(req, res)
     console.log(token)
 
-    res.render('landing_clubHead', {
-        id: user._id,
-        club_name: user.club_name,
-        name: user.name,
-        user_id: user.user_id,
-        pswd: user.pswd,
-        email_id: user.email_id,
-        contact: user.contact,
-        bio: user.bio,
-        dp_url: user.dp_url
-    })
+    res.render('landing_clubHead', {user : user})
 
   }catch(e){
     //console.log()
@@ -130,17 +110,7 @@ router.route('/login').post(async (req, res) => {
 router.route('/profile').post(clubAuth, (req, res) => {
   const user = req.user
 
-  return res.render('landing_clubHead', {
-    id: user._id,
-    club_name: user.club_name,
-    name: user.name,
-    user_id: user.user_id,
-    pswd: user.pswd,
-    email_id: user.email_id,
-    contact: user.contact,
-    bio: user.bio,
-    dp_url: user.dp_url
-  })
+  return res.render('landing_clubHead', {user : user})
 })
 
 // route to view all club_heads
