@@ -22,7 +22,7 @@
                 <h1><%= user_id || '' %> </h1>
                 <!-- keep encoding type throughout backend in mind while populating / testing with postman -->
 
-                <form method="POST" action="/admin/profile/update/<%=id%>" >
+                <form method="POST" action="/admin/profile/update" >
                     <div class="form-group">
                         <label for="name">Enter your Name</label>
                         <input type="text" class="form-control" id="name" name="name" value="<%=name%>"></input>

@@ -1,101 +1,95 @@
 const router = require('express').Router()
 const clubHeadsModel = require('../models/ClubHead.model')
 const superAdminModel = require('../models/SuperAdmin.model')
+const cookieParser = require('cookie-parser')
+const adminAuth = require('../middleware/adminAuth')
 
-var sess
 
 // for rendering password page
-router.route('/password/change').get((req, res) => {
+router.route('/password/change').get(adminAuth, (req, res) => {
   res.render('update_password_admin')
 })
 
 // password changing route
-router.route('/password/change/').post((req, res) => {
+router.route('/password/change/').post(adminAuth, (req, res) => {
   var pswd = req.body.pswd
-  superAdminModel.findByIdAndUpdate(req.session._id, { pswd: pswd })
+  superAdminModel.findByIdAndUpdate(req.admin._id, { pswd: pswd })
     .then(() => {
-      res.redirect(307, '/admin/')
+      res.redirect(307, '/admin/profile')
     }).catch(err => {
       res.json(err)
     })
 })
 
-// view profile
-router.route('/').post((req, res) => {
-  sess = req.session
-  if (sess.user_id) {
+//viewing the profile after logging in
+router.route('/profile').post(adminAuth, (req, res) => {
+    //console.log('already logged in')
     admins = {
-      _id: sess._id,
-      name: sess.name,
-      user_id: sess.user_id,
-      email_id: sess.email_id,
-      contact: sess.contact
-    }
-
+          _id: req.admin._id,
+          name: req.admin.name,
+          user_id: req.admin.user_id,
+          email_id: req.admin.email_id,
+          contact: req.admin.contact
+        }
+    
     return res.render('landing_admin', { admin: admins })
-  }
+})
 
+//login to admin  
+router.route('/login').post(async (req, res) => {
   const user_id = req.body.user_id
   const pswd = req.body.pswd
-  const admin = { user_id, pswd }
-  superAdminModel.findOne(admin)
-    .then(admin => {
-      if (admin) {
-        sess._id = admin._id
-        sess.name = admin.name
-        sess.user_id = admin.user_id
-        sess.email_id = admin.email_id
-        sess.contact = admin.contact
-        // site to redirect to on login success
-        res.render('landing_admin', { admin: admin })
-      } else {
-        // user doesnt have admin privileges (Show UI popup) ,redirect to user login
-        res.render('index', { alerts: 'Sorry you donot have admin privileges !' })
-      }
-    }).catch((err) => {
-      res.json('Error: ' + err)
-    })
+  try{
+    const admin = await superAdminModel.findOne({ user_id, pswd })
+
+    if(!admin){
+      throw new Error('Unable to login')
+    }
+
+    const token = await admin.generateAuthToken(req, res)
+    res.render('landing_admin', { admin: admin })
+
+  }catch(e){
+    res.json(e)
+  }
+    
 })
 
 // for rendering the form
-router.route('/profile/update/:id').get((req, res) => {
-  superAdminModel.findOne({ _id: req.params.id })
-    .then(admin => {
-      res.render('update_profile_admin', { id: req.params.id, user_id: admin.user_id, name: admin.name, contact: admin.contact, email_id: admin.email_id })
-    })
+router.route('/profile/update').get(adminAuth, async (req, res) => {
+
+    try{
+      const admin = req.admin
+
+      res.render('update_profile_admin', { id: admin._id, user_id: admin.user_id, name: admin.name, contact: admin.contact, email_id: admin.email_id })
+    }catch(e){
+      res.status(400).json(e)
+    }
 })
 
 // for updating through the form
-router.route('/profile/update/:id').post((req, res) => {
-  var sess = req.session
-  sess.name = req.body.name
-  sess.email_id = req.body.email_id
-  sess.contact = req.body.contact
+router.route('/profile/update').post(adminAuth, async (req, res) => {
+  
+  const updates = Object.keys(req.body)
 
-  const change = {
-    name: req.body.name,
-    contact: req.body.contact,
-    email_id: req.body.email_id
-  }
+  try{
+    const admin = req.admin
 
-  admin = {
-    _id: sess._id,
-    name: sess.name,
-    user_id: sess.user_id,
-    email_id: sess.email_id,
-    contact: sess.contact
-  }
-  superAdminModel.findByIdAndUpdate(req.params.id, change)
-    .then(() => {
-      res.render('landing_admin', { admin: admin })
-    }).catch(err => {
-      res.json(err)
+    updates.forEach((update) => {
+      admin[update] = req.body[update]
     })
+
+    await admin.save()
+    
+    res.render('landing_admin', { admin: admin })
+  }catch(e){
+    res.status(400).json(e)
+  }
 })
 
 // by this route the club-head values will be set on default which can be changed by thhe club-head later on
 
-router.route('/club_head/reset/:id').get((req, res) => {
+router.route('/club_head/reset/:id').get(adminAuth, (req, res) => {
   const club_head_id = req.params.id
   clubHeadsModel.findById(club_head_id)
     .then(user => {
@@ -116,6 +110,23 @@ router.route('/club_head/reset/:id').get((req, res) => {
     }).catch(err => {
       res.json(err)
     })
+})
+
+router.route('/logout/').get(adminAuth, async (req,res) => {
+    try{
+
+      req.admin.tokens = req.admin.tokens.filter((token) => {
+        return token.token !== req.token
+      })
+
+      await req.admin.save()
+
+      res.redirect('/')
+
+    }catch(e){
+      res.json({e})
+    }
+    
 })
 
 module.exports = router

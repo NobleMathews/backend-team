@@ -2,15 +2,16 @@ const router = require('express').Router()
 const clubModel = require('../models/Club.model')
 const clubHeadsModel = require('../models/ClubHead.model')
 const upload = require('../db/upload');
+const adminAuth = require('../middleware/adminAuth');
 
 
 // for rendering the create club page
-router.route('/create/').get((req, res) => {
+router.route('/create/').get(adminAuth, (req, res) => {
     res.render('create_club')
 })
 
 // route to create the club
-router.route('/create').post( upload.single('logo'), (req, res) => {
+router.route('/create').post(adminAuth, upload.single('logo'), (req, res) => {
   let logo
   if(req.file == undefined){
     logo = ''
@@ -18,7 +19,11 @@ router.route('/create').post( upload.single('logo'), (req, res) => {
     logo = `${req.file.filename}`
   }
   clubHeadsModel.findOne({email_id:req.body.email_id})
-  .then(club_head=>{
+  .then((club_head)=>{
+
+    if(!club_head){
+      throw new Error()
+    }
     var club = new clubModel({
       name: req.body.club_name.toUpperCase(),
       head: club_head._id,
@@ -32,6 +37,9 @@ router.route('/create').post( upload.single('logo'), (req, res) => {
         res.redirect('/club/view_all')
       }
     })
+  }).catch((e) => {
+    res.json('Club head must exist with given email!!!')
+    //to redirect back to view all clubs page after showing error message
   })
 })
 
@@ -88,7 +96,7 @@ router.route('/update/:id').post( upload.single('logo') ,(req, res) => {
 })
 
 // route to delete club
-router.route('/delete/:id').delete((req, res) => { // this route will help in deleting a club
+router.route('/delete/:id').delete(adminAuth, (req, res) => { 
     const club = req.body.club_name
   
     clubModel.deleteMany({ name: club }, (err) => {
@@ -98,8 +106,8 @@ router.route('/delete/:id').delete((req, res) => { // this route will help in de
     res.end(club)
 })
 
-//   for rendering view page of all clubs
-router.route('/view_all').get((req, res) => {
+// for rendering view page of all clubs
+router.route('/view_all').get(adminAuth, (req, res) => {
     clubModel.find()
       .then(clubs => {
         res.render('view_clubs', {
@@ -111,7 +119,7 @@ router.route('/view_all').get((req, res) => {
 })
 
 // for rendering details of specific club
-router.route('/details/:id').get((req, res) => {
+router.route('/details/:id').get(adminAuth, (req, res) => {
     const club_id = req.params.id
     clubModel.findById(club_id)
     .then(club => {
@@ -127,13 +135,13 @@ router.route('/details/:id').get((req, res) => {
 })
 
 // for rendering the reset page
-router.route('/reset/:id').get((req,res)=>{
+router.route('/reset/:id').get(adminAuth, (req,res)=>{
   const club_id = req.params.id
   res.render('reset_club',{club_id:club_id})
 })
 
 // route to reset any club
-router.route('/reset/:id').post((req,res)=>{
+router.route('/reset/:id').post(adminAuth, (req,res)=>{
   const club_id = req.params.id
   const email_id = req.body.email_id
   clubHeadsModel.findOne({email_id:email_id},(err,club_head)=>{

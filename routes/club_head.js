@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const clubHeadsModel = require('../models/ClubHead.model')
 const upload = require('../db/upload')
+const adminAuth = require('../middleware/adminAuth')
 
 // for rendering password page
 router.route('/password/change').get((req, res) => {
@@ -19,7 +20,7 @@ router.route('/password/change').post((req, res) => {
 })
 
 // route to create club_head
-router.route('/create').post((req, res) => {
+router.route('/create').post(adminAuth, (req, res) => {
   const club_head = new clubHeadsModel({
     user_id: req.body.user_id,
     pswd: req.body.pswd,
@@ -37,7 +38,7 @@ router.route('/create').post((req, res) => {
 })
 
 // route to render club_head create page
-router.route('/create').get((req, res) => {
+router.route('/create').get(adminAuth, (req, res) => {
   res.render('create_club_head')
 })
 
@@ -149,7 +150,7 @@ router.route('/').post((req, res) => {
 })
 
 // route to view all club_heads
-router.route('/view_all').get((req, res) => {
+router.route('/view_all').get(adminAuth, (req, res) => {
   clubHeadsModel.find({},(err,club_heads)=>{
     if(err){
       res.json(err)
@@ -160,7 +161,7 @@ router.route('/view_all').get((req, res) => {
 })
 
 // route to delete a club_head
-router.route('/delete/:id').get((req,res)=>{
+router.route('/delete/:id').get(adminAuth, (req,res)=>{
   const club_head_id = req.params.id
   clubHeadsModel.findByIdAndRemove(club_head_id)
   .then(()=>{

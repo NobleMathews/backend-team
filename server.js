@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const session = require('express-session')
 const cors = require('cors')
+const cookieParser = require('cookie-parser')
 // const methodOverride = require('method-override')
 
 const adminRouter = require('./routes/admin')
@@ -20,6 +21,7 @@ const app = express()
 const port = process.env.PORT || 5000
 app.use(session({ secret: 'test', saveUninitialized: true, resave: true }))
 app.use(cors())
+app.use(cookieParser())
 
 // app.use(methodOverride('_method'))
 app.use(bodyParser.urlencoded({ extended: true }))

@@ -1,14 +1,15 @@
 const router = require('express').Router()
 const achievementModel = require('../models/Achievement.model')
 const upload = require('../db/upload');
+const adminAuth = require('../middleware/adminAuth');
 
 // for rendering achievement create page
-router.route('/create/').get((req, res) => {
+router.route('/create/').get(adminAuth, (req, res) => {
     res.render('create_achievement')
 })
 
 // route to create achievement
-router.route('/create/').post(upload.any('snapshot_url', 20), (req, res) => {
+router.route('/create/').post(adminAuth, upload.any('snapshot_url', 20), (req, res) => {
     var pics_url = []
   
     if (req.files != undefined) {
@@ -31,7 +32,7 @@ router.route('/create/').post(upload.any('snapshot_url', 20), (req, res) => {
 })
 
 // route for rendering achievement update page
-router.route('/update/:id').get((req, res) => {
+router.route('/update/:id').get(adminAuth, (req, res) => {
     achievementModel.findById(req.params.id)
       .then(ach => {
         res.render('update_achievement', { ach: ach })
@@ -41,7 +42,7 @@ router.route('/update/:id').get((req, res) => {
 })
 
 // route to update achievement
-router.route('/update/:id').post( upload.any('pics', 20), (req, res) => { // for updating the achievement of a given id
+router.route('/update/:id').post(adminAuth, upload.any('pics', 20), (req, res) => { // for updating the achievement of a given id
     const id = req.params.id
     var pics_url
     if (req.files != undefined) {
@@ -59,14 +60,14 @@ router.route('/update/:id').post( upload.any('pics', 20), (req, res) => { // for
   
     achievementModel.findByIdAndUpdate(id, achievement)
       .then(() => {
-        res.status(200).send('Achievement updated successfully')
+        res.redirect('/achievements/view_all')
       }).catch(err => {
         res.status(400).send(err)
       })
 })
 
 // route to delete achievement
-router.route('/delete/:id').get((req, res) => {
+router.route('/delete/:id').get(adminAuth, (req, res) => {
     const achievement_id = req.params.id
     achievementModel.findByIdAndDelete(achievement_id)
       .then(() => {
@@ -77,7 +78,7 @@ router.route('/delete/:id').get((req, res) => {
 })
 
 // route to view all achievemnts
-router.route('/view_all').get((req, res) => {
+router.route('/view_all').get(adminAuth, (req, res) => {
     achievementModel.find()
     .then(achievements => {
         res.render('view_achievements', { achievements })
