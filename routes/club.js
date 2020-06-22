@@ -3,7 +3,7 @@ const clubModel = require('../models/Club.model')
 const clubHeadsModel = require('../models/ClubHead.model')
 const upload = require('../db/upload');
 const adminAuth = require('../middleware/adminAuth');
-
+const clubAuth = require('../middleware/clubAuth')
 
 // for rendering the create club page
 router.route('/create/').get(adminAuth, (req, res) => {
@@ -44,20 +44,27 @@ router.route('/create').post(adminAuth, upload.single('logo'), (req, res) => {
 })
 
 // for rendering the club update page
-router.route('/update/:id').get((req, res) => {
-    const club_id = req.params.id
-    clubModel.findById(club_id)
-      .then(club => {
-        res.render('update_club', { club: club })
-      }).catch(err => {
-        res.json(err)
-      })
+router.route('/update').get(clubAuth, async (req, res) => {
+    try{
+      const owner = req.user
+      const club = await clubModel.findOne({head: owner})
+
+      if(!club){
+        throw new Error()
+      }
+
+      res.render('update_club', {club})
+    }catch(e){
+      res.json('NO club has been assigned to the logged in club head by admin')
+    }
+    
 })
 
 // route to update the club details
-router.route('/update/:id').post( upload.single('logo') ,(req, res) => {
-    
-    const id = req.params.id
+router.route('/update/').post(clubAuth, upload.single('logo') ,async (req, res) => {
+    const owner = req.user
+    const club = await clubModel.findOne({head: owner})
+    const id = club._id
     let club_name=req.body.name;
     if (req.file == undefined) {
       var change = {
@@ -85,8 +92,8 @@ router.route('/update/:id').post( upload.single('logo') ,(req, res) => {
           res.status(400).send(err)
         } else {
           clubHeadsModel.findByIdAndUpdate({ _id: result.head },changeU)
-          .then(admin => {
-            res.redirect("/club/view_all")
+          .then(() => {
+            res.redirect(307, '/club_head/profile')
           }).catch(err => {
             res.status(404).send(err)
           })          

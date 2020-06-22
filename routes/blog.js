@@ -1,14 +1,16 @@
 const router = require('express').Router()
 const blogModel = require('../models/Blog.model')
 const upload = require('../db/upload');
+const clubAuth = require('../middleware/clubAuth')
+
 //  for rendering blog creation page
-router.route('/create').get((req,res)=>{
+router.route('/create').get(clubAuth, (req,res)=>{
   res.render('create_blog',{id:req.params.id})
 })
 
 // route to create blog
-router.route('/create').post( upload.any('gallery',20), (req, res)=>{
-  const id = req.session._id
+router.route('/create').post(clubAuth, upload.any('gallery',20), (req, res)=>{
+  const id = req.user._id
   var pics_url;
   let outside_links=(req.body.outside_links).filter(Boolean);
   let file_attachment=(req.body.file_attachment).filter(Boolean);
@@ -49,7 +51,7 @@ router.route('/create').post( upload.any('gallery',20), (req, res)=>{
 })
 
 // for rendering blog updating page
-router.route('/update/:id').get((req,res)=>{
+router.route('/update/:id').get(clubAuth, (req,res)=>{
   const id = req.params.id
   blogModel.findById(id)
   .then(blog=>{
@@ -60,7 +62,7 @@ router.route('/update/:id').get((req,res)=>{
 })
 
 //  route to update blog
-router.route('/update/:id').post( upload.any('gallery',20), (req, res)=>{
+router.route('/update/:id').post(clubAuth, upload.any('gallery',20), (req, res)=>{
     const id = req.params.id;
     var pics_url;
     let outside_links=(req.body.outside_links).filter(Boolean);
@@ -99,8 +101,8 @@ router.route('/update/:id').post( upload.any('gallery',20), (req, res)=>{
     });
 });
 
-router.route('/view_all').get((req,res)=>{
-  blogModel.find({ owner: req.session._id })
+router.route('/view_all').get(clubAuth, (req,res)=>{
+  blogModel.find({ owner: req.user._id })
   .then(blogs => {
   // res.json(blogs)
     res.render('view_blog', {blogs: blogs})
@@ -110,11 +112,11 @@ router.route('/view_all').get((req,res)=>{
 })
 
 // route to delete blog
-router.route('/delete/:id').get((req,res)=>{
+router.route('/delete/:id').get(clubAuth, (req,res)=>{
   const id = req.params.id
   blogModel.findByIdAndDelete(id)
   .then(()=>{
-      var club_head_id = req.session._id
+      var club_head_id = req.user._id
       blogModel.find({ owner: club_head_id })
       .then(blogs => {
       // res.json(blog)

@@ -26,7 +26,7 @@ superAdminSchema.methods.generateAuthToken = async function(req, res){
     await admin.save()
 
     res.cookie('authToken', token)
-    return token 
+    return token
 }
 
 // superAdminSchema.statics.findByCredentials = async (user_id, password){
