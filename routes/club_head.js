@@ -92,7 +92,8 @@ router.route('/login').post(async (req, res) => {
     console.log(user)
 
     if(!user){
-      throw new Error()
+      // throw new Error()
+      res.render('index',{alerts:"Please check UserID / Password"})
     }
 
     const token = await user.generateAuthToken(req, res)
@@ -101,8 +102,8 @@ router.route('/login').post(async (req, res) => {
     res.render('landing_clubHead', {user : user,page_name:'home'})
 
   }catch(e){
-    //console.log()
-    res.status(400).json('Unable to Login')
+    // res.status(400).json('Unable to Login')
+    res.render('index',{alerts:e})
   }
  
 })
