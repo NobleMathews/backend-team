@@ -8,17 +8,13 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 </head>
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="column-2">
-                <form method="POST" style="position: relative; left: 0; top:0; padding: 10px;" action="/club_head/profile" >
-                 <button type="submit" class='btn btn-outline-info btn-sm'>HOME</button> 
-                 <a href="/blog/create" class="btn btn-outline-danger" >Create a Blog</a>
-                 </form>        
-            </div>
+    <%-include('partials/navbar_clubhead.ejs')%> <br>
 
-        </div>
+    <div class="container">
+        <a href="/blog/create" class="btn btn-outline-danger" >Create a Blog</a> 
     </div>
+    <br>
+ 
     <div class="container">
     <% if (blogs && blogs.length) { %>
     <h2 style="color: blue; text-decoration: underline;"> List of All Blogs </h2>

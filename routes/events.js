@@ -6,7 +6,7 @@ const clubAuth = require('../middleware/clubAuth')
 
 // route for rendering event creation page
 router.route('/create/').get(clubAuth, (req, res) => {
-  res.render('create_event') /////// Use new system to get the actual user id here
+  res.render('create_event',{page_name:'create_event'}) /////// Use new system to get the actual user id here
 })
 
 //   route to create event
@@ -45,7 +45,7 @@ router.route('/view_all').get(clubAuth, (req, res) => {
     eventsModel.find({ owner: req.user._id })
       .then(events => {
       // res.json(events)
-        res.render('view_events', { events: events, moment: moment })
+        res.render('view_events', { events: events, moment: moment, page_name:'view_events' })
       }).catch((err) => {
         res.json('Error: ' + err)
       })

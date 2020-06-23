@@ -5,7 +5,7 @@ const clubAuth = require('../middleware/clubAuth')
 
 //  for rendering blog creation page
 router.route('/create').get(clubAuth, (req,res)=>{
-  res.render('create_blog',{id:req.params.id})
+  res.render('create_blog',{id:req.params.id, page_name:'blogs'})
 })
 
 // route to create blog
@@ -105,7 +105,7 @@ router.route('/view_all').get(clubAuth, (req,res)=>{
   blogModel.find({ owner: req.user._id })
   .then(blogs => {
   // res.json(blogs)
-    res.render('view_blog', {blogs: blogs})
+    res.render('view_blog', {blogs: blogs,page_name:'blogs'})
   }).catch((err) => {
     res.json('Error: ' + err)
   })
