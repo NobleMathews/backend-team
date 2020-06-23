@@ -105,7 +105,7 @@ router.route('/view_all').get(clubAuth, (req,res)=>{
   blogModel.find({ owner: req.user._id })
   .then(blogs => {
   // res.json(blogs)
-    res.render('view_blog', {blogs: blogs})
+    res.render('view_blog', {blogs: blogs,page_name:'view_blogs'})
   }).catch((err) => {
     res.json('Error: ' + err)
   })

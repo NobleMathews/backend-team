@@ -53,7 +53,7 @@ router.route('/update').get(clubAuth, async (req, res) => {
         throw new Error()
       }
 
-      res.render('update_club', {club})
+      res.render('update_club', {club,page_name:'update_club'})
     }catch(e){
       res.json('NO club has been assigned to the logged in club head by admin')
     }

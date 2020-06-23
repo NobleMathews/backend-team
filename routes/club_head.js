@@ -97,7 +97,7 @@ router.route('/login').post(async (req, res) => {
     const token = await user.generateAuthToken(req, res)
     console.log(token)
 
-    res.render('landing_clubHead', {user : user})
+    res.render('landing_clubHead', {user : user,page_name:'home'})
 
   }catch(e){
     //console.log()
@@ -110,7 +110,7 @@ router.route('/login').post(async (req, res) => {
 router.route('/profile').post(clubAuth, (req, res) => {
   const user = req.user
 
-  return res.render('landing_clubHead', {user : user})
+  return res.render('landing_clubHead', {user : user,page_name:'home'})
 })
 
 // route to view all club_heads
