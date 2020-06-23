@@ -40,7 +40,7 @@ router.route('/create').post(adminAuth, (req, res) => {
 
 // route to render club_head create page
 router.route('/create').get(adminAuth, async (req, res) => {
-  res.render('create_club_head')
+  res.render('create_club_head', {page_name:"club_heads"})
 })
 
 // route for updating profile
@@ -119,7 +119,7 @@ router.route('/view_all').get(adminAuth, (req, res) => {
     if(err){
       res.json(err)
     }else{
-    res.render('view_club_heads',{club_heads:club_heads})
+    res.render('view_club_heads',{club_heads:club_heads, page_name:"club_heads"})
     }
   })
 })

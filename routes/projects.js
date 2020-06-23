@@ -6,7 +6,7 @@ const adminAuth = require('../middleware/adminAuth');
 
 // route for rendering the project creating page
 router.route('/create').get(adminAuth, (req, res) => {
-    res.render('create_project', { id: req.admin._id })
+    res.render('create_project', { id: req.admin._id, page_name:"projects" })
 })
 
 // route to create project
@@ -40,7 +40,7 @@ router.route('/update/:id').get(adminAuth, (req,res)=>{
     const proj_id = req.params.id
     projectsModel.findById(proj_id)
     .then(project=>{
-      res.render('update_project',{project:project})
+      res.render('update_project',{project:project, page_name:"projects"})
     })
 })
 
@@ -85,9 +85,10 @@ router.route('/delete/:id').get(adminAuth, (req, res) => {
 
 // route to view all projects
 router.route('/view_all').get(adminAuth, (req, res) => {
+    const admin = req.admin
     projectsModel.find()
       .then(project => {
-        res.render('details_project', { projects: project,_id:0}) //, _id: sess._id
+        res.render('details_project', { projects: project,_id:admin._id, page_name:"projects"}) //, _id: sess._id
       }).catch(err => {
         res.status(404).send(err)
       })

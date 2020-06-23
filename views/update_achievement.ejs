@@ -7,21 +7,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 </head>
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="column-2">
-                <form method="POST" style="position: relative; left: 0; top:0; padding: 10px;" action="/admin/profile" >
-                 <button type="submit" class='btn btn-outline-info btn-sm'>HOME</button> 
-                 </form>        
-            </div>
-            <div class="column-2">
-                 <form method="GET" style="position: relative; left:20; top:0; padding: 10px;" action="/achievements/view_all" >
-                 <button type="submit" class='btn btn-outline-info btn-sm'>ALL Achievements</button> 
-                    </form>         
-            </div>
-       
-        </div>
-    </div>
+    <%- include('partials/navbar_admin') %>
     <div class="container">
         <div class="row">
         <div class="col-8">
