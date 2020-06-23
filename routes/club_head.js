@@ -61,10 +61,11 @@ router.route('/profile/update').post(clubAuth, upload.single('profpic'), async (
     updates.forEach((update) => {
       user[update] = req.body[update]
     })
+    user["dp_url"] = dpurl
 
     await user.save()
 
-    res.render('landing_clubHead', {user:user})
+    res.render('landing_clubHead', {user:user,page_name:"home"})
 
   }catch(e){
     res.status(400).json(e)
@@ -88,20 +89,20 @@ router.route('/login').post(async (req, res) => {
   try{
 
     const user = await clubHeadsModel.findOne({user_id, pswd})
-    console.log(user)
+    // console.log(user)
 
     if(!user){
       throw new Error()
     }
 
     const token = await user.generateAuthToken(req, res)
-    console.log(token)
+    // console.log(token)
 
     res.render('landing_clubHead', {user : user,page_name:'home'})
 
   }catch(e){
-    //console.log()
-    res.status(400).json('Unable to Login')
+    // res.status(400).json('Unable to Login')
+    res.render('index',{alerts:"Please check UserID / Password"})
   }
  
 })

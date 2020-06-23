@@ -43,14 +43,15 @@ router.route('/login').post(async (req, res) => {
     const admin = await superAdminModel.findOne({ user_id, pswd })
 
     if(!admin){
-      throw new Error('Unable to login')
+      throw new Error()
     }
 
     const token = await admin.generateAuthToken(req, res)
     res.render('landing_admin', { admin: admin, page_name:"home" })
 
   }catch(e){
-    res.json(e)
+    // res.json(e)
+    res.render('index',{alerts:"Sorry, you donot have admin privileges"})
   }
     
 })
