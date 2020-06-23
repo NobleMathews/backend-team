@@ -7,12 +7,8 @@
     <title>Profile</title>
 </head>
 <body>
+    <%- include('navbar_clubhead.ejs')%>
     <div class="container h-100">
-         <div>
-        <form method="GET" style="position: fixed; left: 0; top:0; padding: 10px;" action="/club_head/logout/" >
-                 <button type="submit" class='btn btn-outline-danger btn-sm'>LOGOUT</button> 
-            </form>
-        </div>
 
         <div class="row h-100 justify-content-center align-items-center">
           <form class="col-12">
@@ -24,7 +20,7 @@
                                 <h1><%=user.club_name%></h1>
                                 <br><br>
                                 <div class="row">
-                                    <img src="/images/<%=dp_url%>" alt="profile_pic" style="width: 50px;" >
+                                    <img src="/images/<%=user.dp_url%>" alt="profile_pic" style="width: 50px;" >
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
@@ -75,10 +71,6 @@
                         <form method="post">
                         <a href='/club_head/password/change/' class="btn btn-outline-primary">Change Password</a>
                         <a href='/club_head/profile/update' class="btn btn-outline-primary">Update Profile</a>
-                        <a href="/events/create" class="btn btn-outline-danger">Create Event</a>
-                        <a href="/events/view_all" class="btn btn-outline-warning">View Events</a>
-                        <a href="/blog/view_all" class="btn btn-outline-warning">View Blogs</a>
-                        <a href="/club/update" class="btn btn-outline-warning">Update Club Info.</a>
                     </form> 
 
                     </div>
