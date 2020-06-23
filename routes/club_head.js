@@ -89,21 +89,20 @@ router.route('/login').post(async (req, res) => {
   try{
 
     const user = await clubHeadsModel.findOne({user_id, pswd})
-    console.log(user)
+    // console.log(user)
 
     if(!user){
-      // throw new Error()
-      res.render('index',{alerts:"Please check UserID / Password"})
+      throw new Error()
     }
 
     const token = await user.generateAuthToken(req, res)
-    console.log(token)
+    // console.log(token)
 
     res.render('landing_clubHead', {user : user,page_name:'home'})
 
   }catch(e){
     // res.status(400).json('Unable to Login')
-    res.render('index',{alerts:e})
+    res.render('index',{alerts:"Please check UserID / Password"})
   }
  
 })
