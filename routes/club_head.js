@@ -61,10 +61,11 @@ router.route('/profile/update').post(clubAuth, upload.single('profpic'), async (
     updates.forEach((update) => {
       user[update] = req.body[update]
     })
+    user["dp_url"] = dpurl
 
     await user.save()
 
-    res.render('landing_clubHead', {user:user})
+    res.render('landing_clubHead', {user:user,page_name:"home"})
 
   }catch(e){
     res.status(400).json(e)
