@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <span class="navbar-brand mb-0 h1">Club Head</span>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -10,9 +10,6 @@
             <form action="/club_head/profile" method="POST">
                 <button type="submit" class="nav-link">Home</button>
             </form>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="/club_head/logout">Logout</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/events/create">Create Event</a>
@@ -27,5 +24,14 @@
             <a class="nav-link" href="/club/update">Update Club</a>
         </li>
       </ul>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+        <form method="GET" action="/club_head/logout/" >
+            <button type="submit" class='btn btn-outline-danger btn-sm'>LOGOUT</button> 
+        </form>
+        </li>
+      </ul>
+
     </div>
   </nav>
