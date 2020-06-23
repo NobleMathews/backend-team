@@ -1,0 +1,36 @@
+<div class="header clearfix">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#"><b>Admin</b></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+                <form method="POST" action="/admin/profile">
+                    <a class="nav-link  <%= page_name == 'home' ? 'active' : '' %>" href="#" onclick="$(this).closest('form').submit()">Home</a>
+                </form>
+              </li>
+            <li class="nav-item">
+                <a class="nav-link <%= page_name == 'club_heads' ? 'active' : '' %>" href="/club_head/view_all">Club Heads</a>
+              </li>
+            <li class="nav-item">
+                <a class="nav-link <%= page_name == 'clubs' ? 'active' : '' %>" href="/club/view_all">Clubs</a>
+              </li>
+            <li class="nav-item">
+                <a class="nav-link <%= page_name == 'projects' ? 'active' : '' %>" href="/projects/view_all">Projects</a>
+              </li>
+            <li class="nav-item">
+                <a class="nav-link <%= page_name == 'achievements' ? 'active' : '' %>" href="/achievements/view_all">Achievements</a>
+              </li>
+          </ul>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+            <form method="GET" action="/admin/logout/" >
+                <button type="submit" class='btn btn-outline-danger btn-sm'>LOGOUT</button> 
+            </form>
+            </li>
+          </ul>
+    </nav>
+</div>

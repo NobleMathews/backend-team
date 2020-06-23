@@ -5,7 +5,7 @@ const adminAuth = require('../middleware/adminAuth');
 
 // for rendering achievement create page
 router.route('/create/').get(adminAuth, (req, res) => {
-    res.render('create_achievement')
+    res.render('create_achievement', {page_name:"achievements"})
 })
 
 // route to create achievement
@@ -35,7 +35,7 @@ router.route('/create/').post(adminAuth, upload.any('snapshot_url', 20), (req, r
 router.route('/update/:id').get(adminAuth, (req, res) => {
     achievementModel.findById(req.params.id)
       .then(ach => {
-        res.render('update_achievement', { ach: ach })
+        res.render('update_achievement', { ach: ach, page_name:"achievements" })
       }).catch(err => {
         res.status(404).send('Does nit exist')
       })
@@ -81,7 +81,7 @@ router.route('/delete/:id').get(adminAuth, (req, res) => {
 router.route('/view_all').get(adminAuth, (req, res) => {
     achievementModel.find()
     .then(achievements => {
-        res.render('view_achievements', { achievements })
+        res.render('view_achievements', { achievements , page_name:"achievements"})
     })
 })
 
