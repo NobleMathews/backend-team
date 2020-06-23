@@ -7,7 +7,7 @@ const clubAuth = require('../middleware/clubAuth')
 
 // for rendering the create club page
 router.route('/create/').get(adminAuth, (req, res) => {
-    res.render('create_club')
+    res.render('create_club', {page_name:"clubs"})
 })
 
 // route to create the club
@@ -118,7 +118,7 @@ router.route('/view_all').get(adminAuth, (req, res) => {
     clubModel.find()
       .then(clubs => {
         res.render('view_clubs', {
-          clubs: clubs
+          clubs: clubs, page_name:"clubs"
         })
       }).catch((err) => {
         res.json('Error: ' + err)
@@ -132,7 +132,7 @@ router.route('/details/:id').get(adminAuth, (req, res) => {
     .then(club => {
       clubHeadsModel.findById(club.head)
       .then(club_head=>{
-        res.render('details_club',{club_head:club_head,club:club})
+        res.render('details_club',{club_head:club_head,club:club, page_name:"clubs"})
       }).catch(err=>{
         res.json(err)
       })
@@ -144,7 +144,7 @@ router.route('/details/:id').get(adminAuth, (req, res) => {
 // for rendering the reset page
 router.route('/reset/:id').get(adminAuth, (req,res)=>{
   const club_id = req.params.id
-  res.render('reset_club',{club_id:club_id})
+  res.render('reset_club',{club_id:club_id, page_name:"clubs"})
 })
 
 // route to reset any club
