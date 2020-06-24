@@ -12,7 +12,7 @@ router.route('/:id').get((req, res) => {
 
       clubHeadsModel.findById(event.owner)
         .then(user => {
-          res.render('contact', { event: event, user: user })
+          res.render('contact', { event: event, user: user, page_name:'view_events'  })
         }).catch((err) => {
           res.json('Error: ' + err)
         })

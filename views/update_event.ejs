@@ -4,24 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Event</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" >
 </head>
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="column-2">
-                <form method="POST" style="position: relative; left: 0; top:0; padding: 10px;" action="/club_head/profile" >
-                 <button type="submit" class='btn btn-outline-info btn-sm'>HOME</button> 
-                 </form>        
-            </div>
-            <div class="column-2">
-                 <form method="GET" style="position: relative; left:20; top:0; padding: 10px;" action="/events/view_all" >
-                 <button type="submit" class='btn btn-outline-info btn-sm'>All Events</button> 
-                    </form>         
-            </div>
-       
-        </div>
-    </div>
+    <%-include('partials/navbar_clubhead.ejs')%>
     <div class="container">
         <div class="row">
         <div class="col-8">
@@ -82,7 +68,7 @@
         </div>
         </div>
     </div>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="  crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" ></script>
 </body>
 </html>

@@ -55,7 +55,7 @@ router.route('/update/:id').get(clubAuth, (req,res)=>{
   const id = req.params.id
   blogModel.findById(id)
   .then(blog=>{
-      res.render('update_blog',{id:req.params.id,summary:blog})
+      res.render('update_blog',{id:req.params.id,summary:blog, page_name:'blogs' })
   }).catch(err=>{
       res.json(err)
   })

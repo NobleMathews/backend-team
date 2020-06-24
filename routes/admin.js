@@ -122,7 +122,7 @@ router.route('/logout/').get(adminAuth, async (req,res) => {
 
       await req.admin.save()
 
-      res.redirect('/')
+      res.redirect('/admin')
 
     }catch(e){
       res.json({e})

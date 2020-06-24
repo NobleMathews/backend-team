@@ -6,7 +6,7 @@ const clubAuth = require('../middleware/clubAuth')
 
 // for rendering password page
 router.route('/password/change').get(clubAuth, (req, res) => {
-  res.render('update_password_clubHead')
+  res.render('update_password_clubHead', {page_name:"home"})
 })
 
 // route for changing the password
@@ -76,7 +76,7 @@ router.route('/profile/update').post(clubAuth, upload.single('profpic'), async (
 // for rendering update profile
 router.route('/profile/update').get(clubAuth, (req, res) => {
   // turn on the projections as per necessity
-  res.render('update_profile_clubHead', { user: req.user })
+  res.render('update_profile_clubHead', { user: req.user, page_name:"home"})
 })
 
 // route for rendering profile and action page
