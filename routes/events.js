@@ -57,7 +57,7 @@ router.route('/view_all').get(clubAuth, (req, res) => {
     eventsModel.find({ _id: id })
       .then(events => {
       // res.json(events)
-        res.render('details_event', { events: events, moment: moment })
+        res.render('details_event', { events: events, moment: moment, page_name:'view_events'  })
       }).catch((err) => {
         res.json('Error: ' + err)
       })
@@ -67,7 +67,7 @@ router.route('/update/:id').get(clubAuth, (req,res)=>{
     const id = req.params.id
     eventsModel.findById(id)
     .then(event=>{
-        res.render('update_event',{event:event,moment:moment})
+        res.render('update_event',{event:event,moment:moment, page_name:'view_events' })
     }).catch(err=>{
         res.json(err)
     })
