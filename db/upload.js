@@ -4,6 +4,10 @@ const path = require('path')
 
 const upload = multer({ storage,
     fileFilter: function (req, file, callback) {
+        if(file.fieldname === 'file_attachment'){
+        // can restricts types here like shown below or with mimes
+            return callback(null, true);
+        }
         var ext = path.extname(file.originalname);
         // png jpg gif and jpeg allowed
         if(ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') {  
@@ -15,12 +19,4 @@ const upload = multer({ storage,
         fileSize: 50 * 1000000 // 50 Mb limit imposed
     } 
 })
-// forced upload to handle non image uploads
-const uploadf = multer({ storage,
-    limits:{
-        fileSize: 50 * 1000000 // 50 Mb limit imposed but unrestricted on type
-    } 
-})
-module.exports =  {
-   upload,uploadf
-};
+module.exports = upload

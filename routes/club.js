@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const clubModel = require('../models/Club.model')
 const clubHeadsModel = require('../models/ClubHead.model')
-const {upload,uploadf} = require('../db/upload');
+const upload = require('../db/upload')
 const adminAuth = require('../middleware/adminAuth');
 const clubAuth = require('../middleware/clubAuth')
 
