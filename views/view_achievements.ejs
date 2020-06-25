@@ -24,9 +24,9 @@
                 <div class="card-body">
                     <h5 class="card-title"><%= achievement.title %></h5>
                     <h6 class="card-subtitle mb-2 text-muted"><%= achievement.caption %></h6>
-                    <p class="card-text">
-                        <%= achievement.description %>
-                    </p>
+                    <div class="card-text">
+                        <%- achievement.description %>
+                    </div>
                     <p>
                     <a href="/achievements/update/<%=achievement._id%>">edit</a>  |  <a href="/achievements/delete/<%=achievement._id%>">delete</a>
                     </p>

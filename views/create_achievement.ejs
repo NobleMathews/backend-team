@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" >
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="  crossorigin="anonymous"></script>
+    <script src="https://cdn.ckeditor.com/4.9.1/standard/ckeditor.js"></script>
     <title>Add Achievement</title>
     <style>
       input[type="file"] {
@@ -88,6 +89,7 @@
         </div>
     </div>
     <script>
+      CKEDITOR.replace('des');
      $(document).ready(function() {
         $("#snapshot_url").on("change", function(e) {
         $(".pip").remove();
