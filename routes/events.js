@@ -110,7 +110,7 @@ router.route('/delete/:id').get(clubAuth, (req,res)=>{
         eventsModel.find({ owner: club_head_id })
         .then(events => {
         // res.json(events)
-            res.render('view_events', { events: events, moment: moment })
+            res.render('view_events', { events: events, moment: moment, page_name: 'view_events' })
         }).catch((err) => {
         res.json('Error: ' + err)
         })
