@@ -19,23 +19,10 @@ router.route('/create').post(clubAuth, uploadf.any('file_attachment',40), (req, 
   console.log(req.files);
   if (req.files != undefined) {
     let ext;
-    // file_attachment = req.files['file_attachment'].map((file)=>{
-    //   return file.filename
-    // })
-    // pics_url = req.files['gallery'].map((file)=>{
-    //   return file.filename
-    // })
     file_attachment= req.files.filter((file) => { ext=path.extname(file.originalname); return (ext != '.png' && ext != '.jpg' && ext != '.gif' && ext != '.jpeg') })
     .map((file)=> { return file.filename });
     pics_url = req.files.filter((file) => { ext=path.extname(file.originalname); return (ext == '.png' || ext == '.jpg' || ext == '.gif' || ext == '.jpeg') })
     .map((file)=> { return file.filename });
-    // pics_url = req.files.map((file) => {
-    //   ext = path.extname(file.originalname);
-    //   if(ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg')
-    //   file_attachment.push(file.filename);
-    //   else
-    //   return file.filename
-    // })
     console.log(req.file);
     console.log(file_attachment);
     var evsum= new blogModel({
@@ -56,7 +43,6 @@ router.route('/create').post(clubAuth, uploadf.any('file_attachment',40), (req, 
       award_winners : req.body.award_winners,
       summary : req.body.summary,
       outside_links : outside_links,
-      file_attachment : file_attachment,
       video_links : video_links
   })
   }
@@ -83,16 +69,19 @@ router.route('/update/:id').get(clubAuth, (req,res)=>{
 //  route to update blog
 router.route('/update/:id').post(clubAuth, upload.any('gallery',20), (req, res)=>{
     const id = req.params.id;
-    var pics_url;
+    var pics_url,file_attachment;
     let outside_links=(req.body.outside_links).filter(Boolean);
-    let file_attachment=(req.body.file_attachment).filter(Boolean);
     let video_links=(req.body.video_links).filter(Boolean);
     if (req.files != undefined) {
-      pics_url = req.files.map((file) => {
-        return file.filename
-      })
-
-      var evsum= {
+      let ext;
+      file_attachment= req.files.filter((file) => { ext=path.extname(file.originalname); return (ext != '.png' && ext != '.jpg' && ext != '.gif' && ext != '.jpeg') })
+      .map((file)=> { return file.filename });
+      pics_url = req.files.filter((file) => { ext=path.extname(file.originalname); return (ext == '.png' || ext == '.jpg' || ext == '.gif' || ext == '.jpeg') })
+      .map((file)=> { return file.filename });
+      console.log(req.file);
+      console.log(file_attachment);
+      var evsum= new blogModel({
+        owner: id,
         gallery : pics_url,                          
         chief_guest : req.body.chief_guest,
         award_winners : req.body.award_winners,
@@ -100,7 +89,7 @@ router.route('/update/:id').post(clubAuth, upload.any('gallery',20), (req, res)=
         outside_links : outside_links,
         file_attachment : file_attachment,
         video_links : video_links
-    }
+    })
     }
     else{
     var evsum= {
@@ -108,7 +97,6 @@ router.route('/update/:id').post(clubAuth, upload.any('gallery',20), (req, res)=
         award_winners : req.body.award_winners,
         summary : req.body.summary,
         outside_links : outside_links,
-        file_attachment : file_attachment,
         video_links : video_links
     }
     }
