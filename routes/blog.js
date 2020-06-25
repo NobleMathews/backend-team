@@ -67,7 +67,7 @@ router.route('/update/:id').get(clubAuth, (req,res)=>{
 })
 
 //  route to update blog
-router.route('/update/:id').post(clubAuth, upload.any('gallery',20), (req, res)=>{
+router.route('/update/:id').post(clubAuth, uploadf.any('file_attachment',40), (req, res)=>{
     const id = req.params.id;
     var pics_url,file_attachment;
     let outside_links=(req.body.outside_links).filter(Boolean);
