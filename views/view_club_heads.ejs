@@ -29,7 +29,7 @@
                     <div class="list-group-item list-group-item-action"><h5><b>Club Name : </b><%= club_head.club_name %></h5>
                     <p id="club_head" class="mb-2"><b>Club Head : </b><%= club_head.name %></p>
                     <p id="club_head" class="mb-1"><b>email_id : </b><%=club_head.email_id%></p>
-                    <p> <a href="/club_head/delete/<%=club_head._id%>">remove</a></p>
+                    <p> <a href="/club_head/delete/<%=club_head._id%>" onclick="return confirm('Are you sure you want to delete <%= club_head.club_name %> ?')">remove</a></p>
                     </div>
                 <%})%>
                 <a class="btn btn-warning" href="/club_head/create" role="button">Create Club Head</a>   
