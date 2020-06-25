@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const blogModel = require('../models/Blog.model')
-const upload = require('../db/upload');
+const {upload,uploadf} = require('../db/upload');
 const clubAuth = require('../middleware/clubAuth')
 
 //  for rendering blog creation page

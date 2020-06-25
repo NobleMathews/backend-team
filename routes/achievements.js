@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const achievementModel = require('../models/Achievement.model')
-const upload = require('../db/upload');
+const {upload,uploadf} = require('../db/upload');
 const adminAuth = require('../middleware/adminAuth');
 
 // for rendering achievement create page

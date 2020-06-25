@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const eventsModel = require('../models/Event.model')
 const moment = require('moment');
-const upload = require('../db/upload');
+const {upload,uploadf} = require('../db/upload');
 const clubAuth = require('../middleware/clubAuth')
 
 // route for rendering event creation page
