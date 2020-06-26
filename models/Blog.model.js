@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const Users = require('./ClubHead.model');
 
 const blogSchema = new Schema({
     owner:{
