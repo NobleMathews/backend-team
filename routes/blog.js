@@ -71,11 +71,13 @@ router.route('/update/:id').post(clubAuth, uploadf.any('file_attachment',40), (r
     const id = req.params.id;
     var pics_url,file_attachment;
     let outside_links=(req.body.outside_links).filter(Boolean);
+    let file_attachment_links=(req.body.file_attachment_links).filter(Boolean);
     let video_links=(req.body.video_links).filter(Boolean);
     if (req.files != undefined) {
       let ext;
       file_attachment= req.files.filter((file) => { ext=path.extname(file.originalname); return (ext != '.png' && ext != '.jpg' && ext != '.gif' && ext != '.jpeg') })
       .map((file)=> { return file.filename });
+      file_attachment = file_attachment.concat(file_attachment_links);
       pics_url = req.files.filter((file) => { ext=path.extname(file.originalname); return (ext == '.png' || ext == '.jpg' || ext == '.gif' || ext == '.jpeg') })
       .map((file)=> { return file.filename });
       console.log(req.file);
@@ -97,6 +99,7 @@ router.route('/update/:id').post(clubAuth, uploadf.any('file_attachment',40), (r
         award_winners : req.body.award_winners,
         summary : req.body.summary,
         outside_links : outside_links,
+        file_attachment : file_attachment_links,
         video_links : video_links
     }
     }

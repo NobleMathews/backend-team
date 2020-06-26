@@ -43,13 +43,25 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr id='addr0'>
-                                        <td>1</td>
-                                        <td>
+                                    <% var i; %>
+                                    <% for ( i=0 ; i <= summary.file_attachment.length ; i++ ){ %>
+                                    <tr id='addr<%=i%>'>
+                                        <td><%=i+1%></td>
+                                        <% if(!summary.file_attachment[i]){ %>
+                                    <td>
                                         <input type="file" name='file_attachment[]'  placeholder='Links to docs/files' class="form-control"/>
-                                        </td>
+                                    </td>
+                                        <%  }else{  %>
+                                    <td>
+                                        <a  href="/files/<%=summary.file_attachment[i] %>" target="_blank"><%= summary.file_attachment[i] %>    
+                                        <input type="button" style="display: none;" class="form-control" name='file_attachment_links[]'/>
+                                        </a>
+                                    </td>
+                                        <td><button id="updaterow">Update</button></td>
+                                        <%  }  %>
                                     </tr>
-                                    <tr id='addr1'></tr>
+                                    <%  }  %>
+                                    <tr id='addr<%=i%>'></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -73,13 +85,16 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr id='addr20'>
-                                        <td>1</td>
+                                    <% var j; %>
+                                    <% for ( j=0 ; j <= summary.outside_links.length ; j++ ){ %>
+                                    <tr id='addr2<%=j%>'>
+                                        <td><%=j+1%></td>
                                         <td>
-                                        <input type="text" name='outside_links[]'  placeholder='Provide links to google docs/ uploads' class="form-control"/>
+                                        <input type="text" name='outside_links[]'  placeholder='Provide links to google docs/ uploads' class="form-control" value="<%=summary.outside_links[j]||''%>"/>
                                         </td>
                                     </tr>
-                                    <tr id='addr21'></tr>
+                                    <%  }  %>
+                                    <tr id='addr2<%=j%>'></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -103,14 +118,17 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr id='addr30'>
-                                        <td>1</td>
+                                <% var k; %>
+                                <% for ( k=0 ; k <= summary.video_links.length ; k++ ){ %>
+                                    <tr id='addr3<%=k%>'>
+                                        <td><%=k+1%></td>
                                         <td>
-                                        <input type="text" name='video_links[]' placeholder='Provide links to videos if any..' class="form-control"/>
+                                        <input type="text" name='video_links[]' placeholder='Provide links to videos if any..' class="form-control" value="<%=summary.video_links[k]||''%>"/>
                                         </td>
                                     </tr>
-                                    <tr id='addr31'></tr>
-                                </tbody>
+                                <%  }  %>                                
+                                    <tr id='addr3<%=k%>'>
+                            </tbody>
                             </table>
                         </div>
                     </div>
@@ -132,8 +150,9 @@
         CKEDITOR.replace('summary');
         $(document).ready(function(){
             var i=1;
+            i=$("#tab_logic tr").length-2;
             $("#add_row").click(function(event){event.preventDefault();b=i-1;
-            $('#addr'+i).html($('#addr'+b).html()).find('td:first-child').html(i+1);
+            $('#addr'+i).html('<td></td><td><input type="file" name="file_attachment[]" placeholder="Links to docs/files" class="form-control"/></td>').find('td:first-child').html(i+1);
             $('#tab_logic').append('<tr id="addr'+(i+1)+'"></tr>');
             i++; 
             });
@@ -143,7 +162,13 @@
                 i--;
                 }
             });
+            $("#updaterow").click(function(event){event.preventDefault();
+                $(event.target).parent().parent().find('td:nth-child(2)').html('<input type="file" name="file_attachment[]"  placeholder="Links to docs/files" class="form-control"/>');
+                $(event.target).parent().parent().find('td:nth-child(3)').remove();
+                console.log($(event.target).parent());
+            });
                 var j=1;
+                j=$("#tab_logic2 tr").length-2;
                 $("#add_row2").click(function(event){event.preventDefault();b=j-1;
                 $('#addr2'+j).html($('#addr2'+b).html()).find('td:first-child').html(j+1);
                 $('#tab_logic2').append('<tr id="addr2'+(j+1)+'"></tr>');
@@ -156,6 +181,7 @@
                     }
                 });
                 var k=1;
+                k=$("#tab_logic3 tr").length-2;
                 $("#add_row3").click(function(event){event.preventDefault();b=k-1;
                 $('#addr3'+k).html($('#addr3'+b).html()).find('td:first-child').html(k+1);
                 $('#tab_logic3').append('<tr id="addr3'+(k+1)+'"></tr>');
