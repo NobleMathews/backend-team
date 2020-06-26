@@ -54,7 +54,7 @@
                                         <%  }else{  %>
                                     <td>
                                         <a  href="/files/<%=summary.file_attachment[i] %>" target="_blank"><%= summary.file_attachment[i] %>    
-                                        <input type="button" style="display: none;" class="form-control" name='file_attachment_links[]'/>
+                                        <input type="button" style="display: none;" class="form-control" value="<%= summary.file_attachment[i] %>" name='file_attachment_links[]'/>
                                         </a>
                                     </td>
                                         <td><button id="updaterow">Update</button></td>
@@ -136,6 +136,32 @@
                 </div>
             </div>
             <div class="form-group">
+                <div class="container">
+                    <div class="row clearfix">
+                        <div class="col-md-12 column">
+                            <table class="table table-bordered table-hover" id="tab_logic4">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">
+                                            Uploaded Images
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% (summary.gallery).forEach(function(url){ %>
+                                    <tr>
+                                    <td>
+                                        <img src="/images/<%= url %>" alt="image" width="100px" height="100px">
+                                        <input type="button" style="display: none;" class="form-control" value="<%=url%>" name='pics_url_links[]'/>
+                                    </td>
+                                        <td><button id="updaterow2">Remove</button></td>
+                                    </tr>
+                                    <%  });  %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
                 <label>Upload Photos</label>
                 <input type="file" accept='image/*' name="file_attachment[]" class="form-control-file" multiple>
             </div>
@@ -165,7 +191,9 @@
             $("#updaterow").click(function(event){event.preventDefault();
                 $(event.target).parent().parent().find('td:nth-child(2)').html('<input type="file" name="file_attachment[]"  placeholder="Links to docs/files" class="form-control"/>');
                 $(event.target).parent().parent().find('td:nth-child(3)').remove();
-                console.log($(event.target).parent());
+            });
+            $("#updaterow2").click(function(event){event.preventDefault();
+                $(event.target).parent().parent().remove();
             });
                 var j=1;
                 j=$("#tab_logic2 tr").length-2;

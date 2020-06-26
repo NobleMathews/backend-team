@@ -72,6 +72,7 @@ router.route('/update/:id').post(clubAuth, uploadf.any('file_attachment',40), (r
     var pics_url,file_attachment;
     let outside_links=(req.body.outside_links).filter(Boolean);
     let file_attachment_links=(req.body.file_attachment_links).filter(Boolean);
+    let pics_url_links=(req.body.pics_url_links).filter(Boolean);
     let video_links=(req.body.video_links).filter(Boolean);
     if (req.files != undefined) {
       let ext;
@@ -80,6 +81,7 @@ router.route('/update/:id').post(clubAuth, uploadf.any('file_attachment',40), (r
       file_attachment = file_attachment.concat(file_attachment_links);
       pics_url = req.files.filter((file) => { ext=path.extname(file.originalname); return (ext == '.png' || ext == '.jpg' || ext == '.gif' || ext == '.jpeg') })
       .map((file)=> { return file.filename });
+      pics_url = pics_url.concat(pics_url_links);
       console.log(req.file);
       console.log(file_attachment);
       var evsum= new blogModel({
