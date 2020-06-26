@@ -54,7 +54,7 @@
                                         <%  }else{  %>
                                     <td>
                                         <a  href="/files/<%=summary.file_attachment[i] %>" target="_blank"><%= summary.file_attachment[i] %>    
-                                        <input type="button" style="display: none;" class="form-control" value="<%= summary.file_attachment[i] %>" name='file_attachment_links[]'/>
+                                        <input style="display: none;" class="form-control" value="<%= summary.file_attachment[i] %>" name='file_attachment_links[]'/>
                                         </a>
                                     </td>
                                         <td><button id="updaterow">Update</button></td>
@@ -152,7 +152,7 @@
                                     <tr>
                                     <td>
                                         <img src="/images/<%= url %>" alt="image" width="100px" height="100px">
-                                        <input type="button" style="display: none;" class="form-control" value="<%=url%>" name='pics_url_links[]'/>
+                                        <input style="display: none;" class="form-control" value="<%=url%>" name='pics_url_links[]'/>
                                     </td>
                                         <td><button id="updaterow2">Remove</button></td>
                                     </tr>
