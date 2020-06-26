@@ -111,7 +111,7 @@
                                     <% if ((blog.file_attachment) && (blog.file_attachment).length) { %>
                                     <% (blog.file_attachment).forEach((url) => { %>
                                         <% if ((url.length)>2) { %>
-                                            <li class="list-group-item"><a href="<%= url %>"><%= url %></a></li>
+                                            <li class="list-group-item"><a href="/files/<%= url %>" target="_blank"><%= url %></a></li>
                                             <% }else{ %>
                                                 <li class="list-group-item">NULL</li>
                                             <% }%>

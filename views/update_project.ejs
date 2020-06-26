@@ -65,13 +65,17 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr id='addr0'>
-                                    <td>1</td>
+                                <% var i; %>
+                                <% for ( i=0 ; i < project.team_members.length ; i++ ){ %>
+
+                                <tr id='addr<%=i%>'>
+                                    <td><%=i+1%></td>
                                     <td>
-                                    <input type="text" name='team_member[]'  placeholder='Enter Team Members Name' class="form-control" value="<%=project.team_members%>"/>
+                                    <input type="text" name='team_member[]'  placeholder='Enter Team Members Name' class="form-control" value="<%=project.team_members[i]||''%>"/>
                                     </td>
                                 </tr>
-                                <tr id='addr1'></tr>
+                                <%  }  %>
+                                <tr id='addr<%=i%>'></tr>
                             </tbody>
                         </table>
                     </div>
@@ -106,8 +110,7 @@
             <!-- <input style="display: none;" id="ignore" name="ignore" value=""/> -->
             <div class="field">
                 <label>Upload snapshots</label>
-                <%
-                    for (var i=0 ; i < project.snapshot_url.length ; i++ ){ %>
+                <% for (var i=0 ; i < project.snapshot_url.length ; i++ ){ %>
                        
                         <img src="/images/<%=project.snapshot_url[i]%>" class="rounded" alt=" No File Selected " height="100px" style="margin-bottom: .5rem;">
                   <%  }  %>
@@ -138,9 +141,11 @@
              });
         
         });
-        $(document).ready(function(){
+    $(document).ready(function(){
       var i=1;
-     $("#add_row").click(function(event){event.preventDefault();b=i-1;
+      i=$("#tab_logic tr").length-2;
+     $("#add_row").click(function(event){event.preventDefault();
+        b=i-1;
       $('#addr'+i).html($('#addr'+b).html()).find('td:first-child').html(i+1);
       $('#tab_logic').append('<tr id="addr'+(i+1)+'"></tr>');
       i++; 

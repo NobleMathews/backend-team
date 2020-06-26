@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const superAdminModel = require('../models/SuperAdmin.model')
 const projectsModel = require('../models/Project.model')
-const upload = require('../db/upload');
+const {upload, uploadf}= require('../db/upload')
 const adminAuth = require('../middleware/adminAuth');
 
 // route for rendering the project creating page
