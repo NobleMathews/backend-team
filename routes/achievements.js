@@ -26,7 +26,7 @@ router.route('/create/').post(adminAuth, upload.any('snapshot_url', 20), (req, r
     })
   
     acheievement.save((err, ach) => {
-      if (err) res, json(err)
+      if (err) res.json(err)
       res.redirect('/achievements/view_all')
     })
 })
