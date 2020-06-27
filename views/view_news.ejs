@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View News</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" >
 </head>
 <body>
+    <%-include('partials/navbar_admin')%> <br><br>
 
    <div class="container">
     <% if(newss && newss.length) { %>
@@ -18,7 +20,7 @@
                                 <%= news.snippet%>
                             </p>
                         </div>
-                        <p>
+                        <p style="text-align: center;">
                             <a href="/news/update/<%=news._id%>">edit</a> | <a href="/news/delete/<%=news._id%>">delete</a>
                         </p>
 
@@ -26,15 +28,17 @@
 
                <% }) %>
 
-               <a href="/news/create">create news</a>
+               
 
             </div>
         
 
      
         <% } else { %>
-             <h1>No news yet created</h1>
+             <h1>No news created yet</h1>
        <% } %>
+
+      <br> <a href="/news/create">Create news</a>
    </div>
     
 </body>

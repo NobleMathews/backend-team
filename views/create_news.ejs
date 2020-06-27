@@ -9,13 +9,14 @@
     <title>Create News</title>
   </head>
   <body>
+    <%-include('partials/navbar_admin')%>
     
     <h3 style="text-align: center; text-decoration: underline; padding-top: 30px;">Create News</h3>
 
     <div class="container" style="padding-top:30px;">
         <div class="col-md-5 m-auto">
           <!-- multipart/form-data -->
-        <form enctype="multipart/form-data" method="POST" action="/news/create">
+        <form enctype='application/x-www-form-urlencoded' method="POST" action="/news/create">
 
 
         <div class="form-group">

@@ -27,6 +27,7 @@ app.use(cookieParser())
 
 // app.use(methodOverride('_method'))
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 app.set('view engine', 'ejs')
 app.set('useFindAndModify', false)
 
