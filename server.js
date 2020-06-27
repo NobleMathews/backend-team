@@ -16,6 +16,7 @@ const projectRouter = require('./routes/projects')
 const achievementsRouter = require('./routes/achievements')
 const notifyRouter = require('./routes/notify')
 const blogRouter = require('./routes/blog')
+const newsRouter = require('./routes/news')
 // const registerRouter = require('./routes/register')
 
 const app = express()
@@ -40,6 +41,7 @@ app.use('/projects', projectRouter)
 app.use('/achievements', achievementsRouter)
 app.use('/notify', notifyRouter)
 app.use('/blog', blogRouter)
+app.use('/news', newsRouter)
 
 // ---- the following were scrapped so takeout from views
 // app.use('/gform', gformRouter)

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View News</title>
+</head>
+<body>
+
+   <div class="container">
+    <% if(newss && newss.length) { %>
+            <div class="card-group">
+                <% newss.forEach((news)=>{ %>
+                    
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <p class="card-text">
+                                <%= news.snippet%>
+                            </p>
+                        </div>
+                        <p>
+                            <a href="/news/update/<%=news._id%>">edit</a> | <a href="/news/delete/<%=news._id%>">delete</a>
+                        </p>
+
+                    </div>
+
+               <% }) %>
+
+               <a href="/news/create">create news</a>
+
+            </div>
+        
+
+     
+        <% } else { %>
+             <h1>No news yet created</h1>
+       <% } %>
+   </div>
+    
+</body>
+</html>

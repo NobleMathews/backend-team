@@ -4,26 +4,68 @@ const adminAuth = require('../middleware/adminAuth');
 
 // for rendering the create news page
 router.route('/create/').get(adminAuth, (req, res) => {
+    res.render('create_news')
 })
 
 // route to create news
 router.route('/create').post(adminAuth,(req, res) => {
+    var news = new newsModel({
+        snippet:req.body.snippet
+    })
+
+    news.save((err,event)=>{
+        if (err){
+            res.json(err)
+        }else{
+            res.redirect('/news/view_all')
+        }
+    })
 })
 
 // for rendering the news update page
-router.route('/update').get(adminAuth, async (req, res) => {
+router.route('/update/:id').get(adminAuth, async (req, res) => {
+    var id = req.params.id;
+    newsModel.findById(id)
+    .then(news => {
+        res.render('update_news',{news:news})
+    }).catch(err => {
+        res.json(err)
+    })
+
 })
 
 // route to update/edit the news details
-router.route('/update/').post(adminAuth, async (req, res) => {
+router.route('/update/:id').post(adminAuth, async (req, res) => {
+    var id = req.params.id;
+    change = {
+        snippet: req.body.snippet
+    }
+    newsModel.findByIdAndUpdate(id,change)
+    .then(news => {
+        res.redirect('/news/view_all')
+    }).catch(err => {
+        res.json(err)
+    })
+
 })
 
 // route to delete a news
-router.route('/delete/:id').delete(adminAuth, (req, res) => { 
+router.route('/delete/:id').get(adminAuth, (req, res) => { 
+    var id = req.params.id;
+    newsModel.findByIdAndDelete(id)
+    .then(() => {
+        res.redirect('/news/view_all');
+    }).catch(err=>{
+        res.json(err)
+    })
 })
 
 // for rendering view page of all the news present
 router.route('/view_all').get(adminAuth, (req, res) => {
+    newsModel.find()
+    .then(newss=>{
+        res.render('view_news',{newss:newss})
+    })
 })
 
 module.exports = router
