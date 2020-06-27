@@ -40,6 +40,7 @@ router.route('/update/:id').get(adminAuth, async (req, res) => {
 // route to update/edit the news details
 router.route('/update/:id').post(adminAuth, async (req, res) => {
     var id = req.params.id;
+    
     change = {
         snippet: req.body.snippet
     }
