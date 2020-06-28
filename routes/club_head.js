@@ -10,14 +10,17 @@ router.route('/password/change').get(clubAuth, (req, res) => {
 })
 
 // route for changing the password
-router.route('/password/change').post(clubAuth, (req, res) => {
+router.route('/password/change').post(clubAuth,async (req, res) => {
   var pswd = req.body.pswd
-  clubHeadsModel.findByIdAndUpdate(req.user._id, { pswd: pswd })
-    .then(() => {
-      res.redirect(307, '/club_head/profile')
-    }).catch(err => {
-      res.json(err)
-    })
+
+  try{
+    req.user.pswd = pswd
+    await req.user.save()
+    res.redirect(307, '/club_head/profile')
+  }catch(e){
+    res.json(e)
+  }
+
 })
 
 // route to create club_head
@@ -88,8 +91,7 @@ router.route('/login').post(async (req, res) => {
 
   try{
 
-    const user = await clubHeadsModel.findOne({user_id, pswd})
-    // console.log(user)
+    const user = await clubHeadsModel.findByCredentials(user_id, pswd)
 
     if(!user){
       throw new Error()

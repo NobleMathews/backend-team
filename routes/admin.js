@@ -11,14 +11,24 @@ router.route('/password/change').get(adminAuth, (req, res) => {
 })
 
 // password changing route
-router.route('/password/change/').post(adminAuth, (req, res) => {
+router.route('/password/change/').post(adminAuth, async (req, res) => {
   var pswd = req.body.pswd
-  superAdminModel.findByIdAndUpdate(req.admin._id, { pswd: pswd })
-    .then(() => {
-      res.redirect(307, '/admin/profile')
-    }).catch(err => {
-      res.json(err)
-    })
+  // superAdminModel.findByIdAndUpdate(req.admin._id, { pswd: pswd })
+  //   .then(() => {
+  //     res.redirect(307, '/admin/profile')
+  //   }).catch(err => {
+  //     res.json(err)
+  //   })
+
+  try{
+
+    req.admin.pswd = pswd
+    await req.admin.save()
+    
+    res.redirect(307, '/admin/profile')
+  }catch(e){
+    res.json(e)
+  }
 })
 
 //viewing the profile after logging in
@@ -40,7 +50,8 @@ router.route('/login').post(async (req, res) => {
   const user_id = req.body.user_id
   const pswd = req.body.pswd
   try{
-    const admin = await superAdminModel.findOne({ user_id, pswd })
+    //const admin = await superAdminModel.findByCredentials( user_id, pswd )
+    const admin = await superAdminModel.findByCredentials(user_id, pswd)
 
     if(!admin){
       throw new Error()
@@ -51,7 +62,7 @@ router.route('/login').post(async (req, res) => {
 
   }catch(e){
     // res.json(e)
-    res.render('index',{alerts:"Sorry, you donot have admin privileges"})
+    res.render('index',{alerts:"Sorry, you do not have admin privileges"})
   }
     
 })

@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const session = require('express-session')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
+const bcrypt = require('bcrypt')
 // const methodOverride = require('method-override')
 
 const adminRouter = require('./routes/admin')
@@ -61,3 +62,4 @@ app.get('/', (req, res) => {
 app.get('/admin/', (req, res) => {
   res.render('adminLogin', { alerts: '' })
 })
+
