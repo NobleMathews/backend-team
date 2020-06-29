@@ -18,7 +18,7 @@ const achievementsRouter = require('./routes/achievements')
 const notifyRouter = require('./routes/notify')
 const blogRouter = require('./routes/blog')
 const newsRouter = require('./routes/news')
-// const registerRouter = require('./routes/register')
+const registerRouter = require('./routes/register')
 
 const app = express()
 const port = process.env.PORT || 5000
@@ -48,7 +48,7 @@ app.use('/news', newsRouter)
 // ---- the following were scrapped so takeout from views
 // app.use('/gform', gformRouter)
 // app.use('/logout', logoutRouter)
-// app.use('/register', registerRouter) // was /register before
+app.use('/register', registerRouter) // was /register before
 // const uri = process.env.URI
 
 app.listen(port, () => {
