@@ -9,13 +9,7 @@ const eventSchema = new Schema({
         trim: true
     },
     venue:{type:String},
-    date : {type: Date,
-        // Illegal date validation
-        validate  :{
-            validator: function(v){
-            return ((new Date())<=v)
-        },      message: props => `${props.value} is older than present date`
-        },required : true},
+    date : {type: Date,required : true},
     description:{type: String,required: true},
     poster_url:{type: String,required: true},
     owner:{
