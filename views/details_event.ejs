@@ -69,19 +69,6 @@
                         <% }%>
                         </div>
                     </ul>
-                    <ul class="list-group list-group-flush" >
-                        <li class="list-group-item"><b>Showcase URL's</b></li>
-                        <div style="max-height: 120px; overflow-y: scroll;">
-                        <% if ((event.showcase_url) && (event.showcase_url).length) { %>
-                        <% (event.showcase_url).forEach((url) => { %>
-                        <li class="list-group-item"><a href="<%= url %>"><%= url %></a></li>
-                        
-                        <% }) %>
-                        <% }else{ %>
-                            <li class="list-group-item">NULL</li>
-                        <% }%>
-                        </div>
-                    </ul>
                     <p>
                         
                         <ul class="list-group">
