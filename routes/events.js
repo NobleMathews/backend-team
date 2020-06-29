@@ -114,19 +114,21 @@ router.route('/update/:id').post(clubAuth, upload.single('poster'), (req, res) =
 // route to delete the event
 router.route('/delete/:id').get(clubAuth, (req,res)=>{
     const id = req.params.id
-    eventsModel.findByIdAndDelete(id)
-    .then(()=>{
+    eventsModel.findOne({_id: id},function(err,event){
+      if(err) return res.status(404).send(err)
+      if ((new Date())<=event.date){
+        event.remove();
         var club_head_id = req.user._id
         eventsModel.find({ owner: club_head_id })
         .then(events => {
-        // res.json(events)
-            res.render('view_events', { events: events, moment: moment, page_name: 'view_events' })
+        return res.render('view_events', { events: events, moment: moment, page_name: 'view_events' })
         }).catch((err) => {
-        res.json('Error: ' + err)
+        return res.json('Error: ' + err)
         })
-    }).catch(err=>{
-        res.json(err)
-    })
+      }
+      else
+       return res.status(404).json("You are not authorised to delete a completed event !!")
+    });
 })
 
 
