@@ -26,7 +26,11 @@
                     <p>
                     <a href="/events/update/<%=event._id%>">edit</a>  |  <a href="/events/delete/<%=event._id%>">delete</a>  |  <a href="/events/details/<%= event._id %>">details</a> | <a href="/notify/<%=event._id%>">notify</a>
                     </p>
-                    <% } %>
+                    <% }else{ %>
+                    <p>
+                    <a href="/events/details/<%= event._id %>">details</a>
+                    </p>
+                    <% }%>
                 </div>
             </div>
         <% }) %>

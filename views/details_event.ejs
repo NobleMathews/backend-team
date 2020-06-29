@@ -97,18 +97,16 @@
                           <div style="margin-top:20px;"></div>
                           <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
 
-                        
-                            <form method="GET">
-                            <div class="btn-group" role="group" >
-
-                            </div>                    
-                            <div class="btn-group" role="group" >
-                            <a type="button" href="/events/update/<%=event._id%>" class="btn btn-outline-warning">Edit Event Info</a>
-                            </div> 
-                            <div class="btn-group" role="group" >
-                            <a type="button" href="/notify/<%=event._id%>" class="btn btn-outline-success">Notify</a>
-                            </div> 
-                            </form> 
+                            <% if ((new Date())<=event.date) { %>
+                                <form method="GET">                   
+                                    <div class="btn-group" role="group" >
+                                    <a type="button" href="/events/update/<%=event._id%>" class="btn btn-outline-warning">Edit Event Info</a>
+                                    </div> 
+                                    <div class="btn-group" role="group" >
+                                    <a type="button" href="/notify/<%=event._id%>" class="btn btn-outline-success">Notify</a>
+                                    </div> 
+                                    </form> 
+                            <% }%>
     
                     </div>
                 </p>
