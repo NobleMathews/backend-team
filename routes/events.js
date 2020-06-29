@@ -95,8 +95,11 @@ router.route('/update/:id').post(clubAuth, upload.single('poster'), (req, res) =
             'categories':req.body.categories
         }
     }
-    eventsModel.findByIdAndUpdate(id,ev)
-    .then((event)=>{
+    eventsModel.findOneAndUpdate({_id: id},ev, {runValidators: true})
+    .then((err,event)=>{
+      if(err)
+        res.status(404).json("Illegal attempt to edit old event !!")
+      else
         res.redirect("/events/view_all");
     });
 });

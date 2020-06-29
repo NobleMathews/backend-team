@@ -22,7 +22,7 @@
                         <%= moment(event.date).format('Do MMMM, YYYY'); %>
                         <%= event.venue %>
                     </p>
-                    <% if ((new Date())<=event.date) { %>
+                    <% if ((new Date())>=event.date) { %>
                     <p>
                     <a href="/events/update/<%=event._id%>">edit</a>  |  <a href="/events/delete/<%=event._id%>">delete</a>  |  <a href="/events/details/<%= event._id %>">details</a> | <a href="/notify/<%=event._id%>">notify</a>
                     </p>
