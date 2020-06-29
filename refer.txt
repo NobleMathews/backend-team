@@ -93,7 +93,11 @@ send_mail
 10)Projects specific using id
 11)provide news snippets
 12)provide blogs based on parameter "featured"
-13)provide events based on month-query
+13)provide events based on month-query for calendar events
+14)showing events based on filter of category - workshops, talks, activities
+   - there are 2 sections, upcoming and past
+   - for upcoming we will have to query based on events which are calendar wise today or ahead of current date
+   - for past also we will have to do accordingly.
 ------------------------------------
      this list will continue
 ------------------------------------
