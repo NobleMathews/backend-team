@@ -83,8 +83,8 @@
                           </ul>    
                           <div style="margin-top:20px;"></div>
                           <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-
-                            <% if ((new Date())<=event.date) { %>
+                            <% var date = new Date(event.date); date.setDate(date.getDate() + 1); %>
+                            <% if ((new Date())<=date) { %>
                                 <form method="GET">                   
                                     <div class="btn-group" role="group" >
                                     <a type="button" href="/events/update/<%=event._id%>" class="btn btn-outline-warning">Edit Event Info</a>
