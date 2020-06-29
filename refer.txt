@@ -91,3 +91,12 @@ send_mail
 8)Acheivements specific using id
 9)Projects all
 10)Projects specific using id
+11)provide news snippets
+12)provide blogs based on parameter "featured"
+13)provide events based on month-query
+------------------------------------
+     this list will continue
+------------------------------------
+
+EXTRAS: we have a new concept of search tab in blogs section so queries will be made by user on key-words
+        and accordingly server has to provide filtered search results on blogs.
