@@ -25,7 +25,7 @@ const eventSchema = new Schema({
     timestamps: true
 })
 
-eventSchema.methods.filterByMonth = function(month) {
+eventSchema.statics.filterByMonth = function(month) {
     const event = this
     const mon_of_event = this.date.getMonth()+1
 
