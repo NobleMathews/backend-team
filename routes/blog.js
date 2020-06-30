@@ -27,8 +27,10 @@ router.route('/create').post(clubAuth, uploadf.any('file_attachment',40), (req, 
     console.log(file_attachment);
     var evsum= new blogModel({
       owner: id,
-      gallery : pics_url,                          
+      gallery : pics_url,
+      category:req.body.category,                          
       chief_guest : req.body.chief_guest,
+      chief_guest_url : req.body.chief_guest_url,
       award_winners : req.body.award_winners,
       summary : req.body.summary,
       outside_links : outside_links,
@@ -39,7 +41,9 @@ router.route('/create').post(clubAuth, uploadf.any('file_attachment',40), (req, 
   else{
   var evsum= new blogModel({
       owner: id,
+      category:req.body.category,                          
       chief_guest : req.body.chief_guest,
+      chief_guest_url : req.body.chief_guest_url,
       award_winners : req.body.award_winners,
       summary : req.body.summary,
       outside_links : outside_links,
@@ -71,7 +75,9 @@ router.route('/update/:id').post(clubAuth, uploadf.any('file_attachment',40), (r
     const id = req.params.id;
     var pics_url,file_attachment;
     let outside_links=(req.body.outside_links).filter(Boolean);
-    let file_attachment_links=(req.body.file_attachment_links).filter(Boolean);
+    let file_attachment_links=[]
+    if(req.body.file_attachment_links)
+      file_attachment_links=(req.body.file_attachment_links).filter(Boolean);
     let pics_url_links=(req.body.pics_url_links).filter(Boolean);
     let video_links=(req.body.video_links).filter(Boolean);
     if (req.files != undefined) {
@@ -84,7 +90,9 @@ router.route('/update/:id').post(clubAuth, uploadf.any('file_attachment',40), (r
       pics_url = pics_url.concat(pics_url_links);
       var evsum= {
         gallery : pics_url,                          
+        category:req.body.category,                          
         chief_guest : req.body.chief_guest,
+        chief_guest_url : req.body.chief_guest_url,
         award_winners : req.body.award_winners,
         summary : req.body.summary,
         outside_links : outside_links,
@@ -94,7 +102,9 @@ router.route('/update/:id').post(clubAuth, uploadf.any('file_attachment',40), (r
     }
     else{
     var evsum= {
+        category:req.body.category,                          
         chief_guest : req.body.chief_guest,
+        chief_guest_url : req.body.chief_guest_url,
         award_winners : req.body.award_winners,
         summary : req.body.summary,
         outside_links : outside_links,
