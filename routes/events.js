@@ -97,7 +97,9 @@ router.route('/update/:id').post(clubAuth, upload.single('poster'), (req, res) =
     }
     eventsModel.findOne({_id: id},function(err,event){
       if(err) return res.status(404).send(err)
-      if ((new Date())<=event.date){
+      var date = new Date(event.date);
+      date.setDate(date.getDate() + 1);
+      if ((new Date())<date){
         for (var id in ev ){
           event[id]= ev[id];
         }
@@ -116,7 +118,9 @@ router.route('/delete/:id').get(clubAuth, (req,res)=>{
     const id = req.params.id
     eventsModel.findOne({_id: id},function(err,event){
       if(err) return res.status(404).send(err)
-      if ((new Date())<=event.date){
+      var date = new Date(event.date);
+      date.setDate(date.getDate() + 1);
+      if ((new Date())<date){
         event.remove();
         var club_head_id = req.user._id
         eventsModel.find({ owner: club_head_id })

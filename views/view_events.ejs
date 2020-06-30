@@ -24,13 +24,13 @@
                     </p>
                     <% var date = new Date(event.date); date.setDate(date.getDate() + 1); %>
                     <!-- use date  for 1 day tolerance || currently done for notify -->
-                    <% if ((new Date())<=event.date) { %>
+                    <% if ((new Date())<=date) { %>
                     <p>
                     <a href="/events/update/<%=event._id%>">edit</a>  |  <a href="/events/delete/<%=event._id%>">delete</a>  |  <a href="/events/details/<%= event._id %>">details</a> | <a href="/notify/<%=event._id%>">notify</a>
                     </p>
                     <% }else{ %>
                     <p>
-                    <a href="/events/details/<%= event._id %>">details</a> <% if ((new Date())<=date) {%> | <a href="/notify/<%=event._id%>">notify</a> <%}%>
+                    <a href="/events/details/<%= event._id %>">details</a> | <a href="/notify/<%=event._id%>">notify</a>
                     </p>
                     <% }%>
                 </div>
