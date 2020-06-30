@@ -3,6 +3,8 @@ const eventsModel = require('../models/Event.model')
 const moment = require('moment');
 const {upload, uploadf}= require('../db/upload')
 const clubAuth = require('../middleware/clubAuth')
+const _ = require('lodash');
+const { filter } = require('lodash');
 
 // route for rendering event creation page
 router.route('/create/').get(clubAuth, (req, res) => {
@@ -153,6 +155,31 @@ router.route('/:month').get(clubAuth, (req,res) => {
         res.status(400).send(e)
     })
 
+})
+
+//route for getting events by filter
+router.route('/front/:filter').get(clubAuth, (req,res) => {
+  efilter = req.params.filter
+  var ikeyMap = {
+    competition: 'Competition',
+    talkshows: 'Talk-show',
+    workshops: 'Workshop',
+    all: 'all'
+  }
+  var keyMap=_.invert(ikeyMap);
+  efilter=ikeyMap[efilter];
+  eventsModel.filterByType(efilter)
+  .then((events)=>{
+    if(efilter!="all")
+    res.send(events);
+    else{
+      filteredEvents = _.groupBy(events,'categories')
+      respJson=_.mapKeys(filteredEvents, function(value, key) {
+        return keyMap[key];
+      });
+      res.send(respJson);
+    }
+  })
 })
 
 

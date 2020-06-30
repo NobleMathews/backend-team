@@ -35,6 +35,11 @@ eventSchema.statics.filterByMonth = function(month) {
     return false
 }
 
+eventSchema.statics.filterByType = function(filter) {
+    if(filter=="all")
+    return this.find({});
+    return this.find({'categories':filter});
+};
 
 const Event = mongoose.model('event',eventSchema,'events');
 
