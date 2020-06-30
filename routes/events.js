@@ -139,22 +139,15 @@ router.route('/delete/:id').get(clubAuth, (req,res)=>{
 
 
 //routes for collecting events based on month(1-12) and populating them
-router.route('/:month').get(clubAuth, (req,res) => {
-    month = req.params.month
-    const resEvents = new Array()
-
-    eventsModel.find().then((events) => {
-        events.forEach(event => {
-            if(event.filterByMonth(month)){
-                resEvents.push(event)
-            }
-        })
-
-        res.send(resEvents)
-    }).catch((e) => {
-        res.status(400).send(e)
+router.route('/:month').get((req,res) => {
+    month = parseInt(req.params.month)+1
+    var date = new Date();
+    var init = new Date(date.getFullYear(), month, 1);
+    var end = new Date(date.getFullYear(), month + 1, 0);
+    eventsModel.filterByRange(init,end)
+    .then((events)=>{
+      res.send(events);
     })
-
 })
 
 //route for getting events by filter
