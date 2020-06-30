@@ -158,7 +158,7 @@ router.route('/:month').get(clubAuth, (req,res) => {
 })
 
 //route for getting events by filter
-router.route('/front/:filter').get(clubAuth, (req,res) => {
+router.route('/front/:filter').get((req,res) => {
   efilter = req.params.filter
   var ikeyMap = {
     competition: 'Competition',
