@@ -25,8 +25,11 @@
                         <b>Email-id : </b><%= club_head.email_id %>
                     </p>
                     <p class="card-text">
-                        <b>About : </b><%= club.description %>
+                        <b>About : </b>
                     </p>
+                    <div class="card-text">
+                        <%- club.description %>
+                    </div>
                     <p>
                     <a href="/club/reset/<%=club._id%>" class="btn btn-primary btn-sm">reset</a>
                     </p>
