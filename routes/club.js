@@ -151,10 +151,11 @@ router.route('/reset/:id').get(adminAuth, (req,res)=>{
 router.route('/reset/:id').post(adminAuth, (req,res)=>{
   const club_id = req.params.id
   const email_id = req.body.email_id
+  
   clubHeadsModel.findOne({email_id:email_id},(err,club_head)=>{
-    clubModel.findByIdAndUpdate(club_id,{head:club_head.email_id})
+    clubModel.findByIdAndUpdate(club_id,{head:club_head._id})
     .then(()=>{
-      res.redirect('/admin',307)
+      res.redirect('/club/view_all',307)
     }).catch(err=>{
       res.json(err)
     })
