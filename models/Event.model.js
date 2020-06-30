@@ -25,9 +25,8 @@ const eventSchema = new Schema({
 })
 
 eventSchema.statics.filterByRange = function(init,end) {
-    console.log(init,end)
     return this.find({
-        "createdAt": {
+        "date": {
             "$gte": init,
            "$lte": end
          }
