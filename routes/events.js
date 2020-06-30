@@ -140,10 +140,10 @@ router.route('/delete/:id').get(clubAuth, (req,res)=>{
 
 //routes for collecting events based on month(1-12) and populating them
 router.route('/:month').get((req,res) => {
-    month = parseInt(req.params.month)+1
+    month = parseInt(req.params.month)
     var date = new Date();
-    var init = new Date(date.getFullYear(), month, 1);
-    var end = new Date(date.getFullYear(), month + 1, 0);
+    var init = new Date(date.getFullYear(), month-1, 1);
+    var end = (new Date(date.getFullYear(), month, 1));
     eventsModel.filterByRange(init,end)
     .then((events)=>{
       res.send(events);
