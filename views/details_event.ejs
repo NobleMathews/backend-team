@@ -69,19 +69,6 @@
                         <% }%>
                         </div>
                     </ul>
-                    <ul class="list-group list-group-flush" >
-                        <li class="list-group-item"><b>Showcase URL's</b></li>
-                        <div style="max-height: 120px; overflow-y: scroll;">
-                        <% if ((event.showcase_url) && (event.showcase_url).length) { %>
-                        <% (event.showcase_url).forEach((url) => { %>
-                        <li class="list-group-item"><a href="<%= url %>"><%= url %></a></li>
-                        
-                        <% }) %>
-                        <% }else{ %>
-                            <li class="list-group-item">NULL</li>
-                        <% }%>
-                        </div>
-                    </ul>
                     <p>
                         
                         <ul class="list-group">
@@ -96,19 +83,17 @@
                           </ul>    
                           <div style="margin-top:20px;"></div>
                           <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-
-                        
-                            <form method="GET">
-                            <div class="btn-group" role="group" >
-
-                            </div>                    
-                            <div class="btn-group" role="group" >
-                            <a type="button" href="/events/update/<%=event._id%>" class="btn btn-outline-warning">Edit Event Info</a>
-                            </div> 
-                            <div class="btn-group" role="group" >
-                            <a type="button" href="/notify/<%=event._id%>" class="btn btn-outline-success">Notify</a>
-                            </div> 
-                            </form> 
+                            <% var date = new Date(event.date); date.setDate(date.getDate() + 1); %>
+                            <% if ((new Date())<=date) { %>
+                                <form method="GET">                   
+                                    <div class="btn-group" role="group" >
+                                    <a type="button" href="/events/update/<%=event._id%>" class="btn btn-outline-warning">Edit Event Info</a>
+                                    </div> 
+                                    <div class="btn-group" role="group" >
+                                    <a type="button" href="/notify/<%=event._id%>" class="btn btn-outline-success">Notify</a>
+                                    </div> 
+                                    </form> 
+                            <% }%>
     
                     </div>
                 </p>

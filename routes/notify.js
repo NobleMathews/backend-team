@@ -9,7 +9,11 @@ router.route('/:id').get((req, res) => {
   eventsModel.findById(event_id)
     .then(event => {
     // res.json(events)
-
+    var date = new Date(event.date);
+    date.setDate(date.getDate() + 1);
+    if ((new Date())>date){
+      return res.status(404).json("Event Date has already passed !")
+    }
       clubHeadsModel.findById(event.owner)
         .then(user => {
           res.render('contact', { event: event, user: user, page_name:'view_events'  })

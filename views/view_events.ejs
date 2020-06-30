@@ -22,9 +22,17 @@
                         <%= moment(event.date).format('Do MMMM, YYYY'); %>
                         <%= event.venue %>
                     </p>
+                    <% var date = new Date(event.date); date.setDate(date.getDate() + 1); %>
+                    <!-- use date  for 1 day tolerance || currently done for notify -->
+                    <% if ((new Date())<=date) { %>
                     <p>
                     <a href="/events/update/<%=event._id%>">edit</a>  |  <a href="/events/delete/<%=event._id%>">delete</a>  |  <a href="/events/details/<%= event._id %>">details</a> | <a href="/notify/<%=event._id%>">notify</a>
                     </p>
+                    <% }else{ %>
+                    <p>
+                    <a href="/events/details/<%= event._id %>">details</a>
+                    </p>
+                    <% }%>
                 </div>
             </div>
         <% }) %>
@@ -35,6 +43,15 @@
         </div>
     <% }%>
     </div>
+    <style>
+        img {
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -o-user-select: none;
+            user-select: none;
+        }
+    </style>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="  crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" ></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" ></script>

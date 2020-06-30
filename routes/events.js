@@ -95,28 +95,44 @@ router.route('/update/:id').post(clubAuth, upload.single('poster'), (req, res) =
             'categories':req.body.categories
         }
     }
-    eventsModel.findByIdAndUpdate(id,ev)
-    .then((event)=>{
-        res.redirect("/events/view_all");
+    eventsModel.findOne({_id: id},function(err,event){
+      if(err) return res.status(404).send(err)
+      var date = new Date(event.date);
+      date.setDate(date.getDate() + 1);
+      if ((new Date())<date){
+        for (var id in ev ){
+          event[id]= ev[id];
+        }
+        event.save(function(err){
+          if(err) return res.status(404).send(ev)
+          return res.redirect("/events/view_all");
+        })
+      }
+      else
+       return res.status(404).json("Illegal attempt to edit old event !!")
     });
 });
 
 // route to delete the event
 router.route('/delete/:id').get(clubAuth, (req,res)=>{
     const id = req.params.id
-    eventsModel.findByIdAndDelete(id)
-    .then(()=>{
+    eventsModel.findOne({_id: id},function(err,event){
+      if(err) return res.status(404).send(err)
+      var date = new Date(event.date);
+      date.setDate(date.getDate() + 1);
+      if ((new Date())<date){
+        event.remove();
         var club_head_id = req.user._id
         eventsModel.find({ owner: club_head_id })
         .then(events => {
-        // res.json(events)
-            res.render('view_events', { events: events, moment: moment, page_name: 'view_events' })
+        return res.render('view_events', { events: events, moment: moment, page_name: 'view_events' })
         }).catch((err) => {
-        res.json('Error: ' + err)
+        return res.json('Error: ' + err)
         })
-    }).catch(err=>{
-        res.json(err)
-    })
+      }
+      else
+       return res.status(404).json("You are not authorised to delete a completed event !!")
+    });
 })
 
 
