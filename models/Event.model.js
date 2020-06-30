@@ -24,17 +24,20 @@ const eventSchema = new Schema({
     timestamps: true
 })
 
-eventSchema.statics.filterByMonth = function(month) {
-    const event = this
-    const mon_of_event = this.date.getMonth()+1
-
-    if(month===mon_of_event){
-        return true
-    }
-
-    return false
+eventSchema.statics.filterByRange = function(init,end) {
+    return this.find({
+        "date": {
+            "$gte": init,
+           "$lte": end
+         }
+    });
 }
 
+eventSchema.statics.filterByType = function(filter) {
+    if(filter=="all")
+    return this.find({});
+    return this.find({'categories':filter});
+};
 
 const Event = mongoose.model('event',eventSchema,'events');
 

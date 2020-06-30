@@ -3,6 +3,8 @@ const eventsModel = require('../models/Event.model')
 const moment = require('moment');
 const {upload, uploadf}= require('../db/upload')
 const clubAuth = require('../middleware/clubAuth')
+const _ = require('lodash');
+const { filter } = require('lodash');
 
 // route for rendering event creation page
 router.route('/create/').get(clubAuth, (req, res) => {
@@ -137,22 +139,40 @@ router.route('/delete/:id').get(clubAuth, (req,res)=>{
 
 
 //routes for collecting events based on month(1-12) and populating them
-router.route('/:month').get(clubAuth, (req,res) => {
-    month = req.params.month
-    const resEvents = new Array()
-
-    eventsModel.find().then((events) => {
-        events.forEach(event => {
-            if(event.filterByMonth(month)){
-                resEvents.push(event)
-            }
-        })
-
-        res.send(resEvents)
-    }).catch((e) => {
-        res.status(400).send(e)
+router.route('/:month').get((req,res) => {
+    month = parseInt(req.params.month)
+    var date = new Date();
+    var init = new Date(date.getFullYear(), month-1, 1);
+    var end = (new Date(date.getFullYear(), month, 1));
+    eventsModel.filterByRange(init,end)
+    .then((events)=>{
+      res.send(events);
     })
+})
 
+//route for getting events by filter
+router.route('/front/:filter').get((req,res) => {
+  efilter = req.params.filter
+  var ikeyMap = {
+    competitions: 'Competition',
+    talkshows: 'Talk-show',
+    workshops: 'Workshop',
+    all: 'all'
+  }
+  var keyMap=_.invert(ikeyMap);
+  efilter=ikeyMap[efilter];
+  eventsModel.filterByType(efilter)
+  .then((events)=>{
+    if(efilter!="all")
+    res.send(events);
+    else{
+      filteredEvents = _.groupBy(events,'categories')
+      respJson=_.mapKeys(filteredEvents, function(value, key) {
+        return keyMap[key];
+      });
+      res.send(respJson);
+    }
+  })
 })
 
 
