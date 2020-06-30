@@ -161,7 +161,7 @@ router.route('/:month').get(clubAuth, (req,res) => {
 router.route('/front/:filter').get((req,res) => {
   efilter = req.params.filter
   var ikeyMap = {
-    competition: 'Competition',
+    competitions: 'Competition',
     talkshows: 'Talk-show',
     workshops: 'Workshop',
     all: 'all'
