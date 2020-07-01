@@ -12,27 +12,29 @@
     <% if (events && events.length) { %>
     <h2 style="color: blue; text-decoration: underline;"> List of All Events </h2>
     <!-- Template for each event-->
-    <div class="card-group">
+    <div class="row row-cols-1 row-cols-md-2">
         <% events.forEach((event) => { %>
-            <div class="card" style="width: 18rem;">
-                <img src="/images/<%= event.poster_url %>" alt="thumbnail of poster" width="286px">
-                <div class="card-body">
-                    <h5 class="card-title"><%= event.name %></h5>
-                    <p class="card-text">
-                        <%= moment(event.date).format('Do MMMM, YYYY'); %>
-                        <%= event.venue %>
-                    </p>
-                    <% var date = new Date(event.date); date.setDate(date.getDate() + 1); %>
-                    <!-- use date  for 1 day tolerance || currently done for notify -->
-                    <% if ((new Date())<=date) { %>
-                    <p>
-                    <a href="/events/update/<%=event._id%>">edit</a>  |  <a href="/events/delete/<%=event._id%>">delete</a>  |  <a href="/events/details/<%= event._id %>">details</a> | <a href="/notify/<%=event._id%>">notify</a>
-                    </p>
-                    <% }else{ %>
-                    <p>
-                    <a href="/events/details/<%= event._id %>">details</a>
-                    </p>
-                    <% }%>
+            <div class="col mb-4">
+                <div class="card h-100">
+                    <img src="/images/<%= event.poster_url %>" alt="thumbnail of poster" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title"><%= event.name %></h5>
+                        <p class="card-text">
+                            <%= moment(event.date).format('Do MMMM, YYYY'); %>
+                            <%= event.venue %>
+                        </p>
+                        <% var date = new Date(event.date); date.setDate(date.getDate() + 1); %>
+                        <!-- use date  for 1 day tolerance || currently done for notify -->
+                        <% if ((new Date())<=date) { %>
+                        <p>
+                        <a href="/events/update/<%=event._id%>">edit</a>  |  <a href="/events/delete/<%=event._id%>">delete</a>  |  <a href="/events/details/<%= event._id %>">details</a> | <a href="/notify/<%=event._id%>">notify</a>
+                        </p>
+                        <% }else{ %>
+                        <p>
+                        <a href="/events/details/<%= event._id %>">details</a>
+                        </p>
+                        <% }%>
+                    </div>
                 </div>
             </div>
         <% }) %>
