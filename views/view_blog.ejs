@@ -25,7 +25,6 @@
 </head>
 <body>
     <%-include('partials/navbar_clubhead.ejs')%> <br>
-
     <div class="container">
         <a href="/blog/create" class="btn btn-outline-danger" >Create a Blog</a> 
     </div>
@@ -46,10 +45,17 @@
                             <div class="card-header">Event Summary</div>
                             <div class="card-body text-dark">
                             <!-- use required format of the following if fields missing -->
+                            <h5 class="card-title">Category</h5>
+                            <div class="card-text"><%- blog.category||"NULL" %></div>
+                            <% if (blog.category==="Talk-show"){%>
                             <h5 class="card-title">Chief Guest</h5>
                             <p class="card-text"><%= blog.chief_guest||"NULL" %></p>
+                            <p><img src="/images/<%= blog.chief_guest_url %>" height="200px" width="100px" ></img></p>
+                            <% } %>
+                            <% if (blog.category==="Competition"){%>
                             <h5 class="card-title">Award Winners</h5>
                             <p class="card-text"><%= blog.award_winners||"NULL" %></p>
+                            <% } %>
                             <h5 class="card-title">Summary</h5>
                             <div class="card-text"><%- blog.summary||"NULL" %></div>
                             <h5 class="card-title">Check out the Video</h5>
