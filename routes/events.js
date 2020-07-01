@@ -175,12 +175,5 @@ router.route('/front/:filter').get((req,res) => {
   })
 })
 
-/*router.route('/front/all').get(clubAuth,(req,res)=>{
-        eventsModel.find()
-        .then(events => {
-          res.json(events);
-        })
-})*/
-
 
 module.exports = router;
