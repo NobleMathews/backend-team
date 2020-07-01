@@ -11,37 +11,26 @@ router.route('/create/').get(adminAuth, (req, res) => {
 })
 
 // route to create the club
-router.route('/create').post(adminAuth, upload.single('logo'), (req, res) => {
-  let logo
-  if(req.file == undefined){
-    logo = ''
-  }else{
-    logo = `${req.file.filename}`
-  }
+router.route('/create').post(adminAuth, (req, res) => {
   clubHeadsModel.findOne({email_id:req.body.email_id})
   .then((club_head)=>{
-
+    console.log(req.body)
     if(!club_head){
       throw new Error()
     }
-    var club = {
-      name: req.body.club_name.toUpperCase(),
-      description: req.body.club_description,
-      logo_url: logo
-    }
-      club_head["club_name"]= (req.body.club_name).toUpperCase();
-
-      clubModel.findOneAndUpdate({head:club_head._id},club)
-      .then(()=>{
-        club_head.save(function(err){
-          if(err) res.json(err)
-          res.redirect("/club/view_all");
-        })
-      }).catch(err=>{
+    var club = new clubModel({
+      name: ((club_head.club_name).toUpperCase()),
+      head: club_head._id,
+    })
+    club.save((err,club)=>{
+      if(err){
         res.json(err)
-      })
+      }else{
+        res.redirect('/club/view_all')
+      }
+    })
   }).catch((e) => {
-    res.json('Club head must exist with given email!!!')
+    res.json('Club head must exist with given email & Club name shouldnt aready exist !!!')
     //to redirect back to view all clubs page after showing error message
   })
 })
