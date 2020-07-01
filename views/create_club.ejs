@@ -15,26 +15,12 @@
     <div class="container" style="padding-top:30px;">
         <div class="col-md-5 m-auto">
           <!-- multipart/form-data -->
-        <form enctype="multipart/form-data" method="POST" action="/club/create">
-
-        <div class="form-group">
-          <label>Club Name</label>
-          <input class="form-control" name="club_name" placeholder="Enter Club name here" required></input>
-        </div>
-
-        <div class="form-group">
-          <label>Description</label>
-          <textarea class="form-control" rows="3" name="club_description" placeholder="Provide Club description"></textarea>
-        </div>
-
-        <div class="form-group">
-            <label for="exampleFormControlFile1">Club Logo</label>
-            <input type="file" accept='image/*' class="form-control-file" name="logo"></input>
-        </div>
+        <form enctype="text/json" method="POST" action="/club/create">        
         <div class="form-group">
           <label for="exampleInputEmail1">Email address</label>
-          <input type="email" class="form-control" id="email_id" name="email_id" placeholder="enter club-head email-id" aria-describedby="emailHelp" required>
-          <small id="emailHelp" class="form-text text-muted">Note: Club head must exist priorto formation of any new club</small>
+          <input class="form-control" name="email_id" placeholder="enter club-head email-id" aria-describedby="emailHelp" required>
+          <!-- <input type="email" class="form-control" id="email_id" name="email_id" placeholder="enter club-head email-id" aria-describedby="emailHelp" required> -->
+          <small id="emailHelp" class="form-text text-muted">Note: Club head must exist prior to formation of any new club</small>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
 
