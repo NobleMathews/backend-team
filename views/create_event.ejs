@@ -46,6 +46,7 @@
                 <option value="Workshop">Workshop</option>
                 <option value="Competition">Competition</option>
                 <option value="Talk-show">Talk-show</option>
+                <option value="Activity">Activity</option> 
                 </select>
             </div>
             <div class="form-group">
@@ -75,5 +76,10 @@
             $('#event_date').attr('min', maxDate);
         });
     </script>
+    <script src="https://cdn.ckeditor.com/4.9.1/standard/ckeditor.js"></script>
+    <script>
+          CKEDITOR.replace('description');
+    </script>
+<%- include('partials/bottom_spacing.ejs') %>
 </body>
 </html>

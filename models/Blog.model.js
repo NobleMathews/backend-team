@@ -7,8 +7,10 @@ const blogSchema = new Schema({
         required: true,
         ref: 'Users'
     },
+    category : {type:String,required:true},
     gallery : [String],                           
     chief_guest : {type:String},
+    chief_guest_url : {type:String},
     award_winners : {type:String},
     summary : {type:String},
     outside_links : [String],

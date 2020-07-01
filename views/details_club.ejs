@@ -25,8 +25,11 @@
                         <b>Email-id : </b><%= club_head.email_id %>
                     </p>
                     <p class="card-text">
-                        <b>About : </b><%= club.description %>
+                        <b>About : </b>
                     </p>
+                    <div class="card-text">
+                        <%- club.description %>
+                    </div>
                     <p>
                     <a href="/club/reset/<%=club._id%>" class="btn btn-primary btn-sm">reset</a>
                     </p>
@@ -37,5 +40,6 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="  crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" ></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" ></script>
+<%- include('partials/bottom_spacing.ejs') %>
 </body>
 </html>

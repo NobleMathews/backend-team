@@ -34,7 +34,11 @@
                     <div class="d-flex w-100 justify-content-between">
                       <h5 class="mb-1"><b>Club Name : </b><%= club.name %></h5>
                     </div>
-                    <p class="mb-1"><b>About : </b><%= club.description %></p>
+                    <p class="mb-1"><b>About : </b>
+                    </p>
+                    <div class="card-text">
+                        <%- club.description %>
+                    </div>                    
                     <p> <a href="/club/reset/<%=club._id%>">reset</a> | <a href="/club/details/<%=club._id%>">details</a></p>
                   </div>
                   <div style="float: right;">
@@ -62,5 +66,6 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" ></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" ></script>
 
+<%- include('partials/bottom_spacing.ejs') %>
 </body>
 </html>

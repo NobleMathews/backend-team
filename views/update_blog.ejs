@@ -15,13 +15,42 @@
         <div class="col-md-5 m-auto">
         <form action="/blog/update/<%=id%>" method="POST" enctype="multipart/form-data">
             <div class="form-group">
-            <label>Chief Guest</label>
-            <input class="form-control" name="chief_guest" value="<%=summary.chief_guest||'NULL'%>"></input>
-            </div>
+                <label for="category">Category :</label>
+                <select name="category" id="category" required>
+                <option value="none" selected disabled hidden> 
+                    Select Category 
+                </option> 
+                <%
+                    var options = [ "Workshop", "Competition", "Talk-show","Activity"];
+                    for ( var i = 0; i < options.length; i++ )
+                    {
+                        var selected = ( options[i] == summary.category ) ? "selected" : "";
+                        %><option value="<%=options[ i ] %>" <%=selected %>><%= options[i] %></option><%
+                    }
+                %>
+                </select>
+        </div>
+        <div class="Workshop optional">
+        </div>
+        <div class="Competition optional">
             <div class="form-group">
                 <label>Award Winners</label>
-                <input class="form-control" name="award_winners" value="<%=summary.award_winners||'NULL'%>"></input>
+                <input class="form-control" name="award_winners" placeholder="Separate with | and ,">
+                <small class="form-text text-muted">"|" to seperate winning tiers and "," for ties</small>
             </div>
+        </div>
+        <div class="Talk-show optional">
+            <div class="form-group">
+                <label>Chief Guest</label>
+                <input class="form-control" name="chief_guest" value="<%=summary.chief_guest||'NULL'%>"></input>
+                </div>
+            <div class="form-group">
+                <img src="/images/<%=summary.chief_guest_url%>" id="preview" class="rounded" alt=" No File Selected " height="100px" style="margin-bottom: .5rem;">
+                <input type="file" name="chief_guest_url" id="chief_guest_url" accept='image/*' style="display:none;"/>
+            </div>
+        </div>
+        <div class="Activity optional">
+        </div>
             <div class="form-group">
                 <label>Summary</label>
                 <textarea class="form-control" name="summary" rows="4" placeholder="Provide a short summary..."><%=summary.summary||"NULL"%></textarea>
@@ -175,6 +204,17 @@
     <script>
         CKEDITOR.replace('summary');
         $(document).ready(function(){
+            $("#category").change(function(){
+                $(this).find("option:selected").each(function(){
+                    var selected = $(this).attr("value");
+                    if(selected){
+                        $(".optional").not("." + selected).hide();
+                        $("." + selected).show();
+                    } else{
+                        $(".optional").hide();
+                    }
+                });
+            }).change();
             var i=1;
             i=$("#tab_logic tr").length-2;
             $("#add_row").click(function(event){event.preventDefault();b=i-1;
@@ -223,5 +263,6 @@
                 });
         });
     </script>
- </body>
+ <%- include('partials/bottom_spacing.ejs') %>
+</body>
 </html>

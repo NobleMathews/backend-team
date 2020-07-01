@@ -22,7 +22,11 @@
                     <p class="card-text"><b>Club :</b> <%= project.club %></p>
                     <p class="card-text"><b>Branch :</b> <%= project.branch %></p>
                     <p class="card-text"><b>Degree :</b> <%= project.degree %></p>
-                    <p class="card-text"><b>Description :</b> <%= project.description %></p>
+                    <p class="card-text"><b>Description :</b>
+                    </p>
+                    <div class="card-text">
+                        <%- project.description %>
+                    </div>
                     <div class="list-group">
                         <a href="#" class="list-group-item list-group-item-action active"><b>Teams Members</b></a>
                         <% if (project.team_members && project.team_members.length) { %>
@@ -67,5 +71,6 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="  crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" ></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" ></script>
+<%- include('partials/bottom_spacing.ejs') %>
 </body>
 </html>
