@@ -67,13 +67,17 @@
             var month = today.getMonth() + 1;
             var day = today.getDate();
             var year = today.getFullYear();
+            var hour = today.getHours();
+            var minutes = today.getMinutes();
+            
             if(month < 10)
                 month = '0' + month.toString();
             if(day < 10)
                 day = '0' + day.toString();
             
-            var maxDate = year + '-' + month + '-' + day;
-            $('#event_date').attr('min', maxDate);
+            var maxDateandTime = year + '-' + month + '-' + day + 'T' + hour + ':' + minutes;
+            $('#event_date').attr('value', maxDateandTime);
+            $('#event_date').attr('min', maxDateandTime);
         });
     </script>
     <script src="https://cdn.ckeditor.com/4.9.1/standard/ckeditor.js"></script>
