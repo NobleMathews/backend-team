@@ -43,7 +43,7 @@
                         Select Category 
                     </option> 
                     <%
-                        var options = [ "Workshop", "Competition", "Talk-show"];
+                        var options = [ "Workshop", "Competition", "Talk-show","Activity"];
                         for ( var i = 0; i < options.length; i++ )
                         {
                             var selected = ( options[i] == event.categories ) ? "selected" : "";
@@ -88,5 +88,6 @@
     CKEDITOR.replace('description');
     </script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" ></script>
+<%- include('partials/bottom_spacing.ejs') %>
 </body>
 </html>
