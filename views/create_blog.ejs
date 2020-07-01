@@ -36,8 +36,8 @@
             <div class="Competition optional">
                 <div class="form-group">
                     <label>Award Winners</label>
-                    <!-- TODO: Shouldnt this be an array or is it comma seperated -->
-                    <input class="form-control" name="award_winners">
+                    <input class="form-control" name="award_winners" placeholder="Separate with | and ,">
+                    <small class="form-text text-muted">"|" to seperate winning tiers and "," for ties</small>
                 </div>
             </div>
             <div class="Talk-show optional">
@@ -47,7 +47,7 @@
                 </div>
                 <div class="form-group">
                     <label>Chief Guest URL</label>
-                    <input class="form-control" name="chief_guest_url">
+                    <input type="file" accept='image/*' name="chief_guest_url" class="form-control-file" >
                 </div>
             </div>
             <div class="Activity optional">
