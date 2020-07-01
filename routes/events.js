@@ -8,7 +8,7 @@ const { filter } = require('lodash');
 
 // route for rendering event creation page
 router.route('/create/').get(clubAuth, (req, res) => {
-  res.render('create_event',{page_name:'create_event'}) /////// Use new system to get the actual user id here
+  res.render('create_event',{page_name:'create_event'})
 })
 
 //   route to create event
