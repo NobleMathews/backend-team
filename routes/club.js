@@ -24,19 +24,22 @@ router.route('/create').post(adminAuth, upload.single('logo'), (req, res) => {
     if(!club_head){
       throw new Error()
     }
-    var club = new clubModel({
+    var club = {
       name: req.body.club_name.toUpperCase(),
-      head: club_head._id,
       description: req.body.club_description,
       logo_url: logo
-    })
-    club.save((err,club)=>{
-      if(err){
+    }
+      club_head["club_name"]= (req.body.club_name).toUpperCase();
+
+      clubModel.findOneAndUpdate({head:club_head._id},club)
+      .then(()=>{
+        club_head.save(function(err){
+          if(err) res.json(err)
+          res.redirect("/club/view_all");
+        })
+      }).catch(err=>{
         res.json(err)
-      }else{
-        res.redirect('/club/view_all')
-      }
-    })
+      })
   }).catch((e) => {
     res.json('Club head must exist with given email!!!')
     //to redirect back to view all clubs page after showing error message
