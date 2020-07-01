@@ -155,5 +155,12 @@ router.route('/:month').get(clubAuth, (req,res) => {
 
 })
 
+/*router.route('/front/all').get(clubAuth,(req,res)=>{
+        eventsModel.find()
+        .then(events => {
+          res.json(events);
+        })
+})*/
+
 
 module.exports = router;
