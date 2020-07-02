@@ -152,7 +152,28 @@
 
     });
 
-    $(document).ready(function() {
+    function createListItem(e, filet) {
+            $("#snapholder").append(
+                "<span class=\"pip\">" +
+                "<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + filet.name + "\"/>" +
+                "<br/><span class=\"remove\">Remove </span>" +
+                "</span>"
+                );
+            $(".remove").off("click");
+            $(".remove").click(function(event){event.preventDefault();
+                let title=($(this).parent(".pip").children("img")[0]);
+                title=(title.getAttribute("title"));
+                $(this).parent(".pip").remove();
+                const dt = new DataTransfer()
+                let files=$("#snapshot_url").prop('files');
+                for (let file of files){
+                    if (file.name !== title) 
+                    dt.items.add(file)
+                    document.getElementById("snapshot_url").files=dt.files;
+                }
+            });
+        }
+        $(document).ready(function() {
         $("#snapshot_url").on("change", function(e) {
         $(".pip").remove();
         // $('#ignore').val("");
@@ -162,36 +183,15 @@
             var f = files[i]
             var fileReader = new FileReader();
             let id=i;
-            fileReader.onload = (function(e) {
-            var file = e.target;
-            $("#snapholder").append(
-                "<span class=\"pip\">" +
-                "<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + id + "\"/>" +
-                "<br/><span class=\"remove\">Remove </span>" +
-                "</span>"
-                );
-            $(".remove").off("click");
-            $(".remove").click(function(event){event.preventDefault();
-                let title=($("#snapholder").children(".pip")).index($(this).parent(".pip"));
-                console.log(title);
-                $(this).parent(".pip").remove();
-                // let title=$(this).parent(".pip").children(".imageThumb").attr('title');
-                // var data=$('#ignore').val()+title;
-                // $('#ignore').val(data);
-                const dt = new DataTransfer()
-                let files=$("#snapshot_url").prop('files');
-                for (let file of files)
-                    if (file !== files[title]) 
-                    dt.items.add(file)
-                    document.getElementById("snapshot_url").files=dt.files;
-                console.log($("#snapshot_url").prop('files'));
-            });
-            
-            });
-            fileReader.readAsDataURL(f);
+            fileReader.onloadend=(function(file){
+                return function(evt){
+                    createListItem(evt, file)
+                }
+            })(f);
+            fileReader.readAsDataURL(f);  
         }
         });
-    });
+         });
     </script>
     <script src="https://cdn.ckeditor.com/4.9.1/standard/ckeditor.js"></script>
     <script>
