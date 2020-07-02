@@ -54,6 +54,12 @@
             <label>Title of the Blog</label>
             <input type="text" class="form-control" name="title" value="<%=summary.title||'NULL'%>" required placeholder="Provide a nice title to the blog">
         </div>
+        <div class="form-group">
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="featured" name="featured">
+                <label class="custom-control-label" for="featured">Is Featured?</label>
+            </div>
+        </div>
             <div class="form-group">
                 <label>Summary</label>
                 <textarea class="form-control" name="summary" rows="4" placeholder="Provide a short summary..."><%=summary.summary||"NULL"%></textarea>

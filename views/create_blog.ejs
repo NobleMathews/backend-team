@@ -46,7 +46,7 @@
         }
     </style>
     <%-include('partials/navbar_clubhead.ejs')%> <br><br>
-    <h3 style="text-align: center; text-decoration: underline; padding-top: 30px;">Write Event Blogs!</h3>
+    <h3 style="text-align: center; text-decoration: underline; padding-top: 30px;">Write Blogs!</h3>
     <div class="container" style="padding-top:30px;">
         <div class="col-md-5 m-auto">
         <form action="/blog/create" method="POST" enctype="multipart/form-data">
@@ -87,6 +87,12 @@
             <div class="form-group">
                 <label>Title of the Blog</label>
                 <input type="text" class="form-control" name="title" required placeholder="Provide a nice title to the blog">
+            </div>
+            <div class="form-group">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="featured" name="featured">
+                    <label class="custom-control-label" for="featured">Is Featured?</label>
+                </div>
             </div>
             <div class="form-group">
                 <label>Summary</label>
