@@ -189,7 +189,7 @@ router.route('/delete/:id').get(clubAuth, (req,res)=>{
       blogModel.find({ owner: club_head_id })
       .then(blogs => {
       // res.json(blog)
-          res.render('view_blog', { blogs: blogs,page_name:'blogs'})
+          res.render('view_blogs', { blogs: blogs,page_name:'blogs'})
       }).catch((err) => {
       res.json('Error: ' + err)
       })
