@@ -19,5 +19,7 @@ const blogSchema = new Schema({
     video_links : [String]
 })
 
+blogSchema.index({title: 'text', summary: 'text', category: 'text'});
+
 const Blog = mongoose.model('blogs',blogSchema);
 module.exports = Blog
