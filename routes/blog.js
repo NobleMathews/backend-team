@@ -12,22 +12,25 @@ router.route('/create').get(clubAuth, (req,res)=>{
 // route to create blog
 router.route('/create').post(clubAuth, uploadf.fields([{name:'chief_guest_url',maxCount:1},{name:'file_attachment[]',maxCount:40}]), (req, res)=>{
   const id = req.user._id
-  var pics_url,file_attachment,chief_guest_url;
+  var pics_url=[],file_attachment=[],chief_guest_url=[];
   let outside_links=(req.body.outside_links).filter(Boolean);
   // let file_attachment=(req.body.file_attachment).filter(Boolean);
   let video_links=(req.body.video_links).filter(Boolean);
   if (req.files != undefined) {
     let allfiles=req.files['file_attachment[]'];
     let ext;
+    if(allfiles){
+      file_attachment= allfiles.filter((file) => { ext=path.extname(file.originalname); return (ext != '.png' && ext != '.jpg' && ext != '.gif' && ext != '.jpeg') })
+      .map((file)=> { return file.filename });
+      pics_url = allfiles.filter((file) => { ext=path.extname(file.originalname); return (ext == '.png' || ext == '.jpg' || ext == '.gif' || ext == '.jpeg') })
+      .map((file)=> { return file.filename });
+    }
 
-    file_attachment= allfiles.filter((file) => { ext=path.extname(file.originalname); return (ext != '.png' && ext != '.jpg' && ext != '.gif' && ext != '.jpeg') })
-    .map((file)=> { return file.filename });
-    pics_url = allfiles.filter((file) => { ext=path.extname(file.originalname); return (ext == '.png' || ext == '.jpg' || ext == '.gif' || ext == '.jpeg') })
-    .map((file)=> { return file.filename });
     if(req.files['chief_guest_url']){
     chief_guest_url=req.files['chief_guest_url'][0];
     var evsum= new blogModel({
       owner: id,
+      title : req.body.title,
       gallery : pics_url,
       category:req.body.category,                          
       chief_guest : req.body.chief_guest,
@@ -42,6 +45,7 @@ router.route('/create').post(clubAuth, uploadf.fields([{name:'chief_guest_url',m
   else{
     var evsum= new blogModel({
       owner: id,
+      title : req.body.title,
       gallery : pics_url,
       category:req.body.category,                          
       chief_guest : req.body.chief_guest,
@@ -56,6 +60,7 @@ router.route('/create').post(clubAuth, uploadf.fields([{name:'chief_guest_url',m
   else{
   var evsum= new blogModel({
       owner: id,
+      title : req.body.title,
       category:req.body.category,                          
       chief_guest : req.body.chief_guest,
       award_winners : req.body.award_winners,
@@ -106,7 +111,8 @@ router.route('/update/:id').post(clubAuth, uploadf.fields([{name:'chief_guest_ur
       .map((file)=> { return file.filename });
       pics_url = pics_url.concat(pics_url_links);
       var evsum= {
-        gallery : pics_url,                          
+        gallery : pics_url,
+        title : req.body.title,                          
         category:req.body.category,                          
         chief_guest : req.body.chief_guest,
         chief_guest_url : chief_guest_url,
@@ -119,7 +125,8 @@ router.route('/update/:id').post(clubAuth, uploadf.fields([{name:'chief_guest_ur
     }
     else{
     var evsum= {
-        category:req.body.category,                          
+        category:req.body.category,
+        title : req.body.title,                          
         chief_guest : req.body.chief_guest,
         award_winners : req.body.award_winners,
         summary : req.body.summary,
@@ -140,7 +147,7 @@ router.route('/view_all').get(clubAuth, (req,res)=>{
   blogModel.find({ owner: req.user._id })
   .then(blogs => {
   // res.json(blogs)
-    res.render('view_blog', {blogs: blogs,page_name:'blogs'})
+    res.render('view_blogs', {blogs: blogs,page_name:'blogs'})
   }).catch((err) => {
     res.json('Error: ' + err)
   })
