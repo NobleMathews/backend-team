@@ -13,6 +13,7 @@ router.route('/create').get(clubAuth, (req,res)=>{
 
 // route to create blog
 router.route('/create').post(clubAuth, uploadf.fields([{name:'chief_guest_url',maxCount:1},{name:'file_attachment[]',maxCount:40}]), (req, res)=>{
+  vfeatured=req.body.featured==="on"?true:false;
   const id = req.user._id
   var pics_url=[],file_attachment=[],chief_guest_url;
   let outside_links=(req.body.outside_links).filter(Boolean);
@@ -39,6 +40,7 @@ router.route('/create').post(clubAuth, uploadf.fields([{name:'chief_guest_url',m
       chief_guest_url : chief_guest_url,
       award_winners : req.body.award_winners,
       summary : req.body.summary,
+      featured : vfeatured,
       outside_links : outside_links,
       file_attachment : file_attachment,
       video_links : video_links
@@ -53,6 +55,7 @@ router.route('/create').post(clubAuth, uploadf.fields([{name:'chief_guest_url',m
       chief_guest : req.body.chief_guest,
       award_winners : req.body.award_winners,
       summary : req.body.summary,
+      featured : vfeatured,
       outside_links : outside_links,
       file_attachment : file_attachment,
       video_links : video_links
@@ -65,6 +68,7 @@ router.route('/create').post(clubAuth, uploadf.fields([{name:'chief_guest_url',m
       title : req.body.title,
       category:req.body.category,                          
       chief_guest : req.body.chief_guest,
+      featured : vfeatured,
       award_winners : req.body.award_winners,
       summary : req.body.summary,
       outside_links : outside_links,
@@ -94,6 +98,7 @@ router.route('/update/:id').get(clubAuth, (req,res)=>{
 //  route to update blog
 router.route('/update/:id').post(clubAuth, uploadf.fields([{name:'chief_guest_url',maxCount:1},{name:'file_attachment[]',maxCount:40}]), (req, res)=>{
     const id = req.params.id;
+    vfeatured=req.body.featured==="on"?true:false;
     var pics_url=[],file_attachment=[],chief_guest_url;
     let outside_links=(req.body.outside_links).filter(Boolean);
     let file_attachment_links=[]
@@ -122,6 +127,7 @@ router.route('/update/:id').post(clubAuth, uploadf.fields([{name:'chief_guest_ur
         chief_guest_url : chief_guest_url,
         award_winners : req.body.award_winners,
         summary : req.body.summary,
+        featured : vfeatured,
         outside_links : outside_links,
         file_attachment : file_attachment,
         video_links : video_links
@@ -135,6 +141,7 @@ router.route('/update/:id').post(clubAuth, uploadf.fields([{name:'chief_guest_ur
         chief_guest : req.body.chief_guest,
         award_winners : req.body.award_winners,
         summary : req.body.summary,
+        featured : vfeatured,
         outside_links : outside_links,
         file_attachment : file_attachment,
         video_links : video_links
@@ -148,6 +155,7 @@ router.route('/update/:id').post(clubAuth, uploadf.fields([{name:'chief_guest_ur
         chief_guest : req.body.chief_guest,
         award_winners : req.body.award_winners,
         summary : req.body.summary,
+        featured : vfeatured,
         outside_links : outside_links,
         file_attachment : file_attachment_links,
         video_links : video_links
