@@ -10,20 +10,21 @@
     <%-include('partials/navbar_clubhead.ejs')%> <br><br>
     <div class="container">
     <% if (members && members.length) { %>
-    <h2 style="color: blue; text-decoration: underline;"> List of All Events </h2>
-    <!-- Template for each event-->
+    <h2 style="color: blue; text-decoration: underline;"> List of all club members </h2>
+    <div >
+        <a class="btn btn-warning" href="/club_members/create" role="button">Add Club Members</a>
+    </div>
     <div class="row row-cols-1 row-cols-md-2">
         <% members.forEach((member) => { %>
             <div class="col mb-4">
                 <div class="card h-100">
-                    <img src="/images/<%= member.dp_url %>" alt="thumbnail of poster" class="card-img-top">
+                    <img src="/images/<%= member.dp_url %>" alt="thumbnail of poster" style="margin: 10px; padding:10px;;" width="100px"  height="150px">
                     <div class="card-body">
-                        <h5 class="card-title"><%= member.name %></h5>
+                        <h5 class="card-title"><%= member.name %> [<strong><%=member.position%></strong>] </h5>
                         <p class="card-text">
-                            <strong><%=member.position%></strong>
-                            <%=member.roll_num%>
-                            <%=member.email_id%>
-                            <%=member.contact%>
+                            <p><b>Roll No :</b> <%=member.roll_num%></p>
+                            <p><b>Email :</b> <%=member.email_id%></p>
+                            <p><b>Contact :</b> <%=member.contact%></p>
                         </p>
                         <p>
                             <a href="#">Edit</a> | <a href="#">Remove</a>

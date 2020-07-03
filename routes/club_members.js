@@ -9,7 +9,7 @@ router.route('/create/').get(clubAuth, (req, res) => {
 })
 
 // route to create the club members
-router.route('/create').post(clubAuth, upload.single('dp') ,async  (req, res) => {
+router.route('/create').post(clubAuth, upload.single('dp_url') ,async  (req, res) => {
     let dpurl = "";
 
     if (req.file != undefined) {
@@ -27,11 +27,17 @@ router.route('/create').post(clubAuth, upload.single('dp') ,async  (req, res) =>
         })
         member["dp_url"] = dpurl
 
-        const club_member = new clubMemberModel(member)
-
-        clubMemberModel.update({_id:req.user.id},{$push:{members:club_member}})
-
+        const club_member = new clubMemberModel({
+            owner: req.user.id,
+            members:member
+          })
+        club_member.save((err, user) => {
+        if (err) {
+        res.json(err)
+        }else{
         res.redirect('/club_members/view_all')
+        }
+        })
     }catch(e){
         res.status(400).json(e)
     }
@@ -92,7 +98,10 @@ router.route('/view_all').get(clubAuth, async (req, res) => {
     let club_members;
     try {
         club_members = await clubMemberModel.findOne({owner:req.user._id})
-        res.render('view_club_members',{members:club_members,page_name:'club_members'}) //.members
+        if(club_members)
+        res.render('view_club_members',{members:club_members.members,page_name:'club_members'})
+        else
+        res.render('view_club_members',{members:[],page_name:'club_members'})
     } catch (error) {
         res.json(error)
     }
