@@ -124,7 +124,7 @@ router.route('/club_head/reset/:id').get(adminAuth, (req, res) => {
     })
 })
 
-router.route('/logout/').get(adminAuth, async (req,res) => {
+router.route('/logout').get(adminAuth, async (req,res) => {
     try{
 
       req.admin.tokens = req.admin.tokens.filter((token) => {
