@@ -21,6 +21,6 @@ const clubMemberSchema = new Schema({
     timestamps:true
 });
 
-const ClubMembers = mongoose.model('ClubMembers',clubHeadSchema);
+const ClubMembers = mongoose.model('ClubMembers',clubMemberSchema);
 
 module.exports = ClubMembers;
