@@ -99,12 +99,13 @@ router.route('/update/:id').get(clubAuth, (req,res)=>{
 router.route('/update/:id').post(clubAuth, uploadf.fields([{name:'chief_guest_url',maxCount:1},{name:'file_attachment[]',maxCount:40}]), (req, res)=>{
     const id = req.params.id;
     vfeatured=req.body.featured==="on"?true:false;
-    var pics_url=[],file_attachment=[],chief_guest_url;
+    var pics_url=[],file_attachment=[],pics_url_links=[],chief_guest_url;
     let outside_links=(req.body.outside_links).filter(Boolean);
     let file_attachment_links=[]
     if(req.body.file_attachment_links)
       file_attachment_links=(req.body.file_attachment_links).filter(Boolean);
-    let pics_url_links=(req.body.pics_url_links).filter(Boolean);
+    if(req.body.pics_url_links)
+    pics_url_links=(req.body.pics_url_links).filter(Boolean);
     let video_links=(req.body.video_links).filter(Boolean);
     if (req.files != undefined) {
       let allfiles=req.files['file_attachment[]'];
