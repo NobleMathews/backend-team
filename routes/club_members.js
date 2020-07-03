@@ -5,7 +5,7 @@ const clubAuth = require('../middleware/clubAuth')
 
 // for rendering the create club members page
 router.route('/create/').get(clubAuth, (req, res) => {
-    res.render('create_club_member')
+    res.render('create_club_member',{page_name:'club_members'})
 })
 
 // route to create the club members
@@ -44,7 +44,7 @@ router.route('/update/:id').get(clubAuth, async (req, res) => {
     let member;
     try {
         member = clubMemberModel.findOne({owner:req.user._id,"members._id":member_id})
-        res.render('update_club_member',{member:member})
+        res.render('update_club_member',{member:member,page_name:'club_members'})
     } catch (error) {
         res.json(error)
     }
@@ -92,7 +92,7 @@ router.route('/view_all').get(clubAuth, async (req, res) => {
     let club_members;
     try {
         club_members = await clubMemberModel.findOne({owner:req.user._id})
-        res.render('view_club_members',{members:club_members.members})
+        res.render('view_club_members',{members:club_members,page_name:'club_members'}) //.members
     } catch (error) {
         res.json(error)
     }

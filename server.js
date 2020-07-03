@@ -9,6 +9,7 @@ const bcrypt = require('bcrypt')
 
 const adminRouter = require('./routes/admin')
 const clubHeadRouter = require('./routes/club_head')
+const clubMembersRouter = require('./routes/club_members')
 const clubsRouter = require('./routes/club')
 const eventsRouter = require('./routes/events')
 const imagesRouter = require('./routes/images')
@@ -26,16 +27,15 @@ app.use(session({ secret: 'test', saveUninitialized: true, resave: true }))
 app.use(cors())
 app.use(cookieParser())
 
-// app.use(methodOverride('_method'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.set('view engine', 'ejs')
 app.set('useFindAndModify', false)
 
-app.use('/admin', adminRouter) // was /admin before
-app.use('/club_head', clubHeadRouter) // was /users before
-app.use('/events', eventsRouter) // was /events before
-//  --- the following are totally new and were added by removing sub-dir
+app.use('/admin', adminRouter)
+app.use('/club_head', clubHeadRouter)
+app.use('/club_members', clubMembersRouter)
+app.use('/events', eventsRouter)
 app.use('/club', clubsRouter)
 app.use('/images', imagesRouter)
 app.use('/files',fileRouter)
@@ -44,12 +44,7 @@ app.use('/achievements', achievementsRouter)
 app.use('/notify', notifyRouter)
 app.use('/blog', blogRouter)
 app.use('/news', newsRouter)
-
-// ---- the following were scrapped so takeout from views
-// app.use('/gform', gformRouter)
-// app.use('/logout', logoutRouter)
-app.use('/register', registerRouter) // was /register before
-// const uri = process.env.URI
+app.use('/register', registerRouter)
 
 app.listen(port, () => {
   console.log(`listening on port : ${port}`)
