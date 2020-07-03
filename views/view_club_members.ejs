@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Events</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" >
+</head>
+<body>
+    <%-include('partials/navbar_clubhead.ejs')%> <br><br>
+    <div class="container">
+    <% if (members && members.length) { %>
+    <h2 style="color: blue; text-decoration: underline;"> List of All Events </h2>
+    <!-- Template for each event-->
+    <div class="row row-cols-1 row-cols-md-2">
+        <% members.forEach((member) => { %>
+            <div class="col mb-4">
+                <div class="card h-100">
+                    <img src="/images/<%= member.dp_url %>" alt="thumbnail of poster" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title"><%= member.name %></h5>
+                        <p class="card-text">
+                            <strong><%=member.position%></strong>
+                            <%=member.roll_num%>
+                            <%=member.email_id%>
+                            <%=member.contact%>
+                        </p>
+                        <p>
+                            <a href="#">Edit</a> | <a href="#">Remove</a>
+                        </p>
+                        <% }%>
+                    </div>
+                </div>
+            </div>
+        <% }) %>
+    </div>
+    <% }else{ %>
+        <div class="container">
+            <h1 class="display-1">No Members exist yet</h1>
+        </div>
+    <% }%>
+    </div>
+    <style>
+        img {
+            pointer-events: none;
+            -webkit-user-drag: none; 
+            -moz-user-select: none;
+            -ms-user-select: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -o-user-select: none;
+            user-select: none;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="  crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" ></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" ></script>
+<%- include('partials/bottom_spacing.ejs') %>
+</body>
+</html>

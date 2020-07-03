@@ -85,12 +85,6 @@ router.route('/update/:id').post(clubAuth, upload.single('dp') ,async (req, res)
 // route to delete club members
 router.route('/delete/:id').delete(clubAuth, async (req, res) => {
     const member_id = req.params.id;
-    try {
-        await clubMemberModel.findByIdAndDelete(member_id)
-        res.redirect('/club_members/view_all')
-    } catch (error) {
-        res.json(error)        
-    }
 })
 
 // for rendering view page of all club members
