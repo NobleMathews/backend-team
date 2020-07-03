@@ -37,6 +37,12 @@ clubHeadSchema.virtual('clubs',{
     foreignField: 'head'
 })
 
+clubHeadSchema.virtual('clubMembers',{
+    ref: 'Club',
+    localField: '_id',
+    foreignField: 'owner'
+})
+
 clubHeadSchema.methods.generateAuthToken = async function(req, res){
     const user = this
     const token = jwt.sign({_id:user._id.toString()}, 'my_jwt_secret', {expiresIn: '1 day'})
