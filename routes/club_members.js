@@ -2,6 +2,7 @@ const router = require('express').Router()
 const {upload}= require('../db/upload')
 const clubMemberModel = require('../models/ClubMember.model')
 const clubAuth = require('../middleware/clubAuth')
+const { updateOne } = require('../models/ClubMember.model')
 
 // for rendering the create club members page
 router.route('/create/').get(clubAuth, (req, res) => {
@@ -49,12 +50,14 @@ router.route('/update/:id').get(clubAuth, async (req, res) => {
     const member_id = req.params.id
     let member;
     try {
-        member = clubMemberModel.findOne({owner:req.user._id,"members._id":member_id})
-        res.render('update_club_member',{member:member,page_name:'club_members'})
+        clubMemberModel.findOne({owner:req.user._id,"members._id":member_id},function(err,member){
+            if(err) return res.status(404).send(err)
+            console.log(member)
+            res.render('update_club_member',{member:member.members,page_name:'club_members'})
+          });
     } catch (error) {
         res.json(error)
     }
-    res.redirect('update_club_member')
 })
 
 // route to update the club member details
@@ -75,6 +78,7 @@ router.route('/update/:id').post(clubAuth, upload.single('dp') ,async (req, res)
         let member = {}
 
         updates.forEach((update) => {
+        if(update!="dp")
         member[update] = req.body[update]
         })
         member["dp_url"] = dpurl

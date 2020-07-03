@@ -16,8 +16,8 @@
                 <form method="POST" enctype="multipart/form-data" action="#">
                     <div class="form-group">
                         <img src="/images/<%=member.dp_url%>" id="preview" class="rounded" alt=" No File Selected " height="100px" style="margin-bottom: .5rem;">
-                        <input type="file" name="dp_url" id="dp_url" accept='image/*' style="display:none;"/>
-                        <label for="profpic" class="btn btn-secondary" style="height: 100px; max-width: 100px; padding-top:25px; ">Upload Club Member DP</label>
+                        <input type="file" name="dp" id="dp" accept='image/*' style="display:none;"/>
+                        <label for="dp" class="btn btn-secondary" style="height: 100px; max-width: 100px; padding-top:25px; ">Upload Club Member DP</label>
                     </div>
                     <div class="form-group">
                         <label for="name">Enter Club Member Name</label>
@@ -39,8 +39,7 @@
                         <label for="contact">Contact number of the Club Member (mobile)</label>
                         <input placeholder="NULL" value="<%=member.contact%>" type="tel" pattern="^[6-9]\d{9}$" class="form-control" id="contact" name="contact" >
                     </div>
-                    <input name="dp_url" value="<%=user.dp_url%>" style="display: none;"/>
-                    <input value="<%= user.id %>" name="id" style="display: none;"/>
+                    <input name="dp_url" value="<%=member.dp_url%>" style="display: none;"/>
                     <button type="submit" class="btn btn-primary">Update Member</button>
                 </form>
             </div>
@@ -59,7 +58,7 @@
     }
     }
 
-    $("#profpic").change(function(){
+    $("#dp").change(function(){
         readURL(this);
     });
     </script>
