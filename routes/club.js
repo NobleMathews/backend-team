@@ -154,4 +154,9 @@ router.route('/reset/:id').post(adminAuth, (req,res)=>{
   })
 })
 
+// route for front end to render club page
+router.route('/front/:club').get((req,res)=>{
+  const club_name = req.params.club
+})
+
 module.exports = router
