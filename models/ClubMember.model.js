@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Club_Heads = require('./ClubHead.model')
 const Schema = mongoose.Schema;
 
 const clubMemberSchema = new Schema({
