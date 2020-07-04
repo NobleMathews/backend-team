@@ -18,7 +18,7 @@
         <% members.forEach((member) => { %>
             <div class="col mb-4">
                 <div class="card h-100">
-                    <img src="/images/<%= member.dp_url %>" alt="thumbnail of poster" style="margin: 10px; padding:10px;;" width="100px"  height="150px">
+                    <img src="/images/<%= member.dp_url %>" alt="dp of member <%= member.name %>" style="margin: 10px; padding:10px;;" width="100px"  height="150px">
                     <div class="card-body">
                         <h5 class="card-title"><%= member.name %> [<strong><%=member.position%></strong>] </h5>
                         <p class="card-text">
