@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const clubModel = require('../models/Club.model')
 const clubHeadsModel = require('../models/ClubHead.model')
+const clubMemberModel = require('../models/ClubMember.model')
 const {upload, uploadf}= require('../db/upload')
 const adminAuth = require('../middleware/adminAuth');
 const clubAuth = require('../middleware/clubAuth')
@@ -157,6 +158,32 @@ router.route('/reset/:id').post(adminAuth, (req,res)=>{
 // route for front end to render club page
 router.route('/front/:club').get((req,res)=>{
   const club_name = req.params.club
+  clubModel.findOne({name:club_name})
+    .then(club => {
+      clubHeadsModel.findById(club.head,{tokens:0})
+      .then(club_head=>{
+        clubMemberModel.find({owner:club.head},{owner:0,_id:0,__v:0,createdAt:0,updatedAt:0})
+        .then(members=>{res.json({
+          'Club name':club.name,
+          'Club Description':club.description,
+          'Club logo_url':club.logo_url,
+          'Club Object_ID':club._id,
+          'Club Head name':club_head.user_id,
+          'Club Head dp_url':club_head.dp_url,
+          'Club Head bio':club_head.bio,
+          'Club Head contact':club_head.contact,
+          'Club Head email_id':club_head.email_id,
+          'Member details':members
+        }).catch(err=>{res.json(err)})
+      }).catch(err=>{
+        res.json(err)
+      })
+    }).catch(err=>{
+      res.json(err)
+    })
+  
 })
+})
+
 
 module.exports = router
