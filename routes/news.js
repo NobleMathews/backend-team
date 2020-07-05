@@ -72,7 +72,7 @@ router.route('/view_all').get(adminAuth, (req, res) => {
     })
 })
 
-router.route('/front').get(adminAuth, (req,res) => {
+router.route('/front').get((req,res) => {
     newsModel.find()
     .then(newss => {
         res.json(newss);
