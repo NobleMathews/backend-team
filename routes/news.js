@@ -72,4 +72,13 @@ router.route('/view_all').get(adminAuth, (req, res) => {
     })
 })
 
+router.route('/front').get(adminAuth, (req,res) => {
+    newsModel.find()
+    .then(newss => {
+        res.json(newss);
+    }).catch(err => {
+        res.json(err);
+    })
+})
+
 module.exports = router
