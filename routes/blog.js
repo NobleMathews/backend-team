@@ -8,7 +8,7 @@ const path = require('path')
 
 //  for rendering blog creation page
 router.route('/create').get(clubAuth, (req,res)=>{
-  res.render('create_blog',{id:req.params.id, page_name:'blogs'})
+  res.render('create_blog', { alerts: '',id:req.params.id, page_name:'blogs'})
 })
 
 // route to create blog
@@ -89,7 +89,7 @@ router.route('/update/:id').get(clubAuth, (req,res)=>{
   const id = req.params.id
   blogModel.findById(id)
   .then(blog=>{
-      res.render('update_blog',{id:req.params.id,summary:blog, page_name:'blogs' })
+      res.render('update_blog', { alerts: '',id:req.params.id,summary:blog, page_name:'blogs' })
   }).catch(err=>{
       res.json(err)
   })
@@ -173,7 +173,7 @@ router.route('/view_all').get(clubAuth, (req,res)=>{
   blogModel.find({ owner: req.user._id })
   .then(blogs => {
   // res.json(blogs)
-    res.render('view_blogs', {blogs: blogs,page_name:'blogs'})
+    res.render('view_blogs', { alerts: '',blogs: blogs,page_name:'blogs'})
   }).catch((err) => {
     res.json('Error: ' + err)
   })
@@ -183,7 +183,7 @@ router.route('/details/:id').get(clubAuth, (req,res)=>{
   const id = req.params.id
   blogModel.findById(id)
   .then(blog=>{
-      res.render('details_blog',{id:req.params.id,blog:blog, page_name:'blogs' })
+      res.render('details_blog', { alerts: '',id:req.params.id,blog:blog, page_name:'blogs' })
   }).catch(err=>{
       res.json(err)
   })
@@ -197,7 +197,7 @@ router.route('/delete/:id').get(clubAuth, (req,res)=>{
       blogModel.find({ owner: club_head_id })
       .then(blogs => {
       // res.json(blog)
-          res.render('view_blogs', { blogs: blogs,page_name:'blogs'})
+          res.render('view_blogs', { alerts: '', blogs: blogs,page_name:'blogs'})
       }).catch((err) => {
       res.json('Error: ' + err)
       })

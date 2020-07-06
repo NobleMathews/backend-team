@@ -8,7 +8,7 @@ const clubAuth = require('../middleware/clubAuth')
 
 // for rendering the create club page
 router.route('/create/').get(adminAuth, (req, res) => {
-    res.render('create_club', {page_name:"clubs"})
+    res.render('create_club', { alerts: '',page_name:"clubs"})
 })
 
 // route to create the club
@@ -46,7 +46,7 @@ router.route('/update').get(clubAuth, async (req, res) => {
         throw new Error()
       }
 
-      res.render('update_club', {club,page_name:'update_club'})
+      res.render('update_club', { alerts: '',club,page_name:'update_club'})
     }catch(e){
       res.json('NO club has been assigned to the logged in club head by admin')
     }
@@ -110,7 +110,7 @@ router.route('/delete/:id').delete(adminAuth, (req, res) => {
 router.route('/view_all').get(adminAuth, (req, res) => {
     clubModel.find()
       .then(clubs => {
-        res.render('view_clubs', {
+        res.render('view_clubs', { alerts: '',
           clubs: clubs, page_name:"clubs"
         })
       }).catch((err) => {
@@ -125,7 +125,7 @@ router.route('/details/:id').get(adminAuth, (req, res) => {
     .then(club => {
       clubHeadsModel.findById(club.head)
       .then(club_head=>{
-        res.render('details_club',{club_head:club_head,club:club, page_name:"clubs"})
+        res.render('details_club', { alerts: '',club_head:club_head,club:club, page_name:"clubs"})
       }).catch(err=>{
         res.json(err)
       })
@@ -137,7 +137,7 @@ router.route('/details/:id').get(adminAuth, (req, res) => {
 // for rendering the reset page
 router.route('/reset/:id').get(adminAuth, (req,res)=>{
   const club_id = req.params.id
-  res.render('reset_club',{club_id:club_id, page_name:"clubs"})
+  res.render('reset_club', { alerts: '',club_id:club_id, page_name:"clubs"})
 })
 
 // route to reset any club

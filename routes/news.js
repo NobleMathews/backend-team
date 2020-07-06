@@ -4,7 +4,7 @@ const adminAuth = require('../middleware/adminAuth');
 
 // for rendering the create news page
 router.route('/create/').get(adminAuth, (req, res) => {
-    res.render('create_news',{page_name:'news'})
+    res.render('create_news', { alerts: '',page_name:'news'})
 })
 
 // route to create news
@@ -30,7 +30,7 @@ router.route('/update/:id').get(adminAuth, async (req, res) => {
     var id = req.params.id;
     newsModel.findById(id)
     .then(news => {
-        res.render('update_news',{news:news,page_name:'news'})
+        res.render('update_news', { alerts: '',news:news,page_name:'news'})
     }).catch(err => {
         res.json(err)
     })
@@ -68,7 +68,7 @@ router.route('/delete/:id').get(adminAuth, (req, res) => {
 router.route('/view_all').get(adminAuth, (req, res) => {
     newsModel.find()
     .then(newss=>{
-        res.render('view_news',{newss:newss,page_name:'news'})
+        res.render('view_news', { alerts: '',newss:newss,page_name:'news'})
     })
 })
 
