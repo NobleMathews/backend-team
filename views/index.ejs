@@ -6,10 +6,7 @@
     <title>Helper</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" >
 </head>
-<body>
-
-    <!-- added this in for a better alerting mechanism -->
-    
+<body>    
     <h2 style="display:none;" id="alerts"><%=alerts %></h2>
     <% if(alerts.length!=0){ %>
         <script type="text/javascript">
@@ -18,7 +15,7 @@
                 alert(x);
         });
         </script>
-    <% } %>
+    <% } %>    
     <form method="GET" style="position: fixed; right: 0; top:0; padding: 10px;" action="/admin" >
     <button type="submit" class='btn btn-outline-success pull-right'>Switch to Admin Login</button> 
     </form>

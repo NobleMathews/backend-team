@@ -11,7 +11,16 @@
     <script src="https://cdn.ckeditor.com/4.9.1/standard/ckeditor.js"></script>
     <title>Create Blogs</title>
   </head>
-  <body>
+  <body>    
+    <h2 style="display:none;" id="alerts"><%=alerts %></h2>
+    <% if(alerts.length!=0){ %>
+        <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function(event) { 
+            var x = $("#alerts").html(); 
+                alert(x);
+        });
+        </script>
+    <% } %>
     <style>
         input[type="file"] {
         display: block;
