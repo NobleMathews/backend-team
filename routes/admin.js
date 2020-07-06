@@ -7,27 +7,21 @@ const adminAuth = require('../middleware/adminAuth')
 
 // for rendering password page
 router.route('/password/change').get(adminAuth, (req, res) => {
-  res.render('update_password_admin', { alerts: '',page_name:"home"})
+  res.render('update_password_admin', { alerts: req.flash('error'),page_name:"home"})
 })
 
 // password changing route
 router.route('/password/change/').post(adminAuth, async (req, res) => {
   var pswd = req.body.pswd
-  // superAdminModel.findByIdAndUpdate(req.admin._id, { pswd: pswd })
-  //   .then(() => {
-  //     res.redirect(307, '/admin/profile')
-  //   }).catch(err => {
-  //     res.json(err)
-  //   })
-
   try{
 
     req.admin.pswd = pswd
     await req.admin.save()
     
     res.redirect(307, '/admin/profile')
-  }catch(e){
-    res.json(e)
+  }catch(err){
+    req.flash("error",err)
+    res.redirect("/admin/profile")
   }
 })
 
@@ -42,7 +36,7 @@ router.route('/profile').post(adminAuth, (req, res) => {
           contact: req.admin.contact
         }
     
-    return res.render('landing_admin', { alerts: '', admin: admins, page_name:"home" })
+    return res.render('landing_admin', { alerts: req.flash('error'), admin: admins, page_name:"home" })
 })
 
 //login to admin  
@@ -58,11 +52,11 @@ router.route('/login').post(async (req, res) => {
     }
 
     const token = await admin.generateAuthToken(req, res)
-    res.render('landing_admin', { alerts: '', admin: admin, page_name:"home" })
+    res.render('landing_admin', { alerts: req.flash('error'), admin: admin, page_name:"home" })
 
   }catch(e){
-    // res.json(e)
-    res.render('index',{alerts:"Sorry, you do not have admin privileges"})
+    req.flash("error","Sorry, you do not have admin privileges")
+    res.redirect("/")
   }
     
 })
@@ -73,12 +67,23 @@ router.route('/profile/update').get(adminAuth, async (req, res) => {
     try{
       const admin = req.admin
 
-      res.render('update_profile_admin', { alerts: '', id: admin._id, page_name:"home", user_id: admin.user_id, name: admin.name, contact: admin.contact, email_id: admin.email_id })
+      res.render('update_profile_admin', { alerts: req.flash('error'), id: admin._id, page_name:"home", user_id: admin.user_id, name: admin.name, contact: admin.contact, email_id: admin.email_id })
     }catch(e){
-      res.status(400).json(e)
+      req.flash("error",e)
+    res.redirect("/admin/profile")
     }
 })
 
+router.route('/profile').get(adminAuth, async (req, res) => {
+
+  try{
+    const admin = req.admin
+    res.render('landing_admin', { alerts: req.flash('error'), admin: admin, page_name:"home" })
+  }catch(e){
+    req.flash("error",e)
+    res.redirect("/admin")
+  }
+})
 // for updating through the form
 router.route('/profile/update').post(adminAuth, async (req, res) => {
   
@@ -93,9 +98,10 @@ router.route('/profile/update').post(adminAuth, async (req, res) => {
 
     await admin.save()
     
-    res.render('landing_admin', { alerts: '', admin: admin, page_name:"home" })
+    res.render('landing_admin', { alerts: req.flash('error'), admin: admin, page_name:"home" })
   }catch(e){
-    res.status(400).json(e)
+    req.flash("error",e)
+    res.redirect("/admin/profile")
   }
 })
 
@@ -117,10 +123,13 @@ router.route('/club_head/reset/:id').get(adminAuth, (req, res) => {
         .then(() => {
           res.redirect('/club/view_all')
         }).catch(err => {
-          res.json(err)
+          req.flash("error",err)
+          res.redirect("/admin/profile")
+
         })
     }).catch(err => {
-      res.json(err)
+      req.flash("error",err)
+      res.redirect("/admin/profile")
     })
 })
 
@@ -132,11 +141,11 @@ router.route('/logout').get(adminAuth, async (req,res) => {
       })
 
       await req.admin.save()
-
       res.redirect('/admin')
 
     }catch(e){
-      res.json({e})
+      req.flash('error',e)
+      res.render('index', { alerts: req.flash('error') })
     }
     
 })

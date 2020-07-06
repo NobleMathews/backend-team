@@ -10,15 +10,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" >
 </head>
 <body>    
-    <h2 style="display:none;" id="alerts"><%=alerts %></h2>
-    <% if(alerts.length!=0){ %>
-        <script type="text/javascript">
-        document.addEventListener("DOMContentLoaded", function(event) { 
-            var x = $("#alerts").html(); 
-                alert(x);
-        });
-        </script>
-    <% } %>
+  <%-include('partials/alert_system.ejs')%>
     <%- include('partials/navbar_admin') %>
     <div class="container" style="margin-top: 20vh;" >
         <div class="row">

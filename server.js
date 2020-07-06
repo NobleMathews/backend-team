@@ -5,6 +5,7 @@ const session = require('express-session')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
 const bcrypt = require('bcrypt')
+var flash = require('connect-flash');
 // const methodOverride = require('method-override')
 
 const adminRouter = require('./routes/admin')
@@ -31,6 +32,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.set('view engine', 'ejs')
 app.set('useFindAndModify', false)
+app.use(flash());
 
 app.use('/admin', adminRouter)
 app.use('/club_head', clubHeadRouter)
@@ -51,10 +53,10 @@ app.listen(port, () => {
 })
 
 app.get('/', (req, res) => {
-  res.render('index', { alerts: '' })
+  res.render('index', { alerts: req.flash('error') })
 })
 
 app.get('/admin/', (req, res) => {
-  res.render('adminLogin', { alerts: '' })
+  res.render('adminLogin', { alerts: req.flash('error') })
 })
 
