@@ -162,8 +162,7 @@ router.route('/update/:id').post(clubAuth, uploadf.fields([{name:'chief_guest_ur
         video_links : video_links
     }
     }
-    for(let field in evsum) if(!evsum[field]) delete evsum[field];
-    
+    for(let field in evsum) if(!evsum[field] && field!="featured") delete evsum[field];
     blogModel.findOneAndUpdate({_id:id},{$set: evsum},{useFindAndModify: false})
     .then((event)=>{
         res.redirect("/blog/view_all");
