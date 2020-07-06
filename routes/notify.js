@@ -16,7 +16,7 @@ router.route('/:id').get((req, res) => {
     }
       clubHeadsModel.findById(event.owner)
         .then(user => {
-          res.render('contact', { event: event, user: user, page_name:'view_events'  })
+          res.render('contact', { alerts: '', event: event, user: user, page_name:'view_events'  })
         }).catch((err) => {
           res.json('Error: ' + err)
         })
@@ -99,7 +99,7 @@ router.route('/push_notification/send/:id').post((req, res) => {
               console.log('Message sent: %s', info.messageId);   
               console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
         
-              res.render('message_success');
+              res.render('message_success', { alerts: ''});
           });
               })
           }).catch(err=>{

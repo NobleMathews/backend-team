@@ -6,7 +6,7 @@ const clubAuth = require('../middleware/clubAuth')
 
 // for rendering password page
 router.route('/password/change').get(clubAuth, (req, res) => {
-  res.render('update_password_clubHead', {page_name:"home"})
+  res.render('update_password_clubHead', { alerts: '',page_name:"home"})
 })
 
 // route for changing the password
@@ -43,7 +43,7 @@ router.route('/create').post(adminAuth, (req, res) => {
 
 // route to render club_head create page
 router.route('/create').get(adminAuth, async (req, res) => {
-  res.render('create_club_head', {page_name:"club_heads"})
+  res.render('create_club_head', { alerts: '',page_name:"club_heads"})
 })
 
 // route for updating profile
@@ -68,7 +68,7 @@ router.route('/profile/update').post(clubAuth, upload.single('profpic'), async (
 
     await user.save()
 
-    res.render('landing_clubHead', {user:user,page_name:"home"})
+    res.render('landing_clubHead', { alerts: '',user:user,page_name:"home"})
 
   }catch(e){
     res.status(400).json(e)
@@ -79,7 +79,7 @@ router.route('/profile/update').post(clubAuth, upload.single('profpic'), async (
 // for rendering update profile
 router.route('/profile/update').get(clubAuth, (req, res) => {
   // turn on the projections as per necessity
-  res.render('update_profile_clubHead', { user: req.user, page_name:"home"})
+  res.render('update_profile_clubHead', { alerts: '', user: req.user, page_name:"home"})
 })
 
 // route for rendering profile and action page
@@ -100,7 +100,7 @@ router.route('/login').post(async (req, res) => {
     const token = await user.generateAuthToken(req, res)
     // console.log(token)
 
-    res.render('landing_clubHead', {user : user,page_name:'home'})
+    res.render('landing_clubHead', { alerts: '',user : user,page_name:'home'})
 
   }catch(e){
     // res.status(400).json('Unable to Login')
@@ -113,7 +113,7 @@ router.route('/login').post(async (req, res) => {
 router.route('/profile').post(clubAuth, (req, res) => {
   const user = req.user
 
-  return res.render('landing_clubHead', {user : user,page_name:'home'})
+  return res.render('landing_clubHead', { alerts: '',user : user,page_name:'home'})
 })
 
 // route to view all club_heads
@@ -122,7 +122,7 @@ router.route('/view_all').get(adminAuth, (req, res) => {
     if(err){
       res.json(err)
     }else{
-    res.render('view_club_heads',{club_heads:club_heads, page_name:"club_heads"})
+    res.render('view_club_heads', { alerts: '',club_heads:club_heads, page_name:"club_heads"})
     }
   })
 })

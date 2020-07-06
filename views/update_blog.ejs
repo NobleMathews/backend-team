@@ -8,7 +8,16 @@
     <script src="https://cdn.ckeditor.com/4.9.1/standard/ckeditor.js"></script>
     <title>Event Summary</title>
   </head>
-  <body>
+  <body>    
+    <h2 style="display:none;" id="alerts"><%=alerts %></h2>
+    <% if(alerts.length!=0){ %>
+        <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function(event) { 
+            var x = $("#alerts").html(); 
+                alert(x);
+        });
+        </script>
+    <% } %>
     <%-include('partials/navbar_clubhead.ejs')%>
     <h3 style="text-align: center; text-decoration: underline; padding-top: 30px;">Event Summary</h3>
     <div class="container" style="padding-top:30px;">

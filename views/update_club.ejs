@@ -8,7 +8,16 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="  crossorigin="anonymous"></script>
     <title>Update Club</title>
   </head>
-  <body>
+  <body>    
+    <h2 style="display:none;" id="alerts"><%=alerts %></h2>
+    <% if(alerts.length!=0){ %>
+        <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function(event) { 
+            var x = $("#alerts").html(); 
+                alert(x);
+        });
+        </script>
+    <% } %>
     
     <%-include('partials/navbar_clubhead.ejs')%> <br><br>
  

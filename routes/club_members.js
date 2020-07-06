@@ -6,7 +6,7 @@ const { updateOne } = require('../models/ClubMember.model')
 
 // for rendering the create club members page
 router.route('/create/').get(clubAuth, (req, res) => {
-    res.render('create_club_member',{page_name:'club_members'})
+    res.render('create_club_member', { alerts: '',page_name:'club_members'})
 })
 
 // route to create the club members
@@ -66,7 +66,7 @@ router.route('/update/:id').get(clubAuth, async (req, res) => {
             if(err) return res.status(404).send(err)
             memberv=(member.members).find(o => {return o._id == member_id;})
             console.log(memberv)
-            res.render('update_club_member',{'member':memberv,page_name:'club_members'})
+            res.render('update_club_member', { alerts: '','member':memberv,page_name:'club_members'})
           });
     } catch (error) {
         res.json(error)
@@ -126,9 +126,9 @@ router.route('/view_all').get(clubAuth, async (req, res) => {
     try {
         club_members = await clubMemberModel.findOne({owner:req.user._id})
         if(club_members)
-        res.render('view_club_members',{members:club_members.members,page_name:'club_members'})
+        res.render('view_club_members', { alerts: '',members:club_members.members,page_name:'club_members'})
         else
-        res.render('view_club_members',{members:[],page_name:'club_members'})
+        res.render('view_club_members', { alerts: '',members:[],page_name:'club_members'})
     } catch (error) {
         res.json(error)
     }

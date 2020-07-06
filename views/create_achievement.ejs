@@ -42,7 +42,16 @@
         }
   </style>
   </head>
-  <body>
+  <body>    
+    <h2 style="display:none;" id="alerts"><%=alerts %></h2>
+    <% if(alerts.length!=0){ %>
+        <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function(event) { 
+            var x = $("#alerts").html(); 
+                alert(x);
+        });
+        </script>
+    <% } %>
     <%- include('partials/navbar_admin') %>
     <h3 style="text-align: center; text-decoration: underline; padding-top: 30px;">Add New Achievement</h3>
 
