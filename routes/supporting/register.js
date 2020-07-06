@@ -1,5 +1,5 @@
 const router = require('express').Router();
-let eventsModel = require('../models/Event.model');
+let eventsModel = require('../../models/Event.model');
 
 router.route('/:id').post((req,res)=>{
     const id = req.params.id

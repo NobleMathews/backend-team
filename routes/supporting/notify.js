@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const eventsModel = require('../models/Event.model');
-const clubHeadsModel = require('../models/ClubHead.model')
+const eventsModel = require('../../models/Event.model');
+const clubHeadsModel = require('../../models/ClubHead.model')
 const nodemailer = require('nodemailer')
 
 // route for rendering the mailing page
