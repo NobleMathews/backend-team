@@ -6,7 +6,7 @@ const adminAuth = require('../middleware/adminAuth');
 
 // route for rendering the project creating page
 router.route('/create').get(adminAuth, (req, res) => {
-    res.render('create_project', { alerts: '', id: req.admin._id, page_name:"projects" })
+    res.render('create_project', { alerts: req.flash('error'), id: req.admin._id, page_name:"projects" })
 })
 
 // route to create project
@@ -40,7 +40,7 @@ router.route('/update/:id').get(adminAuth, (req,res)=>{
     const proj_id = req.params.id
     projectsModel.findById(proj_id)
     .then(project=>{
-      res.render('update_project', { alerts: '',project:project, page_name:"projects"})
+      res.render('update_project', { alerts: req.flash('error'),project:project, page_name:"projects"})
     })
 })
 
@@ -68,8 +68,8 @@ router.route('/update/:id').post(adminAuth, upload.any('pics', 20), (req, res) =
       .then(() => {
         res.redirect('/projects/view_all')
       }).catch(err => {
-        res.status(400).send(err)
-      })
+        req.flash("error",err)
+        res.redirect('/projects/view_all')      })
 })
 
 // route to delete project
@@ -79,8 +79,8 @@ router.route('/delete/:id').get(adminAuth, (req, res) => {
       .then(() => {
         res.redirect('/projects/view_all')
       }).catch(err => {
-        res.json(err)
-      })
+        req.flash("error",err)
+        res.redirect('/projects/view_all')      })
 })
 
 // route to view all projects
@@ -88,10 +88,10 @@ router.route('/view_all').get(adminAuth, (req, res) => {
     const admin = req.admin
     projectsModel.find()
       .then(project => {
-        res.render('details_project', { alerts: '', projects: project,_id:admin._id, page_name:"projects"}) //, _id: sess._id
+        res.render('details_project', { alerts: req.flash('error'), projects: project,_id:admin._id, page_name:"projects"}) //, _id: sess._id
       }).catch(err => {
-        res.status(404).send(err)
-      })
+        req.flash("error",err)
+        res.redirect('/admin/profile')      })
 })
 
 module.exports = router

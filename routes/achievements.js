@@ -5,7 +5,7 @@ const adminAuth = require('../middleware/adminAuth');
 
 // for rendering achievement create page
 router.route('/create/').get(adminAuth, (req, res) => {
-    res.render('create_achievement', { alerts: '',page_name:"achievements"})
+    res.render('create_achievement', { alerts: req.flash('error'),page_name:"achievements"})
 })
 
 // route to create achievement
@@ -26,7 +26,8 @@ router.route('/create/').post(adminAuth, upload.any('snapshot_url', 20), (req, r
     })
   
     acheievement.save((err, ach) => {
-      if (err) res.json(err)
+      if (err) 
+      req.flash("error",err)
       res.redirect('/achievements/view_all')
     })
 })
@@ -35,10 +36,10 @@ router.route('/create/').post(adminAuth, upload.any('snapshot_url', 20), (req, r
 router.route('/update/:id').get(adminAuth, (req, res) => {
     achievementModel.findById(req.params.id)
       .then(ach => {
-        res.render('update_achievement', { alerts: '', ach: ach, page_name:"achievements" })
+        res.render('update_achievement', { alerts: req.flash('error'), ach: ach, page_name:"achievements" })
       }).catch(err => {
-        res.status(404).send('Does nit exist')
-      })
+        req.flash("error",err)
+        res.redirect('/achievements/view_all')      })
 })
 
 // route to update achievement
@@ -62,8 +63,8 @@ router.route('/update/:id').post(adminAuth, upload.any('pics', 20), (req, res) =
       .then(() => {
         res.redirect('/achievements/view_all')
       }).catch(err => {
-        res.status(400).send(err)
-      })
+        req.flash("error",err)
+        res.redirect('/achievements/view_all')      })
 })
 
 // route to delete achievement
@@ -73,15 +74,20 @@ router.route('/delete/:id').get(adminAuth, (req, res) => {
       .then(() => {
         res.redirect('/achievements/view_all')
       }).catch(err => {
-        res.json(err)
-      })
+        req.flash("error",err)
+        res.redirect('/achievements/view_all')      })
 })
-
+router.route('/err').get(adminAuth, (req, res) => {
+  achievementModel.find()
+  .then(achievements => {
+      res.render('view_achievements', { alerts: req.flash('error'), achievements , page_name:"achievements"})
+  })
+})
 // route to view all achievemnts
 router.route('/view_all').get(adminAuth, (req, res) => {
     achievementModel.find()
     .then(achievements => {
-        res.render('view_achievements', { alerts: '', achievements , page_name:"achievements"})
+        res.render('view_achievements', { alerts: req.flash('error'), achievements , page_name:"achievements"})
     })
 })
 

@@ -8,7 +8,7 @@ const { filter } = require('lodash');
 
 // route for rendering event creation page
 router.route('/create/').get(clubAuth, (req, res) => {
-  res.render('create_event', { alerts: '',page_name:'create_event'})
+  res.render('create_event', { alerts: req.flash('error'),page_name:'create_event'})
 })
 
 //   route to create event
@@ -34,7 +34,8 @@ router.route('/create/').post(clubAuth, upload.single('poster'), (req, res) => {
   
     event.save((err, event) => { // saving the event in database
       if (err) {
-        res.json(err)
+        req.flash("error",err)
+res.redirect('/events/view_all')
       } else {
         res.redirect("/events/view_all")
       }
@@ -46,10 +47,10 @@ router.route('/create/').post(clubAuth, upload.single('poster'), (req, res) => {
 router.route('/view_all').get(clubAuth, (req, res) => {
     eventsModel.find({ owner: req.user._id })
       .then(events => {
-      // res.json(events)
-        res.render('view_events', { alerts: '',events: events, moment: moment, page_name:'view_events' })
+        res.render('view_events', { alerts: req.flash('error'),events: events, moment: moment, page_name:'view_events' })
       }).catch((err) => {
-        res.json('Error: ' + err)
+        req.flash("error",err)
+        res.redirect('/club_head/profile')
       })
 })
   
@@ -58,20 +59,20 @@ router.route('/view_all').get(clubAuth, (req, res) => {
     const id = req.params.id
     eventsModel.find({ _id: id })
       .then(events => {
-      // res.json(events)
-        res.render('details_event', { alerts: '', events: events, moment: moment, page_name:'view_events'  })
+        res.render('details_event', { alerts: req.flash('error'), events: events, moment: moment, page_name:'view_events'  })
       }).catch((err) => {
-        res.json('Error: ' + err)
-      })
+        req.flash("error",err)
+        res.redirect('/events/view_all')      })
 })
 // route for rendering update event page
 router.route('/update/:id').get(clubAuth, (req,res)=>{
     const id = req.params.id
     eventsModel.findById(id)
     .then(event=>{
-        res.render('update_event', { alerts: '',event:event,moment:moment, page_name:'view_events' })
+        res.render('update_event', { alerts: req.flash('error'),event:event,moment:moment, page_name:'view_events' })
     }).catch(err=>{
-        res.json(err)
+        req.flash("error",err)
+res.redirect('/events/view_all')
     })
 })
 
@@ -110,8 +111,10 @@ router.route('/update/:id').post(clubAuth, upload.single('poster'), (req, res) =
           return res.redirect("/events/view_all");
         })
       }
-      else
-       return res.status(404).json("Illegal attempt to edit old event !!")
+      else{
+        req.flash("error","Illegal attempt to edit old event !!")
+        return res.redirect('/events/view_all')
+      }
     });
 });
 
@@ -127,13 +130,14 @@ router.route('/delete/:id').get(clubAuth, (req,res)=>{
         var club_head_id = req.user._id
         eventsModel.find({ owner: club_head_id })
         .then(events => {
-        return res.render('view_events', { alerts: '', events: events, moment: moment, page_name: 'view_events' })
+        return res.render('view_events', { alerts: req.flash('error'), events: events, moment: moment, page_name: 'view_events' })
         }).catch((err) => {
-        return res.json('Error: ' + err)
-        })
+          req.flash("error",err)
+          return res.redirect('/events/view_all')        })
       }
       else
-       return res.status(404).json("You are not authorised to delete a completed event !!")
+       {req.flash("error","You are not authorised to delete a completed event !!")
+       res.redirect('/events/view_all')}
     });
 })
 

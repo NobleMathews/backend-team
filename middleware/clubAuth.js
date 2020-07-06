@@ -6,7 +6,9 @@ const clubAuth = async (req, res, next) => {
         const token = req.cookies.authToken
 
         if(!token){
-            return res.status(403).send({error: 'You need to Login'})
+            // return res.status(403).send({error: 'You need to Login'})
+            req.flash("error",'You need to be logged in')
+            return res.redirect("/")
         }
 
         const decoded = jwt.verify(token, 'my_jwt_secret')
@@ -22,8 +24,10 @@ const clubAuth = async (req, res, next) => {
         next()
 
     }catch(e){
-        console.log(e)
-        res.json('Please Authenticate as Club head')
+        // console.log(e)
+        // res.json('Please Authenticate as Club head')
+        req.flash("error",'Please Authenticate as Club head')
+        return res.redirect("/")
     }
     
 

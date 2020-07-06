@@ -4,7 +4,7 @@ const adminAuth = require('../middleware/adminAuth');
 
 // for rendering the create news page
 router.route('/create/').get(adminAuth, (req, res) => {
-    res.render('create_news', { alerts: '',page_name:'news'})
+    res.render('create_news', { alerts: req.flash('error'),page_name:'news'})
 })
 
 // route to create news
@@ -16,7 +16,7 @@ router.route('/create').post(adminAuth,(req, res) => {
 
     news.save((err,news)=>{
         if (err){
-            console.log(err);
+            req.flash("error",err)
             res.redirect('/news/view_all')
             
         }else{
@@ -30,9 +30,10 @@ router.route('/update/:id').get(adminAuth, async (req, res) => {
     var id = req.params.id;
     newsModel.findById(id)
     .then(news => {
-        res.render('update_news', { alerts: '',news:news,page_name:'news'})
+        res.render('update_news', { alerts: req.flash('error'),news:news,page_name:'news'})
     }).catch(err => {
-        res.json(err)
+        req.flash("error",err)
+res.redirect('/news/view_all')
     })
 
 })
@@ -48,7 +49,8 @@ router.route('/update/:id').post(adminAuth, async (req, res) => {
     .then(news => {
         res.redirect('/news/view_all')
     }).catch(err => {
-        res.json(err)
+        req.flash("error",err)
+res.redirect('/news/view_all')
     })
 
 })
@@ -60,7 +62,8 @@ router.route('/delete/:id').get(adminAuth, (req, res) => {
     .then(() => {
         res.redirect('/news/view_all');
     }).catch(err=>{
-        res.json(err)
+        req.flash("error",err)
+res.redirect('/news/view_all')
     })
 })
 
@@ -68,7 +71,7 @@ router.route('/delete/:id').get(adminAuth, (req, res) => {
 router.route('/view_all').get(adminAuth, (req, res) => {
     newsModel.find()
     .then(newss=>{
-        res.render('view_news', { alerts: '',newss:newss,page_name:'news'})
+        res.render('view_news', { alerts: req.flash('error'),newss:newss,page_name:'news'})
     })
 })
 
@@ -76,8 +79,8 @@ router.route('/front').get((req,res) => {
     newsModel.find()
     .then(news => {
         res.json(news);
-    }).catch(err => {
-        res.json(err);
+    }).catch(errf => {
+        res.json(errf);
     })
 })
 

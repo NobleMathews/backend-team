@@ -1,9 +1,12 @@
-<h2 style="display:none;" id="alerts"><%=alerts %></h2>
-<% if(alerts.length!=0){ %>
+<% if(alerts){  %>
+    <% if(alerts[0]){  %>
+
+    <h2 style="display:none;" id="alerts"><%=alerts[0]%></h2>
     <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function(event) { 
         var x = $("#alerts").html(); 
             alert(x);
     });
     </script>
+    <% } %>
 <% } %>

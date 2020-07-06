@@ -8,7 +8,7 @@ const path = require('path')
 
 //  for rendering blog creation page
 router.route('/create').get(clubAuth, (req,res)=>{
-  res.render('create_blog', { alerts: '',id:req.params.id, page_name:'blogs'})
+  res.render('create_blog', { alerts: req.flash('error'),id:req.params.id, page_name:'blogs'})
 })
 
 // route to create blog
@@ -77,7 +77,8 @@ router.route('/create').post(clubAuth, uploadf.fields([{name:'chief_guest_url',m
   }
   evsum.save((err, event) => { // creating the blog in database
     if (err) {
-      res.json(err)
+    req.flash("error",err)
+    res.redirect('/blog/view_all')
     } else {
       res.redirect("/blog/view_all")
     }
@@ -89,9 +90,10 @@ router.route('/update/:id').get(clubAuth, (req,res)=>{
   const id = req.params.id
   blogModel.findById(id)
   .then(blog=>{
-      res.render('update_blog', { alerts: '',id:req.params.id,summary:blog, page_name:'blogs' })
+      res.render('update_blog', { alerts: req.flash('error'),id:req.params.id,summary:blog, page_name:'blogs' })
   }).catch(err=>{
-      res.json(err)
+    req.flash("error",err)
+    res.redirect('/blog/view_all')
   })
 })
 
@@ -172,20 +174,20 @@ router.route('/update/:id').post(clubAuth, uploadf.fields([{name:'chief_guest_ur
 router.route('/view_all').get(clubAuth, (req,res)=>{
   blogModel.find({ owner: req.user._id })
   .then(blogs => {
-  // res.json(blogs)
-    res.render('view_blogs', { alerts: '',blogs: blogs,page_name:'blogs'})
+    res.render('view_blogs', { alerts: req.flash('error'),blogs: blogs,page_name:'blogs'})
   }).catch((err) => {
-    res.json('Error: ' + err)
-  })
+    req.flash("error",err)
+    res.redirect('/club_head/profile')  })
 })
 
 router.route('/details/:id').get(clubAuth, (req,res)=>{
   const id = req.params.id
   blogModel.findById(id)
   .then(blog=>{
-      res.render('details_blog', { alerts: '',id:req.params.id,blog:blog, page_name:'blogs' })
+      res.render('details_blog', { alerts: req.flash('error'),id:req.params.id,blog:blog, page_name:'blogs' })
   }).catch(err=>{
-      res.json(err)
+    req.flash("error",err)
+    res.redirect('/blog/view_all')
   })
 })
 // route to delete blog
@@ -196,13 +198,14 @@ router.route('/delete/:id').get(clubAuth, (req,res)=>{
       var club_head_id = req.user._id
       blogModel.find({ owner: club_head_id })
       .then(blogs => {
-      // res.json(blog)
-          res.render('view_blogs', { alerts: '', blogs: blogs,page_name:'blogs'})
+          res.render('view_blogs', { alerts: req.flash('error'), blogs: blogs,page_name:'blogs'})
       }).catch((err) => {
-      res.json('Error: ' + err)
+      req.flash("error",err)
+    res.redirect('/blog/view_all')
       })
   }).catch(err=>{
-      res.json(err)
+    req.flash("error",err)
+    res.redirect('/blog/view_all')
   })
 })
 
