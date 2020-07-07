@@ -7,7 +7,7 @@ const clubAuth = async (req, res, next) => {
 
         if(!token){
             // return res.status(403).send({error: 'You need to Login'})
-            req.flash("error",'You need to be logged in')
+            req.flash("error",['You need to be logged in'])
             return res.redirect("/")
         }
 
@@ -26,7 +26,7 @@ const clubAuth = async (req, res, next) => {
     }catch(e){
         // console.log(e)
         // res.json('Please Authenticate as Club head')
-        req.flash("error",'Please Authenticate as Club head')
+        req.flash("error",['Please Authenticate as Club head'])
         return res.redirect("/")
     }
     

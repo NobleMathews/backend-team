@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const eventsModel = require('../models/Event.model');
-const clubHeadsModel = require('../models/ClubHead.model')
+const eventsModel = require('../../models/Event.model');
+const clubHeadsModel = require('../../models/ClubHead.model')
 const nodemailer = require('nodemailer')
 
 // route for rendering the mailing page
@@ -11,17 +11,17 @@ router.route('/:id').get((req, res) => {
     var date = new Date(event.date);
     date.setDate(date.getDate() + 1);
     if ((new Date())>date){
-      req.flash("error","Event Date has already passed !")
+      req.flash("error",["Event Date has already passed !"])
       return res.redirect('/events/view_all')
     }
       clubHeadsModel.findById(event.owner)
         .then(user => {
           res.render('contact', { alerts: req.flash('error'), event: event, user: user, page_name:'view_events'  })
         }).catch((err) => {
-          req.flash("error",err)
+          req.flash("error",err.message)
           res.redirect('/events/view_all')        })
     }).catch((err) => {
-      req.flash("error",err)
+      req.flash("error",err.message)
       res.redirect('/events/view_all')    })
 })
 
@@ -103,7 +103,7 @@ router.route('/push_notification/send/:id').post((req, res) => {
           });
               })
           }).catch(err=>{
-            req.flash("error",err)
+            req.flash("error",err.message)
             res.redirect('/events/view_all')          })
 });
 

@@ -68,7 +68,7 @@ router.route('/update/:id').post(adminAuth, upload.any('pics', 20), (req, res) =
       .then(() => {
         res.redirect('/projects/view_all')
       }).catch(err => {
-        req.flash("error",err)
+        req.flash("error",err.message)
         res.redirect('/projects/view_all')      })
 })
 
@@ -79,7 +79,7 @@ router.route('/delete/:id').get(adminAuth, (req, res) => {
       .then(() => {
         res.redirect('/projects/view_all')
       }).catch(err => {
-        req.flash("error",err)
+        req.flash("error",err.message)
         res.redirect('/projects/view_all')      })
 })
 
@@ -90,7 +90,7 @@ router.route('/view_all').get(adminAuth, (req, res) => {
       .then(project => {
         res.render('details_project', { alerts: req.flash('error'), projects: project,_id:admin._id, page_name:"projects"}) //, _id: sess._id
       }).catch(err => {
-        req.flash("error",err)
+        req.flash("error",err.message)
         res.redirect('/admin/profile')      })
 })
 

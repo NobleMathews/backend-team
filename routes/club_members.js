@@ -31,7 +31,7 @@ router.route('/create').post(clubAuth, upload.single('dp_url') ,async  (req, res
             if(count>0){
                 clubMemberModel.updateOne({owner:req.user.id},{$push:{members:member}},(err, user) => {
                     if (err) {
-                    req.flash("error",err)
+                    req.flash("error",err.message)
                     res.redirect('/club_members/view_all')
                     }else{
                     res.redirect('/club_members/view_all')
@@ -45,7 +45,7 @@ router.route('/create').post(clubAuth, upload.single('dp_url') ,async  (req, res
                   })
                 club_member.save((err, user) => {
                 if (err) {
-                    req.flash("error",err)
+                    req.flash("error",err.message)
                     res.redirect('/club_members/view_all')
                 }else{
                 res.redirect('/club_members/view_all')
@@ -54,7 +54,7 @@ router.route('/create').post(clubAuth, upload.single('dp_url') ,async  (req, res
             }
         }); 
     }catch(err){
-        req.flash("error",err)
+        req.flash("error",err.message)
         res.redirect('/club_members/view_all')
     }
 
@@ -72,7 +72,7 @@ router.route('/update/:id').get(clubAuth, async (req, res) => {
             res.render('update_club_member', { alerts: req.flash('error'),'member':memberv,page_name:'club_members'})
           });
     } catch (err) {
-        req.flash("error",err)
+        req.flash("error",err.message)
         res.redirect('/club_members/view_all')
     }
 })
@@ -104,7 +104,7 @@ router.route('/update/:id').post(clubAuth, upload.single('dp') ,async (req, res)
 
         res.redirect('/club_members/view_all')
     }catch(err){
-        req.flash("error",err)
+        req.flash("error",err.message)
         res.redirect('/club_members/view_all')
     }
 
@@ -117,7 +117,7 @@ router.route('/delete/:id').get(clubAuth, async (req, res) => {
       {owner: req.user.id}, 
       { $pull: {'members':{"_id":[req.params.id] }}}, { safe: true },function(err, user){
         if (err) {
-            req.flash("error",err)
+            req.flash("error",err.message)
             res.redirect('/club_members/view_all')
         }else{
         console.log(user);
@@ -136,7 +136,7 @@ router.route('/view_all').get(clubAuth, async (req, res) => {
         else
         res.render('view_club_members', { alerts: req.flash('error'),members:[],page_name:'club_members'})
     } catch (error) {
-        req.flash("error",err)
+        req.flash("error",err.message)
         res.redirect('/club_head/profile')
     }
 })

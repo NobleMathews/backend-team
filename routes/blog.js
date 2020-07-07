@@ -77,7 +77,7 @@ router.route('/create').post(clubAuth, uploadf.fields([{name:'chief_guest_url',m
   }
   evsum.save((err, event) => { // creating the blog in database
     if (err) {
-    req.flash("error",err)
+    req.flash("error",err.message)
     res.redirect('/blog/view_all')
     } else {
       res.redirect("/blog/view_all")
@@ -92,7 +92,7 @@ router.route('/update/:id').get(clubAuth, (req,res)=>{
   .then(blog=>{
       res.render('update_blog', { alerts: req.flash('error'),id:req.params.id,summary:blog, page_name:'blogs' })
   }).catch(err=>{
-    req.flash("error",err)
+    req.flash("error",err.message)
     res.redirect('/blog/view_all')
   })
 })
@@ -176,7 +176,7 @@ router.route('/view_all').get(clubAuth, (req,res)=>{
   .then(blogs => {
     res.render('view_blogs', { alerts: req.flash('error'),blogs: blogs,page_name:'blogs'})
   }).catch((err) => {
-    req.flash("error",err)
+    req.flash("error",err.message)
     res.redirect('/club_head/profile')  })
 })
 
@@ -186,7 +186,7 @@ router.route('/details/:id').get(clubAuth, (req,res)=>{
   .then(blog=>{
       res.render('details_blog', { alerts: req.flash('error'),id:req.params.id,blog:blog, page_name:'blogs' })
   }).catch(err=>{
-    req.flash("error",err)
+    req.flash("error",err.message)
     res.redirect('/blog/view_all')
   })
 })
@@ -200,11 +200,11 @@ router.route('/delete/:id').get(clubAuth, (req,res)=>{
       .then(blogs => {
           res.render('view_blogs', { alerts: req.flash('error'), blogs: blogs,page_name:'blogs'})
       }).catch((err) => {
-      req.flash("error",err)
+      req.flash("error",err.message)
     res.redirect('/blog/view_all')
       })
   }).catch(err=>{
-    req.flash("error",err)
+    req.flash("error",err.message)
     res.redirect('/blog/view_all')
   })
 })

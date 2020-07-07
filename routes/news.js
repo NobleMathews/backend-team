@@ -16,7 +16,7 @@ router.route('/create').post(adminAuth,(req, res) => {
 
     news.save((err,news)=>{
         if (err){
-            req.flash("error",err)
+            req.flash("error",err.message)
             res.redirect('/news/view_all')
             
         }else{
@@ -32,7 +32,7 @@ router.route('/update/:id').get(adminAuth, async (req, res) => {
     .then(news => {
         res.render('update_news', { alerts: req.flash('error'),news:news,page_name:'news'})
     }).catch(err => {
-        req.flash("error",err)
+        req.flash("error",err.message)
 res.redirect('/news/view_all')
     })
 
@@ -49,7 +49,7 @@ router.route('/update/:id').post(adminAuth, async (req, res) => {
     .then(news => {
         res.redirect('/news/view_all')
     }).catch(err => {
-        req.flash("error",err)
+        req.flash("error",err.message)
 res.redirect('/news/view_all')
     })
 
@@ -62,7 +62,7 @@ router.route('/delete/:id').get(adminAuth, (req, res) => {
     .then(() => {
         res.redirect('/news/view_all');
     }).catch(err=>{
-        req.flash("error",err)
+        req.flash("error",err.message)
 res.redirect('/news/view_all')
     })
 })
