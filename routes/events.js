@@ -112,7 +112,7 @@ router.route('/update/:id').post(clubAuth, upload.single('poster'), (req, res) =
         })
       }
       else{
-        req.flash("error","Illegal attempt to edit old event !!")
+        req.flash("error",["Illegal attempt to edit old event !!"])
         return res.redirect('/events/view_all')
       }
     });
@@ -136,7 +136,7 @@ router.route('/delete/:id').get(clubAuth, (req,res)=>{
           return res.redirect('/events/view_all')        })
       }
       else
-       {req.flash("error","You are not authorised to delete a completed event !!")
+       {req.flash("error",["You are not authorised to delete a completed event !!"])
        res.redirect('/events/view_all')}
     });
 })

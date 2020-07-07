@@ -55,7 +55,7 @@ router.route('/login').post(async (req, res) => {
     res.render('landing_admin', { alerts: req.flash('error'), admin: admin, page_name:"home" })
 
   }catch(e){
-    req.flash("error","Sorry, you do not have admin privileges")
+    req.flash("error",["Sorry, you do not have admin privileges"])
     res.redirect("/")
   }
     

@@ -31,31 +31,53 @@
                 <textarea class="form-control" type="text" name="des" id="des" rows="4" placeholder="Describe about the achievement..."><%=ach.description%></textarea>
             </div>
             <div class="form-group">
-                <p>Pics:</p>
-                <%
-                    for (var i=0 ; i < ach.pics_url.length ; i++ ){ %>
-                       
-                        <img src="/images/<%=ach.pics_url[i]%>" class="rounded" alt=" No File Selected " height="100px" style="margin-bottom: .5rem;">
-                  <%  }  %>
-                
-                 
-                
-                <input type="file" name="pics" id="pics" style="display:none;" accept='image/*' multiple/>
-                <label for="pics" class="btn btn-secondary" style="height: 100px; max-width: 100px; padding-top:25px; ">Update Pics</label>
+                <div class="container">
+                    <div class="row clearfix">
+                        <div class="col-md-12 column">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">
+                                            Uploaded Images
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% (ach.pics_url).forEach(function(url){ %>
+                                    <tr>
+                                    <td>
+                                        <img src="/images/<%= url %>" alt="image" width="100px" height="100px">
+                                        <input style="display: none;" class="form-control" value="<%=url%>" name='pics_url_links[]'/>
+                                    </td>
+                                        <td><button class="updaterow">Remove</button></td>
+                                    </tr>
+                                    <%  });  %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <label>Upload Photos</label>
+                <input type="file" accept='image/*' name="pics" class="form-control-file" multiple>
             </div>
-
             <div class="form-group">
                 <input type="submit" class="btn btn-info" value="UPDATE"/>
             </div> 
-             
+            <input style="display: none;" class="form-control" value='<%- JSON.stringify(ach.documentIDs) %>' name='documentIDs'/>
         </form>
         </div>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="  crossorigin="anonymous"></script>
     <script>
         CKEDITOR.replace('des');
+        $(document).ready(function(){
+        $(".updaterow").click(function(event){event.preventDefault();
+            console.log(event);
+                $(event.target).parent().parent().remove();
+        });
+        });
     </script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="  crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" ></script>
 <%- include('partials/bottom_spacing.ejs') %>
 </body>

@@ -32,7 +32,7 @@ router.route('/create').post(adminAuth, (req, res) => {
       }
     })
   }).catch((e) => {
-    req.flash("error",'Club head must exist with given email & Club name shouldnt aready exist !!!')
+    req.flash("error",['Club head must exist with given email & Club name shouldnt aready exist !!!'])
     res.redirect('/club/view_all')
   })
 })
@@ -49,7 +49,7 @@ router.route('/update').get(clubAuth, async (req, res) => {
 
       res.render('update_club', { alerts: req.flash('error'),club,page_name:'update_club'})
     }catch(e){
-      req.flash("error",'No club has been assigned to the logged in club head by admin')
+      req.flash("error",['No club has been assigned to the logged in club head by admin'])
       res.redirect('/club/view_all')
     }
     

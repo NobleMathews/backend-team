@@ -96,7 +96,7 @@
                                         <input style="display: none;" class="form-control" value="<%= summary.file_attachment[i] %>" name='file_attachment_links[]'/>
                                         </a>
                                     </td>
-                                        <td><button id="updaterow">Update</button></td>
+                                        <td><button class="updaterow">Update</button></td>
                                         <%  }  %>
                                     </tr>
                                     <%  }  %>
@@ -193,7 +193,7 @@
                                         <img src="/images/<%= url %>" alt="image" width="100px" height="100px">
                                         <input style="display: none;" class="form-control" value="<%=url%>" name='pics_url_links[]'/>
                                     </td>
-                                        <td><button id="updaterow2">Remove</button></td>
+                                        <td><button class="updaterow2">Remove</button></td>
                                     </tr>
                                     <%  });  %>
                                 </tbody>
@@ -238,11 +238,11 @@
                 i--;
                 }
             });
-            $("#updaterow").click(function(event){event.preventDefault();
+            $(".updaterow").click(function(event){event.preventDefault();
                 $(event.target).parent().parent().find('td:nth-child(2)').html('<input type="file" name="file_attachment[]"  placeholder="Links to docs/files" class="form-control"/>');
                 $(event.target).parent().parent().find('td:nth-child(3)').remove();
             });
-            $("#updaterow2").click(function(event){event.preventDefault();
+            $(".updaterow2").click(function(event){event.preventDefault();
                 $(event.target).parent().parent().remove();
             });
                 var j=1;

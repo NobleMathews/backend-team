@@ -11,7 +11,7 @@ router.route('/:id').get((req, res) => {
     var date = new Date(event.date);
     date.setDate(date.getDate() + 1);
     if ((new Date())>date){
-      req.flash("error","Event Date has already passed !")
+      req.flash("error",["Event Date has already passed !"])
       return res.redirect('/events/view_all')
     }
       clubHeadsModel.findById(event.owner)
