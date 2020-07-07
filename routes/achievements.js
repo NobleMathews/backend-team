@@ -109,9 +109,29 @@ router.route('/update/:id').post(adminAuth, upload.any('pics', 20), (req, res) =
 router.route('/delete/:id').get(adminAuth, (req, res) => {
     const achievement_id = req.params.id
     achievementModel.findByIdAndDelete(achievement_id)
-      .then(() => {
+      .then((data) => {
+        if(data.documentIDs){
+          deletequeue = data.documentIDs;
+          if(deletequeue.length>0){
+            var arrPromises = deletequeue.map((path) => 
+            {if (req.app.locals.gfs) {
+              req.app.locals.gfs.delete(new mongoose.Types.ObjectId(path[1]))
+              }
+            }
+            );
+            Promise.all(arrPromises)
+              .then((arrdata) => {res.redirect('/achievements/view_all')})
+              .catch(function (err) {
+                console.log(err);
+                req.flash("error",["Alert : Delete failed on some images."])
+                res.redirect('/achievements/view_all')
+              });
+          }
+        }
+        else
         res.redirect('/achievements/view_all')
       }).catch(err => {
+        console.log(err)
         req.flash("error",err)
         res.redirect('/achievements/view_all')      })
 })
