@@ -2,6 +2,7 @@ const router = require('express').Router()
 const clubModel = require('../models/Club.model')
 const clubHeadsModel = require('../models/ClubHead.model')
 const clubMemberModel = require('../models/ClubMember.model')
+const blogModel = require('../models/Blog.model')
 const {upload, uploadf}= require('../db/upload')
 const adminAuth = require('../middleware/adminAuth');
 const clubAuth = require('../middleware/clubAuth')
@@ -190,6 +191,19 @@ router.route('/front/:club').get((req,res)=>{
   
 })
 })
+
+//route for front end to render gallery strings of club_head blog
+router.route('/front/gallery/:club_name').get((req,res)=>{
+  const club_name = req.params.club_name
+  clubModel.findOne({name:club_name},{_id:0})
+  .then(club => {
+      blogModel.find({owner:club.head},{gallery:1,_id:0})
+      .then(blog=>{
+        res.json({'gallery_strings':blog})
+      }).catch(err => {res.json(err)})
+  }).catch(err => {res.json(err)})
+})
+
 
 
 module.exports = router
