@@ -18,10 +18,10 @@ router.route('/:id').get((req, res) => {
         .then(user => {
           res.render('contact', { alerts: req.flash('error'), event: event, user: user, page_name:'view_events'  })
         }).catch((err) => {
-          req.flash("error",err)
+          req.flash("error",err.message)
           res.redirect('/events/view_all')        })
     }).catch((err) => {
-      req.flash("error",err)
+      req.flash("error",err.message)
       res.redirect('/events/view_all')    })
 })
 
@@ -103,7 +103,7 @@ router.route('/push_notification/send/:id').post((req, res) => {
           });
               })
           }).catch(err=>{
-            req.flash("error",err)
+            req.flash("error",err.message)
             res.redirect('/events/view_all')          })
 });
 

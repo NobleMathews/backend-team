@@ -34,7 +34,7 @@ router.route('/create/').post(clubAuth, upload.single('poster'), (req, res) => {
   
     event.save((err, event) => { // saving the event in database
       if (err) {
-        req.flash("error",err)
+        req.flash("error",err.message)
 res.redirect('/events/view_all')
       } else {
         res.redirect("/events/view_all")
@@ -49,7 +49,7 @@ router.route('/view_all').get(clubAuth, (req, res) => {
       .then(events => {
         res.render('view_events', { alerts: req.flash('error'),events: events, moment: moment, page_name:'view_events' })
       }).catch((err) => {
-        req.flash("error",err)
+        req.flash("error",err.message)
         res.redirect('/club_head/profile')
       })
 })
@@ -61,7 +61,7 @@ router.route('/view_all').get(clubAuth, (req, res) => {
       .then(events => {
         res.render('details_event', { alerts: req.flash('error'), events: events, moment: moment, page_name:'view_events'  })
       }).catch((err) => {
-        req.flash("error",err)
+        req.flash("error",err.message)
         res.redirect('/events/view_all')      })
 })
 // route for rendering update event page
@@ -71,7 +71,7 @@ router.route('/update/:id').get(clubAuth, (req,res)=>{
     .then(event=>{
         res.render('update_event', { alerts: req.flash('error'),event:event,moment:moment, page_name:'view_events' })
     }).catch(err=>{
-        req.flash("error",err)
+        req.flash("error",err.message)
 res.redirect('/events/view_all')
     })
 })
@@ -132,7 +132,7 @@ router.route('/delete/:id').get(clubAuth, (req,res)=>{
         .then(events => {
         return res.render('view_events', { alerts: req.flash('error'), events: events, moment: moment, page_name: 'view_events' })
         }).catch((err) => {
-          req.flash("error",err)
+          req.flash("error",err.message)
           return res.redirect('/events/view_all')        })
       }
       else

@@ -18,7 +18,7 @@ router.route('/password/change').post(clubAuth,async (req, res) => {
     await req.user.save()
     res.redirect(307, '/club_head/profile')
   }catch(err){
-    req.flash("error",err)
+    req.flash("error",err.message)
 res.redirect('/club_head/view_all')
   }
 
@@ -35,7 +35,7 @@ router.route('/create').post(adminAuth, (req, res) => {
 
   club_head.save((err, user) => {
     if (err) {
-      req.flash("error",err)
+      req.flash("error",err.message)
 res.redirect('/club_head/view_all')
     }else{
       res.redirect('/club_head/view_all')
@@ -126,7 +126,7 @@ router.route('/profile').get(clubAuth, (req, res) => {
 router.route('/view_all').get(adminAuth, (req, res) => {
   clubHeadsModel.find({},(err,club_heads)=>{
     if(err){
-      req.flash("error",err)
+      req.flash("error",err.message)
 res.redirect('/club_head/view_all')
     }else{
     res.render('view_club_heads', { alerts: req.flash('error'),club_heads:club_heads, page_name:"club_heads"})
@@ -141,7 +141,7 @@ router.route('/delete/:id').get(adminAuth, (req,res)=>{
   .then(()=>{
     res.redirect('/club_head/view_all')
   }).catch(err=>{
-    req.flash("error",err)
+    req.flash("error",err.message)
 res.redirect('/club_head/view_all')
   })
 })
@@ -159,7 +159,7 @@ router.route('/logout/').get(clubAuth, async (req,res) => {
     res.redirect('/')
 
   }catch(err){
-    req.flash("error",err)
+    req.flash("error",err.message)
     res.redirect('/')
   }
 })

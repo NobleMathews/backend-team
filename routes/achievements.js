@@ -33,7 +33,7 @@ router.route('/create/').post(adminAuth, upload.any('snapshot_url', 20), (req, r
     acheievement.save((err, ach) => {
       if (err) {
         console.log(err);
-        req.flash("error",err)
+        req.flash("error",err.message)
       }
       res.redirect('/achievements/view_all')
     })
@@ -45,7 +45,7 @@ router.route('/update/:id').get(adminAuth, (req, res) => {
       .then(ach => {
         res.render('update_achievement', { alerts: req.flash('error'), ach: ach, page_name:"achievements" })
       }).catch(err => {
-        req.flash("error",err)
+        req.flash("error",err.message)
         res.redirect('/achievements/view_all')      })
 })
 
@@ -101,7 +101,7 @@ router.route('/update/:id').post(adminAuth, upload.any('pics', 20), (req, res) =
         }
       }).catch(err => {
         console.log(err);
-        req.flash("error",err)
+        req.flash("error",err.message)
         res.redirect('/achievements/view_all')      })
 })
 
@@ -132,7 +132,7 @@ router.route('/delete/:id').get(adminAuth, (req, res) => {
         res.redirect('/achievements/view_all')
       }).catch(err => {
         console.log(err)
-        req.flash("error",err)
+        req.flash("error",err.message)
         res.redirect('/achievements/view_all')      })
 })
 router.route('/err').get(adminAuth, (req, res) => {

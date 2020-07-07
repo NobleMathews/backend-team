@@ -25,7 +25,7 @@ router.route('/create').post(adminAuth, (req, res) => {
     })
     club.save((err,club)=>{
       if(err){
-        req.flash("error",err)
+        req.flash("error",err.message)
     res.redirect('/club/view_all')
       }else{
         res.redirect('/club/view_all')
@@ -116,7 +116,7 @@ router.route('/view_all').get(adminAuth, (req, res) => {
           clubs: clubs, page_name:"clubs"
         })
       }).catch((err) => {
-        req.flash("error",err)
+        req.flash("error",err.message)
         res.redirect('/admin/profile')
       })
 })
@@ -130,11 +130,11 @@ router.route('/details/:id').get(adminAuth, (req, res) => {
       .then(club_head=>{
         res.render('details_club', { alerts: req.flash('error'),club_head:club_head,club:club, page_name:"clubs"})
       }).catch(err=>{
-        req.flash("error",err)
+        req.flash("error",err.message)
     res.redirect('/club/view_all')
       })
     }).catch(err=>{
-      req.flash("error",err)
+      req.flash("error",err.message)
     res.redirect('/club/view_all')
     })
 })
@@ -155,7 +155,7 @@ router.route('/reset/:id').post(adminAuth, (req,res)=>{
     .then(()=>{
       res.redirect('/club/view_all')
     }).catch(err=>{
-      req.flash("error",err)
+      req.flash("error",err.message)
     res.redirect('/club/view_all')
     })
   })

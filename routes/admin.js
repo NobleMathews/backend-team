@@ -20,7 +20,7 @@ router.route('/password/change/').post(adminAuth, async (req, res) => {
     
     res.redirect(307, '/admin/profile')
   }catch(err){
-    req.flash("error",err)
+    req.flash("error",err.message)
     res.redirect("/admin/profile")
   }
 })
@@ -69,7 +69,7 @@ router.route('/profile/update').get(adminAuth, async (req, res) => {
 
       res.render('update_profile_admin', { alerts: req.flash('error'), id: admin._id, page_name:"home", user_id: admin.user_id, name: admin.name, contact: admin.contact, email_id: admin.email_id })
     }catch(e){
-      req.flash("error",e)
+      req.flash("error",e.message)
     res.redirect("/admin/profile")
     }
 })
@@ -80,7 +80,7 @@ router.route('/profile').get(adminAuth, async (req, res) => {
     const admin = req.admin
     res.render('landing_admin', { alerts: req.flash('error'), admin: admin, page_name:"home" })
   }catch(e){
-    req.flash("error",e)
+    req.flash("error",e.message)
     res.redirect("/admin")
   }
 })
@@ -100,7 +100,7 @@ router.route('/profile/update').post(adminAuth, async (req, res) => {
     
     res.render('landing_admin', { alerts: req.flash('error'), admin: admin, page_name:"home" })
   }catch(e){
-    req.flash("error",e)
+    req.flash("error",e.message)
     res.redirect("/admin/profile")
   }
 })
@@ -123,12 +123,12 @@ router.route('/club_head/reset/:id').get(adminAuth, (req, res) => {
         .then(() => {
           res.redirect('/club/view_all')
         }).catch(err => {
-          req.flash("error",err)
+          req.flash("error",err.message)
           res.redirect("/admin/profile")
 
         })
     }).catch(err => {
-      req.flash("error",err)
+      req.flash("error",err.message)
       res.redirect("/admin/profile")
     })
 })
