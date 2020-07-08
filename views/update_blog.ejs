@@ -4,10 +4,9 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" >
-    <script src="https://cdn.ckeditor.com/4.9.1/standard/ckeditor.js"></script>
     <title>Event Summary</title>
-  </head>
+      <%-include('partials/dependencies.ejs')%>    
+</head>
   <body>    
   <%-include('partials/alert_system.ejs')%>
     <%-include('partials/navbar_clubhead.ejs')%>
@@ -208,9 +207,7 @@
         </form>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="  crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" ></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" ></script>
+
     <script>
         CKEDITOR.replace('summary');
         $(document).ready(function(){

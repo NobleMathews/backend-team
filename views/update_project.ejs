@@ -3,10 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" >
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="  crossorigin="anonymous"></script>
     <title>Update Project</title>
-  </head>
+      <%-include('partials/dependencies.ejs')%>    
+</head>
   <body>    
   <%-include('partials/alert_system.ejs')%>
     <style>
@@ -112,10 +111,8 @@
             <div class="field">
                 <label>Upload snapshots</label>
                 <% for (var i=0 ; i < project.snapshot_url.length ; i++ ){ %>
-                       
                         <img src="/images/<%=project.snapshot_url[i]%>" class="rounded" alt=" No File Selected " height="100px" style="margin-bottom: .5rem;">
                   <%  }  %>
-                
                 <input type="file" id="snapshot_url" accept='image/*' name="snapshot_url[]" multiple />
                 <div id="snapholder">
 
@@ -140,7 +137,6 @@
                  j--;
                  }
              });
-        
         });
     $(document).ready(function(){
       var i=1;
@@ -199,12 +195,9 @@
         });
          });
     </script>
-    <script src="https://cdn.ckeditor.com/4.9.1/standard/ckeditor.js"></script>
     <script>
     CKEDITOR.replace('description');
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" ></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" ></script>
   <%- include('partials/bottom_spacing.ejs') %>
 </body>
 </html>

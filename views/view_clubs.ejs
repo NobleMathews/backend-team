@@ -4,8 +4,6 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" >
     <title>View Clubs</title>
     <style>
         h5{
@@ -17,7 +15,7 @@
             padding-left: 50px;
         }
     </style>
-    
+    <%-include('partials/dependencies.ejs')%>    
 </head>
 <body>    
   <%-include('partials/alert_system.ejs')%>
@@ -49,7 +47,6 @@
             <% }) %>
 
             </div>
-            
         </div>
 
     </div>
@@ -62,10 +59,6 @@
     <div style="text-align: center; margin-top: 20px; margin-bottom: 30px;">
         <a href="/club/create" ><span class="material-icons">add</span>Add Club</a>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="  crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" ></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" ></script>
 
 <%- include('partials/bottom_spacing.ejs') %>
 </body>

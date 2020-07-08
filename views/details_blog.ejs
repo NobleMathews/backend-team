@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog Details : <%=blog.title%></title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" >
+    <%-include('partials/dependencies.ejs')%>    
 </head>
 <body class="bg-light">
     <%-include('partials/navbar_clubhead.ejs')%> <br>
@@ -61,7 +61,6 @@
                     <% if ((blog.gallery) && (blog.gallery).length) { %>
                     <% (blog.gallery).forEach((url) => { %>
                     <li class="list-group-item"><img src="/images/<%= url %>"></img></li>
-                    
                     <% }) %>
                     <% }else{ %>
                         <li class="list-group-item">NULL</li>
@@ -81,7 +80,6 @@
                                 <% }else{ %>
                                     <li class="list-group-item">NULL</li>
                                 <% }%>
-                        
                         <% }) %>
                         <% }else{ %>
                             <li class="list-group-item">NULL</li>
@@ -120,7 +118,6 @@
                                 <% }else{ %>
                                     <li class="list-group-item">NULL</li>
                                 <% }%>
-                        
                         <% }) %>
                         <% }else{ %>
                             <li class="list-group-item">NULL</li>
@@ -182,9 +179,6 @@
       </div>
     </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="  crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" ></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" ></script>
 <%- include('partials/bottom_spacing.ejs') %>
 </body>
 </html>
