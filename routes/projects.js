@@ -13,10 +13,13 @@ router.route('/create').get(adminAuth, (req, res) => {
 // route to create project
 router.route('/create/').post(adminAuth, upload.any('snapshot_url', 20),  (req, res) => {
     var snaps = []
-    // console.log(req.files);
+    var documentIDs = []
     if (req.files != undefined) {
       snaps = req.files.map(function (file) {
         return file.filename
+      })
+      req.files.forEach(function (file,index) {
+        documentIDs[index]=[file.filename,file.id];
       })
     }
     var project = new projectsModel({
@@ -26,14 +29,16 @@ router.route('/create/').post(adminAuth, upload.any('snapshot_url', 20),  (req, 
       branch: req.body.branch,
       club: req.body.club,
       degree: req.body.degree,
-      snapshot_url: snaps
+      snapshot_url: snaps,
+      documentIDs:documentIDs
     })
   
     project.save((err) => {
-      console.error.bind(console, 'saving of project not done yet!')
+      if (err) {
+        req.flash("error",err.message)
+      }
+      res.redirect('/projects/view_all')
     })
-    // const id = req.body.id
-    res.redirect('/projects/view_all')
 })
 
 // route for rendering pre-filled form to update project
@@ -90,7 +95,6 @@ router.route('/update/:id').post(adminAuth, upload.any('pics', 20), (req, res) =
           Promise.all(arrPromises)
             .then((arrdata) => {res.redirect('/projects/view_all')})
             .catch(function (err) {
-              console.log(err);
               req.flash("error",["Alert : Delete failed on some images."])
               res.redirect('/projects/view_all')
             });

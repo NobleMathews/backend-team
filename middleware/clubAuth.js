@@ -13,7 +13,7 @@ const clubAuth = async (req, res, next) => {
 
         const decoded = jwt.verify(token, 'my_jwt_secret')
         const user = await User.findOne({_id:decoded._id, 'tokens.token':token})
-        //console.log(decoded._id)
+        
         if(!user){
             throw new Error()
         }
@@ -24,7 +24,7 @@ const clubAuth = async (req, res, next) => {
         next()
 
     }catch(e){
-        // console.log(e)
+        
         // res.json('Please Authenticate as Club head')
         req.flash("error",['Please Authenticate as Club head'])
         return res.redirect("/")

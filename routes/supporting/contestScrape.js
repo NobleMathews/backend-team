@@ -71,7 +71,7 @@ let topcoder_getdata = (html) =>{
     // })
     var text = $('#challengeFilterContainer > div:nth-child(3) > div._3p0GeZ > div:nth-child(1) > div:nth-child(2) > div._1u9jzQ > div._1wy0wX._1Gmjf_ > a').text()
     console.log(text);
-    // console.log(text);
+    
 }
 
 

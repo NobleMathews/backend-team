@@ -239,7 +239,7 @@ router.route('/delete/:id').get(clubAuth, (req,res)=>{
         );
         Promise.all(arrPromises)
           .then((arrdata) => 
-            // console.log(arrdata);
+            
             res.redirect('/blog/view_all'))
           .catch(function (err) {
             req.flash("error",["Alert : Delete failed on some images."])
