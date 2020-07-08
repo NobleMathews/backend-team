@@ -140,7 +140,7 @@
                 <%-include('partials/multi_image_handler.ejs')%>
             </div>
         <button type="submit" class="btn btn-primary">Submit</button>
-
+        <input style="display: none;" class="form-control" value='<%- JSON.stringify(project.documentIDs) %>' name='documentIDs'/>
     </form>
         </div>
     </div>
@@ -176,6 +176,12 @@
 	 });
     });
     CKEDITOR.replace('description');
+    $(document).ready(function(){
+        $(".updaterow").click(function(event){event.preventDefault();
+            console.log(event);
+                $(event.target).parent().parent().remove();
+        });
+        });
     </script>
   <%- include('partials/bottom_spacing.ejs') %>
 </body>

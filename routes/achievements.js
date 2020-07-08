@@ -91,7 +91,6 @@ router.route('/update/:id').post(adminAuth, upload.any('pics', 20), (req, res) =
           Promise.all(arrPromises)
             .then((arrdata) => {res.redirect('/achievements/view_all')})
             .catch(function (err) {
-              console.log(err);
               req.flash("error",["Alert : Delete failed on some images."])
               res.redirect('/achievements/view_all')
             });
@@ -100,7 +99,6 @@ router.route('/update/:id').post(adminAuth, upload.any('pics', 20), (req, res) =
           res.redirect('/achievements/view_all')
         }
       }).catch(err => {
-        console.log(err);
         req.flash("error",err.message)
         res.redirect('/achievements/view_all')      })
 })
@@ -122,7 +120,6 @@ router.route('/delete/:id').get(adminAuth, (req, res) => {
             Promise.all(arrPromises)
               .then((arrdata) => {res.redirect('/achievements/view_all')})
               .catch(function (err) {
-                console.log(err);
                 req.flash("error",["Alert : Delete failed on some images."])
                 res.redirect('/achievements/view_all')
               });
@@ -131,7 +128,6 @@ router.route('/delete/:id').get(adminAuth, (req, res) => {
         else
         res.redirect('/achievements/view_all')
       }).catch(err => {
-        console.log(err)
         req.flash("error",err.message)
         res.redirect('/achievements/view_all')      })
 })

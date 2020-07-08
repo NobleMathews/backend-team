@@ -106,7 +106,25 @@ router.route('/update/:id').post(adminAuth, upload.any('pics', 20), (req, res) =
 router.route('/delete/:id').get(adminAuth, (req, res) => {
     const project_id = req.params.id
     projectsModel.findByIdAndDelete(project_id)
-      .then(() => {
+      .then((data) => {
+        if(data.documentIDs){
+          deletequeue = data.documentIDs;
+          if(deletequeue.length>0){
+            var arrPromises = deletequeue.map((path) => 
+            {if (req.app.locals.gfs) {
+              req.app.locals.gfs.delete(new mongoose.Types.ObjectId(path[1]))
+              }
+            }
+            );
+            Promise.all(arrPromises)
+              .then((arrdata) => {res.redirect('/projects/view_all')})
+              .catch(function (err) {
+                req.flash("error",["Alert : Delete failed on some images."])
+                res.redirect('/projects/view_all')
+              });
+          }
+        }
+        else
         res.redirect('/projects/view_all')
       }).catch(err => {
         req.flash("error",err.message)
