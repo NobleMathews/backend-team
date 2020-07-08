@@ -201,7 +201,8 @@
                     </div>
                 </div>
                 <label>Upload Photos</label>
-                <input type="file" accept='image/*' name="file_attachment[]" class="form-control-file" multiple>
+                <% imageh_name="file_attachment[]" %>
+                <%-include('partials/multi_image_handler.ejs')%>
             </div>
             <button type="submit" class="btn btn-primary" style="margin-bottom: 5px;">Update Blog</button>
         </form>
