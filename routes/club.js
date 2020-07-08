@@ -16,7 +16,6 @@ router.route('/create/').get(adminAuth, (req, res) => {
 router.route('/create').post(adminAuth, (req, res) => {
   clubHeadsModel.findOne({email_id:req.body.email_id})
   .then((club_head)=>{
-    console.log(req.body)
     if(!club_head){
       throw new Error()
     }

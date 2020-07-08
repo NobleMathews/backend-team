@@ -4,10 +4,9 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" >
-
     <title>Add Club</title>
-  </head>
+      <%-include('partials/dependencies.ejs')%>    
+</head>
   <body>    
   <%-include('partials/alert_system.ejs')%>
     <%- include('partials/navbar_admin') %>
@@ -17,7 +16,6 @@
         <div class="col-md-5 m-auto">
           <!-- multipart/form-data -->
         <form enctype="application/x-www-form-urlencoded" method="POST" action="/club_head/create">
-        
           <div class="form-group">
             <label>User_id</label>
             <input type="text" class="form-control" name="user_id" placeholder="User_id"/>
@@ -43,10 +41,6 @@
         </form>
         </div>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="  crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" ></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" ></script>
   <%- include('partials/bottom_spacing.ejs') %>
 </body>
 </html>

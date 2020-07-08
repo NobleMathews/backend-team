@@ -68,7 +68,6 @@ router.route('/update/:id').get(clubAuth, async (req, res) => {
         clubMemberModel.findOne({owner:req.user._id,"members._id":member_id},function(err,member){
             if(err) return res.status(404).send(err)
             memberv=(member.members).find(o => {return o._id == member_id;})
-            console.log(memberv)
             res.render('update_club_member', { alerts: req.flash('error'),'member':memberv,page_name:'club_members'})
           });
     } catch (err) {
@@ -120,7 +119,6 @@ router.route('/delete/:id').get(clubAuth, async (req, res) => {
             req.flash("error",err.message)
             res.redirect('/club_members/view_all')
         }else{
-        console.log(user);
         res.redirect('/club_members/view_all')
         }
     })

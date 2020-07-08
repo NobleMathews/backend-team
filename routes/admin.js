@@ -27,7 +27,7 @@ router.route('/password/change/').post(adminAuth, async (req, res) => {
 
 //viewing the profile after logging in
 router.route('/profile').post(adminAuth, (req, res) => {
-    //console.log('already logged in')
+    
     admins = {
           _id: req.admin._id,
           name: req.admin.name,

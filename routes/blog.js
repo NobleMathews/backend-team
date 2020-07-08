@@ -3,6 +3,7 @@ const blogModel = require('../models/Blog.model')
 const clubModel = require('../models/Club.model')
 const clubHeadModel = require('../models/ClubHead.model')
 const {upload, uploadf}= require('../db/upload')
+const mongoose = require('mongoose')
 const clubAuth = require('../middleware/clubAuth')
 const path = require('path')
 
@@ -12,9 +13,10 @@ router.route('/create').get(clubAuth, (req,res)=>{
 })
 
 // route to create blog
-router.route('/create').post(clubAuth, uploadf.fields([{name:'chief_guest_url',maxCount:1},{name:'file_attachment[]',maxCount:40}]), (req, res)=>{
+router.route('/create').post(clubAuth, uploadf.fields([{name:'chief_guest_url',maxCount:1},{name:'file_attachment[]',maxCount:40}]), (req, res)=>{  
   vfeatured=req.body.featured==="on"?true:false;
   const id = req.user._id
+  var documentIDs = []
   var pics_url=[],file_attachment=[],chief_guest_url;
   let outside_links=(req.body.outside_links).filter(Boolean);
   // let file_attachment=(req.body.file_attachment).filter(Boolean);
@@ -27,8 +29,12 @@ router.route('/create').post(clubAuth, uploadf.fields([{name:'chief_guest_url',m
       .map((file)=> { return file.filename });
       pics_url = allfiles.filter((file) => { ext=path.extname(file.originalname); return (ext == '.png' || ext == '.jpg' || ext == '.gif' || ext == '.jpeg') })
       .map((file)=> { return file.filename });
+      allfiles.filter((file) => { ext=path.extname(file.originalname); return (ext == '.png' || ext == '.jpg' || ext == '.gif' || ext == '.jpeg') })
+      .forEach(function (file,index) {
+        documentIDs[index]=[file.filename,file.id];
+      })
     }
-
+  }
     if(req.files['chief_guest_url']){
     chief_guest_url=req.files['chief_guest_url'][0].filename;
     var evsum= new blogModel({
@@ -43,7 +49,8 @@ router.route('/create').post(clubAuth, uploadf.fields([{name:'chief_guest_url',m
       featured : vfeatured,
       outside_links : outside_links,
       file_attachment : file_attachment,
-      video_links : video_links
+      video_links : video_links,
+      documentIDs:documentIDs
   })
   }
   else{
@@ -58,21 +65,8 @@ router.route('/create').post(clubAuth, uploadf.fields([{name:'chief_guest_url',m
       featured : vfeatured,
       outside_links : outside_links,
       file_attachment : file_attachment,
-      video_links : video_links
-  })
-  }
-  }
-  else{
-  var evsum= new blogModel({
-      owner: id,
-      title : req.body.title,
-      category:req.body.category,                          
-      chief_guest : req.body.chief_guest,
-      featured : vfeatured,
-      award_winners : req.body.award_winners,
-      summary : req.body.summary,
-      outside_links : outside_links,
-      video_links : video_links
+      video_links : video_links,
+      documentIDs:documentIDs
   })
   }
   evsum.save((err, event) => { // creating the blog in database
@@ -101,7 +95,10 @@ router.route('/update/:id').get(clubAuth, (req,res)=>{
 router.route('/update/:id').post(clubAuth, uploadf.fields([{name:'chief_guest_url',maxCount:1},{name:'file_attachment[]',maxCount:40}]), (req, res)=>{
     const id = req.params.id;
     vfeatured=req.body.featured==="on"?true:false;
-    var pics_url=[],file_attachment=[],pics_url_links=[],chief_guest_url;
+    var pics_url=[],file_attachment=[],pics_url_links=[],chief_guest_url,documentIDs=[],masterqueue=[],deletequeue=[];
+    if(req.body.documentIDs){
+      documentIDs = JSON.parse(req.body.documentIDs); 
+    }
     let outside_links=(req.body.outside_links).filter(Boolean);
     let file_attachment_links=[]
     if(req.body.file_attachment_links)
@@ -118,8 +115,15 @@ router.route('/update/:id').post(clubAuth, uploadf.fields([{name:'chief_guest_ur
       file_attachment = file_attachment.concat(file_attachment_links);
       pics_url = allfiles.filter((file) => { ext=path.extname(file.originalname); return (ext == '.png' || ext == '.jpg' || ext == '.gif' || ext == '.jpeg') })
       .map((file)=> { return file.filename });
+      allfiles.filter((file) => { ext=path.extname(file.originalname); return (ext == '.png' || ext == '.jpg' || ext == '.gif' || ext == '.jpeg') })
+      .forEach(function (file,index) {
+        masterqueue[index]=[file.filename,file.id];
+      })
       }
+      masterqueue=masterqueue.concat(documentIDs);
       pics_url = pics_url.concat(pics_url_links);
+      documentIDs =masterqueue.filter(k => pics_url.includes(k[0])); 
+      deletequeue = masterqueue.filter(k =>!pics_url.includes(k[0]));
       if(req.files['chief_guest_url']){
       chief_guest_url=req.files['chief_guest_url'][0].filename;
       var evsum= {
@@ -133,7 +137,8 @@ router.route('/update/:id').post(clubAuth, uploadf.fields([{name:'chief_guest_ur
         featured : vfeatured,
         outside_links : outside_links,
         file_attachment : file_attachment,
-        video_links : video_links
+        video_links : video_links,
+        documentIDs:documentIDs
     }
     }
     else{
@@ -147,12 +152,22 @@ router.route('/update/:id').post(clubAuth, uploadf.fields([{name:'chief_guest_ur
         featured : vfeatured,
         outside_links : outside_links,
         file_attachment : file_attachment,
-        video_links : video_links
+        video_links : video_links,
+        documentIDs:documentIDs
+
     }
     }
     }
     else{
+    if(req.body.pics_url_links)
+    pics_url_links=(req.body.pics_url_links).filter(Boolean);
+    if(req.body.documentIDs){
+      documentIDs = JSON.parse(req.body.documentIDs); 
+    }
+    deletequeue = documentIDs.filter(k =>!pics_url_links.includes(k[0]));
+    documentIDs = documentIDs.filter(k => pics_url.includes(k[0])); 
     var evsum= {
+        gallery : pics_url_links,
         category:req.body.category,
         title : req.body.title,                          
         chief_guest : req.body.chief_guest,
@@ -161,14 +176,32 @@ router.route('/update/:id').post(clubAuth, uploadf.fields([{name:'chief_guest_ur
         featured : vfeatured,
         outside_links : outside_links,
         file_attachment : file_attachment_links,
-        video_links : video_links
+        video_links : video_links,
+        documentIDs:documentIDs
     }
     }
     for(let field in evsum) if(!evsum[field] && field!="featured") delete evsum[field];
     blogModel.findOneAndUpdate({_id:id},{$set: evsum},{useFindAndModify: false})
-    .then((event)=>{
-        res.redirect("/blog/view_all");
-    });
+    .then(()=>{
+      if(deletequeue.length>0){
+        var arrPromises = deletequeue.map((path) => 
+        {if (req.app.locals.gfs) {
+          req.app.locals.gfs.delete(new mongoose.Types.ObjectId(path[1]))
+          }
+        }
+        );
+        Promise.all(arrPromises)
+          .then((arrdata) => {res.redirect('/blog/view_all')})
+          .catch(function (err) {
+            req.flash("error",["Alert : Delete failed on some images."])
+            res.redirect('/blog/view_all')
+          });
+      }
+      else{
+        res.redirect('/blog/view_all')
+      }    }).catch(err => {
+      req.flash("error",err.message)
+      res.redirect('/blog/view_all')      })
 });
 
 router.route('/view_all').get(clubAuth, (req,res)=>{
@@ -194,15 +227,29 @@ router.route('/details/:id').get(clubAuth, (req,res)=>{
 router.route('/delete/:id').get(clubAuth, (req,res)=>{
   const id = req.params.id
   blogModel.findByIdAndDelete(id)
-  .then(()=>{
-      var club_head_id = req.user._id
-      blogModel.find({ owner: club_head_id })
-      .then(blogs => {
-          res.render('view_blogs', { alerts: req.flash('error'), blogs: blogs,page_name:'blogs'})
-      }).catch((err) => {
-      req.flash("error",err.message)
+  .then((data) => {
+    if(data.documentIDs){
+      deletequeue = data.documentIDs;
+      if(deletequeue.length>0){
+        var arrPromises = deletequeue.map((path) => 
+        {
+          req.app.locals.gfs.delete(new mongoose.Types.ObjectId(path[1]))
+          
+        }
+        );
+        Promise.all(arrPromises)
+          .then((arrdata) => 
+            
+            res.redirect('/blog/view_all'))
+          .catch(function (err) {
+            req.flash("error",["Alert : Delete failed on some images."])
+            res.redirect('/blog/view_all')
+          });
+      }
+    }
+    else
     res.redirect('/blog/view_all')
-      })
+
   }).catch(err=>{
     req.flash("error",err.message)
     res.redirect('/blog/view_all')

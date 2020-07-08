@@ -86,7 +86,7 @@ router.route('/profile/update').get(clubAuth, (req, res) => {
 
 // route for rendering profile and action page
 router.route('/login').post(async (req, res) => {
-  // console.log(req.body);
+  
   
   const user_id = req.body.user_id
   const pswd = req.body.pswd
@@ -100,7 +100,7 @@ router.route('/login').post(async (req, res) => {
     }
 
     const token = await user.generateAuthToken(req, res)
-    // console.log(token)
+    
 
     res.render('landing_clubHead', { alerts: req.flash('error'),user : user,page_name:'home'})
 

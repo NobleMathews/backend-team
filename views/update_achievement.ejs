@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Achievement</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" >
-    <script src="https://cdn.ckeditor.com/4.9.1/standard/ckeditor.js"></script>
+    <%-include('partials/dependencies.ejs')%>    
 </head>
 <body>    
   <%-include('partials/alert_system.ejs')%>
@@ -58,7 +57,8 @@
                     </div>
                 </div>
                 <label>Upload Photos</label>
-                <input type="file" accept='image/*' name="pics" class="form-control-file" multiple>
+                <% imageh_name="pics" %>
+                <%-include('partials/multi_image_handler.ejs')%>
             </div>
             <div class="form-group">
                 <input type="submit" class="btn btn-info" value="UPDATE"/>
@@ -68,17 +68,14 @@
         </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="  crossorigin="anonymous"></script>
     <script>
         CKEDITOR.replace('des');
         $(document).ready(function(){
         $(".updaterow").click(function(event){event.preventDefault();
-            console.log(event);
                 $(event.target).parent().parent().remove();
         });
         });
     </script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" ></script>
 <%- include('partials/bottom_spacing.ejs') %>
 </body>
 </html>

@@ -3,15 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" >
     <title>Document</title>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="  crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" ></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" ></script>
+    <%-include('partials/dependencies.ejs')%>    
 </head>
 <body>    
   <%-include('partials/alert_system.ejs')%>
- 
     <%-include('partials/navbar_clubhead.ejs')%> <br><br>
     <div class="container">
         <div class="row">
@@ -64,24 +60,20 @@
     <script>
         $(function(){
             var today = new Date();
-            
             var month = today.getMonth() + 1;
             var day = today.getDate();
             var year = today.getFullYear();
             var hour = today.getHours();
             var minutes = today.getMinutes();
-            
             if(month < 10)
                 month = '0' + month.toString();
             if(day < 10)
                 day = '0' + day.toString();
-            
             var maxDateandTime = year + '-' + month + '-' + day + 'T' + hour + ':' + minutes;
             $('#event_date').attr('value', maxDateandTime);
             $('#event_date').attr('min', maxDateandTime);
         });
     </script>
-    <script src="https://cdn.ckeditor.com/4.9.1/standard/ckeditor.js"></script>
     <script>
           CKEDITOR.replace('description');
     </script>

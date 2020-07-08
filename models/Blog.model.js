@@ -17,7 +17,8 @@ const blogSchema = new Schema({
     summary : {type:String},
     outside_links : [String],
     file_attachment : [String],
-    video_links : [String]
+    video_links : [String],
+    documentIDs:{type:[[String]]}
 })
 
 blogSchema.index({title: 'text', summary: 'text', category: 'text'});

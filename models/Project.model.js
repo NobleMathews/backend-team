@@ -8,7 +8,8 @@ const projectSchema = new Schema({
     branch : {type:String},
     club : {type:String},
     degree : {type:String},
-    snapshot_url : [String]
+    snapshot_url : [String],
+    documentIDs:{type:[[String]]}
 },{
     timestamps : true
 })
