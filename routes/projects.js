@@ -47,13 +47,25 @@ router.route('/update/:id').get(adminAuth, (req,res)=>{
 // route to update project
 router.route('/update/:id').post(adminAuth, upload.any('pics', 20), (req, res) => {
     const id = req.params.id
-    var snapshots_url
+    var documentIDs=[],pics_url_links=[],masterqueue=[],pics_url=[]
+    if(req.body.documentIDs){
+      documentIDs = JSON.parse(req.body.documentIDs); 
+    }
+    if(req.body.pics_url_links)
+    pics_url_links=(req.body.pics_url_links).filter(Boolean);
     if (req.files != undefined) {
-      snapshots_url = req.files.map((file) => {
+      pics_url = req.files.map((file) => {
         return file.filename
       })
+      req.files.forEach(function (file,index) {
+        masterqueue[index]=[file.filename,file.id];
+      })
     }
-  
+    masterqueue=masterqueue.concat(documentIDs);
+    pics_url = pics_url.concat(pics_url_links);
+    documentIDs =masterqueue.filter(k => pics_url.includes(k[0])); 
+    deletequeue = masterqueue.filter(k =>!pics_url.includes(k[0]));
+
     var change = {
       title: req.body.title,
       team_members: req.body.team_member,
@@ -61,12 +73,30 @@ router.route('/update/:id').post(adminAuth, upload.any('pics', 20), (req, res) =
       branch: req.body.branch,
       club: req.body.club,
       degree: req.body.degree,
-      snapshot_url: snapshots_url
+      snapshot_url: pics_url,
+      documentIDs:documentIDs
     }
   
     projectsModel.findByIdAndUpdate(id, change)
       .then(() => {
-        res.redirect('/projects/view_all')
+        if(deletequeue.length>0){
+          var arrPromises = deletequeue.map((path) => 
+          {if (req.app.locals.gfs) {
+            req.app.locals.gfs.delete(new mongoose.Types.ObjectId(path[1]))
+            }
+          }
+          );
+          Promise.all(arrPromises)
+            .then((arrdata) => {res.redirect('/projects/view_all')})
+            .catch(function (err) {
+              console.log(err);
+              req.flash("error",["Alert : Delete failed on some images."])
+              res.redirect('/projects/view_all')
+            });
+        }
+        else{
+          res.redirect('/projects/view_all')
+        }
       }).catch(err => {
         req.flash("error",err.message)
         res.redirect('/projects/view_all')      })

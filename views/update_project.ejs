@@ -109,10 +109,33 @@
             <input style="display: none;" name="id" value="<%=project.degree%>"/>
             <!-- <input style="display: none;" id="ignore" name="ignore" value=""/> -->
             <div class="field">
+                <div class="container">
+                    <div class="row clearfix">
+                        <div class="col-md-12 column">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">
+                                            Uploaded Images
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% (project.snapshot_url).forEach(function(url){ %>
+                                    <tr>
+                                    <td>
+                                        <img src="/images/<%= url %>" alt="image" width="100px" height="100px">
+                                        <input style="display: none;" class="form-control" value="<%=url%>" name='pics_url_links[]'/>
+                                    </td>
+                                        <td><button class="updaterow">Remove</button></td>
+                                    </tr>
+                                    <%  });  %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
                 <label>Upload snapshots</label>
-                <% for (var i=0 ; i < project.snapshot_url.length ; i++ ){ %>
-                        <img src="/images/<%=project.snapshot_url[i]%>" class="rounded" alt=" No File Selected " height="100px" style="margin-bottom: .5rem;">
-                  <%  }  %>
                 <% imageh_name="snapshot_url[]" %>
                 <%-include('partials/multi_image_handler.ejs')%>
             </div>
