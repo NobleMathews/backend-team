@@ -4,6 +4,8 @@ const projectsModel = require('../models/Project.model')
 const {upload, uploadf}= require('../db/upload')
 const mongoose = require('mongoose')
 const adminAuth = require('../middleware/adminAuth');
+const { Z_NEED_DICT } = require('zlib')
+const { type } = require('os')
 
 // route for rendering the project creating page
 router.route('/create').get(adminAuth, (req, res) => {
@@ -146,5 +148,36 @@ router.route('/view_all').get(adminAuth, (req, res) => {
         req.flash("error",err.message)
         res.redirect('/admin/profile')      })
 })
+
+router.route('/front/search').get(async (req,res)=>{
+  
+  if(Object.keys(req.query).length==0){
+    projectsModel.find().limit(30)
+    .then(project=>res.json(project))
+    .catch(err=>res.json(err))
+  }
+  else{
+    
+    let branch_name = req.query['branch'] 
+    let club_name = req.query['club'] 
+    let deg_name = req.query['degree'] 
+    let query_string = req.query['query_string']
+
+    let projects
+    try {
+      projects = await projectsModel.find({
+         branch:  branch_name==undefined? /.*/ : branch_name,
+         club: club_name==undefined? /.*/ : club_name,
+         degree: deg_name==undefined? /.*/ : deg_name,
+         //$text: {$search: query_string==undefined? '' : query_string}
+        },{score:{$meta:'textScore'}}).limit(30).sort({score:{$meta:'textScore'}})
+      res.json(projects)
+    } 
+    catch (error) {
+    res.json(error)
+    }
+  }
+})
+
 
 module.exports = router
