@@ -14,7 +14,7 @@ const projectSchema = new Schema({
     timestamps : true
 })
 
-projectSchema.index({description : 'text' });
+projectSchema.index({title : 'text', description : 'text' });
 
 const Projects = mongoose.model('projects',projectSchema)
 

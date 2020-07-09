@@ -6,6 +6,7 @@ const mongoose = require('mongoose')
 const adminAuth = require('../middleware/adminAuth');
 const { Z_NEED_DICT } = require('zlib')
 const { type } = require('os')
+const { filter } = require('async')
 
 // route for rendering the project creating page
 router.route('/create').get(adminAuth, (req, res) => {
@@ -162,15 +163,16 @@ router.route('/front/search').get(async (req,res)=>{
     let club_name = req.query['club'] 
     let deg_name = req.query['degree'] 
     let query_string = req.query['query_string']
-
+    let filters={
+      branch:  branch_name==undefined? /.*/ : branch_name,
+      club: club_name==undefined? /.*/ : club_name,
+      degree: deg_name==undefined? /.*/ : deg_name,
+      $text: {$search: query_string}
+     }
+    query_string === undefined && delete filters["$text"]
     let projects
     try {
-      projects = await projectsModel.find({
-         branch:  branch_name==undefined? /.*/ : branch_name,
-         club: club_name==undefined? /.*/ : club_name,
-         degree: deg_name==undefined? /.*/ : deg_name,
-         //$text: {$search: query_string==undefined? '' : query_string}
-        },{score:{$meta:'textScore'}}).limit(30).sort({score:{$meta:'textScore'}})
+      projects = await projectsModel.find(filters,{score:{$meta:'textScore'}}).limit(30).sort({score:{$meta:'textScore'}})
       res.json(projects)
     } 
     catch (error) {
