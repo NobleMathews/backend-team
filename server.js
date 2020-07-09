@@ -21,6 +21,7 @@ const notifyRouter = require('./routes/supporting/notify')
 const blogRouter = require('./routes/blog')
 const newsRouter = require('./routes/news')
 const registerRouter = require('./routes/supporting/register')
+const contestRouter = require('./routes/supporting/contestFetcher')
 
 const app = express()
 const port = process.env.PORT || 5000
@@ -47,6 +48,7 @@ app.use('/notify', notifyRouter)
 app.use('/blog', blogRouter)
 app.use('/news', newsRouter)
 app.use('/register', registerRouter)
+app.use('/contests', contestRouter)
 
 app.listen(port, () => {
   console.log(`listening on port : ${port}`)
