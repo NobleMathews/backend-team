@@ -69,7 +69,20 @@ router.route('/create').post(clubAuth, uploadf.fields([{name:'chief_guest_url',m
       documentIDs:documentIDs
   })
   }
-  evsum.save((err, event) => { // creating the blog in database
+  evsum.save((err, event) => {
+     // creating the blog in database
+    // console.log(event.featured)
+    if(event.featured===true){
+      blogModel.find({owner: event.owner}).then((blogs) => {
+        blogs.forEach(async (blog) => {
+          // console.log(blog._id)
+          if(!blog._id.equals(event._id)){
+            blog.featured = false
+            await blog.save()
+          }
+        })
+      })
+    }
     if (err) {
     req.flash("error",err.message)
     res.redirect('/blog/view_all')
@@ -182,7 +195,23 @@ router.route('/update/:id').post(clubAuth, uploadf.fields([{name:'chief_guest_ur
     }
     for(let field in evsum) if(!evsum[field] && field!="featured") delete evsum[field];
     blogModel.findOneAndUpdate({_id:id},{$set: evsum},{useFindAndModify: false})
-    .then(()=>{
+    .then((blog) => {
+      // console.log(blog.featured)
+      if(vfeatured===true){
+        // console.log('here')
+        blogModel.find({owner: blog.owner ,featured: true}).then((blogs) => {
+          blogs.forEach(async (blg) => {
+            // console.log(blg._id)
+            if(!blg._id.equals(blog._id)){
+              blg.featured = false
+              await blg.save()
+            }
+          })
+        }).catch((e)=> {
+          // console.log(e)
+          res.json(e)
+        })
+      }
       if(deletequeue.length>0){
         var arrPromises = deletequeue.map((path) => 
         {if (req.app.locals.gfs) {
