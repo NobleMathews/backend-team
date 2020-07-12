@@ -76,9 +76,9 @@ router.route('/update/').post(clubAuth, upload.single('logo') ,async (req, res) 
   
     var u_club_name = club_name.toUpperCase()
     var l_club_name = club_name.toLowerCase()
+    // user_id: l_club_name,
+    // pswd: l_club_name,
     var changeU={
-      user_id: l_club_name,
-      pswd: l_club_name,
       club_name: u_club_name
     }
     clubModel.findByIdAndUpdate(id, change,

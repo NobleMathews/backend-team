@@ -38,7 +38,8 @@ router.route('/club/:club').get((req,res)=>{
       }).catch(err=>{
         res.json(err)
       })
-    
+  }).catch(err=>{
+    res.json(err)
   })
 })  
 //route for front end to render gallery strings of club_head blog
