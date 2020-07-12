@@ -282,27 +282,4 @@ router.route('/delete/:id').get(clubAuth, (req,res)=>{
   })
 })
 
-// route to provide search query
-router.route('/search/:club_name').get(async (req,res)=>{
-  const club = req.params.club_name.toUpperCase()
-  const query_string = req.query.filter
-
-  let owner_id;
-  let club_spec;
-  try {
-    club_spec = await clubModel.findOne({name:club})
-    owner_id = club_spec.head
-  } catch (error) {
-    res.json(error)    
-  }
-
-  let blogs
-  try {
-    blogs = await blogModel.find({owner:owner_id, $text: {$search: query_string}},{score:{$meta:'textScore'}}).limit(30).sort({score:{$meta:'textScore'}})
-    res.json(blogs)
-  } catch (error) {
-    res.json(error)
-  }
-})
-
 module.exports = router
