@@ -106,7 +106,7 @@ router.route('/login').post(async (req, res) => {
 
   }catch(e){
     // res.status(400).json('Unable to Login')
-    res.render('index',{alerts:"Please check UserID / Password"})
+    res.render('index',{alerts:req.flash("Please check UserID / Password")})
   }
  
 })
