@@ -47,10 +47,11 @@ router.route('/gallery/:club_name').get((req,res)=>{
 const club_name = req.params.club_name.toUpperCase();
 clubModel.findOne({name:club_name},{_id:0})
 .then(club => {
-    console.log(club)
     blogModel.find({owner:club.head},{gallery:1,_id:0})
     .then(blog=>{
-        res.json({'gallery_strings':blog})
+        arr=_.map(blog, 'gallery');
+        consolidated=[].concat.apply([], arr);
+        res.json({'gallery_strings':consolidated})
     }).catch(err => {res.json(err)})
 }).catch(err => {res.json(err)})
 })
