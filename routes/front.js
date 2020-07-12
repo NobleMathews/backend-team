@@ -43,17 +43,18 @@ router.route('/club/:club').get((req,res)=>{
   })
 })  
 //route for front end to render gallery strings of club_head blog
-router.route('/club/gallery/:club_name').get((req,res)=>{
-const club_name = req.params.club_name
+router.route('/gallery/:club_name').get((req,res)=>{
+const club_name = req.params.club_name.toUpperCase();
 clubModel.findOne({name:club_name},{_id:0})
 .then(club => {
+    console.log(club)
     blogModel.find({owner:club.head},{gallery:1,_id:0})
     .then(blog=>{
         res.json({'gallery_strings':blog})
     }).catch(err => {res.json(err)})
 }).catch(err => {res.json(err)})
 })
-// take multiple chainable queries branch club degree and search query /?...&..
+// take multiple chainable queries branch club degree and search queries /?=...&..
 router.route('/projects').get(async (req,res)=>{
 
 if(Object.keys(req.query).length==0){
@@ -84,7 +85,7 @@ else{
     }
 }
 })
-// takes month number or the type of event
+// takes month number or the type of event competitions talkshows workshops or all
 router.route('/events/:filter').get((req,res) => {
     efilter = req.params.filter
     month = parseInt(efilter)
@@ -119,7 +120,7 @@ router.route('/events/:filter').get((req,res) => {
       }
     })
 })
-// takes the club_name case insensitive
+// takes the club_name case insensitive and filter query /?filter= any string
 router.route('/blogs/:club_name').get(async (req,res)=>{
     const club = req.params.club_name.toUpperCase()
     const query_string = req.query.filter
@@ -132,10 +133,15 @@ router.route('/blogs/:club_name').get(async (req,res)=>{
     } catch (error) {
       res.json(error)    
     }
-  
+    let filters={
+        owner:owner_id,
+        $text: {$search: query_string}
+    }
+    query_string === undefined && delete filters["$text"]
+
     let blogs
     try {
-      blogs = await blogModel.find({owner:owner_id, $text: {$search: query_string}},{score:{$meta:'textScore'}}).limit(30).sort({score:{$meta:'textScore'}})
+      blogs = await blogModel.find(filters,{score:{$meta:'textScore'}}).limit(30).sort({score:{$meta:'textScore'}})
       res.json(blogs)
     } catch (error) {
       res.json(error)
