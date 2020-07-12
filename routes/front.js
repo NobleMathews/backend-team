@@ -1,10 +1,12 @@
 const router = require('express').Router()
+var request = require('request');
 const blogModel = require('../models/Blog.model')
 const clubModel = require('../models/Club.model')
 const projectsModel = require('../models/Project.model')
 const clubMemberModel = require('../models/ClubMember.model')
 const clubHeadsModel = require('../models/ClubHead.model')
 const eventsModel = require('../models/Event.model')
+const feed_url = `https://www.hackerrank.com/calendar/feed`;
 const moment = require('moment');
 const clubAuth = require('../middleware/clubAuth')
 const _ = require('lodash');
@@ -12,6 +14,7 @@ const { filter } = require('lodash');
 const { route } = require('./blog');
 
 router.route('/home').get((req,res)=>{})
+
 // takes club_name case insensitive
 router.route('/club/:club').get((req,res)=>{
     const club_name = req.params.club.toUpperCase()
@@ -148,6 +151,22 @@ router.route('/blogs/:club_name').get(async (req,res)=>{
       res.json(error)
     }
 })
-  
-// router.route('/challenges').get((req,res)=>{})
+// returns a json with open upcoming challenges from hackerank topcoder and codeforces
+router.route('/challenges').get((req, res) => {
+    request.get({
+        url: feed_url,
+        json: true,
+        headers: {'User-Agent': 'request'}
+      }, (e, r, data) => {
+        if (e) {
+            res.json(e);
+        } else {
+            reqdata=data.models
+            reqdata.sort(function (a, b) {
+                return a.start.localeCompare(b.start);
+            });
+            res.json(reqdata);
+        }
+    });
+})
 module.exports = router;
