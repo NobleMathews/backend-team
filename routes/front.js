@@ -7,11 +7,7 @@ const clubMemberModel = require('../models/ClubMember.model')
 const clubHeadsModel = require('../models/ClubHead.model')
 const eventsModel = require('../models/Event.model')
 const feed_url = `https://www.hackerrank.com/calendar/feed`;
-const moment = require('moment');
-const clubAuth = require('../middleware/clubAuth')
 const _ = require('lodash');
-const { filter } = require('lodash');
-const { route } = require('./blog');
 
 router.route('/home').get((req,res)=>{})
 
@@ -169,4 +165,5 @@ router.route('/challenges').get((req, res) => {
         }
     });
 })
+
 module.exports = router;
