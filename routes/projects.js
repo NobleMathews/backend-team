@@ -131,6 +131,9 @@ router.route('/delete/:id').get(adminAuth, (req, res) => {
                 res.redirect('/projects/view_all')
               });
           }
+          else{
+            res.redirect('/projects/view_all')
+          }
         }
         else
         res.redirect('/projects/view_all')
