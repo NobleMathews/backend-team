@@ -12,9 +12,9 @@ const { filter } = require('lodash');
 const { route } = require('./blog');
 
 router.route('/home').get((req,res)=>{})
-
+// takes club_name case insensitive
 router.route('/club/:club').get((req,res)=>{
-    const club_name = req.params.club
+    const club_name = req.params.club.toUpperCase()
     clubModel.findOne({name:club_name})
       .then(club => {
         clubHeadsModel.findById(club.head,{tokens:0})
@@ -52,6 +52,7 @@ clubModel.findOne({name:club_name},{_id:0})
     }).catch(err => {res.json(err)})
 }).catch(err => {res.json(err)})
 })
+// take multiple chainable queries branch club degree and search query /?...&..
 router.route('/projects').get(async (req,res)=>{
 
 if(Object.keys(req.query).length==0){
@@ -82,8 +83,26 @@ else{
     }
 }
 })
+// takes month number or the type of event
 router.route('/events/:filter').get((req,res) => {
     efilter = req.params.filter
+    month = parseInt(efilter)
+    if(month)
+    if(month>=1 && month<=12){
+        var date = new Date();
+        var init = new Date(date.getFullYear(), month-1, 1);
+        var end = (new Date(date.getFullYear(), month, 1));
+        eventsModel.filterByRange(init,end)
+        .then((events)=>{
+          res.send(events);
+        })
+    }
+    var ikeyMap = {
+      competitions: 'Competition',
+      talkshows: 'Talk-show',
+      workshops: 'Workshop',
+      all: 'all'
+    }
     var keyMap=_.invert(ikeyMap);
     efilter=ikeyMap[efilter];
     eventsModel.filterByType(efilter)
@@ -99,17 +118,7 @@ router.route('/events/:filter').get((req,res) => {
       }
     })
 })
-//routes for collecting events based on month(1-12) and populating them
-router.route('/events/month/:month').get((req,res) => {
-    month = parseInt(req.params.month)
-    var date = new Date();
-    var init = new Date(date.getFullYear(), month-1, 1);
-    var end = (new Date(date.getFullYear(), month, 1));
-    eventsModel.filterByRange(init,end)
-    .then((events)=>{
-      res.send(events);
-    })
-})
+// takes the club_name case insensitive
 router.route('/blogs/:club_name').get(async (req,res)=>{
     const club = req.params.club_name.toUpperCase()
     const query_string = req.query.filter
