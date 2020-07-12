@@ -71,11 +71,9 @@ router.route('/create').post(clubAuth, uploadf.fields([{name:'chief_guest_url',m
   }
   evsum.save((err, event) => {
      // creating the blog in database
-    // console.log(event.featured)
     if(event.featured===true){
       blogModel.find({owner: event.owner}).then((blogs) => {
         blogs.forEach(async (blog) => {
-          // console.log(blog._id)
           if(!blog._id.equals(event._id)){
             blog.featured = false
             await blog.save()
@@ -196,19 +194,15 @@ router.route('/update/:id').post(clubAuth, uploadf.fields([{name:'chief_guest_ur
     for(let field in evsum) if(!evsum[field] && field!="featured") delete evsum[field];
     blogModel.findOneAndUpdate({_id:id},{$set: evsum},{useFindAndModify: false})
     .then((blog) => {
-      // console.log(blog.featured)
       if(vfeatured===true){
-        // console.log('here')
         blogModel.find({owner: blog.owner ,featured: true}).then((blogs) => {
           blogs.forEach(async (blg) => {
-            // console.log(blg._id)
             if(!blg._id.equals(blog._id)){
               blg.featured = false
               await blg.save()
             }
           })
         }).catch((e)=> {
-          // console.log(e)
           res.json(e)
         })
       }
@@ -274,6 +268,9 @@ router.route('/delete/:id').get(clubAuth, (req,res)=>{
             req.flash("error",["Alert : Delete failed on some images."])
             res.redirect('/blog/view_all')
           });
+      }
+      else{
+        res.redirect('/blog/view_all')
       }
     }
     else

@@ -123,6 +123,9 @@ router.route('/delete/:id').get(adminAuth, (req, res) => {
                 res.redirect('/achievements/view_all')
               });
           }
+          else{
+            res.redirect('/achievements/view_all')
+          }
         }
         else
         res.redirect('/achievements/view_all')
