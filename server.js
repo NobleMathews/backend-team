@@ -4,7 +4,7 @@ const bodyParser = require('body-parser')
 const session = require('express-session')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
-const bcrypt = require('bcrypt')
+const connection = require('./db/mongoose')
 var flash = require('connect-flash');
 // const methodOverride = require('method-override')
 
@@ -52,6 +52,12 @@ app.use('/front',frontEndRouter)
 
 app.listen(port, () => {
   console.log(`listening on port : ${port}`)
+})
+
+let gfs
+connection.once('open', ()=>{
+  gfs = new mongoose.mongo.GridFSBucket(connection.db, { bucketName: 'uploads' })
+  app.locals.gfs=gfs;
 })
 
 app.get('/', (req, res) => {
