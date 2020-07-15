@@ -23,17 +23,30 @@
         <h3 style="text-align: center; text-decoration: underline; padding-top: 30px;">List of Club Heads</h3>
         <a class="btn btn-warning" href="/club_head/create" style="margin-left: 20px;" role="button">Create Club Head</a>
         <div class="container" style="padding-top:30px;">
-            <div class="col-md-6 m-auto">
+            <div>
                 <!-- template for each club -->
-                <div class="list-group">
-                    <% club_heads.forEach((club_head) => { %>
-                        <div class="list-group-item list-group-item-action"><h5><b>Club Name : </b><%= club_head.club_name %></h5>
-                        <p id="club_head" class="mb-2"><b>Club Head : </b><%= club_head.name %></p>
-                        <p id="club_head" class="mb-1"><b>email_id : </b><%=club_head.email_id%></p>
-                        <p> <a href="/club_head/update/<%=club_head._id%>" onclick="return confirm('Are you sure you want to Update <%= club_head.club_name %> ?')">Update</a></p>
-                        </div>
-                    <%})%>   
-                </div>
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Club Name</th>
+                            <th scope="col">Club Head</th>
+                            <th scope="col">Email ID</th>
+                            <th scope="col">Contact</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% club_heads.forEach((club_head) => { %>
+                            <tr>
+                                <th scope="row"><%= club_head.club_name %></th>
+                                <td><%= club_head.name %></td>
+                                <td><%=club_head.email_id%></td>
+                                <td><%=club_head.contact%></td>
+                                <td><a href="/club_head/update/<%=club_head._id%>" onclick="return confirm('Are you sure you want to Update <%= club_head.club_name %> ?')">Update</a></td>
+                            </tr>
+                        <%})%>   
+                    </tbody>
+                </table>
             </div>
         </div>
     <% }else{ %>
