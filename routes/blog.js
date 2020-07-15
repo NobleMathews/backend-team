@@ -15,6 +15,7 @@ router.route('/create').get(clubAuth, (req,res)=>{
 // route to create blog
 router.route('/create').post(clubAuth, uploadf.fields([{name:'chief_guest_url',maxCount:1},{name:'file_attachment[]',maxCount:40}]), (req, res)=>{  
   vfeatured=req.body.featured==="on"?true:false;
+  vpublished=req.body.published==="on"?true:false;
   const id = req.user._id
   var documentIDs = []
   var pics_url=[],file_attachment=[],chief_guest_url;
@@ -50,7 +51,8 @@ router.route('/create').post(clubAuth, uploadf.fields([{name:'chief_guest_url',m
       outside_links : outside_links,
       file_attachment : file_attachment,
       video_links : video_links,
-      documentIDs:documentIDs
+      documentIDs:documentIDs,
+      publish : vpublished
   })
   }
   else{
@@ -66,7 +68,8 @@ router.route('/create').post(clubAuth, uploadf.fields([{name:'chief_guest_url',m
       outside_links : outside_links,
       file_attachment : file_attachment,
       video_links : video_links,
-      documentIDs:documentIDs
+      documentIDs:documentIDs,
+      publish : vpublished
   })
   }
   evsum.save((err, event) => {
@@ -106,6 +109,7 @@ router.route('/update/:id').get(clubAuth, (req,res)=>{
 router.route('/update/:id').post(clubAuth, uploadf.fields([{name:'chief_guest_url',maxCount:1},{name:'file_attachment[]',maxCount:40}]), (req, res)=>{
     const id = req.params.id;
     vfeatured=req.body.featured==="on"?true:false;
+    published=req.body.published==="on"?true:false;
     var pics_url=[],file_attachment=[],pics_url_links=[],chief_guest_url,documentIDs=[],masterqueue=[],deletequeue=[];
     if(req.body.documentIDs){
       documentIDs = JSON.parse(req.body.documentIDs); 
@@ -149,7 +153,8 @@ router.route('/update/:id').post(clubAuth, uploadf.fields([{name:'chief_guest_ur
         outside_links : outside_links,
         file_attachment : file_attachment,
         video_links : video_links,
-        documentIDs:documentIDs
+        documentIDs:documentIDs,
+        publish : vpublished
     }
     }
     else{
@@ -164,7 +169,8 @@ router.route('/update/:id').post(clubAuth, uploadf.fields([{name:'chief_guest_ur
         outside_links : outside_links,
         file_attachment : file_attachment,
         video_links : video_links,
-        documentIDs:documentIDs
+        documentIDs:documentIDs,
+        publish : vpublished
 
     }
     }
@@ -188,7 +194,8 @@ router.route('/update/:id').post(clubAuth, uploadf.fields([{name:'chief_guest_ur
         outside_links : outside_links,
         file_attachment : file_attachment_links,
         video_links : video_links,
-        documentIDs:documentIDs
+        documentIDs:documentIDs,
+        publish : vpublished
     }
     }
     for(let field in evsum) if(!evsum[field] && field!="featured") delete evsum[field];
