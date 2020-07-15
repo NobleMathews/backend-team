@@ -190,7 +190,13 @@
                 <% imageh_name="file_attachment[]" %>
                 <%-include('partials/multi_image_handler.ejs')%>
             </div>
-            <button type="submit" class="btn btn-primary" style="margin-bottom: 20px; margin-bottom: 20px;">Publish Blog</button>
+            <div class="form-group">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="published" name="published">
+                    <label class="custom-control-label" for="published">Publish?</label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" style="margin-bottom: 20px; margin-bottom: 20px;">Create Blog</button>
         </form>
         </div>
     </div>
