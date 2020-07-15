@@ -36,7 +36,7 @@ router.route('/create').post(adminAuth, (req, res) => {
   club_head.save((err, user) => {
     if (err) {
       req.flash("error",err.message)
-res.redirect('/club_head/view_all')
+      res.redirect('/club_head/view_all')
     }else{
       res.redirect('/club_head/view_all')
     }
@@ -46,6 +46,26 @@ res.redirect('/club_head/view_all')
 // route to render club_head create page
 router.route('/create').get(adminAuth, async (req, res) => {
   res.render('create_club_head', { alerts: req.flash('error'),page_name:"club_heads"})
+})
+
+router.route('/update/:id').get(adminAuth, (req,res)=>{
+  res.render('update_clubHead',{id:req.params.id,alerts: req.flash('error'),page_name:"club_heads"})
+})
+
+router.route('/update/:id').post(adminAuth, (req,res)=>{
+  clubHeadsModel.findByIdAndUpdate(req.params.id,{
+    user_id: req.body.user_id,
+    pswd: req.body.pswd,
+    email_id: req.body.email_id,
+    contact:'',
+    dp_url:'',
+    bio:''
+  }).then(()=>{
+    res.redirect('/club_head/view_all')
+  }).catch((err)=>{
+    req.flash("error",err.message)
+    res.redirect('/club_head/view_all')
+  })
 })
 
 // route for updating profile
