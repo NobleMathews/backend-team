@@ -44,6 +44,9 @@
                     <p>
                         <a href="/blog/details/<%=blog._id%>">details</a> | <a href="/blog/update/<%=blog._id%>">edit</a> | <a href="/blog/delete/<%=blog._id%>">delete</a>
                     </p>
+                    <% if(blog.published) {%>
+                        <span class="badge badge-success">Published</span>
+                    <%}%>
                 </div>
             </div>
         <% }) %>
