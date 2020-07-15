@@ -8,6 +8,7 @@ const blogSchema = new Schema({
         ref: 'Users'
     },
     featured : {type:Boolean,required:true},
+    published : {type:Boolean,required:true},
     title : {type:String,required:true},
     category : {type:String,required:true},
     gallery : [String],                           
