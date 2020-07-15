@@ -47,6 +47,9 @@
                     <% if(blog.published) {%>
                         <span class="badge badge-success">Published</span>
                     <%}%>
+                    <% if(blog.featured) {%>
+                        <span class="badge badge-warning">Featured</span>
+                    <%}%>
                 </div>
             </div>
         <% }) %>
