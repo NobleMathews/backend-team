@@ -16,6 +16,9 @@ router.route('/create').get(clubAuth, (req,res)=>{
 router.route('/create').post(clubAuth, uploadf.fields([{name:'chief_guest_url',maxCount:1},{name:'file_attachment[]',maxCount:40}]), (req, res)=>{  
   vfeatured=req.body.featured==="on"?true:false;
   vpublished=req.body.published==="on"?true:false;
+  if(vfeatured=true){
+    vpublished=true
+  }
   const id = req.user._id
   var documentIDs = []
   var pics_url=[],file_attachment=[],chief_guest_url;
@@ -74,7 +77,7 @@ router.route('/create').post(clubAuth, uploadf.fields([{name:'chief_guest_url',m
   }
   evsum.save((err, event) => {
      // creating the blog in database
-    if(event.featured===true){
+    if(vfeatured){
       blogModel.find({owner: event.owner}).then((blogs) => {
         blogs.forEach(async (blog) => {
           if(!blog._id.equals(event._id)){
@@ -84,11 +87,13 @@ router.route('/create').post(clubAuth, uploadf.fields([{name:'chief_guest_url',m
         })
       })
     }
-    if (err) {
-    req.flash("error",err.message)
-    res.redirect('/blog/view_all')
-    } else {
-      res.redirect("/blog/view_all")
+    else{
+      if (err) {
+        req.flash("error",err.message)
+        res.redirect('/blog/view_all')
+        } else {
+          res.redirect("/blog/view_all")
+        }
     }
   })
 })
@@ -110,7 +115,9 @@ router.route('/update/:id').post(clubAuth, uploadf.fields([{name:'chief_guest_ur
     const id = req.params.id;
     vfeatured=req.body.featured==="on"?true:false;
     vpublished=req.body.published==="on"?true:false;
-    console.log(vpublished)
+    if(vfeatured=true){
+      vpublished=true
+    }
     var pics_url=[],file_attachment=[],pics_url_links=[],chief_guest_url,documentIDs=[],masterqueue=[],deletequeue=[];
     if(req.body.documentIDs){
       documentIDs = JSON.parse(req.body.documentIDs); 
