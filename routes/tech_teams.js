@@ -63,10 +63,13 @@ router.route('/delete/:id').get(adminAuth, (req, res) => {
 })
 
 router.route('/view_all').get(adminAuth, (req, res) => {
-  if (Object.keys(req.query).length == 0) {
-    techTeamModel.find().limit(30)
-      .then(techteam => res.json(techteam))
-      .catch(err => res.json(err))
-  }
+  techTeamModel.find({},(err,tech_teams)=>{
+      if(err){
+          req.flash("error",err.message)
+          res.redirect('/tech_teams/view_all')
+      }else{
+          res.render('view_tech_teams',{tech_teams:tech_teams})
+      }
+  })
 })
 module.exports = router
