@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Tech team</title>
+    <%-include('partials/dependencies.ejs')%>    
+</head>
+<body>    
+
+    <%- include('partials/navbar_admin') %>
+    <div class="container">
+        <div class="row">
+        <div class="col-8">
+            <div>
+                <h2>Update Tech team</h2>
+                <hr class="my-4">
+            </div>
+        <form method="POST" enctype="multipart/form-data" action="/tech_teams/update/<%=team._id%>">
+            <div class="form-group">
+                <label for="team_name">Team name</label>
+                <input class="form-control" type="text" name="team_name" id="team_name" value="<%=team.team_name%>" ><br>
+            </div>
+            <div class="form-group">
+                <label for="tech_head">Team head</label>
+                <input class="form-control" type="text" name="tech_head" id="tech_head" value="<%=team.tech_head%>" ><br>
+            </div>
+            <div class="form-group">
+                <label for="contact">Contact:</label><br>
+                <input class="form-control" type="text" name="contact" id="contact" value="<%=team.contact%>" >
+            </div>
+            <div class="form-group">
+                <label for="email_id">Email</label>
+                <input class="form-control" type="text" name="email_id" id="email_id" value="<%=team.email_id%>" ><br>
+            </div>
+            
+            <div class="form-group">
+                <label for="ref_link">Ref link</label>
+                <input class="form-control" type="text" name="ref_link" id="ref_link" value="<%=team.ref_link%>" ><br>
+            </div>
+            <div class="form-group">
+                <label for="des">Description:</label>
+                <textarea class="form-control" type="text" name="description" id="des" rows="4" placeholder="Describe about the achievement..."><%=team.description%></textarea>
+            </div>
+
+            <div class="form-group">
+                <img id="preview" class="rounded" src="<%=team.dp_url%>" alt=" No File Selected " height="100px" style="margin-bottom: .5rem;">
+                <input type="file" name="dp_url" id="dp_url" accept='image/*' style="display:none;"/>
+                <label for="dp_url" class="btn btn-secondary" style="height: 100px; max-width: 100px; padding-top:25px; ">Upload DP</label>
+            </div>
+
+            <div class="form-group">
+                <img id="poster_preview" class="rounded" src="<%=team.team_poster_url%>" alt=" No File Selected " height="100px" style="margin-bottom: .5rem;">
+                <input type="file" name="team_poster_url" id="team_poster_url" accept='image/*' style="display:none;"/>
+                <label for="team_poster_url" class="btn btn-secondary" style="height: 100px; max-width: 100px; padding-top:25px; ">Upload Team Poster </label>
+            </div>
+            
+            <div class="form-group">
+                <input type="submit" class="btn btn-info" value="UPDATE"/>
+            </div> 
+  
+        </form>
+        </div>
+        </div>
+    </div>
+    <script>
+        CKEDITOR.replace('des');
+        $(document).ready(function(){
+        $(".updaterow").click(function(event){event.preventDefault();
+                $(event.target).parent().parent().remove();
+        });
+        });
+
+    function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $("#preview").attr('src', e.target.result);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+    }
+
+    function readPosterURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $("#poster_preview").attr('src', e.target.result);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+    }
+
+    $("#dp_url").change(function(){
+        readURL(this);
+    });
+
+    $('#team_poster_url').change(function(){
+        readPosterURL(this);
+    })
+    </script>
+<%- include('partials/bottom_spacing.ejs') %>
+</body>
+</html>
