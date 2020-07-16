@@ -4,7 +4,7 @@ const { upload, uploadf } = require('../db/upload')
 const mongoose = require('mongoose')
 const adminAuth = require('../middleware/adminAuth')
 
-router.route('/create').get((req, res) => {
+router.route('/create').get(adminAuth,(req, res) => {
   res.render('create_tech_team')
 })
 
@@ -24,7 +24,7 @@ router.route('/create/').post(adminAuth, (req, res) => {
   }).then(res.redirect('/admin/'))
 })
 
-router.route('/update/:id').get((req, res) => {
+router.route('/update/:id').get(adminAuth,(req, res) => {
   res.render('update_tech_team')
 })
 
