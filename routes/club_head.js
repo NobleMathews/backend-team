@@ -52,26 +52,20 @@ router.route('/update/:id').get(adminAuth, (req,res)=>{
   res.render('update_clubHead',{id:req.params.id,alerts: req.flash('error'),page_name:"club_heads"})
 })
 
-router.route('/update/:id').post(adminAuth,(req, res) => {
-    clubHeadsModel.findOne({_id:req.params.id},function (err, user) {
-      if (err) {
-        req.flash("error",err.message)
-        res.redirect('/club_head/view_all')
-      }
-      user.user_id = req.body.user_id;
-      user.pswd= req.body.pswd
-      user.email_id= req.body.email_id
-      user.contact=''
-      user.dp_url=''
-      user.bio=''
-      user.save(function (err) {
-        if (err) {
-          req.flash("error",err.message)
-          res.redirect('/club_head/view_all')
-        }
-        res.redirect('/club_head/view_all')
-      });
-    });
+router.route('/update/:id').post(adminAuth, (req,res)=>{
+  clubHeadsModel.findByIdAndUpdate(req.params.id,{
+    user_id: req.body.user_id,
+    pswd: req.body.pswd,
+    email_id: req.body.email_id,
+    contact:'',
+    dp_url:'',
+    bio:''
+  }).then(()=>{
+    res.redirect('/club_head/view_all')
+  }).catch((err)=>{
+    req.flash("error",err.message)
+    res.redirect('/club_head/view_all')
+  })
 })
 
 // route for updating profile
