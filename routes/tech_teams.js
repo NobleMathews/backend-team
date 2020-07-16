@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 const adminAuth = require('../middleware/adminAuth')
 
 router.route('/create').get(adminAuth,(req, res) => {
-  res.render('create_tech_team')
+  res.render('create_tech_team',{page_name:"tech_teams"})
 })
 
 router.route('/create/').post(adminAuth, (req, res) => {
@@ -25,7 +25,14 @@ router.route('/create/').post(adminAuth, (req, res) => {
 })
 
 router.route('/update/:id').get(adminAuth,(req, res) => {
-  res.render('update_tech_team')
+
+  techTeamModel.findById(req.params.id)
+  .then((team)=>{
+    res.render('update_tech_team',{page_name:"tech_teams",team:team})
+  }).catch((err)=>{
+    res.json(err);
+  })
+
 })
 
 router.route('/update/:id').post(adminAuth, (req, res) => {
