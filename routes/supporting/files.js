@@ -1,4 +1,4 @@
-const connection = require('../db/mongoose')
+const connection = require('../../db/mongoose')
 const router = require('express').Router()
 const mongoose = require('mongoose')
 

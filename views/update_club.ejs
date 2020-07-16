@@ -4,14 +4,12 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" >
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="  crossorigin="anonymous"></script>
     <title>Update Club</title>
-  </head>
-  <body>
-    
+      <%-include('partials/dependencies.ejs')%>    
+</head>
+  <body>    
+  <%-include('partials/alert_system.ejs')%>
     <%-include('partials/navbar_clubhead.ejs')%> <br><br>
- 
     <h3 style="text-align: center; text-decoration: underline; padding-top: 30px;">Update Club</h3>
 
     <div class="container" style="padding-top:30px;">
@@ -33,35 +31,28 @@
             <input type="file" name="logo" id="logo" accept='image/*' style="display:none;"/>
             <label for="logo" class="btn btn-secondary" style="height: 100px; max-width: 100px; padding-top:25px; ">Upload Logo</label>
         </div>
-            
         <input type="submit" class="btn btn-primary" value="Update">
 
         </form>
         </div>
     </div>
-    <script type="text/javascript">
+    <script>
         function readURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
-    
             reader.onload = function (e) {
                 $('#preview').attr('src', e.target.result);
             }
-    
             reader.readAsDataURL(input.files[0]);
         }
         }
-    
         $("#logo").change(function(){
             readURL(this);
         });
     </script>
-    <script src="https://cdn.ckeditor.com/4.9.1/standard/ckeditor.js"></script>
     <script>
     CKEDITOR.replace('description');
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" ></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" ></script>
   <%- include('partials/bottom_spacing.ejs') %>
 </body>
 </html>

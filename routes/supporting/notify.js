@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const eventsModel = require('../models/Event.model');
-const clubHeadsModel = require('../models/ClubHead.model')
+const eventsModel = require('../../models/Event.model');
+const clubHeadsModel = require('../../models/ClubHead.model')
 const nodemailer = require('nodemailer')
 
 // route for rendering the mailing page
@@ -8,21 +8,21 @@ router.route('/:id').get((req, res) => {
   const event_id = req.params.id
   eventsModel.findById(event_id)
     .then(event => {
-    // res.json(events)
     var date = new Date(event.date);
     date.setDate(date.getDate() + 1);
     if ((new Date())>date){
-      return res.status(404).json("Event Date has already passed !")
+      req.flash("error",["Event Date has already passed !"])
+      return res.redirect('/events/view_all')
     }
       clubHeadsModel.findById(event.owner)
         .then(user => {
-          res.render('contact', { event: event, user: user, page_name:'view_events'  })
+          res.render('contact', { alerts: req.flash('error'), event: event, user: user, page_name:'view_events'  })
         }).catch((err) => {
-          res.json('Error: ' + err)
-        })
+          req.flash("error",err.message)
+          res.redirect('/events/view_all')        })
     }).catch((err) => {
-      res.json('Error: ' + err)
-    })
+      req.flash("error",err.message)
+      res.redirect('/events/view_all')    })
 })
 
 // route to send the mail to all registered participants
@@ -99,12 +99,12 @@ router.route('/push_notification/send/:id').post((req, res) => {
               console.log('Message sent: %s', info.messageId);   
               console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
         
-              res.render('message_success');
+              res.render('message_success', { alerts: req.flash('error')});
           });
               })
           }).catch(err=>{
-              res.status(400).json(err)
-          })
+            req.flash("error",err.message)
+            res.redirect('/events/view_all')          })
 });
 
 module.exports = router

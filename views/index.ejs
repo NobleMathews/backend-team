@@ -4,25 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Helper</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" >
+    <%-include('partials/dependencies.ejs')%>    
 </head>
-<body>
-
-    <!-- added this in for a better alerting mechanism -->
-    
-    <h2 style="display:none;" id="alerts"><%=alerts %></h2>
-    <% if(alerts.length!=0){ %>
-        <script type="text/javascript">
-        document.addEventListener("DOMContentLoaded", function(event) { 
-            var x = $("#alerts").html(); 
-                alert(x);
-        });
-        </script>
-    <% } %>
+<body>    
+  <%-include('partials/alert_system.ejs')%>    
     <form method="GET" style="position: fixed; right: 0; top:0; padding: 10px;" action="/admin" >
     <button type="submit" class='btn btn-outline-success pull-right'>Switch to Admin Login</button> 
     </form>
-    
     <!-- Switch to admin login so that there is only fall through from higher access requests -->
 
     <div class="container" style="margin-top: 20vh;" >
@@ -50,8 +38,5 @@
         if (key == 32) return false;
     }
     </script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="  crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" ></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" ></script>
 </body>
 </html>

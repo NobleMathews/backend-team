@@ -10,19 +10,19 @@
   <body>    
   <%-include('partials/alert_system.ejs')%>
     <%- include('partials/navbar_admin') %>
-    <h3 style="text-align: center; text-decoration: underline; padding-top: 30px;">Create Club Head</h3>
+    <h3 style="text-align: center; text-decoration: underline; padding-top: 30px;">Update Club Head</h3>
 
     <div class="container" style="padding-top:30px;">
         <div class="col-md-5 m-auto">
           <!-- multipart/form-data -->
-        <form enctype="application/x-www-form-urlencoded" method="POST" action="/club_head/create">
+        <form enctype="application/x-www-form-urlencoded" method="POST" action="/club_head/update/<%=id%>">
           <div class="form-group">
-            <label>User_id</label>
+            <label>New User_id</label>
             <input type="text" class="form-control" name="user_id" placeholder="User_id"/>
           </div>
 
           <div class="form-group">
-            <label>Password</label>
+            <label>New Password</label>
             <input type="password" class="form-control" name="pswd" placeholder="Password"/>
           </div>
 
@@ -31,12 +31,7 @@
             <input type="email" class="form-control" name="email_id" placeholder="email id of the club head"/>
           </div>
 
-          <div class="form-group">
-            <label>Club Name</label>
-            <input type="text" class="form-control" name="club_name" placeholder="Enter name of club"/>
-          </div>
-
-          <input type="submit" class="btn btn-primary" value="Create" />
+          <input type="submit" class="btn btn-primary" value="Update" />
 
         </form>
         </div>

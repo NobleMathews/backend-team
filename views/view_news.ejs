@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View News</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" >
+    <%-include('partials/dependencies.ejs')%>    
 </head>
-<body>
+<body>    
+  <%-include('partials/alert_system.ejs')%>
     <%-include('partials/navbar_admin')%> <br><br>
 
    <div class="container">
     <% if(newss && newss.length) { %>
             <div class="card-group">
                 <% newss.forEach((news)=>{ %>
-                    
                     <div class="card" style="width: 18rem;">
                         <div class="card-body">
                             <p class="card-text">
@@ -27,20 +27,13 @@
                     </div>
 
                <% }) %>
-
-               
-
             </div>
-        
-
-     
         <% } else { %>
              <h1>No news created yet</h1>
        <% } %>
 
       <br> <a href="/news/create">Create news</a>
    </div>
-    
 <%- include('partials/bottom_spacing.ejs') %>
 </body>
 </html>

@@ -6,7 +6,7 @@ const clubAuth = require('../middleware/clubAuth')
 
 // for rendering password page
 router.route('/password/change').get(clubAuth, (req, res) => {
-  res.render('update_password_clubHead', {page_name:"home"})
+  res.render('update_password_clubHead', { alerts: req.flash('error'),page_name:"home"})
 })
 
 // route for changing the password
@@ -17,8 +17,9 @@ router.route('/password/change').post(clubAuth,async (req, res) => {
     req.user.pswd = pswd
     await req.user.save()
     res.redirect(307, '/club_head/profile')
-  }catch(e){
-    res.json(e)
+  }catch(err){
+    req.flash("error",err.message)
+res.redirect('/club_head/view_all')
   }
 
 })
@@ -34,7 +35,8 @@ router.route('/create').post(adminAuth, (req, res) => {
 
   club_head.save((err, user) => {
     if (err) {
-      res.json(err)
+      req.flash("error",err.message)
+      res.redirect('/club_head/view_all')
     }else{
       res.redirect('/club_head/view_all')
     }
@@ -43,7 +45,27 @@ router.route('/create').post(adminAuth, (req, res) => {
 
 // route to render club_head create page
 router.route('/create').get(adminAuth, async (req, res) => {
-  res.render('create_club_head', {page_name:"club_heads"})
+  res.render('create_club_head', { alerts: req.flash('error'),page_name:"club_heads"})
+})
+
+router.route('/update/:id').get(adminAuth, (req,res)=>{
+  res.render('update_clubHead',{id:req.params.id,alerts: req.flash('error'),page_name:"club_heads"})
+})
+
+router.route('/update/:id').post(adminAuth, (req,res)=>{
+  clubHeadsModel.findByIdAndUpdate(req.params.id,{
+    user_id: req.body.user_id,
+    pswd: req.body.pswd,
+    email_id: req.body.email_id,
+    contact:'',
+    dp_url:'',
+    bio:''
+  }).then(()=>{
+    res.redirect('/club_head/view_all')
+  }).catch((err)=>{
+    req.flash("error",err.message)
+    res.redirect('/club_head/view_all')
+  })
 })
 
 // route for updating profile
@@ -68,7 +90,7 @@ router.route('/profile/update').post(clubAuth, upload.single('profpic'), async (
 
     await user.save()
 
-    res.render('landing_clubHead', {user:user,page_name:"home"})
+    res.render('landing_clubHead', { alerts: req.flash('error'),user:user,page_name:"home"})
 
   }catch(e){
     res.status(400).json(e)
@@ -79,12 +101,12 @@ router.route('/profile/update').post(clubAuth, upload.single('profpic'), async (
 // for rendering update profile
 router.route('/profile/update').get(clubAuth, (req, res) => {
   // turn on the projections as per necessity
-  res.render('update_profile_clubHead', { user: req.user, page_name:"home"})
+  res.render('update_profile_clubHead', { alerts: req.flash('error'), user: req.user, page_name:"home"})
 })
 
 // route for rendering profile and action page
 router.route('/login').post(async (req, res) => {
-  // console.log(req.body);
+  
   
   const user_id = req.body.user_id
   const pswd = req.body.pswd
@@ -98,13 +120,13 @@ router.route('/login').post(async (req, res) => {
     }
 
     const token = await user.generateAuthToken(req, res)
-    // console.log(token)
+    
 
-    res.render('landing_clubHead', {user : user,page_name:'home'})
+    res.render('landing_clubHead', { alerts: req.flash('error'),user : user,page_name:'home'})
 
   }catch(e){
     // res.status(400).json('Unable to Login')
-    res.render('index',{alerts:"Please check UserID / Password"})
+    res.render('index',{alerts:req.flash("Please check UserID / Password")})
   }
  
 })
@@ -113,16 +135,21 @@ router.route('/login').post(async (req, res) => {
 router.route('/profile').post(clubAuth, (req, res) => {
   const user = req.user
 
-  return res.render('landing_clubHead', {user : user,page_name:'home'})
+  return res.render('landing_clubHead', { alerts: req.flash('error'),user : user,page_name:'home'})
 })
+router.route('/profile').get(clubAuth, (req, res) => {
+  const user = req.user
 
+  return res.render('landing_clubHead', { alerts: req.flash('error'),user : user,page_name:'home'})
+})
 // route to view all club_heads
 router.route('/view_all').get(adminAuth, (req, res) => {
   clubHeadsModel.find({},(err,club_heads)=>{
     if(err){
-      res.json(err)
+      req.flash("error",err.message)
+res.redirect('/club_head/view_all')
     }else{
-    res.render('view_club_heads',{club_heads:club_heads, page_name:"club_heads"})
+    res.render('view_club_heads', { alerts: req.flash('error'),club_heads:club_heads, page_name:"club_heads"})
     }
   })
 })
@@ -134,7 +161,8 @@ router.route('/delete/:id').get(adminAuth, (req,res)=>{
   .then(()=>{
     res.redirect('/club_head/view_all')
   }).catch(err=>{
-    res.json(err)
+    req.flash("error",err.message)
+res.redirect('/club_head/view_all')
   })
 })
 
@@ -150,8 +178,9 @@ router.route('/logout/').get(clubAuth, async (req,res) => {
 
     res.redirect('/')
 
-  }catch(e){
-    res.json({e})
+  }catch(err){
+    req.flash("error",err.message)
+    res.redirect('/')
   }
 })
 

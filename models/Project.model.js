@@ -8,10 +8,13 @@ const projectSchema = new Schema({
     branch : {type:String},
     club : {type:String},
     degree : {type:String},
-    snapshot_url : [String]
+    snapshot_url : [String],
+    documentIDs:{type:[[String]]}
 },{
     timestamps : true
 })
+
+projectSchema.index({title : 'text', description : 'text' });
 
 const Projects = mongoose.model('projects',projectSchema)
 

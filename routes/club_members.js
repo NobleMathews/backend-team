@@ -6,7 +6,7 @@ const { updateOne } = require('../models/ClubMember.model')
 
 // for rendering the create club members page
 router.route('/create/').get(clubAuth, (req, res) => {
-    res.render('create_club_member',{page_name:'club_members'})
+    res.render('create_club_member', { alerts: req.flash('error'),page_name:'club_members'})
 })
 
 // route to create the club members
@@ -31,7 +31,8 @@ router.route('/create').post(clubAuth, upload.single('dp_url') ,async  (req, res
             if(count>0){
                 clubMemberModel.updateOne({owner:req.user.id},{$push:{members:member}},(err, user) => {
                     if (err) {
-                    res.json(err)
+                    req.flash("error",err.message)
+                    res.redirect('/club_members/view_all')
                     }else{
                     res.redirect('/club_members/view_all')
                     }
@@ -44,15 +45,17 @@ router.route('/create').post(clubAuth, upload.single('dp_url') ,async  (req, res
                   })
                 club_member.save((err, user) => {
                 if (err) {
-                res.json(err)
+                    req.flash("error",err.message)
+                    res.redirect('/club_members/view_all')
                 }else{
                 res.redirect('/club_members/view_all')
                 }
                 })
             }
         }); 
-    }catch(e){
-        res.status(400).json(e)
+    }catch(err){
+        req.flash("error",err.message)
+        res.redirect('/club_members/view_all')
     }
 
 })
@@ -65,11 +68,11 @@ router.route('/update/:id').get(clubAuth, async (req, res) => {
         clubMemberModel.findOne({owner:req.user._id,"members._id":member_id},function(err,member){
             if(err) return res.status(404).send(err)
             memberv=(member.members).find(o => {return o._id == member_id;})
-            console.log(memberv)
-            res.render('update_club_member',{'member':memberv,page_name:'club_members'})
+            res.render('update_club_member', { alerts: req.flash('error'),'member':memberv,page_name:'club_members'})
           });
-    } catch (error) {
-        res.json(error)
+    } catch (err) {
+        req.flash("error",err.message)
+        res.redirect('/club_members/view_all')
     }
 })
 
@@ -99,8 +102,9 @@ router.route('/update/:id').post(clubAuth, upload.single('dp') ,async (req, res)
         await clubMemberModel.findOneAndUpdate({owner:req.user._id,"members._id":member_id}, {'$set': {'members.$':member} })
 
         res.redirect('/club_members/view_all')
-    }catch(e){
-        res.status(400).json(e)
+    }catch(err){
+        req.flash("error",err.message)
+        res.redirect('/club_members/view_all')
     }
 
 })
@@ -112,9 +116,9 @@ router.route('/delete/:id').get(clubAuth, async (req, res) => {
       {owner: req.user.id}, 
       { $pull: {'members':{"_id":[req.params.id] }}}, { safe: true },function(err, user){
         if (err) {
-        res.json(err)
+            req.flash("error",err.message)
+            res.redirect('/club_members/view_all')
         }else{
-        console.log(user);
         res.redirect('/club_members/view_all')
         }
     })
@@ -126,11 +130,12 @@ router.route('/view_all').get(clubAuth, async (req, res) => {
     try {
         club_members = await clubMemberModel.findOne({owner:req.user._id})
         if(club_members)
-        res.render('view_club_members',{members:club_members.members,page_name:'club_members'})
+        res.render('view_club_members', { alerts: req.flash('error'),members:club_members.members,page_name:'club_members'})
         else
-        res.render('view_club_members',{members:[],page_name:'club_members'})
+        res.render('view_club_members', { alerts: req.flash('error'),members:[],page_name:'club_members'})
     } catch (error) {
-        res.json(error)
+        req.flash("error",err.message)
+        res.redirect('/club_head/profile')
     }
 })
 

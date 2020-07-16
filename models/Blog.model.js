@@ -8,6 +8,7 @@ const blogSchema = new Schema({
         ref: 'Users'
     },
     featured : {type:Boolean,required:true},
+    published : {type:Boolean,required:true},
     title : {type:String,required:true},
     category : {type:String,required:true},
     gallery : [String],                           
@@ -17,7 +18,8 @@ const blogSchema = new Schema({
     summary : {type:String},
     outside_links : [String],
     file_attachment : [String],
-    video_links : [String]
+    video_links : [String],
+    documentIDs:{type:[[String]]}
 })
 
 blogSchema.index({title: 'text', summary: 'text', category: 'text'});

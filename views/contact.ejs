@@ -5,15 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Send Mail</title>
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="  crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" ></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" ></script>
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" >
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" >
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css" />
-  <link rel="stylesheet" href="/public/css/style.css">
+    <%-include('partials/dependencies.ejs')%>    
 </head>
-<body>
+<body>    
+  <%-include('partials/alert_system.ejs')%>
   <div>
   <%-include('partials/navbar_clubhead.ejs')%>
   <div class="container">
@@ -28,7 +25,6 @@
       </div>
       <div class="container" style="padding-top: 10px;">
           <div class="col-md-5 m-auto">
-        
               <h3>Send E-mail</h3>
               <div class="form-group">
                 <p>Event Name: <%=event.name%></p>
@@ -60,11 +56,8 @@
                 </div>
 
               </form>
-        
           </div>
       </div>
-
-     
     </div>
   </div>
 <%- include('partials/bottom_spacing.ejs') %>

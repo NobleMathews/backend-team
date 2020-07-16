@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>All Events</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" >
+    <%-include('partials/dependencies.ejs')%>    
 </head>
-<body>
+<body>    
+  <%-include('partials/alert_system.ejs')%>
     <%-include('partials/navbar_clubhead.ejs')%> <br><br>
     <div class="container">
     <% if (members && members.length) { %>
@@ -37,6 +38,9 @@
     <% }else{ %>
         <div class="container">
             <h1 class="display-1">No Members exist yet</h1>
+            <div >
+                <a class="btn btn-warning" href="/club_members/create" role="button">Add Club Members</a>
+            </div>
         </div>
     <% }%>
     </div>
@@ -53,9 +57,7 @@
             user-select: none;
         }
     </style>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="  crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" ></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" ></script>
+
 <%- include('partials/bottom_spacing.ejs') %>
 </body>
 </html>

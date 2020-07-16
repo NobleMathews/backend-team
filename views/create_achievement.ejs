@@ -4,45 +4,11 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" >
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="  crossorigin="anonymous"></script>
-    <script src="https://cdn.ckeditor.com/4.9.1/standard/ckeditor.js"></script>
     <title>Add Achievement</title>
-    <style>
-      input[type="file"] {
-      display: block;
-      }
-      .imageThumb {
-      height: 100px;
-      width: 100px;
-      border: 2px solid;
-      padding: 1px;
-      cursor: pointer;
-      }
-      .pip {
-      display: inline-block;
-      margin: 10px;
-      }
-      .remove {
-      display: block;
-      background: #444;
-      border: 1px solid black;
-      color: white;
-      text-align: center;
-      cursor: pointer;
-      }
-      .remove:hover {
-      background: white;
-      color: black;
-      }
-      #snapholder{
-            height:auto;
-            min-height:50px;
-            height:auto !important;  /* for IE as it does not support min-height */
-        }
-  </style>
-  </head>
-  <body>
+      <%-include('partials/dependencies.ejs')%>    
+</head>
+  <body>    
+  <%-include('partials/alert_system.ejs')%>
     <%- include('partials/navbar_admin') %>
     <h3 style="text-align: center; text-decoration: underline; padding-top: 30px;">Add New Achievement</h3>
 
@@ -78,10 +44,8 @@
       </div>
       <div class="field">
           <label>Upload snapshots</label>
-          <input type="file" id="snapshot_url" name="snapshot_url[]" accept='image/*' multiple />
-          <div id="snapholder">
-
-          </div>
+          <% imageh_name="snapshot_url[]" %>
+          <%-include('partials/multi_image_handler.ejs')%>
       </div>
         <button type="submit" class="btn btn-primary">Submit</button>
 
@@ -90,49 +54,7 @@
     </div>
     <script>
       CKEDITOR.replace('des');
-      function createListItem(e, filet) {
-            $("#snapholder").append(
-                "<span class=\"pip\">" +
-                "<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + filet.name + "\"/>" +
-                "<br/><span class=\"remove\">Remove </span>" +
-                "</span>"
-                );
-            $(".remove").off("click");
-            $(".remove").click(function(event){event.preventDefault();
-                let title=($(this).parent(".pip").children("img")[0]);
-                title=(title.getAttribute("title"));
-                $(this).parent(".pip").remove();
-                const dt = new DataTransfer()
-                let files=$("#snapshot_url").prop('files');
-                for (let file of files){
-                    if (file.name !== title) 
-                    dt.items.add(file)
-                    document.getElementById("snapshot_url").files=dt.files;
-                }
-            });
-        }
-        $(document).ready(function() {
-        $("#snapshot_url").on("change", function(e) {
-        $(".pip").remove();
-        // $('#ignore').val("");
-        var files = e.target.files,
-            filesLength = files.length;
-        for (var i = 0; i < filesLength; i++) {
-            var f = files[i]
-            var fileReader = new FileReader();
-            let id=i;
-            fileReader.onloadend=(function(file){
-                return function(evt){
-                    createListItem(evt, file)
-                }
-            })(f);
-            fileReader.readAsDataURL(f);  
-        }
-        });
-         });
    </script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" ></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" ></script>
   <%- include('partials/bottom_spacing.ejs') %>
 </body>
 </html>
