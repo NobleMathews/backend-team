@@ -5,7 +5,7 @@ const session = require('express-session')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
 const connection = require('./db/mongoose')
-var flash = require('connect-flash');
+var flash = require('connect-flash')
 // const methodOverride = require('method-override')
 
 const adminRouter = require('./routes/admin')
@@ -22,7 +22,7 @@ const blogRouter = require('./routes/blog')
 const newsRouter = require('./routes/news')
 const registerRouter = require('./routes/supporting/register')
 const frontEndRouter = require('./routes/front')
-
+const techteamRouter = require('./routes/tech_teams')
 const app = express()
 const port = process.env.PORT || 5000
 app.use(session({ secret: 'test', saveUninitialized: true, resave: true }))
@@ -33,7 +33,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.set('view engine', 'ejs')
 app.set('useFindAndModify', false)
-app.use(flash());
+app.use(flash())
 
 app.use('/admin', adminRouter)
 app.use('/club_head', clubHeadRouter)
@@ -41,23 +41,23 @@ app.use('/club_members', clubMembersRouter)
 app.use('/events', eventsRouter)
 app.use('/club', clubsRouter)
 app.use('/images', imagesRouter)
-app.use('/files',fileRouter)
+app.use('/files', fileRouter)
 app.use('/projects', projectRouter)
 app.use('/achievements', achievementsRouter)
 app.use('/notify', notifyRouter)
 app.use('/blog', blogRouter)
 app.use('/news', newsRouter)
 app.use('/register', registerRouter)
-app.use('/front',frontEndRouter)
-
+app.use('/front', frontEndRouter)
+app.use('/tech_teams', techteamRouter)
 app.listen(port, () => {
   console.log(`listening on port : ${port}`)
 })
 
 let gfs
-connection.once('open', ()=>{
+connection.once('open', () => {
   gfs = new mongoose.mongo.GridFSBucket(connection.db, { bucketName: 'uploads' })
-  app.locals.gfs=gfs;
+  app.locals.gfs = gfs
 })
 
 app.get('/', (req, res) => {
@@ -67,4 +67,3 @@ app.get('/', (req, res) => {
 app.get('/admin/', (req, res) => {
   res.render('adminLogin', { alerts: req.flash('error') })
 })
-
