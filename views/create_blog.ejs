@@ -201,6 +201,13 @@
         </div>
     </div>
     <script>
+        
+        $("input[name=featured]").change(function() {
+            var checked = $(this).prop('checked');
+            $("input[name=published]").prop("checked",checked);
+            $("input[name=published]").attr("disabled",checked);
+        });
+
         CKEDITOR.replace('summary');
 
         $(document).ready(function(){

@@ -205,7 +205,7 @@
                 <%-include('partials/multi_image_handler.ejs')%>
                 <div class="form-group">
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="published" name="published">
+                        <input type="checkbox" class="custom-control-input" id="published" name="published" <%= summary.published ? "checked" : "" %>>
                         <label class="custom-control-label" for="published">Publish?</label>
                     </div>
                 </div>

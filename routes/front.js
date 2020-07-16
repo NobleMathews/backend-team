@@ -142,7 +142,10 @@ router.route('/blogs/:club_name').get(async (req,res)=>{
     let blogs
     try {
       blogs = await blogModel.find(filters,{score:{$meta:'textScore'}}).limit(30).sort({score:{$meta:'textScore'}})
-      res.json(blogs)
+      var finalList = _.map(blogs, function(b) {
+        if (b.published) return b;
+      });
+      res.json(finalList)
     } catch (error) {
       res.json(error)
     }
