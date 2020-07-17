@@ -9,15 +9,20 @@ router.route('/create').get(adminAuth,(req, res) => {
 })
 
 router.route('/create/').post(adminAuth, uploadf.fields([{name:'team_poster_url',maxCount:1},{name:'dp_url',maxCount:1}]), (req, res) => {
-  var dp_url="",team_poster_url="";
+  var dp_url="",team_poster_url="",documentIDs=[];
   if (req.files != undefined) {
   if(req.files['team_poster_url'])
-  team_poster_url=req.files['team_poster_url'][0].filename;
+  {
+    let file=req.files['team_poster_url'][0]
+    team_poster_url=file.filename;
+    documentIDs.push([file.filename,file.id]);  
+  }
   if(req.files['dp_url'])
-  dp_url=req.files['dp_url'][0].filename;
-  req.files.forEach(function (file,index) {
-    documentIDs[index]=[file.filename,file.id];
-  })
+  {
+    let file=req.files['dp_url'][0]
+    dp_url=file.filename;
+    documentIDs.push([file.filename,file.id]);  
+  }
   }
   var TechTeam = new techTeamModel({
     team_name: req.body.team_name,
@@ -50,19 +55,30 @@ router.route('/update/:id').get(adminAuth,(req, res) => {
 
 router.route('/update/:id').post(adminAuth,uploadf.fields([{name:'team_poster_url',maxCount:1},{name:'dp_url',maxCount:1}]), (req, res) => {
   let dp_url=req.body.dp_url_l,team_poster_url=req.body.team_poster_url_l;
-  var documentIDs = [],masterqueue=[]
+  var documentIDs = [],masterqueue=[],pics_url=[]
   if(req.body.documentIDs){
     documentIDs = JSON.parse(req.body.documentIDs); 
   }
   if (req.files != undefined) {
     if(req.files['team_poster_url'])
-    team_poster_url=req.files['team_poster_url'][0].filename;
+    {
+      let file=req.files['team_poster_url'][0]
+      team_poster_url=file.filename;
+      masterqueue.push([file.filename,file.id]);  
+    }
     if(req.files['dp_url'])
-    dp_url=req.files['dp_url'][0].filename;
-    req.files.forEach(function (file,index) {
-      masterqueue[index]=[file.filename,file.id];
-    })
-  }
+    {
+      let file=req.files['dp_url'][0]
+      dp_url=file.filename;
+      masterqueue.push([file.filename,file.id]);  
+    }
+    }
+  pics_url.push(dp_url)
+  pics_url.push(team_poster_url)
+  masterqueue=masterqueue.concat(documentIDs);
+  documentIDs =masterqueue.filter(k => pics_url.includes(k[0])); 
+  deletequeue = masterqueue.filter(k =>!pics_url.includes(k[0]));
+
   var change = {
     team_name: req.body.team_name,
     tech_head: req.body.tech_head,
@@ -75,7 +91,25 @@ router.route('/update/:id').post(adminAuth,uploadf.fields([{name:'team_poster_ur
     documentIDs:documentIDs
   }
   techTeamModel.findByIdAndUpdate(req.params.id, change)
-  .then(res.redirect('/tech_teams/view_all'))
+  .then(()=>{
+    if(deletequeue.length>0){
+      var arrPromises = deletequeue.map((path) => 
+      {if (req.app.locals.gfs) {
+        req.app.locals.gfs.delete(new mongoose.Types.ObjectId(path[1]))
+        }
+      }
+      );
+      Promise.all(arrPromises)
+        .then((arrdata) => {res.redirect('/tech_teams/view_all')})
+        .catch(function (err) {
+          req.flash("error",["Alert : Delete failed on some images."])
+          res.redirect('/tech_teams/view_all')      
+        });
+    }
+    else{
+      res.redirect('/tech_teams/view_all')      
+    }
+  })
   .catch((err) => {
     req.flash("error",err.message)
     res.redirect('/tech_teams/view_all')      
@@ -85,8 +119,7 @@ router.route('/update/:id').post(adminAuth,uploadf.fields([{name:'team_poster_ur
 router.route('/delete/:id').get(adminAuth, (req, res) => {
   const team_id = req.params.id
   techTeamModel.findByIdAndDelete(team_id)
-    .then((data) => {
-      
+    .then((data) => { 
         deletequeue = data.documentIDs;
         if(deletequeue.length>0){
           var arrPromises = deletequeue.map((path) => 
@@ -96,7 +129,7 @@ router.route('/delete/:id').get(adminAuth, (req, res) => {
           }
           );
           Promise.all(arrPromises)
-            .then((arrdata) => {res.redirect('/projects/view_all')})
+            .then((arrdata) => {res.redirect('/tech_teams/view_all')})
             .catch(function (err) {
               req.flash("error",["Alert : Delete failed on some images."])
               res.redirect('/tech_teams/view_all')      
