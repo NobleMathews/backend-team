@@ -18,13 +18,19 @@
             <div class="col-md-6 m-auto">
                 <form method="POST" enctype="multipart/form-data" action="/tech_teams/create">
                     <div class="form-group">
+                        <img id="poster_preview" class="rounded" alt=" No File Selected " height="100px" style="margin-bottom: .5rem;">
+                        <input type="file" name="team_poster_url" id="team_poster_url" accept='image/*' style="display:none;"/>
+                        <label for="team_poster_url" class="btn btn-secondary" style="height: 100px; max-width: 100px; padding-top:25px; ">Upload Team Poster </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="team_name">Enter Team name</label>
+                        <input placeholder="Team name" type="text" class="form-control" id="team_name" name="team_name" required>
+                    </div>
+                    <div class="form-group">
                         <img id="preview" class="rounded" alt=" No File Selected " height="100px" style="margin-bottom: .5rem;">
                         <input type="file" name="dp_url" id="dp_url" accept='image/*' style="display:none;"/>
                         <label for="dp_url" class="btn btn-secondary" style="height: 100px; max-width: 100px; padding-top:25px; ">Upload DP</label>
-                    </div>
-                    <div class="form-group">
-                        <label for="team_name">Enter Team name</label>
-                        <input placeholder="Team name" type="text" class="form-control" id="team_name" name="team_name">
                     </div>
                     <div class="form-group">
                         <label for="tech_head">Tech head</label>
@@ -46,11 +52,7 @@
                         <label>Description:</label>
                         <textarea class="form-control" rows="3" name="description" placeholder="Provide description of Tech team"></textarea>
                     </div>
-                    <div class="form-group">
-                        <img id="poster_preview" class="rounded" alt=" No File Selected " height="100px" style="margin-bottom: .5rem;">
-                        <input type="file" name="team_poster_url" id="team_poster_url" accept='image/*' style="display:none;"/>
-                        <label for="team_poster_url" class="btn btn-secondary" style="height: 100px; max-width: 100px; padding-top:25px; ">Upload Team Poster </label>
-                    </div>
+
                     <button type="submit" class="btn btn-primary">Create Tech team</button>
                 </form>
             </div>

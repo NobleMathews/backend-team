@@ -15,6 +15,9 @@ router.route('/create/').post(adminAuth, uploadf.fields([{name:'team_poster_url'
   team_poster_url=req.files['team_poster_url'][0].filename;
   if(req.files['dp_url'])
   dp_url=req.files['dp_url'][0].filename;
+  req.files.forEach(function (file,index) {
+    documentIDs[index]=[file.filename,file.id];
+  })
   }
   var TechTeam = new techTeamModel({
     team_name: req.body.team_name,
@@ -24,7 +27,8 @@ router.route('/create/').post(adminAuth, uploadf.fields([{name:'team_poster_url'
     email_id: req.body.email_id,
     ref_link: req.body.ref_link,
     description: req.body.description,
-    team_poster_url: team_poster_url
+    team_poster_url: team_poster_url,
+    documentIDs:documentIDs
   })
   TechTeam.save((err, club) => {
     if (err) { req.flash('error', err.message) }
@@ -46,11 +50,18 @@ router.route('/update/:id').get(adminAuth,(req, res) => {
 
 router.route('/update/:id').post(adminAuth,uploadf.fields([{name:'team_poster_url',maxCount:1},{name:'dp_url',maxCount:1}]), (req, res) => {
   let dp_url=req.body.dp_url_l,team_poster_url=req.body.team_poster_url_l;
+  var documentIDs = [],masterqueue=[]
+  if(req.body.documentIDs){
+    documentIDs = JSON.parse(req.body.documentIDs); 
+  }
   if (req.files != undefined) {
     if(req.files['team_poster_url'])
     team_poster_url=req.files['team_poster_url'][0].filename;
     if(req.files['dp_url'])
     dp_url=req.files['dp_url'][0].filename;
+    req.files.forEach(function (file,index) {
+      masterqueue[index]=[file.filename,file.id];
+    })
   }
   var change = {
     team_name: req.body.team_name,
@@ -60,7 +71,8 @@ router.route('/update/:id').post(adminAuth,uploadf.fields([{name:'team_poster_ur
     email_id: req.body.email_id,
     ref_link: req.body.ref_link,
     description: req.body.description,
-    team_poster_url: team_poster_url
+    team_poster_url: team_poster_url,
+    documentIDs:documentIDs
   }
   techTeamModel.findByIdAndUpdate(req.params.id, change)
   .then(res.redirect('/tech_teams/view_all'))
@@ -71,11 +83,33 @@ router.route('/update/:id').post(adminAuth,uploadf.fields([{name:'team_poster_ur
 })
 
 router.route('/delete/:id').get(adminAuth, (req, res) => {
-  techTeamModel.deleteOne({ _id: req.params.id }, err => {
-    res.status(400).send(err.message)
-  }).then(
-    res.redirect('/admin/'))
-})
+  const team_id = req.params.id
+  techTeamModel.findByIdAndDelete(team_id)
+    .then((data) => {
+      
+        deletequeue = data.documentIDs;
+        if(deletequeue.length>0){
+          var arrPromises = deletequeue.map((path) => 
+          {if (req.app.locals.gfs) {
+            req.app.locals.gfs.delete(new mongoose.Types.ObjectId(path[1]))
+            }
+          }
+          );
+          Promise.all(arrPromises)
+            .then((arrdata) => {res.redirect('/projects/view_all')})
+            .catch(function (err) {
+              req.flash("error",["Alert : Delete failed on some images."])
+              res.redirect('/tech_teams/view_all')      
+            });
+        }
+        else{
+          res.redirect('/tech_teams/view_all')      
+        }
+    }).catch(err => {
+      req.flash("error",err.message)
+      res.redirect('/tech_teams/view_all')      
+    })
+  })
 
 router.route('/view_all').get(adminAuth, (req, res) => {
   techTeamModel.find({},(err,tech_teams)=>{
