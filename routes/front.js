@@ -103,7 +103,8 @@ router.route('/events/:filter').get((req,res) => {
       competitions: 'Competition',
       talkshows: 'Talk-show',
       workshops: 'Workshop',
-      all: 'all'
+      all: 'all',
+      activity: 'Activity'
     }
     var keyMap=_.invert(ikeyMap);
     efilter=ikeyMap[efilter];
