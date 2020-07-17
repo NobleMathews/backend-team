@@ -170,7 +170,7 @@ router.route('/challenges').get((req, res) => {
     });
 })
 // route for registering pusposes to an event, takes emailid as input parameter in body
-router.route('register/:id').post((req,res)=>{
+router.route('/register/:id').post((req,res)=>{
   const id = req.params.id
   const email = req.body.email
   
