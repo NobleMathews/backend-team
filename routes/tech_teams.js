@@ -38,29 +38,36 @@ router.route('/update/:id').get(adminAuth,(req, res) => {
   .then((team)=>{
     res.render('update_tech_team',{page_name:"tech_teams",team:team})
   }).catch((err)=>{
-    res.json(err);
-  })
+    if (err) { req.flash('error', err.message) }
+    res.redirect('/tech_teams/view_all')
+    })
 
 })
 
-router.route('/update/:id').post(adminAuth, (req, res) => {
+router.route('/update/:id').post(adminAuth,uploadf.fields([{name:'team_poster_url',maxCount:1},{name:'dp_url',maxCount:1}]), (req, res) => {
+  if (req.files != undefined) {
+    if(req.files['team_poster_url'])
+    team_poster_url=req.files['team_poster_url'][0].filename;
+    if(req.files['dp_url'])
+    dp_url=req.files['dp_url'][0].filename;
+  }
   var change = {
     team_name: req.body.team_name,
     tech_head: req.body.tech_head,
     contact: req.body.contact,
-    dp_url: req.body.dp_url,
+    dp_url: dp_url,
     email_id: req.body.email_id,
     ref_link: req.body.ref_link,
     description: req.body.description,
-    team_poster_url: req.body.team_poster_url
+    team_poster_url: team_poster_url
   }
-
-  techTeamModel.findByIdAndUpdate(req.params.id, change, (err, result) => {
-    if (err) {
-      res.status(400).send(err.message)
-    }
-  }).then(
-    res.redirect('/admin/'))
+  for(let field in change) if(!change[field] && typeof(field) === typeof(true)) delete change[field];
+  techTeamModel.findByIdAndUpdate(req.params.id, change)
+  .then(res.redirect('/tech_teams/view_all'))
+  .catch((err) => {
+    req.flash("error",err.message)
+    res.redirect('/tech_teams/view_all')      
+  })
 })
 
 router.route('/delete/:id').get(adminAuth, (req, res) => {
