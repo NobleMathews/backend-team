@@ -45,6 +45,7 @@ router.route('/update/:id').get(adminAuth,(req, res) => {
 })
 
 router.route('/update/:id').post(adminAuth,uploadf.fields([{name:'team_poster_url',maxCount:1},{name:'dp_url',maxCount:1}]), (req, res) => {
+  let dp_url=req.body.dp_url_l,team_poster_url=req.body.team_poster_url_l;
   if (req.files != undefined) {
     if(req.files['team_poster_url'])
     team_poster_url=req.files['team_poster_url'][0].filename;
@@ -61,7 +62,6 @@ router.route('/update/:id').post(adminAuth,uploadf.fields([{name:'team_poster_ur
     description: req.body.description,
     team_poster_url: team_poster_url
   }
-  for(let field in change) if(!change[field] && typeof(field) === typeof(true)) delete change[field];
   techTeamModel.findByIdAndUpdate(req.params.id, change)
   .then(res.redirect('/tech_teams/view_all'))
   .catch((err) => {

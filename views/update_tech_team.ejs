@@ -17,14 +17,30 @@
                 <hr class="my-4">
             </div>
         <form method="POST" enctype="multipart/form-data" action="/tech_teams/update/<%=team._id%>">
+
+            
+            <div class="form-group">
+                <img id="poster_preview" class="rounded" src="/images/<%=team.team_poster_url%>" alt=" No File Selected " height="100px" style="margin-bottom: .5rem;">
+                <input type="file" name="team_poster_url" id="team_poster_url" accept='image/*' style="display:none;"/>
+                <label for="team_poster_url" class="btn btn-secondary" style="height: 100px; max-width: 100px; padding-top:25px; ">Upload Team Poster </label>
+            </div>
+
             <div class="form-group">
                 <label for="team_name">Team name</label>
                 <input class="form-control" type="text" name="team_name" id="team_name" value="<%=team.team_name%>" ><br>
             </div>
+
+            <div class="form-group">
+                <img id="preview" class="rounded-circle" style="height: 100px; margin: 10px 0px;" src="/images/<%=team.dp_url%>" alt=" No File Selected " height="100px" style="margin-bottom: .5rem;">
+                <input type="file" name="dp_url" id="dp_url" accept='image/*' style="display:none;"/>
+                <label for="dp_url" class="btn btn-secondary" style="height: 100px; max-width: 100px; padding-top:25px; ">Upload DP</label>
+            </div>
+
             <div class="form-group">
                 <label for="tech_head">Team head</label>
                 <input class="form-control" type="text" name="tech_head" id="tech_head" value="<%=team.tech_head%>" ><br>
             </div>
+
             <div class="form-group">
                 <label for="contact">Contact:</label><br>
                 <input class="form-control" type="text" name="contact" id="contact" value="<%=team.contact%>" >
@@ -42,23 +58,13 @@
                 <label for="des">Description:</label>
                 <textarea class="form-control" type="text" name="description" id="des" rows="4" placeholder="Describe about the achievement..."><%=team.description%></textarea>
             </div>
-
-            <div class="form-group">
-                <img id="preview" class="rounded" src="/images/<%=team.dp_url%>" alt=" No File Selected " height="100px" style="margin-bottom: .5rem;">
-                <input type="file" name="dp_url" id="dp_url" accept='image/*' style="display:none;"/>
-                <label for="dp_url" class="btn btn-secondary" style="height: 100px; max-width: 100px; padding-top:25px; ">Upload DP</label>
-            </div>
-
-            <div class="form-group">
-                <img id="poster_preview" class="rounded" src="/images/<%=team.team_poster_url%>" alt=" No File Selected " height="100px" style="margin-bottom: .5rem;">
-                <input type="file" name="team_poster_url" id="team_poster_url" accept='image/*' style="display:none;"/>
-                <label for="team_poster_url" class="btn btn-secondary" style="height: 100px; max-width: 100px; padding-top:25px; ">Upload Team Poster </label>
-            </div>
             
             <div class="form-group">
                 <input type="submit" class="btn btn-info" value="UPDATE"/>
             </div> 
-  
+            <input style="display: none;" class="form-control" value="<%=team.dp_url%>" name='dp_url_l'/>
+            <input style="display: none;" class="form-control" value="<%=team.team_poster_url%>" name='team_poster_url_l'/>
+
         </form>
         </div>
         </div>

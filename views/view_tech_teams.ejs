@@ -24,7 +24,10 @@
                   <p class="card-text"><b>Head : </b><%= tech_team.tech_head %></p>
                   <p class="card-text"><b>Contact : </b><%= tech_team.contact %></p>
                   <p class="card-text"><b>Email id : </b><%= tech_team.email_id %></p>
-                  <p class="card-text"><b>Description : </b><%= tech_team.description %></p>
+                  <p class="card-text"><b>Description : </b></p>
+                  <div class="card" style="padding:10px;">
+                    <%- tech_team.description %>
+                  </div>
                   <p class="card-text"><a href="/tech_teams/update/<%=tech_team._id%>">update</a> | <a href="/tech_teams/delete/<%=tech_team._id%>">delete</a></p>
                 </div>
               </div>
