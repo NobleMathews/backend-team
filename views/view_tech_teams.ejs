@@ -1,11 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tech Teams</title>
+    <title>View tech_teams</title>
+    <%-include('partials/dependencies.ejs')%>    
 </head>
-<body>
-    Hello!
+<body>    
+  <%-include('partials/alert_system.ejs')%>
+    <%- include('partials/navbar_admin') %>
+    <% if (tech_teams && tech_teams.length) { %>
+    <h3 style="text-align: center; text-decoration: underline; padding-top: 30px;">List of tech_teams</h3>
+    <div class="container" style="padding-top:30px;">
+        <div class="row row-cols-1 row-cols-md-4">
+            <% tech_teams.forEach((tech_team) => { %>
+            <div class="col mb-4">
+              <div class="card h-100">
+                <img src="/images/<%=tech_team.team_poster_url%>" class="card-img-top" alt="tech_team_banner">
+                <div class="card-body">
+                  <a href="//<%= tech_team.ref_link %>" target="_blank" style="margin-bottom: 10px;"><h5 class="card-title"><b><%= tech_team.team_name %></b></h5></a>
+                  <img class="rounded-circle" alt="head_pic" style="height:100px; margin: 10px 0px;" src="/images/<%=tech_team.dp_url%>">
+                  <p class="card-text"><b>Head : </b><%= tech_team.tech_head %></p>
+                  <p class="card-text"><b>Contact : </b><%= tech_team.contact %></p>
+                  <p class="card-text"><b>Email id : </b><%= tech_team.email_id %></p>
+                  <p class="card-text"><b>Description : </b></p>
+                  <p class="card-text">
+                  <div class="card" style="padding:10px;">
+                    <%- tech_team.description %>
+                  </div>
+                  </p>
+                  <p class="card-text"><a href="/tech_teams/update/<%=tech_team._id%>">update</a> | <a href="/tech_teams/delete/<%=tech_team._id%>">delete</a></p>
+                </div>
+              </div>
+            </div>
+            <% }) %>
+        </div>
+
+    </div>
+    <% }else{ %>
+        <div class="container">
+            <h1 class="display-5">No tech_teams created yet</h1>
+            <br>  
+        </div>
+    <% }%>
+    <div style="text-align: center; margin-top: 20px; margin-bottom: 30px;">
+        <a href="/tech_teams/create" ><span class="material-icons">add</span>Add a Tech_team</a>
+    </div>
+
+<%- include('partials/bottom_spacing.ejs') %>
 </body>
 </html>

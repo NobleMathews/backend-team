@@ -9,7 +9,8 @@ const techTeamSchema = new Schema({
     email_id : {type:String},
     ref_link : {type:String},
     description : {type:String},
-    team_poster_url : {type:String}
+    team_poster_url : {type:String},
+    documentIDs:{type:[[String]]}
 },{
     timestamps : true
 })
