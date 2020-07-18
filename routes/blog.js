@@ -115,7 +115,7 @@ router.route('/update/:id').post(clubAuth, uploadf.fields([{name:'chief_guest_ur
     const id = req.params.id;
     vfeatured=req.body.featured==="on"?true:false;
     vpublished=req.body.published==="on"?true:false;
-    if(vfeatured=true){
+    if(vfeatured==true){
       vpublished=true
     }
     var pics_url=[],file_attachment=[],pics_url_links=[],chief_guest_url,documentIDs=[],masterqueue=[],deletequeue=[];
@@ -206,7 +206,6 @@ router.route('/update/:id').post(clubAuth, uploadf.fields([{name:'chief_guest_ur
         published : vpublished
     }
     }
-    for(let field in evsum) if(!evsum[field] && typeof(field) === typeof(true)) delete evsum[field];
     blogModel.findOneAndUpdate({_id:id},{$set: evsum},{useFindAndModify: false})
     .then((blog) => {
       if(vfeatured===true){
