@@ -6,7 +6,8 @@ const achievementSchema = new Schema({
     caption:{type:String},
     description:{type:String},
     pics_url:[String],
-    documentIDs:{type:[[String]]}
+    documentIDs:{type:[[String]]},
+    keywords:[String]
 },{
     timestamps : true
 })

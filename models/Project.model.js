@@ -9,7 +9,8 @@ const projectSchema = new Schema({
     club : {type:String},
     degree : {type:String},
     snapshot_url : [String],
-    documentIDs:{type:[[String]]}
+    documentIDs:{type:[[String]]},
+    keywords:[String]
 },{
     timestamps : true
 })
