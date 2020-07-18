@@ -3,6 +3,10 @@ const achievementModel = require('../models/Achievement.model')
 const {upload, uploadf}= require('../db/upload')
 const mongoose = require('mongoose')
 const adminAuth = require('../middleware/adminAuth');
+const _ = require('lodash');
+const MonkeyLearn = require('monkeylearn')
+const ml = new MonkeyLearn('8b8701a6b32bfe7d6f749095ee6d31123b267daf')
+let model_id = 'ex_YCya9nrn'
 
 // for rendering achievement create page
 router.route('/create/').get(adminAuth, (req, res) => {
@@ -21,13 +25,24 @@ router.route('/create/').post(adminAuth, upload.any('snapshot_url', 20), (req, r
         documentIDs[index]=[file.filename,file.id];
       })
     }
-  
+    ml.extractors.extract(model_id,[req.body.description]).then(resp => {
+      let response=resp.body
+      let tags=[]
+      if(!response[0].error){
+        let tagsarray=response[0]["extractions"]
+        _.forEach(tagsarray, function(tagel){
+          if(parseFloat(tagel.relevance)>0.8){
+            tags.push(tagel.parsed_value)
+          }
+        })
+      }
     var acheievement = new achievementModel({
       title: req.body.title,
       caption: req.body.caption,
       description: req.body.des,
       pics_url: pics_url,
-      documentIDs:documentIDs
+      documentIDs:documentIDs,
+      keywords : tags
     })
   
     acheievement.save((err, ach) => {
@@ -36,6 +51,7 @@ router.route('/create/').post(adminAuth, upload.any('snapshot_url', 20), (req, r
       }
       res.redirect('/achievements/view_all')
     })
+  })
 })
 
 // route for rendering achievement update page
