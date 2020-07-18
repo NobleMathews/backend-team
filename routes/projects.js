@@ -7,6 +7,10 @@ const adminAuth = require('../middleware/adminAuth');
 const { Z_NEED_DICT } = require('zlib')
 const { type } = require('os')
 const { filter } = require('async')
+const _ = require('lodash');
+const MonkeyLearn = require('monkeylearn')
+const ml = new MonkeyLearn('8b8701a6b32bfe7d6f749095ee6d31123b267daf')
+let model_id = 'ex_YCya9nrn'
 
 // route for rendering the project creating page
 router.route('/create').get(adminAuth, (req, res) => {
@@ -25,6 +29,17 @@ router.route('/create/').post(adminAuth, upload.any('snapshot_url', 20),  (req, 
         documentIDs[index]=[file.filename,file.id];
       })
     }
+    ml.extractors.extract(model_id,[req.body.description]).then(resp => {
+      let response=resp.body
+      let tags=[]
+      if(!response[0].error){
+        let tagsarray=response[0]["extractions"]
+        _.forEach(tagsarray, function(tagel){
+          if(parseFloat(tagel.relevance)>0.8){
+            tags.push(tagel.parsed_value)
+          }
+        })
+      }
     var project = new projectsModel({
       title: req.body.title,
       team_members: req.body.team_member,
@@ -33,7 +48,8 @@ router.route('/create/').post(adminAuth, upload.any('snapshot_url', 20),  (req, 
       club: req.body.club,
       degree: req.body.degree,
       snapshot_url: snaps,
-      documentIDs:documentIDs
+      documentIDs:documentIDs,
+      keywords : tags
     })
   
     project.save((err) => {
@@ -42,6 +58,7 @@ router.route('/create/').post(adminAuth, upload.any('snapshot_url', 20),  (req, 
       }
       res.redirect('/projects/view_all')
     })
+  })
 })
 
 // route for rendering pre-filled form to update project
@@ -59,6 +76,9 @@ router.route('/update/:id').post(adminAuth, upload.any('pics', 20), (req, res) =
     var documentIDs=[],pics_url_links=[],masterqueue=[],pics_url=[]
     if(req.body.documentIDs){
       documentIDs = JSON.parse(req.body.documentIDs); 
+    }
+    if(req.body.tags){
+      tags = JSON.parse(req.body.tags); 
     }
     if(req.body.pics_url_links)
     pics_url_links=(req.body.pics_url_links).filter(Boolean);
@@ -83,7 +103,8 @@ router.route('/update/:id').post(adminAuth, upload.any('pics', 20), (req, res) =
       club: req.body.club,
       degree: req.body.degree,
       snapshot_url: pics_url,
-      documentIDs:documentIDs
+      documentIDs:documentIDs,
+      keywords : tags
     }
   
     projectsModel.findByIdAndUpdate(id, change)

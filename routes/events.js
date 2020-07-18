@@ -5,6 +5,9 @@ const mongoose = require('mongoose')
 const {upload, uploadf}= require('../db/upload')
 const clubAuth = require('../middleware/clubAuth')
 const _ = require('lodash');
+const MonkeyLearn = require('monkeylearn')
+const ml = new MonkeyLearn('8b8701a6b32bfe7d6f749095ee6d31123b267daf')
+let model_id = 'ex_YCya9nrn'
 const { filter } = require('lodash');
 
 // route for rendering event creation page
@@ -24,7 +27,17 @@ router.route('/create/').post(clubAuth, upload.single('poster'), (req, res) => {
         documentIDs.push([req.file.filename,req.file.id]);
       // })
     }
-  
+  ml.extractors.extract(model_id,[req.body.description]).then(resp => {
+    let response=resp.body
+    let tags=[]
+    if(!response[0].error){
+      let tagsarray=response[0]["extractions"]
+      _.forEach(tagsarray, function(tagel){
+        if(parseFloat(tagel.relevance)>0.8){
+          tags.push(tagel.parsed_value)
+        }
+      })
+    }
     const event = new eventsModel({
       name: req.body.event_name + '',
       venue: req.body.event_venue,
@@ -34,7 +47,8 @@ router.route('/create/').post(clubAuth, upload.single('poster'), (req, res) => {
       owner: req.user._id,
       categories: req.body.categories,
       speaker: req.body.speaker,
-      documentIDs:documentIDs  
+      documentIDs:documentIDs,
+      keywords : tags  
     })
   
     event.save((err, event) => { // saving the event in database
@@ -43,8 +57,8 @@ router.route('/create/').post(clubAuth, upload.single('poster'), (req, res) => {
       }
         res.redirect("/events/view_all")
     })
-    // let headid = req.params.club_head_id;
   })
+})
   
 // route for viewing all events
 router.route('/view_all').get(clubAuth, (req, res) => {
@@ -86,6 +100,9 @@ router.route('/update/:id').post(clubAuth, upload.single('poster'), (req, res) =
     if(req.body.documentIDs){
       documentIDs = JSON.parse(req.body.documentIDs); 
     }
+    if(req.body.tags){
+      tags = JSON.parse(req.body.tags); 
+    }
     if (req.file == undefined) {
         ev={
             'name':req.body.event_name,
@@ -110,7 +127,8 @@ router.route('/update/:id').post(clubAuth, upload.single('poster'), (req, res) =
           'description':req.body.description,
           'poster_url':`${req.file.filename}`,
           'categories':req.body.categories,
-          documentIDs:documentIDs  
+          documentIDs:documentIDs,
+          keywords : tags 
       }
     }
 
