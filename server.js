@@ -22,6 +22,7 @@ const blogRouter = require('./routes/blog')
 const newsRouter = require('./routes/news')
 const frontEndRouter = require('./routes/front')
 const techteamRouter = require('./routes/tech_teams')
+const publicRouter = require('./routes/public')
 const app = express()
 const port = process.env.PORT || 5000
 app.use(session({ secret: 'test', saveUninitialized: true, resave: true }))
@@ -48,6 +49,8 @@ app.use('/blog', blogRouter)
 app.use('/news', newsRouter)
 app.use('/front', frontEndRouter)
 app.use('/tech_teams', techteamRouter)
+app.use('/public', publicRouter)
+
 app.listen(port, () => {
   console.log(`listening on port : ${port}`)
 })
