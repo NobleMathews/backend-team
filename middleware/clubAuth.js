@@ -6,7 +6,6 @@ const clubAuth = async (req, res, next) => {
         const token = req.cookies.authToken
 
         if(!token){
-            // return res.status(403).send({error: 'You need to Login'})
             req.flash("error",['You need to be logged in'])
             return res.redirect("/")
         }

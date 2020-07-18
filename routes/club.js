@@ -83,15 +83,18 @@ router.route('/update/').post(clubAuth, upload.single('logo') ,async (req, res) 
     }
     clubModel.findByIdAndUpdate(id, change,
       function(err, result) {
-        if (err) {
-          res.status(400).send(err)
-        } else {
+            if(err){
+                req.flash("error",err.message)
+                return res.redirect('/club_head/profile')
+            } else {
           clubHeadsModel.findByIdAndUpdate({ _id: result.head },changeU)
           .then(() => {
             res.redirect(307, '/club_head/profile')
           }).catch(err => {
-            res.status(404).send(err)
-          })          
+            if(err){
+              req.flash("error",err.message)
+              return res.redirect('/club_head/profile')
+          }          })          
         }
       }
       );
