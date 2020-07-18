@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const eventsModel = require('../models/Event.model')
 const moment = require('moment');
+const mongoose = require('mongoose')
 const {upload, uploadf}= require('../db/upload')
 const clubAuth = require('../middleware/clubAuth')
 const _ = require('lodash');
@@ -91,25 +92,28 @@ router.route('/update/:id').post(clubAuth, upload.single('poster'), (req, res) =
             'venue':req.body.event_venue,
             'date':req.body.event_date,
             'description':req.body.description,
-            'categories':req.body.categories
+            'categories':req.body.categories,
+            documentIDs:documentIDs  
         }
     } else {
-        ev={
-            'name':req.body.event_name,
-            'venue':req.body.event_venue,
-            'date':req.body.event_date,
-            'description':req.body.description,
-            'poster_url':`${req.file.filename}`,
-            'categories':req.body.categories
-        }
         // req.files.forEach(function (file,index) {
           masterqueue.push([req.file.filename,req.file.id]);
         // })
         pics_url.push(req.file.filename)
+        masterqueue=masterqueue.concat(documentIDs);
+        documentIDs =masterqueue.filter(k => pics_url.includes(k[0])); 
+        deletequeue = masterqueue.filter(k =>!pics_url.includes(k[0]));
+        ev={
+          'name':req.body.event_name,
+          'venue':req.body.event_venue,
+          'date':req.body.event_date,
+          'description':req.body.description,
+          'poster_url':`${req.file.filename}`,
+          'categories':req.body.categories,
+          documentIDs:documentIDs  
+      }
     }
-    masterqueue=masterqueue.concat(documentIDs);
-    documentIDs =masterqueue.filter(k => pics_url.includes(k[0])); 
-    deletequeue = masterqueue.filter(k =>!pics_url.includes(k[0]));
+
     eventsModel.findOne({_id: id},function(err,event){
       if(err) {
         req.flash("error",err.message)
@@ -162,13 +166,35 @@ router.route('/delete/:id').get(clubAuth, (req,res)=>{
       date.setDate(date.getDate() + 1);
       if ((new Date())<date){
         event.remove();
-        var club_head_id = req.user._id
-        eventsModel.find({ owner: club_head_id })
-        .then(events => {
-        return res.render('view_events', { alerts: req.flash('error'), events: events, moment: moment, page_name: 'view_events' })
-        }).catch((err) => {
-          req.flash("error",err.message)
-          return res.redirect('/events/view_all')        })
+        let data = event;
+        if(data.documentIDs){
+          deletequeue = data.documentIDs;
+          if(deletequeue.length>0){
+            var arrPromises = deletequeue.map((path) => 
+            {if (req.app.locals.gfs) {
+              req.app.locals.gfs.delete(new mongoose.Types.ObjectId(path[1]))
+              }
+            }
+            );
+            Promise.all(arrPromises)
+              .then((arrdata) => {
+                var club_head_id = req.user._id
+                eventsModel.find({ owner: club_head_id })
+                .then(events => {
+                return res.render('view_events', { alerts: req.flash('error'), events: events, moment: moment, page_name: 'view_events' })
+                }).catch((err) => {
+                  req.flash("error",err.message)
+                  return res.redirect('/events/view_all')        })
+              })
+              .catch(function (err) {
+                req.flash("error",["Alert : Delete failed on some images."])
+                res.redirect('/events/view_all')
+              });
+          }
+          else{
+            res.redirect('/events/view_all')
+          }
+        }
       }
       else
        {req.flash("error",["You are not authorised to delete a completed event !!"])
