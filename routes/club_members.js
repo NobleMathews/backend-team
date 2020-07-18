@@ -66,7 +66,10 @@ router.route('/update/:id').get(clubAuth, async (req, res) => {
     let memberv={};
     try {
         clubMemberModel.findOne({owner:req.user._id,"members._id":member_id},function(err,member){
-            if(err) return res.status(404).send(err)
+            if(err){
+                req.flash("error",err.message)
+                return res.redirect('/club_members/view_all')
+            }
             memberv=(member.members).find(o => {return o._id == member_id;})
             res.render('update_club_member', { alerts: req.flash('error'),'member':memberv,page_name:'club_members'})
           });

@@ -6,7 +6,9 @@ let gfs
 connection.once('open', ()=>{
   gfs = new mongoose.mongo.GridFSBucket(connection.db, { bucketName: 'uploads' })
 })
-
+router.get('/', (req, res) => {
+  res.sendStatus(200);
+})
 
 router.get('/:filename', (req, res) => {
   const file = gfs

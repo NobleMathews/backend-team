@@ -99,7 +99,8 @@ router.route('/profile/update').post(clubAuth, upload.single('profpic'), async (
     res.render('landing_clubHead', { alerts: req.flash('error'),user:user,page_name:"home"})
 
   }catch(e){
-    res.status(400).json(e)
+      req.flash("error",e.message)
+      res.redirect('/club_head/profile')
   }
 
 })
@@ -131,7 +132,6 @@ router.route('/login').post(async (req, res) => {
     res.render('landing_clubHead', { alerts: req.flash('error'),user : user,page_name:'home'})
 
   }catch(e){
-    // res.status(400).json('Unable to Login')
     res.render('index',{alerts:req.flash("Please check UserID / Password")})
   }
  
