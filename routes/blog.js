@@ -209,6 +209,9 @@ router.route('/update/:id').post(clubAuth, uploadf.fields([{name:'chief_guest_ur
     if(req.body.documentIDs){
       documentIDs = JSON.parse(req.body.documentIDs); 
     }
+    if(req.body.tags){
+      tags = JSON.parse(req.body.tags); 
+    }
     deletequeue = documentIDs.filter(k =>!pics_url_links.includes(k[0]));
     documentIDs = documentIDs.filter(k => pics_url.includes(k[0])); 
     var evsum= {

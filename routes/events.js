@@ -100,6 +100,9 @@ router.route('/update/:id').post(clubAuth, upload.single('poster'), (req, res) =
     if(req.body.documentIDs){
       documentIDs = JSON.parse(req.body.documentIDs); 
     }
+    if(req.body.tags){
+      tags = JSON.parse(req.body.tags); 
+    }
     if (req.file == undefined) {
         ev={
             'name':req.body.event_name,
@@ -124,7 +127,8 @@ router.route('/update/:id').post(clubAuth, upload.single('poster'), (req, res) =
           'description':req.body.description,
           'poster_url':`${req.file.filename}`,
           'categories':req.body.categories,
-          documentIDs:documentIDs  
+          documentIDs:documentIDs,
+          keywords : tags 
       }
     }
 

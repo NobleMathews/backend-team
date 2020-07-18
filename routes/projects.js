@@ -77,6 +77,9 @@ router.route('/update/:id').post(adminAuth, upload.any('pics', 20), (req, res) =
     if(req.body.documentIDs){
       documentIDs = JSON.parse(req.body.documentIDs); 
     }
+    if(req.body.tags){
+      tags = JSON.parse(req.body.tags); 
+    }
     if(req.body.pics_url_links)
     pics_url_links=(req.body.pics_url_links).filter(Boolean);
     if (req.files != undefined) {
@@ -100,7 +103,8 @@ router.route('/update/:id').post(adminAuth, upload.any('pics', 20), (req, res) =
       club: req.body.club,
       degree: req.body.degree,
       snapshot_url: pics_url,
-      documentIDs:documentIDs
+      documentIDs:documentIDs,
+      keywords : tags
     }
   
     projectsModel.findByIdAndUpdate(id, change)
