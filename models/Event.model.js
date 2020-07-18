@@ -19,7 +19,8 @@ const eventSchema = new Schema({
     },
     participants : [String],
     categories : {type:String,required:true},       // workshop, competiotion, talk-show
-    speaker : {type:String}
+    speaker : {type:String},
+    documentIDs:{type:[[String]]}
 },{
     timestamps: true
 })
