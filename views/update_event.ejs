@@ -23,7 +23,7 @@
             </div>
             <div class="form-group">
                 <label for="event_date">Date and Time:</label>
-                <input type="datetime-local" name="event_date" id="event_date" value="<%= moment(event.date).format('YYYY-MM-DD HH:mm');%>" >
+                <input type="datetime-local" name="event_date" id="event_date" value="<%= moment(event.date).format('YYYY-MM-DDThh:mm');%>" required >
             </div>
             <div class="form-group">
                 <label for="event_venue">Venue:</label>

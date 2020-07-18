@@ -99,7 +99,10 @@ router.route('/update/:id').post(clubAuth, upload.single('poster'), (req, res) =
         }
     }
     eventsModel.findOne({_id: id},function(err,event){
-      if(err) return res.status(404).send(err)
+      if(err) {
+        req.flash("error",err.message)
+        return res.redirect('/events/view_all')
+      }
       var date = new Date(event.date);
       date.setDate(date.getDate() + 1);
       if ((new Date())<date){
@@ -107,8 +110,8 @@ router.route('/update/:id').post(clubAuth, upload.single('poster'), (req, res) =
           event[id]= ev[id];
         }
         event.save(function(err){
-          if(err) return res.status(404).send(ev)
-          return res.redirect("/events/view_all");
+          req.flash("error",err.message)
+          return res.redirect('/events/view_all')
         })
       }
       else{
