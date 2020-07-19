@@ -9,7 +9,12 @@ const clubSchema = new Schema({
         ref:'Club_Heads'
     },
     description:{type:String},
-    logo_url:{type:String}
+    logo_url:{type:String},
+    youtube:{type:String},
+    instagram:{type:String},
+    facebook:{type:String},
+    linkedin:{type:String},
+    github:{type:String},
 })
 
 const Club = mongoose.model('club',clubSchema)
