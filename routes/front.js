@@ -151,6 +151,15 @@ router.route('/blogs/:club_name').get(async (req,res)=>{
       res.json(error)
     }
 })
+router.route('/blogs/:id').get(clubAuth, (req,res)=>{
+  const id = req.params.id
+  blogModel.findById(id)
+  .then(blog=>{
+      res.json(blog)
+  }).catch(err=>{
+    res.json(err)
+  })
+})
 // returns a json with open upcoming challenges from hackerank topcoder and codeforces
 router.route('/challenges').get((req, res) => {
     request.get({
