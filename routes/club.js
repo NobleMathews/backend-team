@@ -65,15 +65,25 @@ router.route('/update/').post(clubAuth, upload.single('logo') ,async (req, res) 
       var change = {
         name: club_name,
         description: req.body.description,
+        github: req.body.github,
+        linkedin: req.body.linkedin,
+        instagram: req.body.instagram,
+        youtube: req.body.youtube,
+        facebook: req.body.facebook
       }
     } else {
       var change = {
         name: club_name,
         description: req.body.description,
-        logo_url: req.file.filename
+        logo_url: req.file.filename,
+        github: req.body.github,
+        linkedin: req.body.linkedin,
+        instagram: req.body.instagram,
+        youtube: req.body.youtube,
+        facebook: req.body.facebook
       }
     }
-  
+    
     var u_club_name = club_name.toUpperCase()
     var l_club_name = club_name.toLowerCase()
     // user_id: l_club_name,
