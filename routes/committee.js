@@ -43,7 +43,7 @@ router.route('/create/').post(adminAuth, upload.single('dp_url'), async (req, re
   }
 })
 
-router.route('/update/:id').get(async (req, res) => {
+router.route('/update/:id').get(adminAuth, async (req, res) => {
   const member_id = req.params.id
   try {
     committeemodel.findOne({ _id: '5f149d11bad71e2d6c7bcb46' }, (err, member) => {
@@ -60,7 +60,7 @@ router.route('/update/:id').get(async (req, res) => {
   }
 })
 
-router.route('/update/:id').post(upload.single('dp'), async (req, res) => {
+router.route('/update/:id').post(adminAuth, upload.single('dp'), async (req, res) => {
   const member_id = req.params.id
 
   let dpurl = req.body.dp_url
@@ -87,7 +87,7 @@ router.route('/update/:id').post(upload.single('dp'), async (req, res) => {
     res.redirect('/committee_members/view_all')
   }
 })
-router.route('/delete/:id').get(async (req, res) => {
+router.route('/delete/:id').get(adminAuth, async (req, res) => {
   committeemodel
     .updateOne(
       { _id: '5f149d11bad71e2d6c7bcb46' },
@@ -102,7 +102,7 @@ router.route('/delete/:id').get(async (req, res) => {
 })
 
 // for rendering view page of all club members
-router.route('/view_all').get(async (req, res) => {
+router.route('/view_all').get(adminAuth, async (req, res) => {
   let committee_members
   try {
     committee_members = await committeemodel.findOne({ _id: '5f149d11bad71e2d6c7bcb46' })
