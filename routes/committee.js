@@ -6,7 +6,7 @@ const adminAuth = require('../middleware/adminAuth')
 
 // for rendering the create club members page
 router.route('/create/').get(adminAuth, (req, res) => {
-  res.render('create_committee_member', { alerts: req.flash('error'), page_name: 'Committee_members' })
+  res.render('create_committee_member', { alerts: req.flash('error'), page_name: 'committee_members' })
 })
 
 router.route('/create/').post(adminAuth, upload.single('dp_url'), async (req, res) => {
@@ -52,7 +52,7 @@ router.route('/update/:id').get(adminAuth, async (req, res) => {
         return res.redirect('/committee_members/view_all')
       }
       member_details = member.members.find(o => { return o._id == member_id })
-      res.render('update_committee_member', { alerts: req.flash('error'), member: member_details, page_name: 'Committee_members' })
+      res.render('update_committee_member', { alerts: req.flash('error'), member: member_details, page_name: 'committee_members' })
     })
   } catch (err) {
     req.flash('error', err.message)
@@ -106,7 +106,7 @@ router.route('/view_all').get(adminAuth, async (req, res) => {
   let committee_members
   try {
     committee_members = await committeemodel.findOne({ _id: '5f149d11bad71e2d6c7bcb46' })
-    if (committee_members) { res.render('view_committee_members', { alerts: req.flash('error'), members: committee_members.members, page_name: 'Committee_members' }) } else { res.render('view_committee_members', { alerts: req.flash('error'), members: [], page_name: 'Committee_members' }) }
+    if (committee_members) { res.render('view_committee_members', { alerts: req.flash('error'), members: committee_members.members, page_name: 'committee_members' }) } else { res.render('view_committee_members', { alerts: req.flash('error'), members: [], page_name: 'committee_members' }) }
   } catch (error) {
     req.flash('error', err.message)
     res.redirect('/admin/login/')
