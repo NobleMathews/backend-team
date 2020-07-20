@@ -6,6 +6,7 @@ const projectsModel = require('../models/Project.model')
 const clubMemberModel = require('../models/ClubMember.model')
 const clubHeadsModel = require('../models/ClubHead.model')
 const eventsModel = require('../models/Event.model')
+const committeeModel = require('../models/Committee.model')
 const feed_url = `https://www.hackerrank.com/calendar/feed`;
 const _ = require('lodash');
 
@@ -203,6 +204,13 @@ router.route('/register/:id').post((req,res)=>{
   }).catch(err => {
       res.status(404).json(err);
   })
+})
+
+// route for front end to render committee members details
+router.route('/committee').get((req,res)=>{
+    committeeModel.find({},{_id:0,__v:0,createdAt:0,updatedAt:0})
+    .then(com=>res.json(com))
+    .catch(err=>res.json(err))
 })
 
 module.exports = router;
