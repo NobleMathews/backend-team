@@ -151,7 +151,7 @@ router.route('/blogs/:club_name').get(async (req,res)=>{
       res.json(error)
     }
 })
-router.route('/blogs/:id').get( (req,res)=>{
+router.route('/blogs/id/:id').get( (req,res)=>{
   const id = req.params.id
   blogModel.findById(id)
   .then(blog=>{
