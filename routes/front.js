@@ -110,7 +110,10 @@ router.route('/projects').get(async (req, res) => {
     let projects
     try {
       projects = await projectsModel.find(filters, { score: { $meta: 'textScore' } }).limit(30).sort({ score: { $meta: 'textScore' } })
-      res.json(projects)
+      var finalList = _.map(projects, function (b) {
+        if (b.published) return b
+      })
+      res.json(finalList)
     } catch (error) {
       res.json(error)
     }
