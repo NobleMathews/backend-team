@@ -1,4 +1,4 @@
 /node_modules
 package-lock.json
 .vscode
-passport-setup.js
+/middleware/passport-setup.js
