@@ -25,6 +25,12 @@
                     <p>
                     <a href="#" class="btn btn-primary btn-sm">edit</a>  |  <a href="#" class="btn btn-primary btn-sm">details</a>
                     </p>
+                    <% if(project.published) {%>
+                        <span class="badge badge-success">Published</span>
+                    <%}%>
+                    <% if(project.featured) {%>
+                        <span class="badge badge-warning">Featured</span>
+                    <%}%>
                 </div>
             </div>
         <% }) %>

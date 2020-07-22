@@ -50,6 +50,12 @@
             <label>Title</label>
             <input class="form-control" name="title" placeholder="Enter Title of Project" value="<%=project.title%>" required/>
         </div>
+        <div class="form-group">
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="featured" name="featured" <%= project.featured ? "checked" : "" %>>
+                <label class="custom-control-label" for="featured">Is Featured?</label>
+            </div>
+        </div>
             <div class="container">
                 <div class="row clearfix">
                     <div class="col-md-12 column">
@@ -138,6 +144,12 @@
                 <label>Upload snapshots</label>
                 <% imageh_name="snapshot_url[]" %>
                 <%-include('partials/multi_image_handler.ejs')%>
+                <div class="form-group">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="published" name="published" <%= project.published ? "checked" : "" %>>
+                        <label class="custom-control-label" for="published">Publish?</label>
+                    </div>
+                </div>
             </div>
         <button type="submit" class="btn btn-primary">Submit</button>
         <input style="display: none;" class="form-control" value='<%- JSON.stringify(project.documentIDs) %>' name='documentIDs'/>
@@ -145,7 +157,12 @@
     </form>
         </div>
     </div>
-    <script>		
+    <script>
+        $("input[name=featured]").change(function() {
+            var checked = $(this).prop('checked');
+            $("input[name=published]").prop("checked",checked);
+            $("input[name=published]").attr("disabled",checked);
+        });		
         $(document).ready(function(){
               var j=1;
              $("#add_row2").click(function(event){event.preventDefault();b=j-1;

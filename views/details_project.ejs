@@ -54,6 +54,12 @@
                       </div>
                     <a href="/projects/update/<%=project._id%>">edit</a>  |  <a href="/projects/delete/<%=project._id%>">delete</a>
                     </p>
+                    <% if(project.published) {%>
+                        <span class="badge badge-success">Published</span>
+                    <%}%>
+                    <% if(project.featured) {%>
+                        <span class="badge badge-warning">Featured</span>
+                    <%}%>
                 </div>
             </div>
         <% }) %>

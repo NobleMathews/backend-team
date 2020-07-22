@@ -71,11 +71,6 @@ router.route('/create/').post(adminAuth, upload.any('snapshot_url', 20),  (req, 
 // route for rendering pre-filled form to update project
 router.route('/update/:id').get(adminAuth, (req,res)=>{
     const proj_id = req.params.id
-    vfeatured=req.body.featured==="on"?true:false;
-    vpublished=req.body.published==="on"?true:false;
-    if(vfeatured==true){
-      vpublished=true
-    }
     projectsModel.findById(proj_id)
     .then(project=>{
       res.render('update_project', { alerts: req.flash('error'),project:project, page_name:"projects"})
@@ -85,6 +80,11 @@ router.route('/update/:id').get(adminAuth, (req,res)=>{
 // route to update project
 router.route('/update/:id').post(adminAuth, upload.any('pics', 20), (req, res) => {
     const id = req.params.id
+    vfeatured=req.body.featured==="on"?true:false;
+    vpublished=req.body.published==="on"?true:false;
+    if(vfeatured==true){
+      vpublished=true
+    }
     var documentIDs=[],pics_url_links=[],masterqueue=[],pics_url=[]
     if(req.body.documentIDs){
       documentIDs = JSON.parse(req.body.documentIDs); 
