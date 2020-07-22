@@ -38,6 +38,7 @@ app.use(bodyParser.json())
 app.set('view engine', 'ejs')
 app.set('useFindAndModify', false)
 app.use(flash())
+app.set('json spaces', 2)
 
 app.use('/admin', adminRouter)
 app.use('/club_head', clubHeadRouter)
