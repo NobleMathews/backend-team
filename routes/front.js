@@ -13,10 +13,10 @@ const _ = require('lodash');
 router.route('/home').get((req,res)=>{})
 
 // takes club_name case insensitive
-router.route('/club/:club').get((req,res)=>{
+router.route('/club/:club').get( async (req,res)=>{
     const club_name = req.params.club.toUpperCase()
-    clubModel.findOne({name:club_name})
-      .then(club => {
+    const club = await clubModel.findOne({name:club_name})
+    try{
         clubHeadsModel.findById(club.head,{tokens:0})
         .then(club_head=>{
           clubMemberModel.find({owner:club.head},{owner:0,_id:0,__v:0,createdAt:0,updatedAt:0})
@@ -24,8 +24,11 @@ router.route('/club/:club').get((req,res)=>{
             'Club name':club.name,
             'Club Description':club.description,
             'Club logo_url':club.logo_url,
-            'Club Object_ID':club._id,
-            'Club Head name':club_head.user_id,
+            'Club Youtube channel':club.youtube,
+            'Club Instagram page':club.instagram,
+            'Club Facebook page':club.facebook,
+            'Club Linkedin page':club.linkedin,
+            'Club Github page':club.github,
             'Club Head dp_url':club_head.dp_url,
             'Club Head bio':club_head.bio,
             'Club Head contact':club_head.contact,
@@ -38,9 +41,10 @@ router.route('/club/:club').get((req,res)=>{
       }).catch(err=>{
         res.json(err)
       })
-  }).catch(err=>{
-    res.json(err)
-  })
+    }catch(err){
+      res.json(err)
+    }
+  
 })  
 //route for front end to render gallery strings of club_head blog
 router.route('/gallery/:club_name').get((req,res)=>{
