@@ -8,10 +8,36 @@ const clubHeadsModel = require('../models/ClubHead.model')
 const eventsModel = require('../models/Event.model')
 const committeeModel = require('../models/Committee.model')
 const achievementModel = require('../models/Achievement.model')
+const newsModel = require('../models/News.model')
 const feed_url = 'https://www.hackerrank.com/calendar/feed'
 const _ = require('lodash')
 
-router.route('/home').get((req, res) => {})
+/* ---------------------------------- news ---------------------------------- */
+/* ---------------- Featured--- blog,  projects, achievement ---------------- */
+/* --------------- club - details (club-name, club-head info) --------------- */
+router.route('/home').get((req, res) => {
+  const homedata = async function(){
+    let [news,f_blogs,f_projects,club_details,club_head_details] = await Promise.all([
+      newsModel.find().exec(),
+      blogModel.find({featured:true}).exec(),
+      projectsModel.find({featured:true}).exec(),
+      clubModel.find({}).exec(),
+      clubHeadsModel.find({club_head:true}).select({_id:1,name:1,dp_url:1}).exec()    
+    ]);
+    var merged = _.merge(_.keyBy(club_details, 'head'), _.keyBy(club_head_details, '_id'));
+    var clubs = _.values(merged);
+    return {
+      news:news,
+      f_blogs:f_blogs,
+      f_projects:f_projects,
+      clubs:clubs
+    }
+  }
+  homedata()
+  .then(data=>{res.json(data)})
+  .catch(e => {console.log(e)})
+
+})
 
 // takes club_name case insensitive
 router.route('/club/:club').get( async (req,res)=>{
