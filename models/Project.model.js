@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const projectSchema = new Schema({
     title : {type:String,required:true},
     featured : {type:Boolean,required:true},
+    published : {type:Boolean,required:true},
     team_members : [String],
     description : {type:String},
     branch : {type:String},
