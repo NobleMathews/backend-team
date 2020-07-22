@@ -42,11 +42,11 @@
             height:auto !important;  /* for IE as it does not support min-height */
         }
     </style>
-    <%-include('partials/navbar_clubhead.ejs')%> <br><br>
+
     <h3 style="text-align: center; text-decoration: underline; padding-top: 30px;">Write Blogs!</h3>
     <div class="container" style="padding-top:30px;">
         <div class="col-md-5 m-auto">
-        <form action="/blog/public/create" method="POST" enctype="multipart/form-data">
+        <form action="/blog/public/post" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="category">Category :</label>
                 <select name="category" id="category" required>
