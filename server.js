@@ -5,6 +5,7 @@ const session = require('express-session')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
 const connection = require('./db/mongoose')
+const passport = require('passport')
 var flash = require('connect-flash')
 // const methodOverride = require('method-override')
 
@@ -29,6 +30,8 @@ const port = process.env.PORT || 5000
 app.use(session({ secret: 'test', saveUninitialized: true, resave: true }))
 app.use(cors())
 app.use(cookieParser())
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
@@ -69,3 +72,12 @@ app.get('/', (req, res) => {
 app.get('/admin/', (req, res) => {
   res.render('adminLogin', { alerts: req.flash('error') })
 })
+
+app.get('/failed', (req, res) => {
+  res.send('You failed to login')
+})
+
+app.get('/success', (req, res) => {
+  res.send('You logged in successfully')
+})
+

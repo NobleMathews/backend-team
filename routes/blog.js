@@ -7,6 +7,10 @@ const path = require('path')
 const _ = require('lodash');
 const MonkeyLearn = require('monkeylearn')
 const ml = new MonkeyLearn('8b8701a6b32bfe7d6f749095ee6d31123b267daf')
+const passport = require('passport')
+const SuperAdmin = require('../models/SuperAdmin.model')
+require('../middleware/passport-setup')
+
 let model_id = 'ex_YCya9nrn'
 
 //  for rendering blog creation page
@@ -318,6 +322,26 @@ router.route('/delete/:id').get(clubAuth, (req,res)=>{
     req.flash("error",err.message)
     res.redirect('/blog/view_all')
   })
+})
+
+// router.route('/google').get(passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+router.route('/view_pub').get(passport.authenticate('google', { scope: ['profile', 'email'] }, { failureRedirect: '/blog/failed' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/blog/public/create');
+});
+
+router.route('/public/create').get((req,res) => {
+  res.render('pub_create_blog', { alerts: req.flash('error'),id:req.params.id, page_name:'blogs'})
+})
+
+router.route('/public/post').post(async (req,res) => {
+  res.send("Thanks for submitting!!!");
+})
+
+router.route('/failed').get((req,res) => {
+  res.json({err: 'You should login with IITTP email'})
 })
 
 module.exports = router
