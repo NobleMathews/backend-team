@@ -17,7 +17,7 @@
                 <form method="POST" enctype="multipart/form-data" action="/club_head/profile/update">
                     <div class="form-group">
                         <img src="/images/<%=user.dp_url%>" id="preview" class="rounded" alt=" No File Selected " height="100px" style="margin-bottom: .5rem;">
-                        <input type="file" name="profpic" id="profpic" accept='image/*' style="display:none;"/>
+                        <input type="file" name="profpic" id="profpic" accept='image/*' style="display:none;">
                         <label for="profpic" class="btn btn-secondary" style="height: 100px; max-width: 100px; padding-top:25px; ">Upload Profile Pic</label>
                     </div>
                     <div class="form-group">
@@ -33,8 +33,8 @@
                         <label for="email">Describe yourself</label>
                         <input placeholder="NULL" value="<%=user.bio%>" type="text" class="form-control" id="email" name="bio" >
                     </div>
-                    <input name="dp_url" value="<%=user.dp_url%>" style="display: none;"/>
-                    <input value="<%= user.id %>" name="id" style="display: none;"/>
+                    <input name="dp_url" value="<%=user.dp_url%>" style="display: none;">
+                    <input value="<%= user.id %>" name="id" style="display: none;">
                     <button type="submit" class="btn btn-primary">SUBMIT</button>
                 </form>
             </div>

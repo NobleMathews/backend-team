@@ -8,7 +8,7 @@ const clubSchema = new Schema({
         required:true,
         ref:'Club_Heads'
     },
-    description:{type:String},
+    description:{type:String,required:true},
     logo_url:{type:String},
     youtube:{type:String},
     instagram:{type:String},

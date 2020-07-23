@@ -8,7 +8,7 @@ const techTeamSchema = new Schema({
     dp_url : {type:String},
     email_id : {type:String},
     ref_link : {type:String},
-    description : {type:String},
+    description : {type:String, required: true},
     team_poster_url : {type:String},
     documentIDs:{type:[[String]]}
 },{

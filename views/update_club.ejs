@@ -57,7 +57,7 @@
         </div>
         <div class="form-group">
             <img src="/images/<%=club.logo_url%>" id="preview" class="rounded" alt=" No File Selected " height="100px" style="margin-bottom: .5rem;">
-            <input type="file" name="logo" id="logo" accept='image/*' style="display:none;"/>
+            <input type="file" name="logo" id="logo" accept='image/*' style="display:none;">
             <label for="logo" class="btn btn-secondary" style="height: 100px; max-width: 100px; padding-top:25px; ">Upload Logo</label>
         </div>
         <input type="submit" class="btn btn-primary" value="Update">
@@ -80,7 +80,11 @@
         });
     </script>
     <script>
-    CKEDITOR.replace('description');
+            var editor = CKEDITOR.replace('description');
+        editor.on( 'required', function( evt ) {
+                editor.showNotification( 'This field is required.', 'warning' );
+                evt.cancel();
+        });;
     </script>
   <%- include('partials/bottom_spacing.ejs') %>
 </body>

@@ -46,7 +46,7 @@
                                     <tr>
                                     <td>
                                         <img src="/images/<%= url %>" alt="image" width="100px" height="100px">
-                                        <input style="display: none;" class="form-control" value="<%=url%>" name='pics_url_links[]'/>
+                                        <input style="display: none;" class="form-control" value="<%=url%>" name='pics_url_links[]'>
                                     </td>
                                         <td><button class="updaterow">Remove</button></td>
                                     </tr>
@@ -61,16 +61,20 @@
                 <%-include('partials/multi_image_handler.ejs')%>
             </div>
             <div class="form-group">
-                <input type="submit" class="btn btn-info" value="UPDATE"/>
+                <input type="submit" class="btn btn-info" value="UPDATE">
             </div> 
-            <input style="display: none;" class="form-control" value='<%- JSON.stringify(ach.documentIDs) %>' name='documentIDs'/>
-            <input style="display: none;" class="form-control" value='<%- JSON.stringify(ach.keywords) %>' name='tags'/>
+            <input style="display: none;" class="form-control" value='<%- JSON.stringify(ach.documentIDs) %>' name='documentIDs'>
+            <input style="display: none;" class="form-control" value='<%- JSON.stringify(ach.keywords) %>' name='tags'>
         </form>
         </div>
         </div>
     </div>
     <script>
-        CKEDITOR.replace('des');
+                var editor = CKEDITOR.replace('des');
+        editor.on( 'required', function( evt ) {
+                editor.showNotification( 'This field is required.', 'warning' );
+                evt.cancel();
+        });
         $(document).ready(function(){
         $(".updaterow").click(function(event){event.preventDefault();
                 $(event.target).parent().parent().remove();

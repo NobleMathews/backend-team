@@ -51,7 +51,7 @@
     <form enctype="multipart/form-data" method="POST" action="/projects/create">
         <div class="form-group">
             <label>Title</label>
-            <input class="form-control" name="title" placeholder="Enter Title of Project" required/>
+            <input class="form-control" name="title" placeholder="Enter Title of Project" required>
         </div>
         <div class="form-group">
             <div class="custom-control custom-checkbox">
@@ -77,7 +77,7 @@
                                 <tr id='addr0'>
                                     <td>1</td>
                                     <td>
-                                    <input type="text" name='team_member[]'  placeholder='Enter Team Members Name' class="form-control"/>
+                                    <input type="text" name='team_member[]'  placeholder='Enter Team Members Name' class="form-control">
                                     </td>
                                 </tr>
                                 <tr id='addr1'></tr>
@@ -94,11 +94,11 @@
 
             <div class="form-group">
             <label>Branch</label>
-            <input class="form-control" name="branch" placeholder="Enter Branch"/>
+            <input class="form-control" name="branch" placeholder="Enter Branch">
             </div>
             <div class="form-group">
                 <label>Club</label>
-                <input class="form-control" name="club" placeholder="Enter Club"/>
+                <input class="form-control" name="club" placeholder="Enter Club">
             </div>
             <div class="form-group">
                 <label for="degree">Degree :</label>
@@ -111,8 +111,8 @@
                 <option value="Phd">Phd</option>
                 </select>
             </div>
-            <input style="display: none;" name="id" value="<%=id%>"/>
-            <!-- <input style="display: none;" id="ignore" name="ignore" value=""/> -->
+            <input style="display: none;" name="id" value="<%=id%>">
+            <!-- <input style="display: none;" id="ignore" name="ignore" value=""> -->
             <div class="field">
                 <label>Upload snapshots</label>
                 <% imageh_name="snapshot_url[]" %>
@@ -167,7 +167,11 @@
 
     });
 
-    CKEDITOR.replace('description');
+            var editor = CKEDITOR.replace('description');
+        editor.on( 'required', function( evt ) {
+                editor.showNotification( 'This field is required.', 'warning' );
+                evt.cancel();
+        });;
     </script>
   <%- include('partials/bottom_spacing.ejs') %>
 </body>

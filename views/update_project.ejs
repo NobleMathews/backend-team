@@ -48,7 +48,7 @@
         <form enctype="multipart/form-data" method="POST">
         <div class="form-group">
             <label>Title</label>
-            <input class="form-control" name="title" placeholder="Enter Title of Project" value="<%=project.title%>" required/>
+            <input class="form-control" name="title" placeholder="Enter Title of Project" value="<%=project.title%>" required>
         </div>
         <div class="form-group">
             <div class="custom-control custom-checkbox">
@@ -77,7 +77,7 @@
                                 <tr id='addr<%=i%>'>
                                     <td><%=i+1%></td>
                                     <td>
-                                    <input type="text" name='team_member[]'  placeholder='Enter Team Members Name' class="form-control" value="<%=project.team_members[i]||''%>"/>
+                                    <input type="text" name='team_member[]'  placeholder='Enter Team Members Name' class="form-control" value="<%=project.team_members[i]||''%>">
                                     </td>
                                 </tr>
                                 <%  }  %>
@@ -95,11 +95,11 @@
 
             <div class="form-group">
             <label>Branch</label>
-            <input class="form-control" name="branch" value="<%=project.branch%>" placeholder="Enter Branch"/>
+            <input class="form-control" name="branch" value="<%=project.branch%>" placeholder="Enter Branch">
             </div>
             <div class="form-group">
                 <label>Club</label>
-                <input class="form-control" name="club" value="<%=project.club%>" placeholder="Enter Club"/>
+                <input class="form-control" name="club" value="<%=project.club%>" placeholder="Enter Club">
             </div>
             <div class="form-group">
                 <label for="degree">Degree :</label>
@@ -112,8 +112,8 @@
                 <option value="Phd">Phd</option>
                 </select>
             </div>
-            <input style="display: none;" name="id" value="<%=project.degree%>"/>
-            <!-- <input style="display: none;" id="ignore" name="ignore" value=""/> -->
+            <input style="display: none;" name="id" value="<%=project.degree%>">
+            <!-- <input style="display: none;" id="ignore" name="ignore" value=""> -->
             <div class="field">
                 <div class="container">
                     <div class="row clearfix">
@@ -131,7 +131,7 @@
                                     <tr>
                                     <td>
                                         <img src="/images/<%= url %>" alt="image" width="100px" height="100px">
-                                        <input style="display: none;" class="form-control" value="<%=url%>" name='pics_url_links[]'/>
+                                        <input style="display: none;" class="form-control" value="<%=url%>" name='pics_url_links[]'>
                                     </td>
                                         <td><button class="updaterow">Remove</button></td>
                                     </tr>
@@ -152,8 +152,8 @@
                 </div>
             </div>
         <button type="submit" class="btn btn-primary">Submit</button>
-        <input style="display: none;" class="form-control" value='<%- JSON.stringify(project.documentIDs) %>' name='documentIDs'/>
-        <input style="display: none;" class="form-control" value='<%- JSON.stringify(project.keywords) %>' name='tags'/>
+        <input style="display: none;" class="form-control" value='<%- JSON.stringify(project.documentIDs) %>' name='documentIDs'>
+        <input style="display: none;" class="form-control" value='<%- JSON.stringify(project.keywords) %>' name='tags'>
     </form>
         </div>
     </div>
@@ -196,7 +196,11 @@
 		 }
 	 });
     });
-    CKEDITOR.replace('description');
+            var editor = CKEDITOR.replace('description');
+        editor.on( 'required', function( evt ) {
+                editor.showNotification( 'This field is required.', 'warning' );
+                evt.cancel();
+        });;
     $(document).ready(function(){
         $(".updaterow").click(function(event){event.preventDefault();
                 $(event.target).parent().parent().remove();

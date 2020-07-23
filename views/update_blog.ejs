@@ -42,7 +42,7 @@
         <div class="Talk-show optional">
             <div class="form-group">
                 <label>Chief Guest</label>
-                <input class="form-control" name="chief_guest" value="<%=summary.chief_guest||'NULL'%>"></input>
+                <input class="form-control" name="chief_guest" value="<%=summary.chief_guest||'NULL'%>">>
                 </div>
             <div class="form-group">
                 <input type="file" accept='image/*' name="chief_guest_url" class="form-control-file">
@@ -87,12 +87,12 @@
                                         <td><%=i+1%></td>
                                         <% if(!summary.file_attachment[i]){ %>
                                     <td>
-                                        <input type="file" name='file_attachment[]'  placeholder='Links to docs/files' class="form-control"/>
+                                        <input type="file" name='file_attachment[]'  placeholder='Links to docs/files' class="form-control">
                                     </td>
                                         <%  }else{  %>
                                     <td>
                                         <a  href="/files/<%=summary.file_attachment[i] %>" target="_blank"><%= summary.file_attachment[i] %>    
-                                        <input style="display: none;" class="form-control" value="<%= summary.file_attachment[i] %>" name='file_attachment_links[]'/>
+                                        <input style="display: none;" class="form-control" value="<%= summary.file_attachment[i] %>" name='file_attachment_links[]'>
                                         </a>
                                     </td>
                                         <td><button class="updaterow">Update</button></td>
@@ -128,7 +128,7 @@
                                     <tr id='addr2<%=j%>'>
                                         <td><%=j+1%></td>
                                         <td>
-                                        <input type="text" name='outside_links[]'  placeholder='Provide links to google docs/ uploads' class="form-control" value="<%=summary.outside_links[j]||''%>"/>
+                                        <input type="text" name='outside_links[]'  placeholder='Provide links to google docs/ uploads' class="form-control" value="<%=summary.outside_links[j]||''%>">
                                         </td>
                                     </tr>
                                     <%  }  %>
@@ -161,7 +161,7 @@
                                     <tr id='addr3<%=k%>'>
                                         <td><%=k+1%></td>
                                         <td>
-                                        <input type="text" name='video_links[]' placeholder='Provide links to videos if any..' class="form-control" value="<%=summary.video_links[k]||''%>"/>
+                                        <input type="text" name='video_links[]' placeholder='Provide links to videos if any..' class="form-control" value="<%=summary.video_links[k]||''%>">
                                         </td>
                                     </tr>
                                 <%  }  %>                                
@@ -190,7 +190,7 @@
                                     <tr>
                                     <td>
                                         <img src="/images/<%= url %>" alt="image" width="100px" height="100px">
-                                        <input style="display: none;" class="form-control" value="<%=url%>" name='pics_url_links[]'/>
+                                        <input style="display: none;" class="form-control" value="<%=url%>" name='pics_url_links[]'>
                                     </td>
                                         <td><button class="updaterow2">Remove</button></td>
                                     </tr>
@@ -211,8 +211,8 @@
                 </div>
             </div>
             <button type="submit" class="btn btn-primary" style="margin-bottom: 5px;">Update Blog</button>
-            <input style="display: none;" class="form-control" value='<%- JSON.stringify(summary.documentIDs) %>' name='documentIDs'/>
-            <input style="display: none;" class="form-control" value='<%- JSON.stringify(summary.keywords) %>' name='tags'/>
+            <input style="display: none;" class="form-control" value='<%- JSON.stringify(summary.documentIDs) %>' name='documentIDs'>
+            <input style="display: none;" class="form-control" value='<%- JSON.stringify(summary.keywords) %>' name='tags'>
         </form>
         </div>
     </div>
@@ -223,7 +223,11 @@
             $("input[name=published]").prop("checked",checked);
             $("input[name=published]").attr("disabled",checked);
         });
-        CKEDITOR.replace('summary');
+                var editor = CKEDITOR.replace('summary');
+        editor.on( 'required', function( evt ) {
+                editor.showNotification( 'This field is required.', 'warning' );
+                evt.cancel();
+        });
         $(document).ready(function(){
             var initchecked = $("input[name=featured]").prop('checked');
             $("input[name=published]").prop("checked",initchecked);
@@ -242,7 +246,7 @@
             var i=1;
             i=$("#tab_logic tr").length-2;
             $("#add_row").click(function(event){event.preventDefault();b=i-1;
-            $('#addr'+i).html('<td></td><td><input type="file" name="file_attachment[]" placeholder="Links to docs/files" class="form-control"/></td>').find('td:first-child').html(i+1);
+            $('#addr'+i).html('<td></td><td><input type="file" name="file_attachment[]" placeholder="Links to docs/files" class="form-control"></td>').find('td:first-child').html(i+1);
             $('#tab_logic').append('<tr id="addr'+(i+1)+'"></tr>');
             i++; 
             });
@@ -253,7 +257,7 @@
                 }
             });
             $(".updaterow").click(function(event){event.preventDefault();
-                $(event.target).parent().parent().find('td:nth-child(2)').html('<input type="file" name="file_attachment[]"  placeholder="Links to docs/files" class="form-control"/>');
+                $(event.target).parent().parent().find('td:nth-child(2)').html('<input type="file" name="file_attachment[]"  placeholder="Links to docs/files" class="form-control">');
                 $(event.target).parent().parent().find('td:nth-child(3)').remove();
             });
             $(".updaterow2").click(function(event){event.preventDefault();

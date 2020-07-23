@@ -6,7 +6,7 @@ const projectSchema = new Schema({
     featured : {type:Boolean,required:true},
     published : {type:Boolean,required:true},
     team_members : [String],
-    description : {type:String},
+    description : {type:String,required:true},
     branch : {type:String},
     club : {type:String},
     degree : {type:String},
