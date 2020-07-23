@@ -9,12 +9,16 @@
 <body>    
   <%-include('partials/alert_system.ejs')%>
     <form method="GET" style="position: fixed; left: 0; top:0; padding: 10px;" action="/" >
-                 <button type="submit" class='btn btn-outline-danger btn-sm'>RETURN</button> 
-            </form>
+        <button type="submit" class='btn btn-outline-danger btn-sm'>RETURN</button> 
+    </form>
+    <form method="GET" style="position: fixed; right: 0; top:0; padding: 10px;" action="#" >
+        <button type="submit" class='btn btn-outline-success pull-right'>Toggle Login method</button> 
+    </form>
     <div class="container" style="margin-top: 20vh;" >
         <div class="row">
             <div class="col-md-6 m-auto">
                 <form method="POST" action="/admin/login" >
+                    <h3 style="color: red; text-align: center;">Admin Login</h3>
                     <div class="form-group">
                         <label for="username">User Name</label>
                         <input type="text" class="form-control" id="username" name="user_id" onkeypress="return noSpace(event)" required>
