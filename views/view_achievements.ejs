@@ -16,11 +16,16 @@
     <div class="card-group" style="align-content: center;">
         <% achievements.forEach((achievement) => { %>
             <div class="card" style="width: 18rem;">
+                <div class="row">
+
                 <% if (achievement.pics_url && achievement.pics_url.length) { %>
                     <% (achievement.pics_url).forEach((pic) => { %>
-                    <img  src="/images/<%=pic%>" alt="img" height="100px" width="100px" >
+                        <div class="col-md-2">
+                        <img  src="/images/<%=pic%>" alt="img" height="100px" width="100px" class="img-fluid">
+                        </div>
                   <% }) %>
                   <% }%>
+                </div>
                 <div class="card-body">
                     <h5 class="card-title"><%= achievement.title %></h5>
                     <h6 class="card-subtitle mb-2 text-muted"><%= achievement.caption %></h6>
