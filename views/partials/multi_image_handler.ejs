@@ -33,7 +33,7 @@
 </style>
 <% if(!imageh_name) imageh_name="snapshot_url[]" %>
 
-<input type="file" id="partial_snapshot_url" name="<%= imageh_name %>" accept='image/*' multiple >
+<input type="file" id="partial_snapshot_url" name="<%= imageh_name %>" onchange="imageCompressor(event);" accept='image/*' multiple >
 <div id="partial_snapholder">
 
 </div>
