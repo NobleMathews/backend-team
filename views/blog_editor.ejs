@@ -3,26 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login</title>
+    <title>Login</title>
     <%-include('partials/dependencies.ejs')%>    
 </head>
 <body>    
-  <%-include('partials/alert_system.ejs')%>
-    <form method="GET" style="position: fixed; left: 0; top:0; padding: 10px;" action="/" >
-        <button type="submit" class='btn btn-outline-danger btn-sm'>RETURN</button> 
+  <%-include('partials/alert_system.ejs')%>    
+    <form method="GET" style="position: fixed; right: 0; top:0; padding: 10px;" action="/" >
+    <button type="submit" class='btn btn-outline-success pull-right'>Login as Club Head</button> 
     </form>
-    <form method="GET" style="position: fixed; right: 0; top:0; padding: 10px;" action="#" >
-        <button type="submit" class='btn btn-outline-success pull-right'>Login as Blog Editor</button> 
-    </form>
+
     <div class="container" style="margin-top: 20vh;" >
         <div class="row">
             <div class="col-md-6 m-auto">
-                <form method="POST" action="/admin/login" >
-                    <h3 style="color: red; text-align: center;">Admin Login</h3>
+                <form method="POST" action="#" >
+                    <h3 style="color: green; text-align: center;">Blog Editor Login</h3>
                     <div class="form-group">
                         <label for="username">User Name</label>
                         <input type="text" class="form-control" id="username" name="user_id" onkeypress="return noSpace(event)" required>
-                        <small id="userHelp" class="form-text text-muted">Only Admins beyond this point &gt;.&lt;</small>
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
@@ -34,11 +31,11 @@
         </div>
     </div>
     <script>
-        //client side rejection of whitespace
-        function noSpace(event) {
-            var key = event ? event.which : window.event.keyCode;
-            if (key == 32) return false;
-        }
+    //client side rejection of whitespace
+    function noSpace(event) {
+        var key = event ? event.which : window.event.keyCode;
+        if (key == 32) return false;
+    }
     </script>
 </body>
 </html>

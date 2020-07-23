@@ -19,7 +19,8 @@
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">Project Name</th>
-                    <th scope="col">Tags</th>
+                    <th scope="col">Creator</th>
+                    <th scope="col">Status</th>
                     <th scope="col">Club</th>
                     <th scope="col">Branch</th>
                     <th scope="col">Members</th>
@@ -30,6 +31,7 @@
                 <% projects.forEach((project) => { %>
                     <tr>
                         <th scope="row"><%= project.title %></th>
+                        <td><%= project.creator %></td>
                         <td><% if(project.published) {%>
                             <span class="badge badge-success">Published</span>
                         <%}%>

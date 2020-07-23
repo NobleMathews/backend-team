@@ -58,7 +58,8 @@ router.route('/create/').post(adminAuth, upload.any('snapshot_url', 20),  (req, 
       featured : vfeatured,
       published : vpublished,
       documentIDs:documentIDs,
-      keywords : tags
+      keywords : tags,
+      creator : "Admin",
     })
   
     project.save((err) => {
@@ -247,7 +248,8 @@ router.route('/public/post').post(upload.any('snapshot_url', 20), (req,res) => {
       featured : vfeatured,
       published : vpublished,
       documentIDs:documentIDs,
-      keywords : tags
+      keywords : tags,
+      creator : "Public",
     })
   
     project.save((err) => {
