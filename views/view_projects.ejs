@@ -9,31 +9,39 @@
 <body>    
   <%-include('partials/alert_system.ejs')%>
     <%- include('partials/navbar_admin') %>
-    <div class="container">
     <% if (projects && projects.length) { %>
     <h2 style="color: blue; text-decoration: underline; text-align: center;"> List of All Projects </h2>
-    <!-- Template for each project-->
-    <div class="card-group" style="align-content: center;">
-        <% projects.forEach((project) => { %>
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title"><%= project.title %></h5>
-                    <h6 class="card-subtitle mb-2 text-muted"><%= project.branch %></h6>
-                    <p class="card-text">
-                        <%= project.team_members %>
-                    </p>
-                    <p>
-                    <a href="#" class="btn btn-primary btn-sm">edit</a>  |  <a href="#" class="btn btn-primary btn-sm">details</a>
-                    </p>
-                    <% if(project.published) {%>
-                        <span class="badge badge-success">Published</span>
-                    <%}%>
-                    <% if(project.featured) {%>
-                        <span class="badge badge-warning">Featured</span>
-                    <%}%>
-                </div>
-            </div>
-        <% }) %>
+    <a class="btn btn-warning" href="/projects/create" style="margin-left: 20px;" role="button">Add Project</a>
+    <div class="container">
+    <div>
+        <!-- template for each project -->
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Project Name</th>
+                    <th scope="col">Club</th>
+                    <th scope="col">Branch</th>
+                    <th scope="col">Members</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% projects.forEach((project) => { %>
+                    <tr>
+                        <th scope="row"><%= project.title %></th>
+                        <td><%= project.club %></td>
+                        <td><%= project.branch %></td>
+                        <td><% if (project.team_members && project.team_members.length) { %>
+
+                            <% (project.team_members).forEach((person) => { %>
+                                <p><%=person%></p>
+                            <% }) %>
+                            <% } %></td>
+                        <td><a href="/projects/details/<%=project._id%>">details</a> | <a href="/projects/update/<%=project._id%>">edit</a>  |  <a href="/projects/delete/<%=project._id%>">delete</a></td>
+                    </tr>
+                <%})%>   
+            </tbody>
+        </table>
     </div>
     <% }else{ %>
         <div class="container">

@@ -10,12 +10,7 @@
   <%-include('partials/alert_system.ejs')%>
     <%- include('partials/navbar_admin') %>
     <div class="container">
-    <% if (projects) { %>
-    <h2 style="color: blue; text-decoration: underline;"> List of All projects </h2>
-    <!-- Template for each project-->
-    <div class="card-group">
-        <% projects.forEach((project) => { %>
-            <div class="card" style="width: 18rem;">
+            <div class="card" style="margin-top: 2%;">
                 <div class="card-body">
                     <h5 class="card-title"><%= project.title %></h5>
                     </br>
@@ -62,16 +57,6 @@
                     <%}%>
                 </div>
             </div>
-        <% }) %>
-    </div>
-    <% }else{ %>
-        <div class="container">
-            <h1 class="display-1">No projects created yet</h1>
-        </div>
-    <% }%>
-    </div>
-    <div style="text-align: center; margin: 20px; vertical-align: middle;">
-        <a href="/projects/create"><span class="material-icons" style="  vertical-align: middle !important; padding-bottom: 3px;">add</span>Add Project</a>
     </div>
 <%- include('partials/bottom_spacing.ejs') %>
 </body>

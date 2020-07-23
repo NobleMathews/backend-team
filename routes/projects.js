@@ -182,13 +182,22 @@ router.route('/view_all').get(adminAuth, (req, res) => {
     const admin = req.admin
     projectsModel.find()
       .then(project => {
-        res.render('details_project', { alerts: req.flash('error'), projects: project,_id:admin._id, page_name:"projects"}) //, _id: sess._id
+        res.render('view_projects', { alerts: req.flash('error'), projects: project,_id:admin._id, page_name:"projects"}) //, _id: sess._id
       }).catch(err => {
         req.flash("error",err.message)
         res.redirect('/admin/profile')      })
 })
 
-
+router.route('/details/:id').get(adminAuth, (req,res)=>{
+  const admin = req.admin
+  projectsModel.findById(req.params.id)
+  .then(project=>{
+    res.render('details_project',{alerts: req.flash('error'),project:project,_id:admin._id, page_name:"projects"})
+  }).catch(err=>{
+    req.flash("error",err.message)
+    res.redirect('/admin/profile')
+  })
+})
 
 
 module.exports = router
