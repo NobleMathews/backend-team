@@ -32,27 +32,33 @@
     <div class="container">
     <% if (blogs && blogs.length) { %>
     <h2 style="color: blue; text-decoration: underline;"> List of All Blogs </h2>
-    <!-- Template for each blog-->
-    <div class="row row-cols-1 row-cols-md-3">
-        <% blogs.forEach((blog) => { %>
-            <div class="card h-100">
-                <div class="card-body">
-                    <h5 class="card-title"><%=blog.title%></h5>
-                    <p class="card-text">
-                        <%=blog.category%>
-                    </p>
-                    <p>
-                        <a href="/blog/details/<%=blog._id%>">details</a> | <a href="/blog/update/<%=blog._id%>">edit</a> | <a href="/blog/delete/<%=blog._id%>">delete</a>
-                    </p>
-                    <% if(blog.published) {%>
-                        <span class="badge badge-success">Published</span>
-                    <%}%>
-                    <% if(blog.featured) {%>
-                        <span class="badge badge-warning">Featured</span>
-                    <%}%>
-                </div>
-            </div>
-        <% }) %>
+    <div>
+        <!-- template for each club -->
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Title</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Tags</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% blogs.forEach((blog) => { %>
+                    <tr>
+                        <th scope="row"><%=blog.title%></th>
+                        <td><%=blog.category%></td>
+                        <td><% if(blog.published) {%>
+                            <span class="badge badge-success">Published</span>
+                        <%}%>
+                        <% if(blog.featured) {%>
+                            <span class="badge badge-warning">Featured</span>
+                        <%}%></td>
+                        <td><a href="/blog/details/<%=blog._id%>">details</a> | <a href="/blog/update/<%=blog._id%>">edit</a> | <a href="/blog/delete/<%=blog._id%>">delete</a></td>
+                    </tr>
+                <%})%>   
+            </tbody>
+        </table>
     </div>
     <% }else{ %>
         <div class="container">
