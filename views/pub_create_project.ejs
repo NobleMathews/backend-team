@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Project</title>
+      <%-include('partials/dependencies.ejs')%>    
+</head>
+  <body>    
+  <%-include('partials/alert_system.ejs')%>
+    <style>
+        input[type="file"] {
+        display: block;
+        }
+        .imageThumb {
+        height: 100px;
+        width: 100px;
+        border: 2px solid;
+        padding: 1px;
+        cursor: pointer;
+        }
+        .pip {
+        display: inline-block;
+        margin: 10px;
+        }
+        .remove {
+        display: block;
+        background: #444;
+        border: 1px solid black;
+        color: white;
+        text-align: center;
+        cursor: pointer;
+        }
+        .remove:hover {
+        background: white;
+        color: black;
+        }
+        #snapholder{
+            height:auto;
+            min-height:50px;
+            height:auto !important;  /* for IE as it does not support min-height */
+        }
+    </style>
+    <h3 style="text-align: center; text-decoration: underline; padding-top: 30px;">Add New Project</h3>
+
+    <div class="container" style="padding-top:30px;">
+        <div class="col-md-5 m-auto">
+<!-- enctype='text/json' -->
+    <form enctype="multipart/form-data" method="POST" action="/projects/public/post">
+        <div class="form-group">
+            <label>Title</label>
+            <input class="form-control" name="title" placeholder="Enter Title of Project" required>
+        </div>
+        <!-- <div class="form-group">
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="featured" name="featured">
+                <label class="custom-control-label" for="featured">Is Featured?</label>
+            </div>
+        </div> -->
+            <div class="container">
+                <div class="row clearfix">
+                    <div class="col-md-12 column">
+                        <table class="table table-bordered table-hover" id="tab_logic">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">
+                                        #
+                                    </th>
+                                    <th class="text-center">
+                                        Name
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr id='addr0'>
+                                    <td>1</td>
+                                    <td>
+                                    <input type="text" name='team_member[]'  placeholder='Enter Team Members Name' class="form-control">
+                                    </td>
+                                </tr>
+                                <tr id='addr1'></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <button type="button" id="add_row" class="btn btn-default pull-left">Add Row</button><button id='delete_row' class="pull-right btn btn-default">Delete Row</button>
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <textarea class="form-control" rows="3"  name="description" placeholder="Describe the project"></textarea>
+            </div>
+
+            <div class="form-group">
+            <label>Branch</label>
+            <input class="form-control" name="branch" placeholder="Enter Branch">
+            </div>
+            <div class="form-group">
+                <label>Club</label>
+                <input class="form-control" name="club" placeholder="Enter Club">
+            </div>
+            <div class="form-group">
+                <label for="degree">Degree :</label>
+                <option value="none" selected disabled hidden> 
+                    Select Degree 
+                </option> 
+                <select name="degree" id="degree" >
+                <option value="Btech">Btech</option>
+                <option value="Mtech">Mtech</option>
+                <option value="Phd">Phd</option>
+                </select>
+            </div>
+            <input style="display: none;" name="id" value="<%=id%>">
+            <!-- <input style="display: none;" id="ignore" name="ignore" value=""> -->
+            <div class="field">
+                <label>Upload snapshots</label>
+                <% imageh_name="snapshot_url[]" %>
+                <%-include('partials/multi_image_handler.ejs')%>
+            </div>
+            <!-- <div class="form-group">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="published" name="published">
+                    <label class="custom-control-label" for="published">Publish?</label>
+                </div>
+            </div> -->
+        <button type="submit" class="btn btn-primary">Submit</button>
+
+    </form>
+        </div>
+    </div>
+    <script>
+        // $("input[name=featured]").change(function() {
+        //     var checked = $(this).prop('checked');
+        //     $("input[name=published]").prop("checked",checked);
+        //     $("input[name=published]").attr("disabled",checked);
+        // });
+		
+        $(document).ready(function(){
+              var j=1;
+             $("#add_row2").click(function(event){event.preventDefault();b=j-1;
+              $('#addr2'+j).html($('#addr2'+b).html()).find('td:first-child').html(j+1);
+              $('#tab_logic2').append('<tr id="addr2'+(j+1)+'"></tr>');
+              j++; 
+          });
+             $("#delete_row2").click(function(event){event.preventDefault();
+                 if(j>1){
+                 $("#addr2"+(j-1)).html('');
+                 j--;
+                 }
+             });
+        });
+
+        $(document).ready(function(){
+      var i=1;
+     $("#add_row").click(function(event){event.preventDefault();b=i-1;
+      $('#addr'+i).html($('#addr'+b).html()).find('td:first-child').html(i+1);
+      $('#tab_logic').append('<tr id="addr'+(i+1)+'"></tr>');
+      i++; 
+    });
+     $("#delete_row").click(function(event){event.preventDefault();
+    	 if(i>1){
+		 $("#addr"+(i-1)).html('');
+		 i--;
+		 }
+	 });
+
+    });
+
+            var editor = CKEDITOR.replace('description');
+        editor.on( 'required', function( evt ) {
+                editor.showNotification( 'This field is required.', 'warning' );
+                evt.cancel();
+        });;
+    </script>
+  <%- include('partials/bottom_spacing.ejs') %>
+</body>
+</html>

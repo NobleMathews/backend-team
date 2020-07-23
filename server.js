@@ -74,11 +74,5 @@ app.get('/admin/', (req, res) => {
   res.render('adminLogin', { alerts: req.flash('error') })
 })
 
-app.get('/failed', (req, res) => {
-  res.send('You failed to login')
-})
 
-app.get('/success', (req, res) => {
-  res.send('You logged in successfully')
-})
 

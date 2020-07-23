@@ -9,6 +9,7 @@ const MonkeyLearn = require('monkeylearn')
 const ml = new MonkeyLearn('8b8701a6b32bfe7d6f749095ee6d31123b267daf')
 const passport = require('passport')
 const SuperAdmin = require('../models/SuperAdmin.model')
+const ClubHeads = require('../models/ClubHead.model')
 require('../middleware/passport-setup')
 
 let model_id = 'ex_YCya9nrn'
@@ -288,6 +289,7 @@ router.route('/details/:id').get(clubAuth, (req,res)=>{
     res.redirect('/blog/view_all')
   })
 })
+
 // route to delete blog
 router.route('/delete/:id').get(clubAuth, (req,res)=>{
   const id = req.params.id
@@ -336,8 +338,108 @@ router.route('/public/create').get((req,res) => {
   res.render('pub_create_blog', { alerts: req.flash('error'),id:req.params.id, page_name:'blogs'})
 })
 
-router.route('/public/post').post(async (req,res) => {
-  res.send("Thanks for submitting!!!");
+router.route('/public/post').post(uploadf.fields([{name:'chief_guest_url',maxCount:1},{name:'file_attachment[]',maxCount:40}]), async (req, res) => {
+  // vfeatured=req.body.featured==="on"?true:false;
+  // vpublished=req.body.published==="on"?true:false;
+  // if(vfeatured=true){
+  //   vpublished=true
+  // }
+  vfeatured = false
+  vpublished = false
+  const owner = await ClubHeads.find()
+  const id = owner[0]._id
+  // console.log(owner[0].name)
+  var documentIDs = []
+  var pics_url=[],file_attachment=[],chief_guest_url;
+  let outside_links=(req.body.outside_links).filter(Boolean);
+  // let file_attachment=(req.body.file_attachment).filter(Boolean);
+  let video_links=(req.body.video_links).filter(Boolean);
+  if (req.files != undefined) {
+    let allfiles=req.files['file_attachment[]'];
+    let ext;
+    if(allfiles){
+      // file_attachment= allfiles.filter((file) => { ext=path.extname(file.originalname); return (ext != '.png' && ext != '.jpg' && ext != '.gif' && ext != '.jpeg') })
+      // .map((file)=> { return file.filename });
+      pics_url = allfiles.filter((file) => { ext=path.extname(file.originalname); return (ext == '.png' || ext == '.jpg' || ext == '.gif' || ext == '.jpeg') })
+      .map((file)=> { return file.filename });
+      allfiles.filter((file) => { ext=path.extname(file.originalname); return (ext == '.png' || ext == '.jpg' || ext == '.gif' || ext == '.jpeg') })
+      .forEach(function (file,index) {
+        documentIDs[index]=[file.filename,file.id];
+      })
+    }
+  }
+
+  ml.extractors.extract(model_id,[req.body.summary]).then(resp => {
+    let response=resp.body
+    let tags=[]
+    if(!response[0].error){
+      let tagsarray=response[0]["extractions"]
+      _.forEach(tagsarray, function(tagel){
+        if(parseFloat(tagel.relevance)>0.8){
+          tags.push(tagel.parsed_value)
+        }
+      })
+    }
+    if(req.files['chief_guest_url']){
+      chief_guest_url=req.files['chief_guest_url'][0].filename;
+      var evsum= new blogModel({
+        owner: id,
+        title : req.body.title,
+        gallery : pics_url,
+        category: "Public blogs",                          
+        chief_guest : req.body.chief_guest,
+        chief_guest_url : chief_guest_url,
+        award_winners : req.body.award_winners,
+        summary : req.body.summary,
+        featured : vfeatured,
+        outside_links : outside_links,
+        file_attachment : file_attachment,
+        video_links : video_links,
+        documentIDs:documentIDs,
+        published : vpublished,
+        keywords : tags
+    })
+    }
+    else{
+      var evsum= new blogModel({
+        owner: id,
+        title : req.body.title,
+        gallery : pics_url,
+        category:"Public Blogs",                          
+        chief_guest : req.body.chief_guest,
+        award_winners : req.body.award_winners,
+        summary : req.body.summary,
+        featured : vfeatured,
+        outside_links : outside_links,
+        file_attachment : file_attachment,
+        video_links : video_links,
+        documentIDs:documentIDs,
+        published : vpublished,
+        keywords : tags
+    })
+    }
+    evsum.save((err, event) => {
+      // creating the blog in database
+    //  if(vfeatured){
+    //    blogModel.find({owner: event.owner}).then((blogs) => {
+    //      blogs.forEach(async (blog) => {
+    //        if(!blog._id.equals(event._id)){
+    //          blog.featured = false
+    //          await blog.save()
+    //        }
+    //      })
+    //    })
+    //  }
+       if (err) {
+         req.flash("error",err.message)
+         res.redirect('/')
+         } else {
+            // req.flash("Success", "Your post has been received by admin, will contact you soon!")
+            res.redirect("/")
+         }
+  
+   })
+  })
 })
 
 router.route('/failed').get((req,res) => {
