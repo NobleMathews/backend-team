@@ -11,14 +11,15 @@
     <%- include('partials/navbar_admin') %>
     <% if (projects && projects.length) { %>
     <h2 style="color: blue; text-decoration: underline; text-align: center;"> List of All Projects </h2>
-    <a class="btn btn-warning" href="/projects/create" style="margin-left: 20px;" role="button">Add Project</a>
-    <div class="container">
+    <a class="btn btn-warning" href="/projects/create" style="margin-left: 20px; margin-bottom: 20px;" role="button">Add Project</a>
+    <div class="container-fluid">
     <div>
         <!-- template for each project -->
         <table class="table">
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">Project Name</th>
+                    <th scope="col">Tags</th>
                     <th scope="col">Club</th>
                     <th scope="col">Branch</th>
                     <th scope="col">Members</th>
@@ -29,6 +30,12 @@
                 <% projects.forEach((project) => { %>
                     <tr>
                         <th scope="row"><%= project.title %></th>
+                        <td><% if(project.published) {%>
+                            <span class="badge badge-success">Published</span>
+                        <%}%>
+                        <% if(project.featured) {%>
+                            <span class="badge badge-warning">Featured</span>
+                        <%}%></td>
                         <td><%= project.club %></td>
                         <td><%= project.branch %></td>
                         <td><% if (project.team_members && project.team_members.length) { %>
