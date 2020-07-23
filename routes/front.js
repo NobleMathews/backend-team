@@ -101,9 +101,9 @@ router.route('/projects').get(async (req, res) => {
     const deg_name = req.query.degree
     const query_string = req.query.query_string
     const filters = {
-      branch: branch_name == undefined ? /.*/ : branch_name,
-      club: club_name == undefined ? /.*/ : club_name,
-      degree: deg_name == undefined ? /.*/ : deg_name,
+      branch: branch_name == undefined ? /.*/ : branch_name.split(','),
+      club: club_name == undefined ? /.*/ : club_name.split(','),
+      degree: deg_name == undefined ? /.*/ : deg_name.split(','),
       $text: { $search: query_string }
     }
     query_string === undefined && delete filters.$text
