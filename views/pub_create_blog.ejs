@@ -114,7 +114,7 @@
                                     <tr id='addr0'>
                                         <td>1</td>
                                         <td>
-                                        <input type="file" name='file_attachment[]'  placeholder='Upload relevant docs/files' class="form-control" />
+                                        <input type="file" name='file_attachment[]'  placeholder='Upload relevant docs/files' class="form-control" >
                                         </td>
                                     </tr>
                                     <tr id='addr1'></tr>
@@ -144,7 +144,7 @@
                                     <tr id='addr20'>
                                         <td>1</td>
                                         <td>
-                                        <input type="text" name='outside_links[]'  placeholder='Provide links to google docs/ uploads' class="form-control"/>
+                                        <input type="text" name='outside_links[]'  placeholder='Provide links to google docs/ uploads' class="form-control">
                                         </td>
                                     </tr>
                                     <tr id='addr21'></tr>
@@ -174,7 +174,7 @@
                                     <tr id='addr30'>
                                         <td>1</td>
                                         <td>
-                                        <input type="text" name='video_links[]'  placeholder='Provide links to videos if any..' class="form-control"/>
+                                        <input type="text" name='video_links[]'  placeholder='Provide links to videos if any..' class="form-control">
                                         </td>
                                     </tr>
                                     <tr id='addr31'></tr>
@@ -208,7 +208,11 @@
             $("input[name=published]").attr("disabled",checked);
         });
 
-        CKEDITOR.replace('summary');
+                var editor = CKEDITOR.replace('summary');
+        editor.on( 'required', function( evt ) {
+                editor.showNotification( 'This field is required.', 'warning' );
+                evt.cancel();
+        });
 
         $(document).ready(function(){
 

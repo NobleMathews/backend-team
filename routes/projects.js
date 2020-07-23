@@ -19,6 +19,11 @@ router.route('/create').get(adminAuth, (req, res) => {
 
 // route to create project
 router.route('/create/').post(adminAuth, upload.any('snapshot_url', 20),  (req, res) => {
+  vfeatured=req.body.featured==="on"?true:false;
+  vpublished=req.body.published==="on"?true:false;
+  if(vfeatured=true){
+    vpublished=true
+  }
     var snaps = []
     var documentIDs = []
     if (req.files != undefined) {
@@ -48,6 +53,8 @@ router.route('/create/').post(adminAuth, upload.any('snapshot_url', 20),  (req, 
       club: req.body.club,
       degree: req.body.degree,
       snapshot_url: snaps,
+      featured : vfeatured,
+      published : vpublished,
       documentIDs:documentIDs,
       keywords : tags
     })
@@ -73,6 +80,11 @@ router.route('/update/:id').get(adminAuth, (req,res)=>{
 // route to update project
 router.route('/update/:id').post(adminAuth, upload.any('pics', 20), (req, res) => {
     const id = req.params.id
+    vfeatured=req.body.featured==="on"?true:false;
+    vpublished=req.body.published==="on"?true:false;
+    if(vfeatured==true){
+      vpublished=true
+    }
     var documentIDs=[],pics_url_links=[],masterqueue=[],pics_url=[]
     if(req.body.documentIDs){
       documentIDs = JSON.parse(req.body.documentIDs); 
@@ -104,6 +116,8 @@ router.route('/update/:id').post(adminAuth, upload.any('pics', 20), (req, res) =
       degree: req.body.degree,
       snapshot_url: pics_url,
       documentIDs:documentIDs,
+      featured : vfeatured,
+      published : vpublished,
       keywords : tags
     }
   

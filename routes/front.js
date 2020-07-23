@@ -8,10 +8,36 @@ const clubHeadsModel = require('../models/ClubHead.model')
 const eventsModel = require('../models/Event.model')
 const committeeModel = require('../models/Committee.model')
 const achievementModel = require('../models/Achievement.model')
+const newsModel = require('../models/News.model')
 const feed_url = 'https://www.hackerrank.com/calendar/feed'
 const _ = require('lodash')
+const { constant } = require('lodash')
 
-router.route('/home').get((req, res) => {})
+router.route('/home').get((req, res) => {
+  const homedata = async function(){
+    let [news,f_blogs,f_projects,club_details,club_head_details] = await Promise.all([
+      newsModel.find().lean().exec(),
+      blogModel.find({featured:true}).lean().exec(),
+      projectsModel.find({featured:true}).lean().exec(),
+      clubModel.find().lean().exec(),
+      clubHeadsModel.find().select({_id:1,name:1,dp_url:1}).lean().exec()    
+    ]);
+    club_head_details= club_head_details.map(function(obj) {obj["head"] = obj["name"];delete obj["name"];return obj;}); 
+    const clubs =_.map(club_details, function(obj) {
+      return _.extend(obj, _.find(club_head_details, {_id: (obj.head)}));
+    });
+    return {
+      news:news,
+      f_blogs:f_blogs,
+      f_projects:f_projects,
+      clubs:clubs
+    }
+  }
+  homedata()
+  .then(data=>{res.json(data)})
+  .catch(e => {console.log(e)})
+
+})
 
 // takes club_name case insensitive
 router.route('/club/:club').get( async (req,res)=>{
@@ -84,7 +110,10 @@ router.route('/projects').get(async (req, res) => {
     let projects
     try {
       projects = await projectsModel.find(filters, { score: { $meta: 'textScore' } }).limit(30).sort({ score: { $meta: 'textScore' } })
-      res.json(projects)
+      var finalList = _.map(projects, function (b) {
+        if (b.published) return b
+      })
+      res.json(finalList)
     } catch (error) {
       res.json(error)
     }

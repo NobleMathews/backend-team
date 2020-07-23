@@ -4,7 +4,7 @@ const Schema = mongoose.Schema
 const achievementSchema = new Schema({
   title: { type: String, required: true },
   caption: { type: String },
-  description: { type: String },
+  description: { type: String, required: true },
   pics_url: [String],
   documentIDs: { type: [[String]] },
   keywords: [String]

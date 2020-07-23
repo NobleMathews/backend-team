@@ -15,7 +15,7 @@ const blogSchema = new Schema({
     chief_guest : {type:String},
     chief_guest_url : {type:String},
     award_winners : {type:String},
-    summary : {type:String},
+    summary : {type:String, required: true},
     outside_links : [String],
     file_attachment : [String],
     video_links : [String],

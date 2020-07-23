@@ -53,7 +53,11 @@
         </div>
     </div>
     <script>
-      CKEDITOR.replace('des');
+              var editor = CKEDITOR.replace('des');
+        editor.on( 'required', function( evt ) {
+                editor.showNotification( 'This field is required.', 'warning' );
+                evt.cancel();
+        });
    </script>
   <%- include('partials/bottom_spacing.ejs') %>
 </body>
