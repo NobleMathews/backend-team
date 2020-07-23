@@ -434,7 +434,7 @@ router.route('/public/post').post(uploadf.fields([{name:'chief_guest_url',maxCou
          req.flash("error",err.message)
          res.redirect('/')
          } else {
-            res.flash("Success", "Your post has been received by admin, will contact you soon!")
+            // req.flash("Success", "Your post has been received by admin, will contact you soon!")
             res.redirect("/")
          }
   

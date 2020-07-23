@@ -254,7 +254,7 @@ router.route('/public/post').post(upload.any('snapshot_url', 20), (req,res) => {
       if (err) {
         req.flash("error",err.message)
       }
-      res.flash("Success", "Your post has been received by admin, will contact you soon!")
+      // req.flash("error", "Your post has been received by admin, will contact you soon!")
       res.redirect('/')
     })
   })
