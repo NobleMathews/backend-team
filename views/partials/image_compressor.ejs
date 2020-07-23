@@ -1,5 +1,7 @@
 <script>
-async function imageCompressor(event) {
+async function imageCompressor(event,handleSubmit=true) {
+    // handleSubmit is for use later when required in cases such as that of tech_team
+    if(handleSubmit)
     $(':input[type="submit"]').prop('disabled', true);
     const imageFile = event.target.files[0];
     const options = {
@@ -14,6 +16,7 @@ async function imageCompressor(event) {
         const dt = new DataTransfer()
         dt.items.add(file)
         document.getElementById(event.target.id).files=dt.files;
+        if(handleSubmit)
         $(':input[type="submit"]').prop('disabled', false);
     } catch (error) {
         console.log(error);
