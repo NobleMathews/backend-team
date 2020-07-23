@@ -254,11 +254,14 @@ router.route('/public/post').post(upload.any('snapshot_url', 20), (req,res) => {
       if (err) {
         req.flash("error",err.message)
       }
+      res.flash("Success", "Your post has been received by admin, will contact you soon!")
       res.redirect('/')
     })
   })
 })
 
-
+router.route('/failed').get((req,res) => {
+  res.json({err: 'You should login with IITTP email'})
+})
 
 module.exports = router
