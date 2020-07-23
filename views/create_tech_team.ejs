@@ -19,7 +19,7 @@
                 <form method="POST" enctype="multipart/form-data" action="/tech_teams/create">
                     <div class="form-group">
                         <img id="poster_preview" class="rounded" alt=" No File Selected " height="100px" style="margin-bottom: .5rem;">
-                        <input type="file" name="team_poster_url" id="team_poster_url" accept='image/*' style="display:none;">
+                        <input type="file" name="team_poster_url" id="team_poster_url" accept='image/*' onchange="imageCompressor(event);" style="display:none;">
                         <label for="team_poster_url" class="btn btn-secondary" style="height: 100px; max-width: 100px; padding-top:25px; ">Upload Team Poster </label>
                     </div>
 
@@ -29,7 +29,7 @@
                     </div>
                     <div class="form-group">
                         <img id="preview" class="rounded" alt=" No File Selected " height="100px" style="margin-bottom: .5rem;">
-                        <input type="file" name="dp_url" id="dp_url" accept='image/*' style="display:none;">
+                        <input type="file" name="dp_url" id="dp_url" accept='image/*' onchange="imageCompressor(event);" style="display:none;">
                         <label for="dp_url" class="btn btn-secondary" style="height: 100px; max-width: 100px; padding-top:25px; ">Upload DP</label>
                     </div>
                     <div class="form-group">
@@ -95,6 +95,7 @@
         readPosterURL(this);
     })
     </script>
-<%- include('partials/bottom_spacing.ejs') %>
+    <%- include('partials/image_compressor.ejs') %>
+    <%- include('partials/bottom_spacing.ejs') %>
 </body>
 </html>

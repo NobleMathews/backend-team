@@ -1,0 +1,48 @@
+<script>
+async function imageCompressor(event,handleSubmit=true,multi_image_h=false) {
+    const options = {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 1920,
+        useWebWorker: true
+    }
+    if(!multi_image_h)
+    {    // handleSubmit is for use later when required in cases such as that of tech_team
+        if(handleSubmit)
+        $(':input[type="submit"]').prop('disabled', true);
+        const imageFile = event.target.files[0];
+        try {
+            const compressedFile = await imageCompression(imageFile, options);
+            // console.log(`compressedFile size ${compressedFile.size / 1024 / 1024} MB`);
+            let file=new File([compressedFile],compressedFile.name);
+            const dt = new DataTransfer()
+            dt.items.add(file)
+            document.getElementById(event.target.id).files=dt.files;
+            if(handleSubmit)
+            $(':input[type="submit"]').prop('disabled', false);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    else{
+        try {
+            console.log(event.target.files)
+            const dt = new DataTransfer()
+            const files=event.target.files
+            $(':input[type="submit"]').prop('disabled', true);
+            await Promise.all((Array.from(files)).map(
+                async (file) => {
+                    let imageFile = file;
+                    let compressedFile = await imageCompression(imageFile, options);
+                    // console.log(`compressedFile size ${compressedFile.size / 1024 / 1024} MB`);
+                    let afile=new File([compressedFile],compressedFile.name);
+                    dt.items.add(afile)
+                }
+            ))
+            document.getElementById(event.target.id).files=dt.files;
+            $(':input[type="submit"]').prop('disabled', false);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+</script>
