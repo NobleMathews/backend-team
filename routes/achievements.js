@@ -25,7 +25,7 @@ router.route('/create/').post(adminAuth, upload.any('snapshot_url', 20), (req, r
         documentIDs[index]=[file.filename,file.id];
       })
     }
-    ml.extractors.extract(model_id,[req.body.description]).then(resp => {
+    ml.extractors.extract(model_id,[req.body.des]).then(resp => {
       let response=resp.body
       let tags=[]
       if(!response[0].error){
