@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Event</title>
     <%-include('partials/dependencies.ejs')%> 
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/browser-image-compression@latest/dist/browser-image-compression.js"></script>       
 </head>
 <body>    
   <%-include('partials/alert_system.ejs')%>
@@ -71,41 +70,21 @@
         </div>
     </div>
     <script>
-    function readPosterURL(input) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
+        function readPosterURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
 
-        reader.onload = function (e) {
-            $("#poster_preview").attr('src', e.target.result);
+            reader.onload = function (e) {
+                $("#poster_preview").attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
         }
 
-        reader.readAsDataURL(input.files[0]);
-    }
-    }
-
-    $('#poster').change(function(){
-        readPosterURL(this);
-    })
-        async function imageCompressor(event) {
-            $(':input[type="submit"]').prop('disabled', true);
-            const imageFile = event.target.files[0];
-            const options = {
-            maxSizeMB: 1,
-            maxWidthOrHeight: 1920,
-            useWebWorker: true
-            }
-            try {
-                const compressedFile = await imageCompression(imageFile, options);
-                // console.log(`compressedFile size ${compressedFile.size / 1024 / 1024} MB`);
-                let file=new File([compressedFile],compressedFile.name);
-                const dt = new DataTransfer()
-                dt.items.add(file)
-                document.getElementById(event.target.id).files=dt.files;
-                $(':input[type="submit"]').prop('disabled', false);
-            } catch (error) {
-                console.log(error);
-            }
-        }
+        $('#poster').change(function(){
+            readPosterURL(this);
+        })
         $(function(){
             var today = new Date();
             var month = today.getMonth() + 1;
@@ -126,6 +105,7 @@
                 evt.cancel();
         });;
     </script>
-<%- include('partials/bottom_spacing.ejs') %>
+    <%- include('partials/image_compressor.ejs') %>
+    <%- include('partials/bottom_spacing.ejs') %>
 </body>
 </html>

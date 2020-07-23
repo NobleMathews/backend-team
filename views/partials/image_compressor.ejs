@@ -1,0 +1,22 @@
+<script>
+async function imageCompressor(event) {
+    $(':input[type="submit"]').prop('disabled', true);
+    const imageFile = event.target.files[0];
+    const options = {
+    maxSizeMB: 1,
+    maxWidthOrHeight: 1920,
+    useWebWorker: true
+    }
+    try {
+        const compressedFile = await imageCompression(imageFile, options);
+        // console.log(`compressedFile size ${compressedFile.size / 1024 / 1024} MB`);
+        let file=new File([compressedFile],compressedFile.name);
+        const dt = new DataTransfer()
+        dt.items.add(file)
+        document.getElementById(event.target.id).files=dt.files;
+        $(':input[type="submit"]').prop('disabled', false);
+    } catch (error) {
+        console.log(error);
+    }
+}
+</script>
