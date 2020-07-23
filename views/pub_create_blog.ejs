@@ -47,7 +47,7 @@
     <div class="container" style="padding-top:30px;">
         <div class="col-md-5 m-auto">
         <form action="/blog/public/post" method="POST" enctype="multipart/form-data">
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label for="category">Category :</label>
                 <select name="category" id="category" required>
                 <option value="none" selected disabled hidden> 
@@ -55,12 +55,12 @@
                 </option> 
                 <option value="Workshop">Workshop</option>
                 <option value="Competition">Competition</option>
-                <option value="Talk-show">Talk-show</option>
+                <option value="Talk-show">Talk-show</option> -->
                 <!-- TODO: the following parameter is not referred in events -->
-                <option value="Activity">Activity</option> 
+                <!-- <option value="Activity">Activity</option> 
                 </select>
-            </div>
-            <div class="Workshop optional">
+            </div> -->
+            <!-- <div class="Workshop optional">
             </div>
             <div class="Competition optional">
                 <div class="form-group">
@@ -80,22 +80,22 @@
                 </div>
             </div>
             <div class="Activity optional">
-            </div>
+            </div> -->
             <div class="form-group">
                 <label>Title of the Blog</label>
                 <input type="text" class="form-control" name="title" required placeholder="Provide a nice title to the blog">
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="custom-control-input" id="featured" name="featured">
                     <label class="custom-control-label" for="featured">Is Featured?</label>
                 </div>
-            </div>
+            </div> -->
             <div class="form-group">
                 <label>Summary</label>
                 <textarea class="form-control" name="summary" rows="4" placeholder="Provide a short summary..."></textarea>
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <div class="container">
                     <div class="row clearfix">
                         <div class="col-md-12 column">
@@ -123,8 +123,8 @@
                         </div>
                     </div>
                     <button type="button" id="add_row" class="btn btn-default pull-left">Add Row</button><button id='delete_row' class="pull-right btn btn-default">Delete Row</button>
-                </div>
-            </div>
+                </div> 
+            </div> -->
             <div class="form-group">
                 <div class="container">
                     <div class="row clearfix">
@@ -190,23 +190,17 @@
                 <% imageh_name="file_attachment[]" %>
                 <%-include('partials/multi_image_handler.ejs')%>
             </div>
-            <div class="form-group">
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="published" name="published">
-                    <label class="custom-control-label" for="published">Publish?</label>
-                </div>
-            </div>
             <button type="submit" class="btn btn-primary" style="margin-bottom: 20px; margin-bottom: 20px;">Create Blog</button>
         </form>
         </div>
     </div>
     <script>
         
-        $("input[name=featured]").change(function() {
-            var checked = $(this).prop('checked');
-            $("input[name=published]").prop("checked",checked);
-            $("input[name=published]").attr("disabled",checked);
-        });
+        // $("input[name=featured]").change(function() {
+        //     var checked = $(this).prop('checked');
+        //     $("input[name=published]").prop("checked",checked);
+        //     $("input[name=published]").attr("disabled",checked);
+        // });
 
                 var editor = CKEDITOR.replace('summary');
         editor.on( 'required', function( evt ) {
@@ -214,19 +208,21 @@
                 evt.cancel();
         });
 
-        $(document).ready(function(){
+        // $(document).ready(function(){
 
-            $("#category").change(function(){
-                $(this).find("option:selected").each(function(){
-                    var selected = $(this).attr("value");
-                    if(selected){
-                        $(".optional").not("." + selected).hide();
-                        $("." + selected).show();
-                    } else{
-                        $(".optional").hide();
-                    }
-                });
-            }).change();
+        //     $("#category").change(function(){
+        //         $(this).find("option:selected").each(function(){
+        //             var selected = $(this).attr("value");
+        //             if(selected){
+        //                 $(".optional").not("." + selected).hide();
+        //                 $("." + selected).show();
+        //             } else{
+        //                 $(".optional").hide();
+        //             }
+        //         });
+        //     }).change();
+
+        $(document).ready(function(){
 
             var i=1;
             $("#add_row").click(function(event){event.preventDefault();b=i-1;

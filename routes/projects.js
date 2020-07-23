@@ -11,6 +11,8 @@ const _ = require('lodash');
 const MonkeyLearn = require('monkeylearn')
 const ml = new MonkeyLearn('8b8701a6b32bfe7d6f749095ee6d31123b267daf')
 let model_id = 'ex_YCya9nrn'
+const passport = require('passport')
+require('../middleware/passport-setup')
 
 // route for rendering the project creating page
 router.route('/create').get(adminAuth, (req, res) => {
@@ -198,6 +200,65 @@ router.route('/details/:id').get(adminAuth, (req,res)=>{
     res.redirect('/admin/profile')
   })
 })
+
+router.route('/view_pub').get(passport.authenticate('google-alt', { scope: ['profile', 'email'] }, { failureRedirect: '/blog/failed' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/projects/public/create');
+});
+
+router.route('/public/create').get((req,res) => {
+  res.render('pub_create_project', { alerts: req.flash('error'),id:req.params.id, page_name:'projects'})
+})
+
+router.route('/public/post').post(upload.any('snapshot_url', 20), (req,res) => {
+  vfeatured=false;
+  vpublished=false;
+
+    var snaps = []
+    var documentIDs = []
+    if (req.files != undefined) {
+      snaps = req.files.map(function (file) {
+        return file.filename
+      })
+      req.files.forEach(function (file,index) {
+        documentIDs[index]=[file.filename,file.id];
+      })
+    }
+    ml.extractors.extract(model_id,[req.body.description]).then(resp => {
+      let response=resp.body
+      let tags=[]
+      if(!response[0].error){
+        let tagsarray=response[0]["extractions"]
+        _.forEach(tagsarray, function(tagel){
+          if(parseFloat(tagel.relevance)>0.8){
+            tags.push(tagel.parsed_value)
+          }
+        })
+      }
+    var project = new projectsModel({
+      title: req.body.title,
+      team_members: req.body.team_member,
+      description: req.body.description,
+      branch: req.body.branch,
+      club: req.body.club,
+      degree: req.body.degree,
+      snapshot_url: snaps,
+      featured : vfeatured,
+      published : vpublished,
+      documentIDs:documentIDs,
+      keywords : tags
+    })
+  
+    project.save((err) => {
+      if (err) {
+        req.flash("error",err.message)
+      }
+      res.redirect('/')
+    })
+  })
+})
+
 
 
 module.exports = router
