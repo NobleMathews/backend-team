@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Details : <%=blog.title%></title>
+    <%-include('partials/dependencies.ejs')%>    
+</head>
+<body class="bg-light">
+    <%-include('partials/navbar_editor_blog.ejs')%> <br>
+    <style>
+    .prev_over{
+    display:inline-block;
+    width:90%;
+    max-width:91%;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    overflow:hidden;
+    }
+    .bs-callout {
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px solid #eee;
+    border-left-width: 5px;
+    border-radius: 3px;
+    }
+    .bs-callout h4 {
+        margin-top: 0;
+        margin-bottom: 5px;
+    }
+    .bs-callout p:last-child {
+        margin-bottom: 0;
+    }
+    .bs-callout code {
+        border-radius: 3px;
+    }
+    .bs-callout+.bs-callout {
+        margin-top: -5px;
+    }
+    .bs-callout-primary {
+        border-left-color: black;
+    }
+    .bs-callout-primary h4 {
+        color: black;
+    }
+    </style>
+    <div class="container">
+      <div class="py-5 text-center">
+        <h2><b>Blog Title :</b> <%=blog.title||"NULL"%></h2>
+        <p class="lead">Category : <b><%=blog.category||"NULL"%></b></p>
+      </div>
+
+        <div class="row">
+            <div class="col-md-4 order-md-2 mb-4">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-muted">Gallery</span>
+                    <span class="badge badge-secondary badge-pill"><%=blog.gallery.length||"-"%></span>
+                </h4>
+                <ul class="list-group list-group-flush  mb-3" >
+                    <div style="max-height: 150px; overflow-y: scroll;">
+                    <% if ((blog.gallery) && (blog.gallery).length) { %>
+                    <% (blog.gallery).forEach((url) => { %>
+                    <li class="list-group-item"><img src="/images/<%= url %>"></img></li>
+                    <% }) %>
+                    <% }else{ %>
+                        <li class="list-group-item">NULL</li>
+                    <% }%>
+                    </div>
+                </ul>
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-muted">Attachments</span>
+                    <span class="badge badge-secondary badge-pill"><%=(blog.file_attachment).length||"-"%></span>
+                </h4>
+                <ul class="list-group list-group-flush  mb-3" >
+                    <div style="max-height: 150px; overflow-y: scroll;">
+                        <% if ((blog.file_attachment) && (blog.file_attachment).length) { %>
+                        <% (blog.file_attachment).forEach((url) => { %>
+                            <% if ((url.length)>2) { %>
+                                <li class="list-group-item"><a class="prev_over" href="/files/<%= url %>" target="_blank"><%= url.substring(32)||"Link" %></a></li>
+                                <% }else{ %>
+                                    <li class="list-group-item">NULL</li>
+                                <% }%>
+                        <% }) %>
+                        <% }else{ %>
+                            <li class="list-group-item">NULL</li>
+                        <% }%>
+                    </div>
+                </ul>
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-muted">Linked Videos</span>
+                    <span class="badge badge-secondary badge-pill"><%=blog.video_links.length||"-"%></span>
+                </h4>
+                <ul class="list-group list-group-flush mb-3" >
+                    <div style="max-height: 150px; overflow-y: scroll;">
+                    <% if ((blog.video_links) && (blog.video_links).length) { %>
+                    <% (blog.video_links).forEach((url) => { %>
+                        <% if ((url.length)>2) { %>
+                            <li class="list-group-item"><a class="prev_over" href="<%= url %>"><%= url %></a></li>
+                    <% }else{ %>
+                        <li class="list-group-item">NULL</li>
+                    <% }%>
+                    <% }) %>
+                    <% }else{ %>
+                        <li class="list-group-item">NULL</li>
+                    <% }%>
+                    </div>
+                </ul>
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-muted">Reference Links</span>
+                    <span class="badge badge-secondary badge-pill"><%=blog.outside_links.length||"-"%></span>
+                </h4>
+                <ul class="list-group list-group-flush mb-3" >
+                    <div style="max-height: 150px; overflow-y: scroll;">
+                        <% if ((blog.outside_links) && (blog.outside_links).length) { %>
+                        <% (blog.outside_links).forEach((url) => { %>
+                            <% if ((url.length)>2) { %>
+                                <li class="list-group-item"><a class="prev_over" href="<%= url %>"><%= url %></a></li>
+                                <% }else{ %>
+                                    <li class="list-group-item">NULL</li>
+                                <% }%>
+                        <% }) %>
+                        <% }else{ %>
+                            <li class="list-group-item">NULL</li>
+                        <% }%>
+                    </div>
+                </ul>
+            </div>
+
+        <div class="col-md-8 order-md-1">
+          <h3 class="mb-3">Event Details</h4>
+          <% if (blog.category==="Talk-show"){%>
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <div class="bs-callout bs-callout-primary p-3 mb-3 bg-light rounded">
+                        <h4 class="font-italic">Chief Guest</h4>
+                        </br>
+                        <p class="mb-0">
+                            <div class="col-md-4">
+                                <div class="card mb-4 box-shadow">
+                                  <img class="card-img-top" src="/images/<%= blog.chief_guest_url %>" alt='<%= blog.chief_guest||"NULL" %>'' height="200px" width="150px">
+                                  <div class="card-body">
+                                    <p class="card-text"style="text-align: center;"><b><%= blog.chief_guest||"NULL" %></b></p>
+                                  </div>
+                                </div>
+                              </div>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+            <% if (blog.category==="Competition"){%>
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <div class="bs-callout bs-callout-primary p-3 mb-3 bg-light rounded">
+                        <h4 class="font-italic">Award Winners</h4>
+                        <p class="mb-0">
+                            <%= blog.award_winners||"NULL" %>    
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+            <div class="row">
+            <div class="col-md-12 mb-3">
+                <div class="bs-callout bs-callout-primary p-3 mb-3 bg-light rounded">
+                    <h4 class="font-italic">Summary</h4>
+                    <p class="mb-0">
+                    <%- blog.summary||"NULL" %>    
+                    </p>
+                </div>
+            </div>
+            </div>
+            <hr class="mb-4">
+            <div class="btn-group" role="group" aria-label="controls">
+            <a class="btn btn-primary" href="#">Edit</a>
+            <a class="btn btn-danger" href="#">Delete</a>
+            </div>
+        </div>
+      </div>
+    </div>
+
+<%- include('partials/bottom_spacing.ejs') %>
+</body>
+</html>
