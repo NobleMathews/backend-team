@@ -91,6 +91,7 @@
                     <label class="custom-control-label" for="featured">Is Featured?</label>
                 </div>
             </div>
+            <div id="extract-container"></div>
             <div class="form-group">
                 <label>Summary</label>
                 <textarea class="form-control" name="summary" rows="4" placeholder="Provide a short summary..."></textarea>
@@ -206,6 +207,28 @@
             var checked = $(this).prop('checked');
             $("input[name=published]").prop("checked",checked);
             $("input[name=published]").attr("disabled",checked);
+
+            // to provide extract textarea
+            if(this.checked){
+                var temp_div = document.createElement('DIV')
+                temp_div.id = 'temp-div'
+                temp_div.class = "form-control"
+                var t_area = document.createElement('TEXTAREA')
+                t_area.id = "extract"
+                t_area.name = "extract"
+                t_area.rows = '5'
+                t_area.cols = '65'
+                t_area.required = 'true'
+                var label = document.createElement('LABEL')
+                label.innerHTML = 'Extract :'
+                temp_div.appendChild(label)
+                temp_div.appendChild(document.createElement('BR'))
+                temp_div.appendChild(t_area)
+                document.getElementById('extract-container').appendChild(temp_div)
+               
+            }else{
+                document.getElementById('temp-div').remove()
+            }
         });
 
                 var editor = CKEDITOR.replace('summary');
