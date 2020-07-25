@@ -255,14 +255,24 @@ router.route('/committee').get((req, res) => {
 
 router.route('/achievements/:year').get((req, res) => {
   year = req.params.year
-
-  var curr_year = new Date(year)
-  var next_year = new Date(curr_year.getFullYear() + 1, curr_year.getMonth(), curr_year.getDate())
-  next_year.setUTCHours(23, 59, 59)
-  console.log(curr_year,next_year)
-  achievementModel.filterByRange(curr_year, next_year)
-    .then((achievement) => {
-      res.json(achievement)
+  if(year=="all"){
+    achievementModel.find({}, { _id: 0, __v: 0, updatedAt: 0 }).lean()
+    .then((com) => {
+      res.json(_.groupBy(com, function(item) {
+        date_o=item.createdAt.getFullYear()
+        return date_o;
+      }))
     })
+    .catch(err => res.json(err))
+  }
+  else{
+    var curr_year = new Date(year)
+    var next_year = new Date(curr_year.getFullYear() + 1, curr_year.getMonth(), curr_year.getDate())
+    next_year.setUTCHours(23, 59, 59)
+    achievementModel.filterByRange(curr_year, next_year)
+      .then((achievement) => {
+        res.json(achievement)
+    })
+  }
 })
 module.exports = router
