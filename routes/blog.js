@@ -10,6 +10,8 @@ const ml = new MonkeyLearn('8b8701a6b32bfe7d6f749095ee6d31123b267daf')
 const passport = require('passport')
 const SuperAdmin = require('../models/SuperAdmin.model')
 const ClubHeads = require('../models/ClubHead.model')
+const Editor = require('../models/Editor.model')
+
 require('../middleware/passport-setup')
 
 let model_id = 'ex_YCya9nrn'
@@ -331,29 +333,36 @@ router.route('/delete/:id').get(clubAuth, (req,res)=>{
   })
 })
 
-// router.route('/google').get(passport.authenticate('google', { scope: ['profile', 'email'] }));
+router.route('/auth/google').get(passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-router.route('/view_pub').get(passport.authenticate('google', { scope: ['profile', 'email'] }, { failureRedirect: '/blog/failed' }),
-  function(req, res) {
+router.route('/auth/google/callback').get(passport.authenticate('google'), (req, res) => {
     // Successful authentication, redirect home.
     res.redirect('/blog/public/create');
 });
 
-router.route('/public/create').get((req,res) => {
+function isLoggedIn(req, res, next) {
+
+  // if user is authenticated in the session, carry on
+  if (req.isAuthenticated())
+      return next();
+
+  // if they aren't redirect them to the home page
+  req.flash("error", 'You must log in using Institute email')
+  res.redirect('/');
+}
+
+router.route('/public/create').get(isLoggedIn, (req,res) => {
   res.render('pub_create_blog', { alerts: req.flash('error'),id:req.params.id, page_name:'blogs'})
 })
 
-router.route('/public/post').post(uploadf.fields([{name:'chief_guest_url',maxCount:1},{name:'file_attachment[]',maxCount:40}]), async (req, res) => {
-  // vfeatured=req.body.featured==="on"?true:false;
-  // vpublished=req.body.published==="on"?true:false;
-  // if(vfeatured=true){
-  //   vpublished=true
-  // }
+router.route('/public/post').post(isLoggedIn, uploadf.fields([{name:'chief_guest_url',maxCount:1},{name:'file_attachment[]',maxCount:40}]), async (req, res) => {
+  
   vfeatured = false
   vpublished = false
-  const owner = await ClubHeads.find()
-  const id = owner[0]._id
-  // console.log(owner[0].name)
+  
+  const owner = await Editor.findOne() 
+  const id = owner._id
+  
   var documentIDs = []
   var pics_url=[],file_attachment=[],chief_guest_url;
   let outside_links=(req.body.outside_links).filter(Boolean);
@@ -424,17 +433,6 @@ router.route('/public/post').post(uploadf.fields([{name:'chief_guest_url',maxCou
     })
     }
     evsum.save((err, event) => {
-      // creating the blog in database
-    //  if(vfeatured){
-    //    blogModel.find({owner: event.owner}).then((blogs) => {
-    //      blogs.forEach(async (blog) => {
-    //        if(!blog._id.equals(event._id)){
-    //          blog.featured = false
-    //          await blog.save()
-    //        }
-    //      })
-    //    })
-    //  }
        if (err) {
          req.flash("error",err.message)
          res.redirect('/')
@@ -442,13 +440,8 @@ router.route('/public/post').post(uploadf.fields([{name:'chief_guest_url',maxCou
             // req.flash("Success", "Your post has been received by admin, will contact you soon!")
             res.redirect("/")
          }
-  
    })
   })
-})
-
-router.route('/failed').get((req,res) => {
-  res.json({err: 'You should login with IITTP email'})
 })
 
 module.exports = router
