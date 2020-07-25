@@ -202,19 +202,30 @@ router.route('/details/:id').get(adminAuth, (req,res)=>{
   })
 })
 
-router.route('/view_pub').get(passport.authenticate('google-alt', { scope: ['profile', 'email'] }, { failureRedirect: '/blog/failed' }), (req, res) => {
-    // Successful authentication, redirect home.
-    res.redirect('/projects/public/create')
-});
+router.route('/auth/google').get(passport.authenticate('google-alt', {scope: ['profile', 'email']}))
 
-router.route('/public/create').get((req,res) => {
-  console.log(req.user.profile.emails[0].value)
+router.route('/auth/google/callback').get(passport.authenticate('google-alt'), (req, res) => {
+  res.redirect('/projects/public/create')
+})
+
+function isLoggedIn(req, res, next) {
+
+  // if user is authenticated in the session, carry on
+  if (req.isAuthenticated())
+      return next();
+
+  // if they aren't redirect them to the home page
+  req.flash("error", 'You must log in using Institute email')
+  res.redirect('/');
+}
+
+router.route('/public/create').get(isLoggedIn, (req,res) => {
   res.render('pub_create_project', { alerts: req.flash('error'),id:req.params.id, page_name:'projects'})
 })
 
-router.route('/public/post').post(upload.any('snapshot_url', 20), (req,res) => {
-  vfeatured=false;
-  vpublished=false;
+router.route('/public/post').post(isLoggedIn, upload.any('snapshot_url', 20), (req,res) => {
+    vfeatured=false;
+    vpublished=false;
 
     var snaps = []
     var documentIDs = []
@@ -249,7 +260,7 @@ router.route('/public/post').post(upload.any('snapshot_url', 20), (req,res) => {
       published : vpublished,
       documentIDs:documentIDs,
       keywords : tags,
-      creator : "Public",
+      creator : req.user.googleId,
     })
   
     project.save((err) => {
@@ -260,10 +271,6 @@ router.route('/public/post').post(upload.any('snapshot_url', 20), (req,res) => {
       res.redirect('/')
     })
   })
-})
-
-router.route('/failed').get((req,res) => {
-  res.json({err: 'You should login with IITTP email'})
 })
 
 module.exports = router
