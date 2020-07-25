@@ -259,7 +259,7 @@ router.route('/achievements/:year').get((req, res) => {
   var curr_year = new Date(year)
   var next_year = new Date(curr_year.getFullYear() + 1, curr_year.getMonth(), curr_year.getDate())
   next_year.setUTCHours(23, 59, 59)
-
+  console.log(curr_year,next_year)
   achievementModel.filterByRange(curr_year, next_year)
     .then((achievement) => {
       res.json(achievement)
