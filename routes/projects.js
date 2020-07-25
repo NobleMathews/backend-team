@@ -202,13 +202,13 @@ router.route('/details/:id').get(adminAuth, (req,res)=>{
   })
 })
 
-router.route('/view_pub').get(passport.authenticate('google-alt', { scope: ['profile', 'email'] }, { failureRedirect: '/blog/failed' }),
-  function(req, res) {
+router.route('/view_pub').get(passport.authenticate('google-alt', { scope: ['profile', 'email'] }, { failureRedirect: '/blog/failed' }), (req, res) => {
     // Successful authentication, redirect home.
-    res.redirect('/projects/public/create');
+    res.redirect('/projects/public/create')
 });
 
 router.route('/public/create').get((req,res) => {
+  console.log(req.user.profile.emails[0].value)
   res.render('pub_create_project', { alerts: req.flash('error'),id:req.params.id, page_name:'projects'})
 })
 

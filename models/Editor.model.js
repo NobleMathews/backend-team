@@ -20,7 +20,7 @@ editorSchema.methods.generateAuthToken = async function(req, res){
     const editor = this
     const token = jwt.sign({_id:editor._id.toString()}, 'my_jwt_secret', {expiresIn: '1 day'})
     
-    editor.tokens = user.tokens.concat({token})
+    editor.tokens = editor.tokens.concat({token})
     await editor.save()
     res.cookie('authToken', token)
     return token

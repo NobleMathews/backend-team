@@ -20,11 +20,11 @@ router.route('/login').post(async (req, res) => {
       }
   
       const token = await editor.generateAuthToken(req, res)
-      
-  
-      res.render('landing_clubHead', { alerts: req.flash('error'),user : user,page_name:'home'})
+      const blogs = await blogModel.find({owner: editor._id})
+      res.render('view_blogs_editor', { alerts: req.flash('error'),user : editor,blogs: blogs,page_name:'home'})
   
     }catch(e){
+      console.log(e)
       res.render('blog_editor',{alerts:req.flash("Please check UserID / Password")})
     }
    

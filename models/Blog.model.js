@@ -5,7 +5,7 @@ const blogSchema = new Schema({
     owner:{
         type: Schema.Types.ObjectId,
         required: true,
-        ref: 'Users'
+        ref: 'Users',
     },
     featured : {type:Boolean,required:true},
     published : {type:Boolean,required:true},
