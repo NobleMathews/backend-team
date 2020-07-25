@@ -13,32 +13,42 @@
     <% if (events && events.length) { %>
     <h2 style="color: blue; text-decoration: underline;"> List of All Events </h2>
     <!-- Template for each event-->
-    <div class="row row-cols-1 row-cols-md-4">
-        <% events.forEach((event) => { %>
-            <div class="col mb-4">
-                <div class="card h-100">
-                    <img src="/images/<%= event.poster_url %>" alt="thumbnail of poster" class="card-img-top">
-                    <div class="card-body">
-                        <h5 class="card-title"><%= event.name %></h5>
-                        <p class="card-text">
-                            <%= moment(event.date).format('Do MMMM, YYYY'); %>
-                            <%= event.venue %>
-                        </p>
-                        <% var date = new Date(event.date); date.setDate(date.getDate() + 1); %>
-                        <!-- use date  for 1 day tolerance || currently done for notify -->
-                        <% if ((new Date())<=date) { %>
-                        <p>
-                        <a href="/events/update/<%=event._id%>">edit</a>  |  <a href="/events/delete/<%=event._id%>">delete</a>  |  <a href="/events/details/<%= event._id %>">details</a> | <a href="/notify/<%=event._id%>">notify</a>
-                        </p>
-                        <% }else{ %>
-                        <p>
-                        <a href="/events/details/<%= event._id %>">details</a>
-                        </p>
-                        <% }%>
-                    </div>
-                </div>
-            </div>
-        <% }) %>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Event</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Time</th>
+                    <th scope="col">Poster</th>
+                    <th scope="col">Venue</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% events.forEach((event) => { %>
+                    <tr>
+                        <th scope="row"><%= event.name %></th>
+                        <td><%= moment(event.date).format('Do MMMM, YYYY'); %></td>
+                        <td><%= moment(event.date).format('h:mm a'); %></td>
+                        <td><img src="/images/<%= event.poster_url %>" alt="thumbnail of poster" width="40px"></td>
+                        <td><%= event.venue %></td>
+                        <td>
+                            <% var date = new Date(event.date); date.setDate(date.getDate() + 1); %>
+                            <!-- use date  for 1 day tolerance || currently done for notify -->
+                            <% if ((new Date())<=date) { %>
+                            <p>
+                            <a href="/events/update/<%=event._id%>">edit</a>  |  <a href="/events/delete/<%=event._id%>">delete</a>  |  <a href="/events/details/<%= event._id %>">details</a> | <a href="/notify/<%=event._id%>">notify</a>
+                            </p>
+                            <% }else{ %>
+                            <p>
+                            <a href="/events/details/<%= event._id %>">details</a>
+                            </p>
+                            <% }%>
+                        </td>
+                    </tr>
+                <%})%>   
+            </tbody>
+        </table>
     </div>
     <% }else{ %>
         <div class="container">

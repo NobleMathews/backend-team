@@ -62,7 +62,7 @@ router.route('/create/').post(clubAuth, upload.single('poster'), (req, res) => {
   
 // route for viewing all events
 router.route('/view_all').get(clubAuth, (req, res) => {
-    eventsModel.find({ owner: req.user._id })
+    eventsModel.find({ owner: req.user._id }).sort({date:-1})
       .then(events => {
         res.render('view_events', { alerts: req.flash('error'),events: events, moment: moment, page_name:'view_events' })
       }).catch((err) => {
