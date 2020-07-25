@@ -75,6 +75,15 @@ router.route('/club/:club').get( async (req,res)=>{
     }
   
 })  
+router.route('/clubs').get((req,res)=>{
+  clubModel.find({},{name:1,_id:0},function(err,clubs){
+    if(err){
+      res.json(err)
+    }else{
+      res.json(clubs)
+    }
+  })
+})
 //route for front end to render gallery strings of club_head blog
 router.route('/gallery/:club_name').get((req,res)=>{
 const club_name = req.params.club_name.toUpperCase();
