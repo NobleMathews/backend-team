@@ -14,7 +14,9 @@ const achievementSchema = new Schema({
 
 achievementSchema.statics.filterByRange = function (init, end) {
   return this.find({
-    createdAt: {
+
+    created_at: {
+
       $gte: init,
       $lte: end
     }
