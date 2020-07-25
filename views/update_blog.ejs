@@ -60,6 +60,15 @@
                 <label class="custom-control-label" for="featured">Is Featured?</label>
             </div>
         </div>
+
+        <% if(summary.featured==true){ %>
+            <div class="form-group">
+                <label>Extract :</label>
+                <textarea name="extract" id="extract" cols="65" rows="5" ><%=summary.extract||'NULL'%></textarea>
+            </div>
+        <% } %>
+        
+        
         <div id="extract-container"></div>
             <div class="form-group">
                 <label>Summary</label>
@@ -245,6 +254,7 @@
             }else{
                 document.getElementById('temp-div').remove()
             }
+                
 
         });
 
@@ -254,6 +264,7 @@
                 evt.cancel();
         });
         $(document).ready(function(){
+               
             var initchecked = $("input[name=featured]").prop('checked');
             $("input[name=published]").prop("checked",initchecked);
             $("input[name=published]").attr("disabled",initchecked);
