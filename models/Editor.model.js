@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 
+//Blog editors with access to public blogs
 const editorSchema = new Schema({
     user_id:{type:String,required:true,trim:true,unique:true},
     pswd:{type:String,required:true},
