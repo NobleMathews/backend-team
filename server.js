@@ -25,6 +25,7 @@ const frontEndRouter = require('./routes/front')
 const techteamRouter = require('./routes/tech_teams')
 const publicRouter = require('./routes/public')
 const committeeRouter = require('./routes/committee')
+const editorRouter = require('./routes/editor')
 const app = express()
 const port = process.env.PORT || 5000
 app.use(session({ secret: 'test', saveUninitialized: true, resave: true }))
@@ -56,6 +57,7 @@ app.use('/front', frontEndRouter)
 app.use('/tech_teams', techteamRouter)
 app.use('/public', publicRouter)
 app.use('/committee_members', committeeRouter)
+app.use('/editor', editorRouter)
 app.listen(port, () => {
   console.log(`listening on port : ${port}`)
 })
@@ -72,6 +74,10 @@ app.get('/', (req, res) => {
 
 app.get('/admin/', (req, res) => {
   res.render('adminLogin', { alerts: req.flash('error') })
+})
+
+app.get('/editor/', (req, res) => {
+  res.render('blog_editor', { alerts: req.flash('error') })
 })
 
 
