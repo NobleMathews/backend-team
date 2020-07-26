@@ -9,8 +9,8 @@
 </head>
   <body>    
   <%-include('partials/alert_system.ejs')%>
-    <%-include('partials/navbar_clubhead.ejs')%>
-    <h3 style="text-align: center; text-decoration: underline; padding-top: 30px;">Event Summary</h3>
+  <%-include('partials/navbar_editor_blog.ejs')%> <br>
+  <h3 style="text-align: center; text-decoration: underline; padding-top: 30px;">Event Summary</h3>
     <div class="container" style="padding-top:30px;">
         <div class="col-md-5 m-auto">
         <form action="/editor/blog/edit/<%=id%>" method="POST" enctype="multipart/form-data">
