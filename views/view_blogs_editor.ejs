@@ -54,7 +54,7 @@
                         <% if(blog.featured) {%>
                             <span class="badge badge-warning">Featured</span>
                         <%}%></td>
-                        <td><a href="#">details</a> | <a href="#">edit</a> | <a href="#">delete</a></td>
+                        <td><a href="/editor/blog/details/<%=blog._id%>">details</a> | <a href="/editor/blog/edit/<%=blog._id%>">edit</a> | <a href="/editor/blog/delete/<%=blog._id%>">delete</a></td>
                     </tr>
                 <%})%>   
             </tbody>
