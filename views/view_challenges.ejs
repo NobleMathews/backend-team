@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Challenges</title>
+    <style>
+        h5{
+            color: red;
+        }
+        #club_head{
+            color: blue;
+            padding-top: 10px;
+        }
+    </style>
+    <%-include('partials/dependencies.ejs')%>    
+</head>
+<body>    
+  <%-include('partials/alert_system.ejs')%>
+    <%- include('partials/navbar_admin') %>
+    <% if (club_heads && club_heads.length) { %>
+        <h3 style="text-align: center; text-decoration: underline; padding-top: 30px;">List of Challenges</h3>
+        <a class="btn btn-warning" href="#" style="margin-left: 20px;" role="button">Create Challenge</a>
+        <div class="container" style="padding-top:30px;">
+            <div>
+                <!-- template for each club -->
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Photo</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">website</th>
+                            <th scope="col">Registration Period</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% challenges.forEach((challenge) => { %>
+                            <tr>
+                                <th scope="row"><%= challenge.name %></th>
+                                <td><%= challenge.photo %></td>
+                                <td><%= challenge.category %></td>
+                                <td><%= challenge.ref_url %></td>
+                                <td><%= moment(challenge.registration_start).format('Do MMMM, YYYY'); %> - <%= moment(challenge.registration_end).format('Do MMMM, YYYY'); %></td>
+                                <td><a href="#">edit</a> | <a href="#">delete</a></td>
+                            </tr>
+                        <%})%>   
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    <% }else{ %>
+        <div class="container">
+            <h1 class="display-5">No Challenges exist yet</h1>
+        </div>
+        <div >
+            <a class="btn btn-warning" href="#" style="margin-left: 20px;" role="button">Create Challenge</a>
+        </div>
+    <% }%>
+
+<%- include('partials/bottom_spacing.ejs') %>
+</body>
+</html>
