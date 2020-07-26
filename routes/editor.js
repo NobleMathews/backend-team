@@ -44,4 +44,41 @@ router.route('/create').post( (req, res) => {
       }
     })
 })
+
+router.route('/logout').get(editorAuth, async (req, res) => {
+  try {
+    req.editor.tokens = req.editor.tokens.filter((token) => {
+      return token.token !== req.token
+    })
+
+    await req.token.save()
+    res.redirect('/editor')
+  } catch (e) {
+    req.flash('error', e)
+    res.render('blog_editor', { alerts: req.flash('error') })
+  }
+})
+
+router.route('/blog/edit/:id').get(editorAuth,(req,res)=>{
+  blogModel.findById(req.params.id)
+  .then(blog=>{
+    res.render('update_blog_editor',{blog:blog})
+  }).catch(err=>{
+    res.json(err)
+  })
+})
+
+router.route('/blog/edit/:id').post(editorAuth,(req,res)=>{})
+
+router.route('/blog/details/:id').get(editorAuth,(req,res)=>{
+  blogModel.findById(req.params.id)
+  .then((blog)=>{
+    res.render('details_blog_editor',{blog:blog})
+  }).catch(err=>{
+    res.json(err);
+  })
+})
+
+router.route('/blog/delete/:id').post(editorAuth,(req,res)=>{})
+
 module.exports = router
