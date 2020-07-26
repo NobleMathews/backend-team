@@ -10,43 +10,35 @@
   <%-include('partials/alert_system.ejs')%>
     <%- include('partials/navbar_admin') %>
     <div class="container">
+        <a href="/achievements/create/" class="btn btn-warning" role="button" style="margin-top: 20px;">Add achievements</a>
     <% if (achievements && achievements.length) { %>
-    <h2 style="color: blue; text-decoration: underline;"> List of All Achievements </h2>
+    <h2 style="color: blue; text-decoration: underline; margin-top: 30px;"> List of All Achievements </h2>
     <!-- Template for each achievement-->
-    <div class="card-group" style="align-content: center;">
-        <% achievements.forEach((achievement) => { %>
-            <div class="card" style="width: 18rem;">
-                <div class="row">
-
-                <% if (achievement.pics_url && achievement.pics_url.length) { %>
-                    <% (achievement.pics_url).forEach((pic) => { %>
-                        <div class="col-md-2">
-                        <img  src="/images/<%=pic%>" alt="img" height="100px" width="100px" class="img-fluid">
-                        </div>
-                  <% }) %>
-                  <% }%>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title"><%= achievement.title %></h5>
-                    <h6 class="card-subtitle mb-2 text-muted"><%= achievement.caption %></h6>
-                    <div class="card-text">
-                        <%- achievement.description %>
-                    </div>
-                    <p>
-                    <a href="/achievements/update/<%=achievement._id%>">edit</a>  |  <a href="/achievements/delete/<%=achievement._id%>">delete</a>
-                    </p>
-                </div>
-            </div>
-        <% }) %>
-    </div>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Achievement</th>
+                <th scope="col">Year</th>
+                <th scope="col">Caption</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% achievements.forEach((achievement) => { %>
+                <tr>
+                    <th scope="row"><%= achievement.title %></th>
+                    <td><%= moment(achievement.createdAt).format('YYYY'); %></td>
+                    <td><%= achievement.caption %></td>
+                    <td><a href="/achievements/details/<%=achievement._id%>">details</a> | <a href="/achievements/update/<%=achievement._id%>">edit</a>  |  <a href="/achievements/delete/<%=achievement._id%>">delete</a></td>
+                </tr>
+            <%})%>   
+        </tbody>
+    </table>
     <% }else{ %>
         <div class="container">
             <h1 class="display-2">No achievements exist yet</h1>
         </div>
     <% }%>
-    <div style="text-align: center; margin-top: 20px;">
-        <a href="/achievements/create/"><span class="material-icons">add</span>Add achievements</a>
-        </div>
     </div>
 
 <%- include('partials/bottom_spacing.ejs') %>
