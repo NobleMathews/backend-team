@@ -87,7 +87,7 @@ router.route('/blog/edit/:id').post(editorAuth, uploadf.fields([{name:'file_atta
   if(vfeatured==true){
     vpublished=true
   }
-  var pics_url=[],file_attachment=[],pics_url_links=[],tags=[],documentIDs=[],masterqueue=[],deletequeue=[];
+  var pics_url=[],file_attachment=[],pics_url_links=[],chief_guest_url,tags=[],documentIDs=[],masterqueue=[],deletequeue=[];
   if(req.body.documentIDs){
     documentIDs = JSON.parse(req.body.documentIDs); 
   }
@@ -119,11 +119,34 @@ router.route('/blog/edit/:id').post(editorAuth, uploadf.fields([{name:'file_atta
     pics_url = pics_url.concat(pics_url_links);
     documentIDs =masterqueue.filter(k => pics_url.includes(k[0])); 
     deletequeue = masterqueue.filter(k =>!pics_url.includes(k[0]));
+    if(req.files['chief_guest_url']){
+      chief_guest_url=req.files['chief_guest_url'][0].filename;
+      var evsum= {
+        gallery : pics_url,
+        title : req.body.title,                          
+        category:req.body.category,                          
+        chief_guest : req.body.chief_guest,
+        extract:req.body.extract, 
+        chief_guest_url : chief_guest_url,
+        award_winners : req.body.award_winners,
+        summary : req.body.summary,
+        featured : vfeatured,
+        outside_links : outside_links,
+        file_attachment : file_attachment,
+        video_links : video_links,
+        documentIDs:documentIDs,
+        published : vpublished,
+        keywords : tags
+    }
+    }
+    else{
     var evsum= {
       gallery : pics_url,
       title : req.body.title,                          
-      category:"public",      
+      category:req.body.category,      
       extract:req.body.extract,                    
+      chief_guest : req.body.chief_guest,
+      award_winners : req.body.award_winners,                    
       summary : req.body.summary,
       featured : vfeatured,
       outside_links : outside_links,
@@ -132,6 +155,7 @@ router.route('/blog/edit/:id').post(editorAuth, uploadf.fields([{name:'file_atta
       documentIDs:documentIDs,
       published : vpublished,
       keywords : tags
+  }
   }
   }
   else{
@@ -147,9 +171,11 @@ router.route('/blog/edit/:id').post(editorAuth, uploadf.fields([{name:'file_atta
   documentIDs = documentIDs.filter(k => pics_url.includes(k[0])); 
   var evsum= {
       gallery : pics_url_links,
-      category:"public",
+      category:req.body.category,
       title : req.body.title,                          
       extract: req.body.extract,
+      chief_guest : req.body.chief_guest,
+      award_winners : req.body.award_winners,
       summary : req.body.summary,
       featured : vfeatured,
       outside_links : outside_links,
