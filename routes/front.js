@@ -9,6 +9,7 @@ const eventsModel = require('../models/Event.model')
 const committeeModel = require('../models/Committee.model')
 const achievementModel = require('../models/Achievement.model')
 const newsModel = require('../models/News.model')
+const techTeamModel = require('../models/TechTeam.model')
 const feed_url = 'https://www.hackerrank.com/calendar/feed'
 const _ = require('lodash')
 const { constant } = require('lodash')
@@ -274,5 +275,12 @@ router.route('/achievements/:year').get((req, res) => {
         res.json(achievement)
     })
   }
+})
+
+router.route('/tech_teams').get((req,res)=>{
+  techTeamModel.find({},{__v:0})
+  .then(tech_team=>{
+    res.json(tech_team)
+  })
 })
 module.exports = router
