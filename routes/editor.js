@@ -133,7 +133,6 @@ router.route('/blog/edit/:id').post(editorAuth, uploadf.fields([{name:'file_atta
       published : vpublished,
       keywords : tags
   }
-
   }
   else{
   if(req.body.pics_url_links)
