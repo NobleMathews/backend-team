@@ -78,7 +78,8 @@ router.route('/create').post(clubAuth, uploadf.fields([{name:'chief_guest_url',m
         video_links : video_links,
         documentIDs:documentIDs,
         published : vpublished,
-        keywords : tags
+        keywords : tags,
+        creator: req.user.email_id
     })
     }
     else{
@@ -97,7 +98,8 @@ router.route('/create').post(clubAuth, uploadf.fields([{name:'chief_guest_url',m
         video_links : video_links,
         documentIDs:documentIDs,
         published : vpublished,
-        keywords : tags
+        keywords : tags,
+        creator: req.user.email_id
     })
     }
     evsum.save((err, event) => {
@@ -411,7 +413,8 @@ router.route('/public/post').post(isLoggedIn, uploadf.fields([{name:'chief_guest
         video_links : video_links,
         documentIDs:documentIDs,
         published : vpublished,
-        keywords : tags
+        keywords : tags,
+        creator: req.user.googleId
     })
     }
     else{
@@ -429,7 +432,8 @@ router.route('/public/post').post(isLoggedIn, uploadf.fields([{name:'chief_guest
         video_links : video_links,
         documentIDs:documentIDs,
         published : vpublished,
-        keywords : tags
+        keywords : tags,
+        creator: req.user.googleId
     })
     }
     evsum.save((err, event) => {
