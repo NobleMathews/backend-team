@@ -51,7 +51,7 @@ router.route('/logout').get(editorAuth, async (req, res) => {
       return token.token !== req.token
     })
 
-    await req.token.save()
+    await req.editor.save()
     res.redirect('/editor')
   } catch (e) {
     req.flash('error', e)
