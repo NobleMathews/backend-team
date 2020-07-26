@@ -8,9 +8,17 @@
 </head>
 <body>    
   <%-include('partials/alert_system.ejs')%>    
-    <form method="GET" style="position: fixed; right: 0; top:0; padding: 10px;" action="/admin" >
-    <button type="submit" class='btn btn-outline-success pull-right'>Login as Admin</button> 
+    <div style="position: fixed; right: 0; top:0; padding: 10px; display: inline-block; text-align: left;  vertical-align: top;">
+
+    <form method="GET"  action="/editor" style="float: left; margin-right: 20px;">
+        <button type="submit" class='btn btn-outline-success pull-right'>Login as Blog Editor</button> 
     </form>
+
+    <form method="GET"  action="/admin" style="float: left; " >
+        <button type="submit" class='btn btn-outline-danger pull-right'>Login as Admin</button> 
+    </form>
+
+    </div>
     <!-- Switch to admin login so that there is only fall through from higher access requests -->
 
     <div class="container" style="margin-top: 20vh;" >
@@ -31,8 +39,8 @@
                 </form>
             </div>
         </div>
-        <a href="/blog/auth/google">Create Blog</a>
-        <a href="/projects/auth/google">Create Project</a>
+        <!-- <a href="/blog/auth/google">Create Blog</a>
+        <a href="/projects/auth/google">Create Project</a> -->
     </div>
     <script>
     //client side rejection of whitespace
