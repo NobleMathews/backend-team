@@ -206,6 +206,39 @@ router.route('/blog/details/:id').get(editorAuth,(req,res)=>{
   })
 })
 
-router.route('/blog/delete/:id').post(editorAuth,(req,res)=>{})
+router.route('/blog/delete/:id').get(editorAuth, (req,res)=>{
+  const id = req.params.id
+  blogModel.findByIdAndDelete(id)
+  .then((data) => {
+    if(data.documentIDs){
+      deletequeue = data.documentIDs;
+      if(deletequeue.length>0){
+        var arrPromises = deletequeue.map((path) => 
+        {
+          req.app.locals.gfs.delete(new mongoose.Types.ObjectId(path[1]))
+          
+        }
+        );
+        Promise.all(arrPromises)
+          .then((arrdata) => 
+            
+            res.redirect('/editor/home'))
+          .catch(function (err) {
+            req.flash("error",["Alert : Delete failed on some images."])
+            res.redirect('/editor/home')
+          });
+      }
+      else{
+        res.redirect('/editor/home')
+      }
+    }
+    else
+    res.redirect('/editor/home')
+
+  }).catch(err=>{
+    req.flash("error",err.message)
+    res.redirect('/editor/home')
+  })
+})
 
 module.exports = router
