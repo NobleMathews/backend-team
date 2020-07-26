@@ -231,7 +231,8 @@
         $(document).ready(function(){
                
             var initchecked = $("input[name=featured]").prop('checked');
-            $("input[name=published]").prop("checked",initchecked);
+            var pubchecked = $("input[name=published]").prop('checked');
+            $("input[name=published]").prop("checked",initchecked||pubchecked);
             $("input[name=published]").attr("disabled",initchecked);
             $("#category").change(function(){
                 $(this).find("option:selected").each(function(){
