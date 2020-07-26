@@ -13,33 +13,70 @@
   <h3 style="text-align: center; text-decoration: underline; padding-top: 30px;">Event Summary</h3>
     <div class="container" style="padding-top:30px;">
         <div class="col-md-5 m-auto">
-        <form action="/editor/blog/edit/<%=id%>" method="POST" enctype="multipart/form-data">
+        <form action="/blog/public/post" method="POST" enctype="multipart/form-data">
 
-        <div class="form-group">
-            <label>Title of the Blog</label>
-            <input type="text" class="form-control" name="title" value="<%=blog.title||'NULL'%>" required placeholder="Provide a nice title to the blog">
-        </div>
-        <div class="form-group">
-            <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="featured" name="featured" <%= blog.featured ? "checked" : "" %>>
-                <label class="custom-control-label" for="featured">Is Featured?</label>
+            <div class="form-group">
+                <label for="category">Category :</label>
+                    <select name="category" id="category" required>
+                    <option value="none" selected disabled hidden> 
+                        Select Category 
+                    </option> 
+                    <%
+                        var options = [ "Workshop", "Competition", "Talk-show","Activity","others"];
+                        for ( var i = 0; i < options.length; i++ )
+                        {
+                            var selected = ( options[i] == blog.category ) ? "selected" : "";
+                            %><option value="<%=options[ i ] %>" <%=selected %>><%= options[i] %></option><%
+                        }
+                    %>
+                    </select>
             </div>
-        </div>
 
-        <% if(blog.featured==true){ %>
+            <div class="Workshop optional">
+            </div>
+            <div class="Competition optional">
+                <div class="form-group">
+                    <label>Award Winners</label>
+                    <input class="form-control" name="award_winners" placeholder="Separate with | and ,">
+                    <small class="form-text text-muted">"|" to seperate winning tiers and "," for ties</small>
+                </div>
+            </div>
+            <div class="Talk-show optional">
+                <div class="form-group">
+                    <label>Chief Guest</label>
+                    <input class="form-control" name="chief_guest" value="<%=blog.chief_guest||'NULL'%>">>
+                    </div>
+                <div class="form-group">
+                    <input type="file" accept='image/*' onchange="imageCompressor(event);" name="chief_guest_url" class="form-control-file">
+                </div>
+            </div>
+            <div class="Activity optional">
+            </div>
+
             <div class="form-group">
                 <label>Extract :</label>
                 <textarea name="extract" id="extract" cols="65" rows="5" ><%=blog.extract||'NULL'%></textarea>
             </div>
-        <% } %>
-        
-        
-        <div id="extract-container"></div>
+
+            
+            <div class="form-group">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="featured" name="featured" <%= blog.featured ? "checked" : "" %>>
+                    <label class="custom-control-label" for="featured">Is Featured?</label>
+                </div>
+            </div>
+
+            <% if(blog.featured==true){ %>
+                <div class="form-group">
+                    <label>Extract :</label>
+                    <textarea name="extract" id="extract" cols="65" rows="5" ><%=blog.extract||'NULL'%></textarea>
+                </div>
+            <% } %>
+            
             <div class="form-group">
                 <label>Summary</label>
-                <textarea class="form-control" name="summary" rows="4" placeholder="Provide a short blog..."><%=blog.summary||"NULL"%></textarea>
+                <textarea class="form-control" name="summary" rows="4" placeholder="Provide a short summary..."><%=blog.summary||"NULL"%></textarea>
             </div>
-            <!-- for now these next 2 fields are not prefilled so that script isnt disturbed just for ejs but do execute logic on frontend -->
             <div class="form-group">
                 <div class="container">
                     <div class="row clearfix">
@@ -67,7 +104,7 @@
                                         <%  }else{  %>
                                     <td>
                                         <a  href="/files/<%=blog.file_attachment[i] %>" target="_blank"><%= blog.file_attachment[i] %>    
-                                        <input style="display: none;" class="form-control" value="<%= blog.file_attachment[i] %>" name='file_attachment_links[]'>
+                                        <input style="display: none;" class="form-control" value="<%=blog.file_attachment[i] %>" name='file_attachment_links[]'>
                                         </a>
                                     </td>
                                         <td><button class="updaterow">Update</button></td>
@@ -82,6 +119,7 @@
                     <button type="button" id="add_row" class="btn btn-default pull-left">Add Row</button><button id='delete_row' class="pull-right btn btn-default">Delete Row</button>
                 </div>
             </div>
+
             <div class="form-group">
                 <div class="container">
                     <div class="row clearfix">
