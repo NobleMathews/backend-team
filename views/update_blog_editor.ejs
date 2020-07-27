@@ -4,59 +4,128 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Blogs</title>
+    <title>Edit Blog</title>
       <%-include('partials/dependencies.ejs')%>    
 </head>
   <body>    
   <%-include('partials/alert_system.ejs')%>
-    <style>
-        input[type="file"] {
-        display: block;
-        }
-        .imageThumb {
-        height: 100px;
-        width: 100px;
-        border: 2px solid;
-        padding: 1px;
-        cursor: pointer;
-        }
-        .pip {
-        display: inline-block;
-        margin: 10px;
-        }
-        .remove {
-        display: block;
-        background: #444;
-        border: 1px solid black;
-        color: white;
-        text-align: center;
-        cursor: pointer;
-        }
-        .remove:hover {
-        background: white;
-        color: black;
-        }
-        #snapholder{
-            height:auto;
-            min-height:50px;
-            height:auto !important;  /* for IE as it does not support min-height */
-        }
-    </style>
-
-    <h3 style="text-align: center; text-decoration: underline; padding-top: 30px;">Write Blogs!</h3>
+  <%-include('partials/navbar_editor_blog.ejs')%> <br>
+  <h3 style="text-align: center; text-decoration: underline; padding-top: 30px;">Event Summary</h3>
     <div class="container" style="padding-top:30px;">
         <div class="col-md-5 m-auto">
-        <form action="/blog/public/post" method="POST" enctype="multipart/form-data">
+        <form action="/editor/blog/edit/<%=id%>" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label>Title of the Blog</label>
-                <input type="text" class="form-control" name="title" value="<%=blog.title%>" required placeholder="Provide a nice title to the blog">
+                <input type="text" class="form-control" name="title" value="<%=blog.title||'NULL'%>" required placeholder="Provide a nice title to the blog">
             </div>
+            <div class="form-group">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="featured" name="featured" <%= blog.featured ? "checked" : "" %>>
+                    <label class="custom-control-label" for="featured">Is Featured?</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="category">Category :</label>
+                    <select name="category" id="category" required>
+                    <option value="none" selected disabled hidden> 
+                        Select Category 
+                    </option> 
+                    <%
+                        var options = [ "Workshop", "Competition", "Talk-show","Activity","others"];
+                        for ( var i = 0; i < options.length; i++ )
+                        {
+                            var selected = ( options[i] == blog.category ) ? "selected" : "";
+                            %><option value="<%=options[ i ] %>" <%=selected %>><%= options[i] %></option><%
+                        }
+                    %>
+                    </select>
+            </div>
+
+            <div class="Workshop optional">
+            </div>
+            <div class="Competition optional">
+                <div class="form-group">
+                    <label>Award Winners</label>
+                    <input class="form-control" name="award_winners" placeholder="Separate with | and ,">
+                    <small class="form-text text-muted">"|" to seperate winning tiers and "," for ties</small>
+                </div>
+            </div>
+            <div class="Talk-show optional">
+                <div class="form-group">
+                    <label>Chief Guest</label>
+                    <input class="form-control" name="chief_guest" value="<%=blog.chief_guest||'NULL'%>">>
+                    </div>
+                <div class="form-group">
+                    <input type="file" accept='image/*' onchange="imageCompressor(event);" name="chief_guest_url" class="form-control-file">
+                </div>
+            </div>
+            <div class="Activity optional">
+            </div>
+
+            <% if(blog.featured==true){ %>
+                <div class="form-group">
+                    <label>Extract :</label>
+                    <textarea name="extract" id="extract" cols="65" rows="5" ><%=blog.extract||'NULL'%></textarea>
+                </div>
+            <% } %>
+    
+    
+            <div id="extract-container"></div>
+
+            <% if(blog.featured==true){ %>
+                <div class="form-group">
+                    <label>Extract :</label>
+                    <textarea name="extract" id="extract" cols="65" rows="5" ><%=blog.extract||'NULL'%></textarea>
+                </div>
+            <% } %>
             
             <div class="form-group">
                 <label>Summary</label>
-                <textarea class="form-control" name="summary" rows="4" placeholder="Provide a short summary..."></textarea>
+                <textarea class="form-control" name="summary" rows="4" placeholder="Provide a short summary..."><%=blog.summary||"NULL"%></textarea>
             </div>
-            
+            <div class="form-group">
+                <div class="container">
+                    <div class="row clearfix">
+                        <div class="col-md-12 column">
+                            <table class="table table-bordered table-hover" id="tab_logic">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">
+                                            #
+                                        </th>
+                                        <th class="text-center">
+                                            File attachments
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% var i; %>
+                                    <% for ( i=0 ; i <= blog.file_attachment.length ; i++ ){ %>
+                                    <tr id='addr<%=i%>'>
+                                        <td><%=i+1%></td>
+                                        <% if(!blog.file_attachment[i]){ %>
+                                    <td>
+                                        <input type="file" name='file_attachment[]'  placeholder='Links to docs/files' class="form-control">
+                                    </td>
+                                        <%  }else{  %>
+                                    <td>
+                                        <a  href="/files/<%=blog.file_attachment[i] %>" target="_blank"><%= blog.file_attachment[i] %>    
+                                        <input style="display: none;" class="form-control" value="<%=blog.file_attachment[i] %>" name='file_attachment_links[]'>
+                                        </a>
+                                    </td>
+                                        <td><button class="updaterow">Update</button></td>
+                                        <%  }  %>
+                                    </tr>
+                                    <%  }  %>
+                                    <tr id='addr<%=i%>'></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <button type="button" id="add_row" class="btn btn-default pull-left">Add Row</button><button id='delete_row' class="pull-right btn btn-default">Delete Row</button>
+                </div>
+            </div>
+
             <div class="form-group">
                 <div class="container">
                     <div class="row clearfix">
@@ -73,13 +142,16 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr id='addr20'>
-                                        <td>1</td>
+                                    <% var j; %>
+                                    <% for ( j=0 ; j <= blog.outside_links.length ; j++ ){ %>
+                                    <tr id='addr2<%=j%>'>
+                                        <td><%=j+1%></td>
                                         <td>
-                                        <input type="text" name='outside_links[]'  placeholder='Provide links to google docs/ uploads' class="form-control">
+                                        <input type="text" name='outside_links[]'  placeholder='Provide links to google docs/ uploads' class="form-control" value="<%=blog.outside_links[j]||''%>">
                                         </td>
                                     </tr>
-                                    <tr id='addr21'></tr>
+                                    <%  }  %>
+                                    <tr id='addr2<%=j%>'></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -103,14 +175,17 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr id='addr30'>
-                                        <td>1</td>
+                                <% var k; %>
+                                <% for ( k=0 ; k <= blog.video_links.length ; k++ ){ %>
+                                    <tr id='addr3<%=k%>'>
+                                        <td><%=k+1%></td>
                                         <td>
-                                        <input type="text" name='video_links[]'  placeholder='Provide links to videos if any..' class="form-control">
+                                        <input type="text" name='video_links[]' placeholder='Provide links to videos if any..' class="form-control" value="<%=blog.video_links[k]||''%>">
                                         </td>
                                     </tr>
-                                    <tr id='addr31'></tr>
-                                </tbody>
+                                <%  }  %>                                
+                                    <tr id='addr3<%=k%>'>
+                            </tbody>
                             </table>
                         </div>
                     </div>
@@ -118,27 +193,106 @@
                 </div>
             </div>
             <div class="form-group">
+                <div class="container">
+                    <div class="row clearfix">
+                        <div class="col-md-12 column">
+                            <table class="table table-bordered table-hover" id="tab_logic4">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">
+                                            Uploaded Images
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% (blog.gallery).forEach(function(url){ %>
+                                    <tr>
+                                    <td>
+                                        <img src="/images/<%= url %>" alt="image" width="100px" height="100px">
+                                        <input style="display: none;" class="form-control" value="<%=url%>" name='pics_url_links[]'>
+                                    </td>
+                                        <td><button class="updaterow2">Remove</button></td>
+                                    </tr>
+                                    <%  });  %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
                 <label>Upload Photos</label>
                 <% imageh_name="file_attachment[]" %>
                 <%-include('partials/multi_image_handler.ejs')%>
+                <div class="form-group">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="published" name="published" <%= blog.published ? "checked" : "" %>>
+                        <label class="custom-control-label" for="published">Publish?</label>
+                    </div>
+                </div>
             </div>
-            <button type="submit" class="btn btn-primary" style="margin-bottom: 20px; margin-bottom: 20px;">Create Blog</button>
+            <button type="submit" class="btn btn-primary" style="margin-bottom: 5px;">Update Blog</button>
+            <input style="display: none;" class="form-control" value='<%- JSON.stringify(blog.documentIDs) %>' name='documentIDs'>
+            <input style="display: none;" class="form-control" value='<%- JSON.stringify(blog.keywords) %>' name='tags'>
         </form>
         </div>
     </div>
+
     <script>
-        
+        $("input[name=featured]").change(function() {
+            var checked = $(this).prop('checked');
+            $("input[name=published]").prop("checked",checked);
+            $("input[name=published]").attr("disabled",checked);
+            
+            //to provide extract textarea
+            if(this.checked){
+                var temp_div = document.createElement('DIV')
+                temp_div.id = 'temp-div'
+                temp_div.class = "form-control"
+                var t_area = document.createElement('TEXTAREA')
+                t_area.id = "extract"
+                t_area.name = "extract"
+                t_area.rows = '5'
+                t_area.cols = '65'
+                t_area.required = 'true'
+                var label = document.createElement('LABEL')
+                label.innerHTML = 'Extract :'
+                temp_div.appendChild(label)
+                temp_div.appendChild(document.createElement('BR'))
+                temp_div.appendChild(t_area)
+                document.getElementById('extract-container').appendChild(temp_div)
+               
+            }else{
+                document.getElementById('temp-div').remove()
+            }
+                
+
+        });
+
                 var editor = CKEDITOR.replace('summary');
         editor.on( 'required', function( evt ) {
                 editor.showNotification( 'This field is required.', 'warning' );
                 evt.cancel();
         });
-
         $(document).ready(function(){
-
+               
+            var initchecked = $("input[name=featured]").prop('checked');
+            var pubchecked = $("input[name=published]").prop('checked');
+            $("input[name=published]").prop("checked",initchecked||pubchecked);
+            $("input[name=published]").attr("disabled",initchecked);
+            $("#category").change(function(){
+                $(this).find("option:selected").each(function(){
+                    var selected = $(this).attr("value");
+                    if(selected){
+                        $(".optional").not("." + selected).hide();
+                        $("." + selected).show();
+                    } else{
+                        $(".optional").hide();
+                    }
+                });
+            }).change();
             var i=1;
+            i=$("#tab_logic tr").length-2;
             $("#add_row").click(function(event){event.preventDefault();b=i-1;
-            $('#addr'+i).html($('#addr'+b).html()).find('td:first-child').html(i+1);
+            $('#addr'+i).html('<td></td><td><input type="file" name="file_attachment[]" placeholder="Links to docs/files" class="form-control"></td>').find('td:first-child').html(i+1);
             $('#tab_logic').append('<tr id="addr'+(i+1)+'"></tr>');
             i++; 
             });
@@ -148,7 +302,15 @@
                 i--;
                 }
             });
+            $(".updaterow").click(function(event){event.preventDefault();
+                $(event.target).parent().parent().find('td:nth-child(2)').html('<input type="file" name="file_attachment[]"  placeholder="Links to docs/files" class="form-control">');
+                $(event.target).parent().parent().find('td:nth-child(3)').remove();
+            });
+            $(".updaterow2").click(function(event){event.preventDefault();
+                $(event.target).parent().parent().remove();
+            });
                 var j=1;
+                j=$("#tab_logic2 tr").length-2;
                 $("#add_row2").click(function(event){event.preventDefault();b=j-1;
                 $('#addr2'+j).html($('#addr2'+b).html()).find('td:first-child').html(j+1);
                 $('#tab_logic2').append('<tr id="addr2'+(j+1)+'"></tr>');
@@ -161,6 +323,7 @@
                     }
                 });
                 var k=1;
+                k=$("#tab_logic3 tr").length-2;
                 $("#add_row3").click(function(event){event.preventDefault();b=k-1;
                 $('#addr3'+k).html($('#addr3'+b).html()).find('td:first-child').html(k+1);
                 $('#tab_logic3').append('<tr id="addr3'+(k+1)+'"></tr>');

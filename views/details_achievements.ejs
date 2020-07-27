@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Achievement Details</title>
+    <%-include('partials/dependencies.ejs')%>    
+</head>
+<body>    
+  <%-include('partials/alert_system.ejs')%>
+    <%- include('partials/navbar_admin') %>
+    <div class="container">
+    <h1 class="display-2"> Achievement Details </h1>
+    <div class="card-group" style="align-content: center;">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title mb-4"><%= achievement.title %></h5>
+                    <div class="row">
+                        <% if (achievement.pics_url && achievement.pics_url.length) { %>
+                            <% (achievement.pics_url).forEach((pic) => { %>
+                                <div class="col-md-2">
+                                <img  src="/images/<%=pic%>" alt="img" height="100px" width="100px" class="img-fluid">
+                                </div>
+                          <% }) %>
+                          <% }%>
+                        </div>
+                    <p class="card-text">
+                        <h3 class="card-subtitle mb-4 text-muted">Year: <%= moment(achievement.createdAt).format('YYYY'); %></h3>
+                    </p>
+                    <p class="card-text">
+                        <b>Caption : </b><%= achievement.caption %>
+                    </p>
+                    <p class="card-text">
+                        <b>What is the fuss all about ? : </b>
+                    </p>
+                    <div class="card-text">
+                        <%- achievement.description %>
+                    </div>
+                    <p>
+                    <a href="#" class="btn btn-primary btn-sm" role="button">Edit</a>
+                    <a href="#" class="btn btn-danger btn-sm" role="button">Delete</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<%- include('partials/bottom_spacing.ejs') %>
+</body>
+</html>

@@ -7,6 +7,7 @@
     <%-include('partials/dependencies.ejs')%>    
 </head>
 <body class="bg-light">
+    <%-include('partials/alert_system.ejs')%>
     <%-include('partials/navbar_editor_blog.ejs')%> <br>
     <style>
     .prev_over{
@@ -172,8 +173,8 @@
             </div>
             <hr class="mb-4">
             <div class="btn-group" role="group" aria-label="controls">
-            <a class="btn btn-primary" href="#">Edit</a>
-            <a class="btn btn-danger" href="#">Delete</a>
+            <a class="btn btn-primary" href="/editor/blog/edit/<%=blog._id%>">Edit</a>
+            <a class="btn btn-danger" href="/editor/blog/delete/<%=blog._id%>">Delete</a>
             </div>
         </div>
       </div>

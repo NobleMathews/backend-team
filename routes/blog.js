@@ -255,8 +255,8 @@ router.route('/update/:id').post(clubAuth, uploadf.fields([{name:'chief_guest_ur
             }
           })
         }).catch((e)=> {
-          res.json(e)
-        })
+          req.flash("error",e.message)
+          res.redirect('/blog/view_all')})
       }
       if(deletequeue.length>0){
         var arrPromises = deletequeue.map((path) => 
