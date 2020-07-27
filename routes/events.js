@@ -8,6 +8,9 @@ const _ = require('lodash');
 const MonkeyLearn = require('monkeylearn')
 const ml = new MonkeyLearn('8b8701a6b32bfe7d6f749095ee6d31123b267daf')
 let model_id = 'ex_YCya9nrn'
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
+const document = new JSDOM(`<!DOCTYPE html><p>Text Parser</p>`).window.document;
 const { filter } = require('lodash');
 
 // route for rendering event creation page
