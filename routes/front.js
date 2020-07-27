@@ -15,89 +15,87 @@ const _ = require('lodash')
 const { constant } = require('lodash')
 
 router.route('/home').get((req, res) => {
-  const homedata = async function(){
-    let [news,f_blogs,f_projects,club_details,club_head_details] = await Promise.all([
+  const homedata = async function () {
+    let [news, f_blogs, f_projects, club_details, club_head_details] = await Promise.all([
       newsModel.find().lean().exec(),
-      blogModel.find({featured:true}).lean().exec(),
-      projectsModel.find({featured:true}).lean().exec(),
+      blogModel.find({ featured: true }).lean().exec(),
+      projectsModel.find({ featured: true }).lean().exec(),
       clubModel.find().lean().exec(),
-      clubHeadsModel.find().select({_id:1,name:1,dp_url:1}).lean().exec()    
-    ]);
-    club_head_details= club_head_details.map(function(obj) {obj["head"] = obj["name"];delete obj["name"];return obj;}); 
-    const clubs =_.map(club_details, function(obj) {
-      return _.extend(obj, _.find(club_head_details, {_id: (obj.head)}));
-    });
+      clubHeadsModel.find().select({ _id: 1, name: 1, dp_url: 1 }).lean().exec()
+    ])
+    club_head_details = club_head_details.map(function (obj) { obj.head = obj.name; delete obj.name; return obj })
+    const clubs = _.map(club_details, function (obj) {
+      return _.extend(obj, _.find(club_head_details, { _id: (obj.head) }))
+    })
     return {
-      news:news,
-      f_blogs:f_blogs,
-      f_projects:f_projects,
-      clubs:clubs
+      news: news,
+      f_blogs: f_blogs,
+      f_projects: f_projects,
+      clubs: clubs
     }
   }
   homedata()
-  .then(data=>{res.json(data)})
-  .catch(e => {console.log(e)})
-
+    .then(data => { res.json(data) })
+    .catch(e => { console.log(e) })
 })
 
 // takes club_name case insensitive
-router.route('/club/:club').get( async (req,res)=>{
-    const club_name = req.params.club.toUpperCase()
-    const club = await clubModel.findOne({name:club_name})
-    try{
-        clubHeadsModel.findById(club.head,{tokens:0})
-        .then(club_head=>{
-          clubMemberModel.find({owner:club.head},{owner:0,_id:0,__v:0,createdAt:0,updatedAt:0})
-          .then(members=>{res.json({
-            'Club name':club.name,
-            'Club Description':club.description,
-            'Club logo_url':club.logo_url,
-            'Club Object_ID':club._id,
-            'Club Youtube channel':club.youtube,
-            'Club Instagram page':club.instagram,
-            'Club Facebook page':club.facebook,
-            'Club Linkedin page':club.linkedin,
-            'Club Github page':club.github,
-            'Club Head name':club_head.user_id,
-            'Club Head dp_url':club_head.dp_url,
-            'Club Head bio':club_head.bio,
-            'Club Head contact':club_head.contact,
-            'Club Head email_id':club_head.email_id,
-            'Member details':members
-          }).catch(err=>{res.json(err)})
-        }).catch(err=>{
-          res.json(err)
-        })
-      }).catch(err=>{
+router.route('/club/:club').get(async (req, res) => {
+  const club_name = req.params.club.toUpperCase()
+  const club = await clubModel.findOne({ name: club_name })
+  try {
+    clubHeadsModel.findById(club.head, { tokens: 0 })
+      .then(club_head => {
+        clubMemberModel.find({ owner: club.head }, { owner: 0, _id: 0, __v: 0, createdAt: 0, updatedAt: 0 })
+          .then(members => {
+            res.json({
+              'Club name': club.name,
+              'Club Description': club.description,
+              'Club logo_url': club.logo_url,
+              'Club Object_ID': club._id,
+              'Club Youtube channel': club.youtube,
+              'Club Instagram page': club.instagram,
+              'Club Facebook page': club.facebook,
+              'Club Linkedin page': club.linkedin,
+              'Club Github page': club.github,
+              'Club Head name': club_head.user_id,
+              'Club Head dp_url': club_head.dp_url,
+              'Club Head bio': club_head.bio,
+              'Club Head contact': club_head.contact,
+              'Club Head email_id': club_head.email_id,
+              'Member details': members
+            }).catch(err => { res.json(err) })
+          }).catch(err => {
+            res.json(err)
+          })
+      }).catch(err => {
         res.json(err)
       })
-    }catch(err){
+  } catch (err) {
+    res.json(err)
+  }
+})
+router.route('/clubs').get((req, res) => {
+  clubModel.find({}, { name: 1, _id: 0 }, function (err, clubs) {
+    if (err) {
       res.json(err)
-    }
-  
-})  
-router.route('/clubs').get((req,res)=>{
-  clubModel.find({},{name:1,_id:0},function(err,clubs){
-    if(err){
-      res.json(err)
-    }else{
+    } else {
       res.json(clubs)
     }
   })
 })
-//route for front end to render gallery strings of club_head blog
-router.route('/gallery/:club_name').get((req,res)=>{
-const club_name = req.params.club_name.toUpperCase();
-clubModel.findOne({name:club_name},{_id:0})
-.then(club => {
-    blogModel.find({owner:club.head},{gallery:1,_id:0})
-    .then(blog=>{
-        arr=_.map(blog, 'gallery');
-        consolidated=[].concat.apply([], arr);
-        res.json({'gallery_strings':consolidated})
-    }).catch(err => {res.json(err)})
-}).catch(err => {res.json(err)})
-
+// route for front end to render gallery strings of club_head blog
+router.route('/gallery/:club_name').get((req, res) => {
+  const club_name = req.params.club_name.toUpperCase()
+  clubModel.findOne({ name: club_name }, { _id: 0 })
+    .then(club => {
+      blogModel.find({ owner: club.head }, { gallery: 1, _id: 0 })
+        .then(blog => {
+          arr = _.map(blog, 'gallery')
+          consolidated = [].concat.apply([], arr)
+          res.json({ gallery_strings: consolidated })
+        }).catch(err => { res.json(err) })
+    }).catch(err => { res.json(err) })
 })
 // take multiple chainable queries branch club degree and search queries /?=...&..
 router.route('/projects').get(async (req, res) => {
@@ -194,6 +192,7 @@ router.route('/blogs/:club_name').get(async (req, res) => {
     res.json(error)
   }
 })
+
 router.route('/blog/:id').get((req, res) => {
   const id = req.params.id
   blogModel.findById(id)
@@ -282,5 +281,6 @@ router.route('/tech_teams').get((req,res)=>{
   .then(tech_team=>{
     res.json(tech_team)
   })
+
 })
 module.exports = router

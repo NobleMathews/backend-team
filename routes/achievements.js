@@ -6,6 +6,7 @@ const adminAuth = require('../middleware/adminAuth');
 const _ = require('lodash');
 const MonkeyLearn = require('monkeylearn')
 const ml = new MonkeyLearn('8b8701a6b32bfe7d6f749095ee6d31123b267daf')
+const moment = require('moment')
 let model_id = 'ex_YCya9nrn'
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
@@ -167,10 +168,19 @@ router.route('/err').get(adminAuth, (req, res) => {
 })
 // route to view all achievemnts
 router.route('/view_all').get(adminAuth, (req, res) => {
-    achievementModel.find()
+    achievementModel.find().sort({createdAt:-1})
     .then(achievements => {
-        res.render('view_achievements', { alerts: req.flash('error'), achievements , page_name:"achievements"})
+        res.render('view_achievements', { alerts: req.flash('error'), achievements , page_name:"achievements", moment:moment})
     })
+})
+
+router.route('/details/:id').get(adminAuth,(req,res)=>{
+  achievementModel.findById(req.params.id)
+  .then(achievement=>{
+    res.render('details_achievements',{alerts: req.flash('error'),achievement:achievement, page_name:"achievements", moment:moment})
+  }).catch(err=>{
+    res.jaon(err)
+  })
 })
 
 module.exports = router
