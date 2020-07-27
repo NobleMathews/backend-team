@@ -30,7 +30,10 @@ router.route('/create/').post(clubAuth, upload.single('poster'), (req, res) => {
         documentIDs.push([req.file.filename,req.file.id]);
       // })
     }
-  ml.extractors.extract(model_id,[req.body.description]).then(resp => {
+    let DOMelement = document.createElement('span');
+    DOMelement.innerHTML = req.body.description;
+    let cleanText=  DOMelement.textContent || DOMelement.innerText;
+    ml.extractors.extract(model_id,[cleanText]).then(resp => {
     let response=resp.body
     let tags=[]
     if(!response[0].error){

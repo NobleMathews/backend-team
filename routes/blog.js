@@ -51,8 +51,10 @@ router.route('/create').post(clubAuth, uploadf.fields([{name:'chief_guest_url',m
       })
     }
   }
-
-  ml.extractors.extract(model_id,[req.body.summary]).then(resp => {
+  let DOMelement = document.createElement('span');
+  DOMelement.innerHTML = req.body.summary;
+  let cleanText=  DOMelement.textContent || DOMelement.innerText;
+  ml.extractors.extract(model_id,[cleanText]).then(resp => {
     let response=resp.body
     let tags=[]
     if(!response[0].error){
