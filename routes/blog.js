@@ -15,6 +15,9 @@ const Editor = require('../models/Editor.model')
 require('../middleware/passport-setup')
 
 let model_id = 'ex_YCya9nrn'
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
+const document = new JSDOM(`<!DOCTYPE html><p>Text Parser</p>`).window.document;
 
 //  for rendering blog creation page
 router.route('/create').get(clubAuth, (req,res)=>{
@@ -48,8 +51,10 @@ router.route('/create').post(clubAuth, uploadf.fields([{name:'chief_guest_url',m
       })
     }
   }
-
-  ml.extractors.extract(model_id,[req.body.summary]).then(resp => {
+  let DOMelement = document.createElement('span');
+  DOMelement.innerHTML = req.body.summary;
+  let cleanText=  DOMelement.textContent || DOMelement.innerText;
+  ml.extractors.extract(model_id,[cleanText]).then(resp => {
     let response=resp.body
     let tags=[]
     if(!response[0].error){

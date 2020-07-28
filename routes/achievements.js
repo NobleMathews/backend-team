@@ -8,6 +8,9 @@ const MonkeyLearn = require('monkeylearn')
 const ml = new MonkeyLearn('8b8701a6b32bfe7d6f749095ee6d31123b267daf')
 const moment = require('moment')
 let model_id = 'ex_YCya9nrn'
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
+const document = new JSDOM(`<!DOCTYPE html><p>Text Parser</p>`).window.document;
 
 // for rendering achievement create page
 router.route('/create/').get(adminAuth, (req, res) => {
@@ -26,7 +29,10 @@ router.route('/create/').post(adminAuth, upload.any('snapshot_url', 20), (req, r
         documentIDs[index]=[file.filename,file.id];
       })
     }
-    ml.extractors.extract(model_id,[req.body.des]).then(resp => {
+    let DOMelement = document.createElement('span');
+    DOMelement.innerHTML = req.body.des;
+    let cleanText=  DOMelement.textContent || DOMelement.innerText;
+    ml.extractors.extract(model_id,[cleanText]).then(resp => {
       let response=resp.body
       let tags=[]
       if(!response[0].error){
