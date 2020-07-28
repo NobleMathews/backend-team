@@ -127,6 +127,17 @@ router.route('/projects').get(async (req, res) => {
     }
   }
 })
+
+router.route('/project/:id').get((req,res)=>{
+  projectsModel.findById(req.params.id)
+  .then(project=>{
+    res.json(project);
+  })
+  .catch(err=>{
+    res.json(err);
+  })
+})
+
 // takes month number or the type of event competitions talkshows workshops or all
 router.route('/events/:filter').get((req, res) => {
   efilter = req.params.filter

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Branches</title>
+    <%-include('partials/dependencies.ejs')%>    
+</head>
+<body>    
+  <%-include('partials/alert_system.ejs')%>
+    <%- include('partials/navbar_admin') %>
+    <div class="container">
+        <a href="/branches/create/" class="btn btn-warning" role="button" style="margin-top: 20px;">Add Branch</a>
+    <% if (branches && branches.length) { %>
+    <h2 style="color: blue; text-decoration: underline; margin-top: 30px;"> List of All Branches </h2>
+    
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Branch</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% branches.forEach((branch) => { %>
+                <tr>
+                    <th scope="row"><%= branch.name %></th>
+                    <td><a href="/branches/update/<%=branch._id%>">edit</a></td>
+                </tr>
+            <%})%>   
+        </tbody>
+    </table>
+    <% }else{ %>
+        <div class="container">
+            <h1 class="display-2">No branches exist yet</h1>
+        </div>
+    <% }%>
+    </div>
+
+<%- include('partials/bottom_spacing.ejs') %>
+</body>
+</html>

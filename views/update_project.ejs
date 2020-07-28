@@ -98,9 +98,22 @@
             <input class="form-control" name="branch" value="<%=project.branch%>" placeholder="Enter Branch">
             </div>
             <div class="form-group">
-                <label>Club</label>
-                <input class="form-control" name="club" value="<%=project.club%>" placeholder="Enter Club">
+                <label for="club">Category :</label>
+                    <select name="club" id="club" required>
+                    <option value="none" selected disabled hidden> 
+                        Select Category 
+                    </option> 
+                    <%
+                        var options = list_of_clubs;
+                        for ( var i = 0; i < options.length; i++ )
+                        {
+                            var selected = ( options[i] == project.club ) ? "selected" : "";
+                            %><option value="<%=options[ i ] %>" <%=selected %>><%= options[i] %></option><%
+                        }
+                    %>
+                    </select>
             </div>
+
             <div class="form-group">
                 <label for="degree">Degree :</label>
                 <option value="none" selected disabled hidden> 
