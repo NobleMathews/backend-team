@@ -1,5 +1,5 @@
 const branchModel = require('../models/Branch.model')
-const router = require('./blog')
+const router = require('express').Router()
 const adminAuth = require('../middleware/adminAuth');
 
 //Create form render
