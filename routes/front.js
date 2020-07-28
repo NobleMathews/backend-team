@@ -177,17 +177,15 @@ router.route('/blogs/:club_name').get(async (req, res) => {
   }
   const filters = {
     owner: owner_id,
-    $text: { $search: query_string }
+    $text: { $search: query_string },
+    published: true
   }
   query_string === undefined && delete filters.$text
 
   let blogs
   try {
     blogs = await blogModel.find(filters, { score: { $meta: 'textScore' } }).limit(30).sort({ score: { $meta: 'textScore' } })
-    var finalList = _.map(blogs, function (b) {
-      if (b.published) return b
-    })
-    res.json(finalList)
+    res.json(blogs)
   } catch (error) {
     res.json(error)
   }
