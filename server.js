@@ -43,7 +43,7 @@ app.use(flash())
 app.set('json spaces', 2)
 
 app.use('/admin', adminRouter)
-app.use('/branch',branchRouter)
+app.use('/branches',branchRouter)
 app.use('/club_head', clubHeadRouter)
 app.use('/club_members', clubMembersRouter)
 app.use('/events', eventsRouter)
