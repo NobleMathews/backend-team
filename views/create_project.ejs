@@ -96,9 +96,20 @@
             <label>Branch</label>
             <input class="form-control" name="branch" placeholder="Enter Branch">
             </div>
-            <div class="form-group">
-                <label>Club</label>
-                <input class="form-control" name="club" placeholder="Enter Club">
+             <div class="form-group">
+                <label for="club">Club :</label>
+                    <select name="club" id="club" required>
+                    <option value="none" disabled hidden> 
+                        Select Club 
+                    </option> 
+                    <%
+                       
+                        for ( var i = 0; i < list_of_clubs.length; i++ )
+                        {
+                            %><option value="<%=list_of_clubs[ i ] %>" ><%= list_of_clubs[i] %></option><%
+                        }
+                    %>
+                    </select>
             </div>
             <div class="form-group">
                 <label for="degree">Degree :</label>
