@@ -43,6 +43,24 @@
     .bs-callout-primary h4 {
         color: black;
     }
+    blockquote {
+        background: #f9f9f9;
+        border-left: 10px solid #ccc;
+        margin: 1.5em 10px;
+        padding: 0.5em 10px;
+        quotes: "\201C""\201D""\2018""\2019";
+    }
+    blockquote:before {
+        color: #ccc;
+        content: open-quote;
+        font-size: 4em;
+        line-height: 0.1em;
+        margin-right: 0.25em;
+        vertical-align: -0.4em;
+    }
+    blockquote p {
+        display: inline;
+    }
     </style>
     <div class="container">
       <div class="py-5 text-center">
@@ -60,7 +78,7 @@
                     <div style="max-height: 150px; overflow-y: scroll;">
                     <% if ((blog.gallery) && (blog.gallery).length) { %>
                     <% (blog.gallery).forEach((url) => { %>
-                    <li class="list-group-item"><img src="/images/<%= url %>"></img></li>
+                    <li class="list-group-item"><img src="/images/<%= url %>" width="100px" height="100px"></img></li>
                     <% }) %>
                     <% }else{ %>
                         <li class="list-group-item">NULL</li>
