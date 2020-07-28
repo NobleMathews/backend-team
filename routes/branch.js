@@ -8,7 +8,7 @@ router.route('/create').get(adminAuth,(req,res)=>{
 })
 
 //Post create form route for creating branch
-router.post('/create').post(adminAuth,(req,res)=>{
+router.route('/create').post(adminAuth,(req,res)=>{
     var branch = new branchModel({
         name:req.body.name
     })
