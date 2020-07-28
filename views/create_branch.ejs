@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <%-include('partials/dependencies.ejs')%>
+</head>
+<body>    
+    <%-include('partials/navbar_admin.ejs')%> <br><br>
+    <div class="container">
+        <div class="row">
+        <div class="col-8">
+            <div>
+                <h2>Create Branch</h2>
+                <hr class="my-4">
+            </div>
+        <form action="/branches/create/" method="POST">
+            <div class="form-group">
+                <label for="branch_name">Branch name:</label>
+                <input class="form-control" type="text" name="name" id="branch_name" required><br>
+            </div>
+            
+            <div class="form-group">
+                <input type="submit" class="btn btn-info" value="SUBMIT">
+            </div>  
+        </form>
+        </div>
+        </div>
+    </div>
+    <%- include('partials/bottom_spacing.ejs') %>
+</body>
+</html>
