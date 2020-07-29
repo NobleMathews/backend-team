@@ -1,12 +1,17 @@
 const router = require('express').Router()
 const challengeModel = require('../models/Challenge.model')
+const branchModel = require('../models/Branch.model')
 const {upload, uploadf}= require('../db/upload')
 const moment = require('moment');
 const adminAuth = require('../middleware/adminAuth');
 const mongoose = require('mongoose')
 
-router.route('/create/').get(adminAuth, (req, res) => {
-    res.render('create_challenge', { alerts: req.flash('error'),page_name:"challenge"})
+router.route('/create/').get(adminAuth, async (req, res) => {
+    let arr = await branchModel.find({})
+    let branchlist =  arr.map(a => a.name);
+    let extraoptions = ["Coding","Open"]
+    var options = extraoptions.concat(branchlist)
+    res.render('create_challenge', { alerts: req.flash('error'),page_name:"challenge",options:options})
 })
 
 router.route('/create').post(adminAuth,upload.single('photo'), (req, res) => {
@@ -41,9 +46,13 @@ router.route('/create').post(adminAuth,upload.single('photo'), (req, res) => {
 
 router.route('/update/:id').get(adminAuth, async (req, res) => {
     const id = req.params.id
+    let arr = await branchModel.find({})
+    let branchlist =  arr.map(a => a.name);
+    let extraoptions = ["Coding","Open"]
+    var options = extraoptions.concat(branchlist)
     challengeModel.findById(id)
     .then(challenge=>{
-        res.render('update_challenge', { alerts: req.flash('error'),challenge:challenge,moment:moment, page_name:'challenge' })
+        res.render('update_challenge', { alerts: req.flash('error'),challenge:challenge,moment:moment, page_name:'challenge',options:options })
     }).catch(err=>{
         req.flash("error",err.message)
         res.redirect('/challenges/view_all')
