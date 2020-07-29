@@ -22,7 +22,7 @@ const blogSchema = new Schema({
     documentIDs:{type:[[String]]},
     keywords:[String],
     extract : {type:String},
-    creator: {type:String, required:true}
+    creator: {type:String,required:true}
 })
 
 blogSchema.index({title: 'text', summary: 'text', category: 'text'});

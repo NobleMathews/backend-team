@@ -31,7 +31,7 @@ router.route('/login').post(async (req, res) => {
    
 })
 
-router.route('/create').post( (req, res) => {
+router.route('/create').post((req, res) => {
     const editor = new editorModel({
       user_id: req.body.user_id,
       pswd: req.body.pswd,
@@ -136,7 +136,8 @@ router.route('/blog/edit/:id').post(editorAuth, uploadf.fields([{name:'file_atta
         video_links : video_links,
         documentIDs:documentIDs,
         published : vpublished,
-        keywords : tags
+        keywords : tags,
+        creator: req.user.googleId,
     }
     }
     else{
@@ -154,7 +155,8 @@ router.route('/blog/edit/:id').post(editorAuth, uploadf.fields([{name:'file_atta
       video_links : video_links,
       documentIDs:documentIDs,
       published : vpublished,
-      keywords : tags
+      keywords : tags,
+      creator: req.user.googleId
   }
   }
   }
@@ -183,7 +185,8 @@ router.route('/blog/edit/:id').post(editorAuth, uploadf.fields([{name:'file_atta
       video_links : video_links,
       documentIDs:documentIDs,
       published : vpublished,
-      keywords : tags
+      keywords : tags,
+      creator: req.user.googleId,
   }
   }
   blogModel.findOneAndUpdate({_id:id},{$set: evsum},{useFindAndModify: false})
