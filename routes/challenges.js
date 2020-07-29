@@ -41,7 +41,7 @@ router.route('/create').post(adminAuth,upload.single('photo'), (req, res) => {
 
 router.route('/update/:id').get(adminAuth, async (req, res) => {
     const id = req.params.id
-        .findById(id)
+    challengeModel.findById(id)
     .then(challenge=>{
         res.render('update_challenge', { alerts: req.flash('error'),challenge:challenge,moment:moment, page_name:'challenge' })
     }).catch(err=>{

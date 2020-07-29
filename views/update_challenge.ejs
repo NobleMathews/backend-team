@@ -42,7 +42,7 @@
             height:auto !important;  /* for IE as it does not support min-height */
         }
     </style>
-    <%-include('partials/navbar_clubhead.ejs')%> <br><br>
+    <%-include('partials/navbar_admin.ejs')%> <br><br>
     <h3 style="text-align: center; text-decoration: underline; padding-top: 30px;">Update Challenge Here!</h3>
     <div class="container" style="padding-top:30px;">
         <div class="col-md-5 m-auto">
@@ -90,7 +90,7 @@
                 <input type="datetime-local" name="registration_end" id="event_date" required value="<%= moment(challenge.registration_end).format('YYYY-MM-DDThh:mm');%>">
             </div>
             <button type="submit" class="btn btn-primary" style="margin-bottom: 20px; margin-bottom: 20px;">Update Challenge</button>
-            <input style="display: none;" class="form-control" value='<%- JSON.stringify(event.documentIDs) %>' name='documentIDs'> 
+            <input style="display: none;" class="form-control" value='<%- JSON.stringify(challenge.documentIDs) %>' name='documentIDs'> 
         </form>
         </div>
     </div>
