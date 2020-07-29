@@ -7,6 +7,7 @@ const clubMemberModel = require('../models/ClubMember.model')
 const clubHeadsModel = require('../models/ClubHead.model')
 const eventsModel = require('../models/Event.model')
 const committeeModel = require('../models/Committee.model')
+const challengeModel = require('../models/Challenge.model')
 const achievementModel = require('../models/Achievement.model')
 const newsModel = require('../models/News.model')
 const techTeamModel = require('../models/TechTeam.model')
@@ -229,6 +230,19 @@ router.route('/challenges').get((req, res) => {
     }
   })
 })
+
+router.route('/challenges/:category').get((req, res) => {
+  const category = req.params.category
+  filter=(category == "all")?{}:{category:{ $regex : new RegExp(category, "i") }}
+  challengeModel.find(filter,{__v:0,_id:0,documentIDs:0}).lean()
+    .then(challenges => {
+      res.json(challenges)
+    }).catch(err => {
+      res.status(404).json(err)
+    })
+})
+
+
 // route for registering pusposes to an event, takes emailid as input parameter in body
 router.route('/register/:id').post((req, res) => {
   const id = req.params.id
