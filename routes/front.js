@@ -233,10 +233,17 @@ router.route('/challenges').get((req, res) => {
 
 router.route('/challenges/:category').get((req, res) => {
   const category = req.params.category
+  const exp = req.query.exp
   filter=(category == "all")?{}:{category:{ $regex : new RegExp(category, "i") }}
   challengeModel.find(filter,{__v:0,_id:0,documentIDs:0}).lean()
     .then(challenges => {
-      res.json(challenges)
+      let result = challenges
+      if(exp)
+      result =_.filter(challenges, function(o) { 
+        if(exp=="only") return new Date(o.registration_end) < new Date();
+        else return new Date(o.registration_end) >= new Date();
+      });
+      res.json(result)
     }).catch(err => {
       res.status(404).json(err)
     })
