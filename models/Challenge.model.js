@@ -7,6 +7,7 @@ const challengeSchema = new Schema({
     ref_url:{type:String,required:true},
     photo:{type:String},
     category:{type:String,required:true},
+    documentIDs:{type:[[String]]},
     registration_end : {type:Date},
     registration_start : {type:Date}
 })
