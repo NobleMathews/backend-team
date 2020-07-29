@@ -89,11 +89,11 @@ router.route('/gallery/:club_name').get((req, res) => {
   const club_name = req.params.club_name.toUpperCase()
   clubModel.findOne({ name: club_name }, { _id: 0 })
     .then(club => {
-      blogModel.find({ owner: club.head }, { gallery: 1, _id: 0 })
+      blogModel.find({ owner: club.head }, { _id: 0 })
         .then(blog => {
-          arr = _.map(blog, 'gallery')
-          consolidated = [].concat.apply([], arr)
-          res.json({ gallery_strings: consolidated })
+          arr = _.mapValues(_.keyBy(blog, 'title'), 'gallery')
+          consolidated = _.pickBy(arr, (value, key) => Array.isArray(value) && value.length);
+          res.json(consolidated)
         }).catch(err => { res.json(err) })
     }).catch(err => { res.json(err) })
 })
