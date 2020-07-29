@@ -21,19 +21,13 @@ require('../middleware/passport-setup')
 
 // route for rendering the project creating page
 router.route('/create').get(adminAuth,async (req, res) => {
-    allclubs=[]
     branches = []
-    var clublists = await clubmodel.find({})
     var branchlist = await branchModel.find({})
-    for(var i in clublists){
-      //console.log(i)
-      allclubs.push(clublists[i].name)
-    }
     for(var i in branches){
       //console.log(i)
       branches.push(branchlist[i].name)
     }
-    res.render('create_project', { alerts: req.flash('error'), id: req.admin._id, page_name:"projects" ,list_of_clubs:allclubs, branches })
+    res.render('create_project', { alerts: req.flash('error'), id: req.admin._id, page_name:"projects" ,list_of_clubs:branches })
 })
 
 // route to create project
@@ -94,21 +88,16 @@ router.route('/create/').post(adminAuth, upload.any('snapshot_url', 20),  (req, 
 // route for rendering pre-filled form to update project
 router.route('/update/:id').get(adminAuth, async (req,res)=>{
     const proj_id = req.params.id
-    allclubs=[]
     branches = []
-    var clublists = await clubmodel.find({})
     var branchlist = await branchModel.find({})
-    for(var i in clublists){
-      //console.log(i)
-      allclubs.push(clublists[i].name)
-    }
+
     for(var i in branches){
       //console.log(i)
       branches.push(branchlist[i].name)
     }
     projectsModel.findById(proj_id)
     .then(project=>{
-      res.render('update_project', { alerts: req.flash('error'),project:project, page_name:"projects",list_of_clubs:allclubs, branches})
+      res.render('update_project', { alerts: req.flash('error'),project:project, page_name:"projects",list_of_clubs: branches})
     })
 })
 
@@ -251,8 +240,13 @@ function isLoggedIn(req, res, next) {
   res.redirect('/');
 }
 
-router.route('/public/create').get(isLoggedIn, (req,res) => {
-  res.render('pub_create_project', { alerts: req.flash('error'),id:req.params.id, page_name:'projects'})
+router.route('/public/create').get(isLoggedIn,async (req,res) => {
+    branches = []
+    var branchlist = await branchModel.find({})
+    for(var i in branches){
+      branches.push(branchlist[i].name)
+    }
+  res.render('pub_create_project', { alerts: req.flash('error'),id:req.params.id, page_name:'projects',branches})
 })
 
 router.route('/public/post').post(isLoggedIn, upload.any('snapshot_url', 20), (req,res) => {
