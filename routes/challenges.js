@@ -50,9 +50,14 @@ router.route('/delete/:id').delete(adminAuth, (req, res) => {
 })
 
 router.route('/view_all').get(adminAuth, (req, res) => {
-    
+    challengesModel.find({}).sort({registration_end:-1})
+      .then(challenges => {
+        res.render('view_challenges', { alerts: req.flash('error'),challenges: challenges, moment: moment, page_name:'challenge' })
+      }).catch((err) => {
+        req.flash("error",err.message)
+        res.redirect('/admin/profile')
+      })
 })
-
 
 
 
