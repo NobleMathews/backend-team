@@ -27,6 +27,7 @@ router.route('/create').get(adminAuth,async (req, res) => {
       //console.log(i)
       branches.push(branchlist[i].name)
     }
+    console.log(branches)
     res.render('create_project', { alerts: req.flash('error'), id: req.admin._id, page_name:"projects" ,list_of_clubs:branches })
 })
 
