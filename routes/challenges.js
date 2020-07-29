@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const challengeModel = require('../models/Challenge.model')
 const {upload, uploadf}= require('../db/upload')
+const moment = require('moment');
 const adminAuth = require('../middleware/adminAuth');
 const mongoose = require('mongoose')
 
@@ -40,7 +41,7 @@ router.route('/create').post(adminAuth,upload.single('photo'), (req, res) => {
 
 router.route('/update/:id').get(adminAuth, async (req, res) => {
     const id = req.params.id
-    challengesModel.findById(id)
+        .findById(id)
     .then(challenge=>{
         res.render('update_challenge', { alerts: req.flash('error'),challenge:challenge,moment:moment, page_name:'challenge' })
     }).catch(err=>{
@@ -86,7 +87,7 @@ router.route('/update/:id').post(adminAuth, upload.single('photo') ,async (req, 
       }
     }
 
-    challengesModel.findOne({_id: id},function(err,challenge){
+    challengeModel.findOne({_id: id},function(err,challenge){
       if(err) {
         req.flash("error",err.message)
         return res.redirect('/challenges/view_all')
@@ -121,7 +122,7 @@ router.route('/update/:id').post(adminAuth, upload.single('photo') ,async (req, 
 
 router.route('/delete/:id').get(adminAuth, (req,res)=>{
     const id = req.params.id
-    challengesModel.findOne({_id: id},function(err,challenge){
+    challengeModel.findOne({_id: id},function(err,challenge){
       if(err) {
         req.flash("error",err.message)
         return res.redirect('/challenges/view_all')
@@ -139,8 +140,7 @@ router.route('/delete/:id').get(adminAuth, (req,res)=>{
             );
             Promise.all(arrPromises)
               .then((arrdata) => {
-                var club_head_id = req.user._id
-                challengesModel.find({ owner: club_head_id })
+                challengeModel.find({})
                 .then(challenges => {
                 return res.render('view_challenges', { alerts: req.flash('error'), challenges: challenges, moment: moment, page_name: 'challenges' })
                 }).catch((err) => {
@@ -160,7 +160,7 @@ router.route('/delete/:id').get(adminAuth, (req,res)=>{
 })
 
 router.route('/view_all').get(adminAuth, (req, res) => {
-    challengesModel.find({}).sort({registration_end:-1})
+    challengeModel.find({}).sort({registration_end:-1})
       .then(challenges => {
         res.render('view_challenges', { alerts: req.flash('error'),challenges: challenges, moment: moment, page_name:'challenge' })
       }).catch((err) => {
