@@ -286,10 +286,19 @@ router.route('/achievements/:year').get((req, res) => {
 })
 
 router.route('/tech_teams').get((req,res)=>{
-  techTeamModel.find({},{__v:0})
+  techTeamModel.find({},{team_name:1,_id:1})
   .then(tech_team=>{
     res.json(tech_team)
   })
-
 })
+
+router.route('/tech_team/:id').get((req,res)=>{
+  techTeamModel.findById(req.params.id)
+  .then(team=>{
+    res.json(team)
+  }).catch(err=>{
+    res.json(err)
+  })
+})
+
 module.exports = router
