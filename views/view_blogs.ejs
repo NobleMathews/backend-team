@@ -38,6 +38,7 @@
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">Title</th>
+                    <th scope="col">Creator</th>
                     <th scope="col">Category</th>
                     <th scope="col">Tags</th>
                     <th scope="col">Action</th>
@@ -47,6 +48,7 @@
                 <% blogs.forEach((blog) => { %>
                     <tr>
                         <th scope="row"><%=blog.title%></th>
+                        <td><%= blog.creator %></td>
                         <td><%=blog.category%></td>
                         <td><% if(blog.published) {%>
                             <span class="badge badge-success">Published</span>
