@@ -51,7 +51,7 @@ router.route('/update/:id').get(adminAuth, async (req, res) => {
 })
 
 
-router.route('/update/:id').post(adminAuth, upload.single('photo') ,async (req, res) => {
+router.route('/update/:id').post(adminAuth, upload.single('photo') ,(req, res) => {
     const id = req.params.id;
     var ev,documentIDs=[],deletequeue=[],pics_url=[],masterqueue=[];
     if(req.body.documentIDs){

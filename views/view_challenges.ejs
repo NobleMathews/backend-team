@@ -27,6 +27,7 @@
                             <th scope="col">Name</th>
                             <th scope="col">Photo</th>
                             <th scope="col">Category</th>
+                            <th scope="col">Description</th>
                             <th scope="col">website</th>
                             <th scope="col">Registration Period</th>
                             <th scope="col">Action</th>
@@ -38,7 +39,8 @@
                                 <th scope="row"><%= challenge.name %></th>
                                 <td><img src="/images/<%=challenge.photo %>" height="100px"/></td>
                                 <td><%= challenge.category %></td>
-                                <td><%= challenge.ref_url %></td>
+                                <td><%= challenge.description %></td>
+                                <td><a><%= challenge.ref_url %></a></td>
                                 <td><%= moment(challenge.registration_start).format('Do MMMM, YYYY'); %> - <%= moment(challenge.registration_end).format('Do MMMM, YYYY'); %></td>
                                 <td><a href="/challenges/update/<%=challenge._id%>">edit</a> | <a href="/challenges/delete/<%=challenge._id%>">delete</a></td>
                             </tr>
