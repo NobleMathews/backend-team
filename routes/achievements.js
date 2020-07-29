@@ -177,7 +177,7 @@ router.route('/view_all').get(adminAuth, (req, res) => {
 router.route('/details/:id').get(adminAuth,(req,res)=>{
   achievementModel.findById(req.params.id)
   .then(achievement=>{
-    res.render('details_achievements',{alerts: req.flash('error'),achievement:achievement, page_name:"achievements", moment:moment})
+    res.render('details_achievements',{alerts: req.flash('error'),id:req.params.id,achievement:achievement, page_name:"achievements", moment:moment})
   }).catch(err=>{
     res.jaon(err)
   })
