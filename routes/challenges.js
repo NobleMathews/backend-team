@@ -119,7 +119,44 @@ router.route('/update/:id').post(adminAuth, upload.single('photo') ,async (req, 
     });
 })
 
-router.route('/delete/:id').delete(adminAuth, (req, res) => { 
+router.route('/delete/:id').get(adminAuth, (req,res)=>{
+    const id = req.params.id
+    challengesModel.findOne({_id: id},function(err,challenge){
+      if(err) {
+        req.flash("error",err.message)
+        return res.redirect('/challenges/view_all')
+      }
+        challenge.remove();
+        let data = challenge;
+        if(data.documentIDs){
+          deletequeue = data.documentIDs;
+          if(deletequeue.length>0){
+            var arrPromises = deletequeue.map((path) => 
+            {if (req.app.locals.gfs) {
+              req.app.locals.gfs.delete(new mongoose.Types.ObjectId(path[1]))
+              }
+            }
+            );
+            Promise.all(arrPromises)
+              .then((arrdata) => {
+                var club_head_id = req.user._id
+                challengesModel.find({ owner: club_head_id })
+                .then(challenges => {
+                return res.render('view_challenges', { alerts: req.flash('error'), challenges: challenges, moment: moment, page_name: 'challenges' })
+                }).catch((err) => {
+                  req.flash("error",err.message)
+                  return res.redirect('/challenges/view_all')        })
+              })
+              .catch(function (err) {
+                req.flash("error",["Alert : Delete failed on some images."])
+                res.redirect('/challenges/view_all')
+              });
+          }
+          else{
+            res.redirect('/challenges/view_all')
+          }
+        }
+    });
 })
 
 router.route('/view_all').get(adminAuth, (req, res) => {
