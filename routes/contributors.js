@@ -14,7 +14,8 @@ router.route('/:target').get( async(req, res) => {
         ..._.pick(data, 'total')
     }));
     const result = _.orderBy(filtered, ['total'],['desc']);
-    res.json(result)
+    res.render('contributors', { authors:result })
+    // res.json(result)
 })
 
 module.exports = router
