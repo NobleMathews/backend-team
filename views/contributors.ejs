@@ -180,14 +180,6 @@ a {
 
 </style>
 <body>
-    <%
-    function normalize(val) {
-        max= winners[0].weekly.a + winners[0].weekly.d
-        min= winners[2].weekly.a + winners[2].weekly.d
-        var delta = max - min;
-        return Math.ceil((val - min) / delta *100);
-    }
-    %>
     <div class="center">
         <div class="top3">
           <a class="two item" href="<%=winners[1].url%>" target="_blank">
@@ -198,7 +190,7 @@ a {
               <%=winners[1].id%>
             </div>
             <div class="score">
-              <%=normalize(winners[1].weekly.a + winners[1].weekly.d)%>
+              <%=winners[1].weekly.a + winners[1].weekly.d%>
             </div>
         </a>
           <a class="one item" href="<%=winners[0].url%>" target="_blank">
@@ -209,7 +201,7 @@ a {
               <%=winners[0].id%>
             </div>
             <div class="score">
-              <%=normalize(winners[0].weekly.a + winners[0].weekly.d)%>
+              <%=winners[0].weekly.a + winners[0].weekly.d%>
             </div>
         </a>
           <a class="three item" href="<%=winners[2].url%>" target="_blank">
@@ -220,7 +212,7 @@ a {
                 <%=winners[2].id%>
             </div>
             <div class="score">
-                <%=normalize(winners[2].weekly.a + winners[2].weekly.d)%>
+                <%=winners[2].weekly.a + winners[2].weekly.d%>
             </div>
         </a>
         </div>
