@@ -7,7 +7,6 @@ router.route('/:target').get( async(req, res) => {
     const param = req.params.target=="frontend"?{owner: 'mir-sam-ali',repo: 'frontend-team'}:{owner: 'shobhi1310',repo: 'backend-team'}
     const response=await octokit.request('GET /repos/{owner}/{repo}/stats/contributors',param)
     const data=response.data;
-    console.log(data)
     const filtered = data.map((data) => ({
         id:_.get(data,'author.login'),
         img: _.get(data, 'author.avatar_url'),

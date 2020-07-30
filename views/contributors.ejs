@@ -39,7 +39,8 @@ a {
 .top3 .item {
   box-sizing: border-box;
   position: relative;
-  background: white;
+  background: radial-gradient(ellipse farthest-corner at right bottom, #FEDB37 0%, #FDB931 8%, #9f7928 30%, #8A6E2F 40%, transparent 80%),
+            radial-gradient(ellipse farthest-corner at left top, #FFFFFF 0%, #FFFFAC 8%, #D1B464 25%, #5d4a1f 62.5%, #5d4a1f 100%);
   width: 9rem;
   height: 10rem;
   text-align: center;
@@ -75,13 +76,17 @@ a {
 .top3 .item .name {
   font-size: 1.1rem;
   margin-bottom: 0.5rem;
+  color: white;
+  text-shadow: 2px 2px black;
+  font-weight: bolder;
 }
 .top3 .item .score {
   opacity: 0.5;
+  color: white;
 }
 .top3 .item .score:after {
   display: block;
-  content: 'commits';
+  content: 'points';
   opacity: 0.5;
 }
 .top3 .item.one {
@@ -175,45 +180,50 @@ a {
 
 </style>
 <body>
+    <%
+    function normalize(val) {
+        max= winners[0].weekly.a + winners[0].weekly.d
+        min= winners[2].weekly.a + winners[2].weekly.d
+        var delta = max - min;
+        return Math.ceil((val - min) / delta *100);
+    }
+    %>
     <div class="center">
-        <!-- <div class="top3">
-          <div class="two item">
+        <div class="top3">
+          <a class="two item" href="<%=winners[1].url%>" target="_blank">
             <div class="pos">
-              2
             </div>
-            <div class="pic" style="background-image: url(&#39;https://randomuser.me/api/portraits/men/44.jpg&#39;)"></div>
+            <div class="pic" style="background-image: url(&#39;<%=winners[1].img%>&#39;)"></div>
             <div class="name">
-              Edgar Soto
+              <%=winners[1].id%>
             </div>
             <div class="score">
-              6453
+              <%=normalize(winners[1].weekly.a + winners[1].weekly.d)%>
             </div>
-          </div>
-          <div class="one item">
+        </a>
+          <a class="one item" href="<%=winners[0].url%>" target="_blank">
             <div class="pos">
-              1
             </div>
-            <div class="pic" style="background-image: url(&#39;https://randomuser.me/api/portraits/men/31.jpg&#39;)"></div>
+            <div class="pic" style="background-image: url(&#39;<%=winners[0].img%>&#39;)"></div>
             <div class="name">
-              Clifford James
+              <%=winners[0].id%>
             </div>
             <div class="score">
-              6794
+              <%=normalize(winners[0].weekly.a + winners[0].weekly.d)%>
             </div>
-          </div>
-          <div class="three item">
+        </a>
+          <a class="three item" href="<%=winners[2].url%>" target="_blank">
             <div class="pos">
-              3
             </div>
-            <div class="pic" style="background-image: url(&#39;https://randomuser.me/api/portraits/women/91.jpg&#39;)"></div>
+            <div class="pic" style="background-image: url(&#39;<%=winners[2].img%>&#39;)"></div>
             <div class="name">
-              Nevaeh Silva
+                <%=winners[2].id%>
             </div>
             <div class="score">
-              6034
+                <%=normalize(winners[2].weekly.a + winners[2].weekly.d)%>
             </div>
-          </div>
-        </div> -->
+        </a>
+        </div>
         <div class="list">
         <% authors.forEach((author,index) => { %>
         <a href="<%=author.url%>" target="_blank">          
