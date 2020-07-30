@@ -17,12 +17,12 @@ router.route('/:target').get( async(req, res) => {
         id:_.get(data,'author.login'),
         img: _.get(data, 'author.avatar_url'),
         url:_.get(data, 'author.html_url'),
-        weekly: _.last(_.get(data, 'weeks')),
+        weekly: _.last(_.sortBy(_.get(data, 'weeks'),'w'))
     }));
     let winner,reZero=false;
-    winner = _.orderBy(winners, function(e) {let score=e.a+e.d; if(score==0)reZero=true; return score}, ['desc']).slice(0,3);
+    winner = _.orderBy(winners, function(e) {let score=(e["weekly"].a+e["weekly"].d)*e["weekly"].c; if(score==0)reZero=true; return score}, ['desc']).slice(0,3);
     if(reZero)
-    winner = _.orderBy(winners, function(e) {return e.c}, ['desc']).slice(0,3);
+    winner = _.orderBy(winners, function(e) {return e["weekly"].c}, ['desc']).slice(0,3);
     const result = _.orderBy(filtered, ['total'],['desc']);
     res.render('contributors', { authors:result,winners:winner })
 })

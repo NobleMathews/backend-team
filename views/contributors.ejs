@@ -200,7 +200,7 @@ a {
               <%=winners[1].id%>
             </div>
             <div class="score">
-              <%=winners[1].weekly.a + winners[1].weekly.d%>
+              <%=(winners[1].weekly.a + winners[1].weekly.d)*winners[1].weekly.c%>
             </div>
         </a>
           <a class="one item" href="<%=winners[0].url%>" target="_blank">
@@ -211,7 +211,7 @@ a {
               <%=winners[0].id%>
             </div>
             <div class="score">
-              <%=winners[0].weekly.a + winners[0].weekly.d%>
+              <%=(winners[0].weekly.a + winners[0].weekly.d)*winners[0].weekly.c%>
             </div>
         </a>
           <a class="three item" href="<%=winners[2].url%>" target="_blank">
@@ -222,7 +222,7 @@ a {
                 <%=winners[2].id%>
             </div>
             <div class="score">
-                <%=winners[2].weekly.a + winners[2].weekly.d%>
+                <%=(winners[2].weekly.a + winners[2].weekly.d)*winners[2].weekly.c%>
             </div>
         </a>
         </div>
