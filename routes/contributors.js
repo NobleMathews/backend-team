@@ -10,7 +10,7 @@ router.route('/:target').get( async(req, res) => {
     const filtered = data.map((data) => ({
         id:_.get(data,'author.login'),
         img: _.get(data, 'author.avatar_url'),
-        url:_.get(data, 'author.url'),
+        url:_.get(data, 'author.html_url'),
         ..._.pick(data, 'total')
     }));
     const result = _.orderBy(filtered, ['total'],['desc']);
