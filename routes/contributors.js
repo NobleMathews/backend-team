@@ -19,9 +19,9 @@ router.route('/:target').get( async(req, res) => {
         url:_.get(data, 'author.html_url'),
         weekly: _.last(_.sortBy(_.get(data, 'weeks'),'w'))
     }));
-    let winner,reZero=false;
-    winner = _.orderBy(winners, function(e) {let score=(e["weekly"].a+e["weekly"].d)*e["weekly"].c; if(score==0)reZero=true; return score}, ['desc']).slice(0,3);
-    if(reZero)
+    var winner,reZero=0;
+    winner = _.orderBy(winners, function(e) {let score=(e["weekly"].a + e["weekly"].d); if(score!=0)reZero=reZero+1; return score}, ['desc']).slice(0,3);
+    if(reZero<3)
     winner = _.orderBy(winners, function(e) {return e["weekly"].c}, ['desc']).slice(0,3);
     const result = _.orderBy(filtered, ['total'],['desc']);
     res.render('contributors', { authors:result,winners:winner })
