@@ -13,6 +13,8 @@ const newsModel = require('../models/News.model')
 const techTeamModel = require('../models/TechTeam.model')
 const feed_url = 'https://www.hackerrank.com/calendar/feed'
 const _ = require('lodash')
+const { Octokit } = require("@octokit/rest");
+const octokit = new Octokit();
 const { constant } = require('lodash')
 
 router.route('/home').get((req, res) => {
@@ -281,6 +283,30 @@ router.route('/committee').get((req, res) => {
   committeeModel.find({}, { _id: 0, __v: 0, createdAt: 0, updatedAt: 0 })
     .then(com => res.json(com))
     .catch(err => res.json(err))
+})
+
+router.route('/contributors/:target').get( async(req, res) => {
+  const param = req.params.target=="frontend"?{owner: 'mir-sam-ali',repo: 'frontend-team'}:{owner: 'shobhi1310',repo: 'backend-team'}
+  const response=await octokit.request('GET /repos/{owner}/{repo}/stats/contributors',param)
+  const data=response.data;
+  const filtered = data.map((data) => ({
+      id:_.get(data,'author.login'),
+      img: _.get(data, 'author.avatar_url'),
+      url:_.get(data, 'author.html_url'),
+      ..._.pick(data, 'total')
+  }));
+  const winners = data.map((data) => ({
+      id:_.get(data,'author.login'),
+      img: _.get(data, 'author.avatar_url'),
+      url:_.get(data, 'author.html_url'),
+      weekly: _.last(_.get(data, 'weeks')),
+  }));
+  let winner,reZero=false;
+  winner = _.orderBy(winners, function(e) {let score=e.a+e.d; if(score==0)reZero=true; return score}, ['desc']).slice(0,3);
+  if(reZero)
+  winner = _.orderBy(winners, function(e) {return e.c}, ['desc']).slice(0,3);
+  const result = _.orderBy(filtered, ['total'],['desc']);
+  res.json({ authors:result,winners:winner })
 })
 
 router.route('/achievements/:year').get((req, res) => {
