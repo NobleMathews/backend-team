@@ -17,6 +17,7 @@ const { JSDOM } = jsdom;
 const document = new JSDOM(`<!DOCTYPE html><p>Text Parser</p>`).window.document;
 const passport = require('passport')
 const branchModel = require('../models/Branch.model')
+const publicModel = require('../models/Public.model')
 require('../middleware/passport-setup')
 
 // route for rendering the project creating page
@@ -115,8 +116,10 @@ router.route('/update/:id').get(adminAuth, async (req,res)=>{
 })
 
 // route to update project
-router.route('/update/:id').post(adminAuth, upload.any('pics', 20), (req, res) => {
+router.route('/update/:id').post(adminAuth, upload.any('pics', 20), async (req, res) => {
     const id = req.params.id
+    const proj = await projectsModel.find({id})
+    const creator = proj.creator
     vfeatured=req.body.featured==="on"?true:false;
     vpublished=req.body.published==="on"?true:false;
     if(vfeatured==true){
@@ -143,7 +146,7 @@ router.route('/update/:id').post(adminAuth, upload.any('pics', 20), (req, res) =
     pics_url = pics_url.concat(pics_url_links);
     documentIDs =masterqueue.filter(k => pics_url.includes(k[0])); 
     deletequeue = masterqueue.filter(k =>!pics_url.includes(k[0]));
-
+    
     var change = {
       title: req.body.title,
       team_members: req.body.team_member,
@@ -155,9 +158,10 @@ router.route('/update/:id').post(adminAuth, upload.any('pics', 20), (req, res) =
       documentIDs:documentIDs,
       featured : vfeatured,
       published : vpublished,
-      keywords : tags
+      keywords : tags,
+      creator: creator
     }
-  
+    
     projectsModel.findByIdAndUpdate(id, change)
       .then(() => {
         if(deletequeue.length>0){

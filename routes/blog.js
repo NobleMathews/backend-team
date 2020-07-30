@@ -199,7 +199,8 @@ router.route('/update/:id').post(clubAuth, uploadf.fields([{name:'chief_guest_ur
         video_links : video_links,
         documentIDs:documentIDs,
         published : vpublished,
-        keywords : tags
+        keywords : tags,
+        creator: req.user.email_id
     }
     }
     else{
@@ -217,7 +218,8 @@ router.route('/update/:id').post(clubAuth, uploadf.fields([{name:'chief_guest_ur
         video_links : video_links,
         documentIDs:documentIDs,
         published : vpublished,
-        keywords : tags
+        keywords : tags,
+        creator: req.user.email_id
     }
     }
     }
@@ -246,7 +248,8 @@ router.route('/update/:id').post(clubAuth, uploadf.fields([{name:'chief_guest_ur
         video_links : video_links,
         documentIDs:documentIDs,
         published : vpublished,
-        keywords : tags
+        keywords : tags,
+        creator: req.user.email_id
     }
     }
     blogModel.findOneAndUpdate({_id:id},{$set: evsum},{useFindAndModify: false})
