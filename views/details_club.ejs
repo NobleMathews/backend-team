@@ -31,6 +31,11 @@
                     <div class="card-text">
                         <%- club.description %>
                     </div>
+                    <% if (club.resources && club.resources!="") { %>
+                        <p class="card-text">
+                            <a href="<%=club.resources%>" target="_blank">Resources</a>
+                        </p>
+                    <% } %>
                     <p>
                     <a href="/club/reset/<%=club._id%>" class="btn btn-primary btn-sm">reset</a>
                     </p>
