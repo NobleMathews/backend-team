@@ -65,6 +65,7 @@ router.route('/update/').post(clubAuth, upload.single('logo') ,async (req, res) 
       var change = {
         name: club_name,
         description: req.body.description,
+        resources:req.body.resources,
         github: req.body.github,
         linkedin: req.body.linkedin,
         instagram: req.body.instagram,
@@ -75,6 +76,7 @@ router.route('/update/').post(clubAuth, upload.single('logo') ,async (req, res) 
       var change = {
         name: club_name,
         description: req.body.description,
+        resources:req.body.resources,
         logo_url: req.file.filename,
         github: req.body.github,
         linkedin: req.body.linkedin,

@@ -26,6 +26,17 @@
           <textarea class="form-control" name="description" rows="3" placeholder="Provide Club description..."><%=club.description%></textarea>
         </div>
         <div class="form-group row">
+          <label  class="col-sm-2 col-form-label">Resources Link</label>
+          <div class="col-sm-10">
+            <input type="url" name="resources" value="<%=club.resources%>" class="form-control">
+            <% if (club.resources && club.resources!="") { %>
+              <p class="card-text">
+                  <a href="<%=club.resources%>" target="_blank" style="margin-top: 15px;">test above link</a>
+              </p>
+            <% } %>
+          </div>
+        </div>
+        <div class="form-group row">
           <label  class="col-sm-2 col-form-label">Github Link</label>
           <div class="col-sm-10">
             <input type="url" name="github" value="<%=club.github%>" class="form-control">
