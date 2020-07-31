@@ -1,5 +1,6 @@
 const router = require('express').Router()
 var request = require('request')
+const branchModel = require('../models/Branch.model')
 const blogModel = require('../models/Blog.model')
 const clubModel = require('../models/Club.model')
 const projectsModel = require('../models/Project.model')
@@ -251,6 +252,33 @@ router.route('/challenges/:category').get((req, res) => {
     })
 })
 
+router.route('/categories/:target').get(async(req, res) => {
+  const target = req.params.target,all = req.query.all
+  var targetModel,static 
+  let arr = await branchModel.find({})
+  let branchlist =  arr.map(a => a.name);
+  var options = ["Coding","Open"].concat(branchlist)
+  if(target=="blog"){
+    targetModel=blogModel;
+    static=["Workshop","Competition","Talk-show","Activity"]
+  }
+  else if(target=="challenge"){
+    targetModel=challengeModel;
+    static=options;
+  }
+  else if(target=="branch"){
+    return res.status(200).send(branchlist)
+  }
+  else
+  res.status(404).json("Invalid parameter passed. Route is valid for |blog| and |challenges|")
+  if(all){
+    // This is a static response shouldnt be used in my opinion... use if all even those not in use are required
+    // But then should be updated based on changes in respective files except branchlist
+    res.status(200).send(static)
+  }
+  else
+  targetModel.distinct('category', {}, function(err, options){if(err)res.status(404).json(err);res.status(200).send(options)})
+})
 
 // route for registering pusposes to an event, takes emailid as input parameter in body
 router.route('/register/:id').post((req, res) => {
@@ -288,25 +316,33 @@ router.route('/committee').get((req, res) => {
 router.route('/contributors/:target').get( async(req, res) => {
   const param = req.params.target=="frontend"?{owner: 'mir-sam-ali',repo: 'frontend-team'}:{owner: 'shobhi1310',repo: 'backend-team'}
   const response=await octokit.request('GET /repos/{owner}/{repo}/stats/contributors',param)
-  const data=response.data;
-  const filtered = data.map((data) => ({
+  const datam=response.data;
+  const filtered = datam.map((data) => ({
       id:_.get(data,'author.login'),
       img: _.get(data, 'author.avatar_url'),
       url:_.get(data, 'author.html_url'),
       ..._.pick(data, 'total')
   }));
-  const winners = data.map((data) => ({
+  const winners = datam.map((data) => ({
       id:_.get(data,'author.login'),
       img: _.get(data, 'author.avatar_url'),
       url:_.get(data, 'author.html_url'),
-      weekly: _.last(_.get(data, 'weeks')),
-  }));
-  let winner,reZero=false;
-  winner = _.orderBy(winners, function(e) {let score=e.a+e.d; if(score==0)reZero=true; return score}, ['desc']).slice(0,3);
-  if(reZero)
-  winner = _.orderBy(winners, function(e) {return e.c}, ['desc']).slice(0,3);
-  const result = _.orderBy(filtered, ['total'],['desc']);
-  res.json({ authors:result,winners:winner })
+      weekly: _.last(_.sortBy(_.get(data, 'weeks'),'w'))
+    }));
+    var winner,reZero=0,total_c=0;
+    const latestData=winners[0]["weekly"].w
+    datam.forEach(element => {
+        element['weeks'].forEach(week=>{
+            if(week.w==latestData)
+            total_c=total_c+week.c
+          })
+        });
+        total_c=total_c/10
+        winner = _.orderBy(winners, function(e) {let score=(e["weekly"].a * Math.ceil((e["weekly"].c)/total_c)); if(score!=0)reZero=reZero+1; return score}, ['desc']).slice(0,3);
+        if(reZero<3)
+        winner = _.orderBy(winners, function(e) {return e["weekly"].c}, ['desc']).slice(0,3);
+        const result = _.orderBy(filtered, ['total'],['desc']);
+  res.json({ authors:result,winners:winner,total_c:total_c })
 })
 
 router.route('/achievements/:year').get((req, res) => {
