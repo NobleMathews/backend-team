@@ -44,6 +44,8 @@ app.set('useFindAndModify', false)
 app.use(flash())
 app.set('json spaces', 2)
 
+app.use( express.static( "public" ) );
+
 app.use('/admin', adminRouter)
 app.use('/branches',branchRouter)
 app.use('/club_head', clubHeadRouter)
