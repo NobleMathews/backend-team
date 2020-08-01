@@ -215,29 +215,13 @@ router.route('/blog/:id').get((req, res) => {
       res.json(err)
     })
 })
-// returns a json with open upcoming challenges from hackerank topcoder and codeforces
-router.route('/challenges').get((req, res) => {
-  request.get({
-    url: feed_url,
-    json: true,
-    headers: { 'User-Agent': 'request' }
-  }, (e, r, data) => {
-    if (e) {
-      res.json(e)
-    } else {
-      reqdata = data.models
-      reqdata.sort(function (a, b) {
-        return a.start.localeCompare(b.start)
-      })
-      res.json(reqdata)
-    }
-  })
-})
 
 router.route('/challenges/:category').get((req, res) => {
   const category = req.params.category
   const exp = req.query.exp
+  var codingAppendData=[]
   filter=(category == "all")?{}:{category:{ $regex : new RegExp(category, "i") }}
+
   challengeModel.find(filter,{__v:0,_id:0,documentIDs:0}).lean()
     .then(challenges => {
       let result = challenges
@@ -246,9 +230,46 @@ router.route('/challenges/:category').get((req, res) => {
         if(exp=="only") return new Date(o.registration_end) < new Date();
         else return new Date(o.registration_end) >= new Date();
       });
+      let check_str=String(category).toLowerCase();
+      if(check_str=="coding" || check_str=="all"){
+        request.get({
+          url: feed_url,
+          json: true,
+          headers: { 'User-Agent': 'request' }
+        }, (e, r, data) => {
+          if (e) {
+            return res.json(e)
+          } else {
+            reqdata = data.models
+            reqdata.sort(function (a, b) {
+              return a.start.localeCompare(b.start)
+            })
+            map={
+              "title":"name",
+              "end":"registration_end",
+              "start":"registration_start",
+              "url":"ref_url"
+            }
+            const formattedData = reqdata.map(item => {
+              let url= new URL(item.url)
+              let host=url.hostname.replace(/.com|www./gi, function(){ 
+                return ""; 
+              });
+              let known_hosts=["hackerrank","topcoder","codechef","codeforces"]
+              if(!known_hosts.includes(host)) host="unknown_host"
+              return { 
+                name: item.title,description:item.description, registration_end: item.end,registration_start:item.start, ref_url:item.url,category:"Coding", photo:host
+              };
+            });
+            codingAppendData=formattedData;
+            return res.json(result.concat(codingAppendData))
+          }
+        })
+      }
+      else
       res.json(result)
     }).catch(err => {
-      res.status(404).json(err)
+      return res.status(404).json(err)
     })
 })
 

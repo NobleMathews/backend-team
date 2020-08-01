@@ -1,6 +1,7 @@
 const connection = require('../../db/mongoose')
 const router = require('express').Router()
 const mongoose = require('mongoose')
+var path = require('path');
 
 let gfs
 connection.once('open', ()=>{
@@ -11,7 +12,14 @@ router.get('/', (req, res) => {
 })
 
 router.get('/:filename', (req, res) => {
-  const file = gfs
+  // serve from static folder .. keep file names same
+  let known_hosts=["hackerrank","topcoder","codechef","codeforces","unknown_host"]
+  if(known_hosts.includes(req.params.filename)){
+    return res.sendFile(path.join(__dirname, '../../public', `images/challenges/${req.params.filename}.JPG`));
+  }
+  else{
+  //get from gfs
+  gfs
     .find({
       filename: req.params.filename
     })
@@ -23,6 +31,7 @@ router.get('/:filename', (req, res) => {
       }
       gfs.openDownloadStreamByName(req.params.filename).pipe(res)
     })
+  }
 })
 
 module.exports = router
