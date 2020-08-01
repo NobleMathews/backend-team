@@ -215,29 +215,29 @@ router.route('/blog/:id').get((req, res) => {
       res.json(err)
     })
 })
-// returns a json with open upcoming challenges from hackerank topcoder and codeforces
-router.route('/challenges').get((req, res) => {
-  request.get({
-    url: feed_url,
-    json: true,
-    headers: { 'User-Agent': 'request' }
-  }, (e, r, data) => {
-    if (e) {
-      res.json(e)
-    } else {
-      reqdata = data.models
-      reqdata.sort(function (a, b) {
-        return a.start.localeCompare(b.start)
-      })
-      res.json(reqdata)
-    }
-  })
-})
 
 router.route('/challenges/:category').get((req, res) => {
   const category = req.params.category
   const exp = req.query.exp
   filter=(category == "all")?{}:{category:{ $regex : new RegExp(category, "i") }}
+  if(String(filter).toLowerCase()=="coding"){
+    request.get({
+      url: feed_url,
+      json: true,
+      headers: { 'User-Agent': 'request' }
+    }, (e, r, data) => {
+      if (e) {
+        res.json(e)
+      } else {
+        reqdata = data.models
+        reqdata.sort(function (a, b) {
+          return a.start.localeCompare(b.start)
+        })
+        res.json(reqdata)
+      }
+    })
+  }
+  else
   challengeModel.find(filter,{__v:0,_id:0,documentIDs:0}).lean()
     .then(challenges => {
       let result = challenges
