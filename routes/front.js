@@ -48,34 +48,31 @@ router.route('/home').get((req, res) => {
 router.route('/club/:club').get(async (req, res) => {
   const club_name = req.params.club.toUpperCase()
   const club = await clubModel.findOne({ name: club_name })
+  let club_head
+  let blogs
+  let members
   try {
-    clubHeadsModel.findById(club.head, { tokens: 0 })
-      .then(club_head => {
-        clubMemberModel.find({ owner: club.head }, { owner: 0, _id: 0, __v: 0, createdAt: 0, updatedAt: 0 })
-          .then(members => {
-            res.json({
-              'Club name': club.name,
-              'Club Description': club.description,
-              'Club logo_url': club.logo_url,
-              'Club Object_ID': club._id,
-              'Club Youtube channel': club.youtube,
-              'Club Instagram page': club.instagram,
-              'Club Facebook page': club.facebook,
-              'Club Linkedin page': club.linkedin,
-              'Club Github page': club.github,
-              'Club Head name': club_head.user_id,
-              'Club Head dp_url': club_head.dp_url,
-              'Club Head bio': club_head.bio,
-              'Club Head contact': club_head.contact,
-              'Club Head email_id': club_head.email_id,
-              'Member details': members
-            }).catch(err => { res.json(err) })
-          }).catch(err => {
-            res.json(err)
-          })
-      }).catch(err => {
-        res.json(err)
-      })
+    club_head = await clubHeadsModel.findById(club.head, { tokens: 0 })  
+    members = await clubMemberModel.find({ owner: club.head }, { owner: 0, _id: 0, __v: 0, createdAt: 0, updatedAt: 0 })
+    blogs = await blogModel.find({owner: club.head,published:true})    
+    res.json({
+      'Club name': club.name,
+      'Club Description': club.description,
+      'Club logo_url': club.logo_url,
+      'Club Object_ID': club._id,
+      'Club Youtube channel': club.youtube,
+      'Club Instagram page': club.instagram,
+      'Club Facebook page': club.facebook,
+      'Club Linkedin page': club.linkedin,
+      'Club Github page': club.github,
+      'Club Head name': club_head.user_id,
+      'Club Head dp_url': club_head.dp_url,
+      'Club Head bio': club_head.bio,
+      'Club Head contact': club_head.contact,
+      'Club Head email_id': club_head.email_id,
+      'Member details': members,
+      'Blogs': blogs
+    })
   } catch (err) {
     res.json(err)
   }
