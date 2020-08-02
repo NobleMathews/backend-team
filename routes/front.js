@@ -12,6 +12,7 @@ const challengeModel = require('../models/Challenge.model')
 const achievementModel = require('../models/Achievement.model')
 const newsModel = require('../models/News.model')
 const techTeamModel = require('../models/TechTeam.model')
+const editorModel = require('../models/Editor.model')
 const feed_url = 'https://www.hackerrank.com/calendar/feed'
 const _ = require('lodash')
 const { Octokit } = require("@octokit/rest");
@@ -184,11 +185,21 @@ router.route('/blogs/:club_name').get(async (req, res) => {
 
   let owner_id
   let club_spec
-  try {
-    club_spec = await clubModel.findOne({ name: club })
-    owner_id = club_spec.head
-  } catch (error) {
-    res.json(error)
+  let editor
+  if(club==="GENERAL"){
+    try{
+      editor = await editorModel.findOne()
+      owner_id = editor._id
+    } catch(error){
+      res.json(error)
+    }
+  }else{
+    try {
+      club_spec = await clubModel.findOne({ name: club })
+      owner_id = club_spec.head
+    } catch (error) {
+      res.json(error)
+    }
   }
   const filters = {
     owner: owner_id,

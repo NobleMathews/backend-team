@@ -137,28 +137,26 @@ router.route('/blog/edit/:id').post(editorAuth, uploadf.fields([{name:'file_atta
         documentIDs:documentIDs,
         published : vpublished,
         keywords : tags,
-        creator: req.user.googleId,
-    }
+      }
     }
     else{
-    var evsum= {
-      gallery : pics_url,
-      title : req.body.title,                          
-      category:req.body.category,      
-      extract:req.body.extract,                    
-      chief_guest : req.body.chief_guest,
-      award_winners : req.body.award_winners,                    
-      summary : req.body.summary,
-      featured : vfeatured,
-      outside_links : outside_links,
-      file_attachment : file_attachment,
-      video_links : video_links,
-      documentIDs:documentIDs,
-      published : vpublished,
-      keywords : tags,
-      creator: req.user.googleId
-  }
-  }
+      var evsum= {
+        gallery : pics_url,
+        title : req.body.title,                          
+        category:req.body.category,      
+        extract:req.body.extract,                    
+        chief_guest : req.body.chief_guest,
+        award_winners : req.body.award_winners,                    
+        summary : req.body.summary,
+        featured : vfeatured,
+        outside_links : outside_links,
+        file_attachment : file_attachment,
+        video_links : video_links,
+        documentIDs:documentIDs,
+        published : vpublished,
+        keywords : tags,
+      }
+    }
   }
   else{
   if(req.body.pics_url_links)
@@ -186,7 +184,6 @@ router.route('/blog/edit/:id').post(editorAuth, uploadf.fields([{name:'file_atta
       documentIDs:documentIDs,
       published : vpublished,
       keywords : tags,
-      creator: req.user.googleId,
   }
   }
   blogModel.findOneAndUpdate({_id:id},{$set: evsum},{useFindAndModify: false})
