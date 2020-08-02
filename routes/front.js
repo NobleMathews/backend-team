@@ -224,8 +224,20 @@ router.route('/blog/:id').get((req, res) => {
     })
 })
 
-router.route('/blog/tags').get((req,res)=>{
-  const tags = req.query.filter;
+router.route('/blogs/tags/:filter').get(async(req,res)=>{
+  const tags = req.params.filter;
+  const filters = {
+    $text: { $search: tags },
+    published: true
+  }
+  let blogs
+  try {
+    blogs = await blogModel.find(filters, {_id:1,score: { $meta: 'textScore' } }).lean().limit(30).sort({ score: { $meta: 'textScore' } })
+    response = blogs.map(a => a._id);
+    res.json(response)
+  } catch (error) {
+    res.json(error)
+  }
 })
 
 router.route('/challenges/:category').get((req, res) => {
