@@ -224,6 +224,10 @@ router.route('/blog/:id').get((req, res) => {
     })
 })
 
+router.route('/blog/tags').get((req,res)=>{
+  const tags = req.query.filter;
+})
+
 router.route('/challenges/:category').get((req, res) => {
   const category = req.params.category
   const exp = req.query.exp
