@@ -21,12 +21,13 @@ const { constant } = require('lodash')
 
 router.route('/home').get((req, res) => {
   const homedata = async function () {
-    let [news, f_blogs, f_projects, club_details, club_head_details] = await Promise.all([
+    let [news, f_blogs, f_projects, club_details, club_head_details, achievements] = await Promise.all([
       newsModel.find().lean().exec(),
       blogModel.find({ featured: true }).lean().exec(),
       projectsModel.find({ featured: true }).lean().exec(),
       clubModel.find().lean().exec(),
-      clubHeadsModel.find().select({ _id: 1, name: 1, dp_url: 1 }).lean().exec()
+      clubHeadsModel.find().select({ _id: 1, name: 1, dp_url: 1 }).lean().exec(),
+      achievementModel.find().sort({createdAt:-1}).limit(2)
     ])
     club_head_details = club_head_details.map(function (obj) { obj.head = obj.name; delete obj.name; return obj })
     const clubs = _.map(club_details, function (obj) {
@@ -36,7 +37,8 @@ router.route('/home').get((req, res) => {
       news: news,
       f_blogs: f_blogs,
       f_projects: f_projects,
-      clubs: clubs
+      clubs: clubs,
+      achievements: achievements
     }
   }
   homedata()
