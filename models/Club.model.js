@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const clubSchema = new Schema({
-    name:{type:String,required:true},
+    name:{type:String,required:true, unique:true},
     head:{
         type:Schema.Types.ObjectId,
         required:true,
@@ -10,7 +10,7 @@ const clubSchema = new Schema({
     },
     description:{type:String,required:true},
     resources:{type:String,required:true},
-    logo_url:{type:String},
+    logo_url:{type:String,required:true},
     youtube:{type:String},
     instagram:{type:String},
     facebook:{type:String},
