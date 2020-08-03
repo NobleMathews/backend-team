@@ -64,6 +64,7 @@ router.route('/update/:id').post(adminAuth,(req, res) => {
     user.contact=''
     user.dp_url=''
     user.bio=''
+    user.name=''
     user.save(function (err) {
       if (err) {
         req.flash("error",err.message)
