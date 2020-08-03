@@ -58,7 +58,7 @@ router.route('/club/:club').get(async (req, res) => {
     club_head = await clubHeadsModel.findById(club.head, { tokens: 0 })  
     members = await clubMemberModel.find({ owner: club.head }, { owner: 0, _id: 0, __v: 0, createdAt: 0, updatedAt: 0 })
     blogs = await blogModel.find({owner: club.head,featured:true})
-    events = eventsModel.find().sort({date:-1}).limit(3)
+    events = await eventsModel.find({owner: club.head}).sort({date:-1}).limit(3)
     res.json({
       'Club name': club.name,
       'Club Description': club.description,
