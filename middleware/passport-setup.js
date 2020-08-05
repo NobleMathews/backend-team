@@ -5,7 +5,9 @@ const Public = require('../models/Public.model')
 passport.use('google', new GoogleStrategy({
     clientID: "896510479133-fma76gp7g35cg4ei79sieeok9ueppsat.apps.googleusercontent.com",
     clientSecret: "asFbK3Ew4WxENOADRVsdh-C9",
-    callbackURL: "http://localhost:5000/blog/auth/google/callback"
+    // use below one URL for development testing 
+    // callbackURL: "http://localhost:5000/blog/auth/google/callback",
+    callbackURL: "https://ancient-spire-21996.herokuapp.com/blog/auth/google/callback"
   },
   async function(accessToken, refreshToken, profile, done) {
     
@@ -37,7 +39,8 @@ passport.use('google', new GoogleStrategy({
 passport.use('google-alt', new GoogleStrategy({
   clientID: "896510479133-fma76gp7g35cg4ei79sieeok9ueppsat.apps.googleusercontent.com",
   clientSecret: "asFbK3Ew4WxENOADRVsdh-C9",
-  callbackURL: "http://localhost:5000/projects/auth/google/callback"
+  // callbackURL: "http://localhost:5000/projects/auth/google/callback",
+  callbackURL: "https://ancient-spire-21996.herokuapp.com/projects/auth/google/callback"
 },
   async function(accessToken, refreshToken, profile, done) {
     
