@@ -119,7 +119,6 @@ router.route('/update/:id').get(adminAuth, async (req,res)=>{
 router.route('/update/:id').post(adminAuth, upload.any('pics', 20), async (req, res) => {
     const id = req.params.id
     const proj = await projectsModel.find({id})
-    const creator = proj.creator
     vfeatured=req.body.featured==="on"?true:false;
     vpublished=req.body.published==="on"?true:false;
     if(vfeatured==true){
@@ -159,7 +158,6 @@ router.route('/update/:id').post(adminAuth, upload.any('pics', 20), async (req, 
       featured : vfeatured,
       published : vpublished,
       keywords : tags,
-      creator: creator
     }
     
     projectsModel.findByIdAndUpdate(id, change)
