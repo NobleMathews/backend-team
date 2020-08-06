@@ -11,7 +11,7 @@ const clubHeadSchema = new Schema({
     name:{type:String},
     contact:{type:String},
     email_id:{type:String,required:true},
-    dp_url:{type:String,required:true},
+    dp_url:{type:String},
     club_name:{type:String},
     bio:{type:String},
     tokens:[{
