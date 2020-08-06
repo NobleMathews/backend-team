@@ -9,10 +9,10 @@
 <body>    
   <%-include('partials/alert_system.ejs')%>
     <%-include('partials/navbar_clubhead.ejs')%> <br><br>
-    <a class="btn btn-warning" href="/club_members/create" style="margin-left: 20px;" role="button">Add Club Members</a>
     <div class="container">
     <% if (members && members.length) { %>
     <h2 style="color: blue; text-decoration: underline;"> List of all club members </h2>
+    <a class="btn btn-warning" href="/club_members/create" style="margin-left: 20px;" role="button">Add Club Members</a>
         <table class="table">
             <thead class="thead-dark">
                 <tr>
