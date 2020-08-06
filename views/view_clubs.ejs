@@ -22,6 +22,7 @@
     <%- include('partials/navbar_admin') %>
     <% if (clubs && clubs.length) { %>
     <h3 style="text-align: center; text-decoration: underline; padding-top: 30px;">List of Clubs</h3>
+    <a class="btn btn-warning" href="/club/create" style="margin-left: 20px;" role="button">Add Club</a>
     <div class="container" style="padding-top:30px;">
         <div class="row row-cols-1 row-cols-md-4">
             <% clubs.forEach((club) => { %>
@@ -41,12 +42,10 @@
     <% }else{ %>
         <div class="container">
             <h1 class="display-5">No clubs created yet</h1>
+            <a class="btn btn-warning" href="/club/create" style="margin-left: 20px;" role="button">Add Club</a>
             <br>  
         </div>
     <% }%>
-    <div style="text-align: center; margin-top: 20px; margin-bottom: 30px;">
-        <a href="/club/create" ><span class="material-icons">add</span>Add Club</a>
-    </div>
 
 <%- include('partials/bottom_spacing.ejs') %>
 </body>
