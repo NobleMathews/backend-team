@@ -108,7 +108,7 @@ router.route('/update/:id').get(adminAuth, async (req,res)=>{
       //console.log(i)
       branches.push(branchlist[i].name)
     }
-    console.log(branches)
+    // console.log(branches)
     projectsModel.findById(proj_id)
     .then(project=>{
       res.render('update_project', { alerts: req.flash('error'),project:project, page_name:"projects",list_of_clubs:allclubs, branches})

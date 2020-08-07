@@ -25,8 +25,8 @@ router.route('/login').post(async (req, res) => {
       const token = await editor.generateAuthToken(req, res)
       res.redirect('/editor/home')
     }catch(e){
-      console.log(e)
-      res.render('blog_editor',{alerts:req.flash("Please check UserID / Password")})
+      req.flash("error",["Please check UserID / Password"])
+      res.render('blog_editor',{alerts:req.flash('error')})
     }
    
 })
