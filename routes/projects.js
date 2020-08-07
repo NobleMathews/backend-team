@@ -42,7 +42,7 @@ router.route('/create').get(adminAuth,async (req, res) => {
 router.route('/create/').post(adminAuth, upload.any('snapshot_url', 20),  (req, res) => {
   vfeatured=req.body.featured==="on"?true:false;
   vpublished=req.body.published==="on"?true:false;
-  if(vfeatured=true){
+  if(vfeatured==true){
     vpublished=true
   }
     var snaps = []

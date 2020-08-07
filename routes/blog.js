@@ -28,7 +28,7 @@ router.route('/create').get(clubAuth, (req,res)=>{
 router.route('/create').post(clubAuth, uploadf.fields([{name:'chief_guest_url',maxCount:1},{name:'file_attachment[]',maxCount:40}]), (req, res)=>{  
   vfeatured=req.body.featured==="on"?true:false;
   vpublished=req.body.published==="on"?true:false;
-  if(vfeatured=true){
+  if(vfeatured==true){
     vpublished=true
   }
   const id = req.user._id

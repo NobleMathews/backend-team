@@ -17,7 +17,7 @@
         <form method="POST" enctype="application/x-www-form-urlencoded" action="/news/update/<%=news._id%>">
         <div class="form-group">
           <label>News Snippet</label>
-          <textarea class="form-control" name="snippet" rows="3" ><%=news.snippet%></textarea>
+          <textarea class="form-control" required name="snippet" rows="3" ><%=news.snippet%></textarea>
         </div>
         <input type="submit" class="btn btn-primary" value="Update">
 

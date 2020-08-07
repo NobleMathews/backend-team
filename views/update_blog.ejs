@@ -72,7 +72,7 @@
         <div id="extract-container"></div>
             <div class="form-group">
                 <label>Summary</label>
-                <textarea class="form-control" name="summary" rows="4" placeholder="Provide a short summary..."><%=summary.summary||"NULL"%></textarea>
+                <textarea class="form-control" required name="summary" rows="4" placeholder="Provide a short summary..."><%=summary.summary||"NULL"%></textarea>
             </div>
             <!-- for now these next 2 fields are not prefilled so that script isnt disturbed just for ejs but do execute logic on frontend -->
             <div class="form-group">
@@ -258,7 +258,7 @@
 
         });
 
-                var editor = CKEDITOR.replace('summary');
+        var editor = CKEDITOR.replace('summary');
         editor.on( 'required', function( evt ) {
                 editor.showNotification( 'This field is required.', 'warning' );
                 evt.cancel();
