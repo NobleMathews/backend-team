@@ -35,7 +35,7 @@
         <div class="Competition optional">
             <div class="form-group">
                 <label>Award Winners</label>
-                <input class="form-control" name="award_winners" placeholder="Separate with | and ,">
+                <input class="form-control" name="award_winners" value="<%=summary.award_winners||'NULL'%>" placeholder="Separate with | and ,">
                 <small class="form-text text-muted">"|" to seperate winning tiers and "," for ties</small>
             </div>
         </div>
@@ -45,7 +45,8 @@
                 <input class="form-control" name="chief_guest" value="<%=summary.chief_guest||'NULL'%>">>
                 </div>
             <div class="form-group">
-                <input type="file" accept='image/*' onchange="imageCompressor(event);" name="chief_guest_url" class="form-control-file">
+                <label>Chief Guest URL</label>
+                <input type="file" accept='image/*' name="chief_guest_url" id="chief_guest_url" onchange="imageCompressor(event);">
             </div>
         </div>
         <div class="Activity optional">
