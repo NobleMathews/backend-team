@@ -109,7 +109,6 @@ function insensitive(expr){
 }
 // take multiple chainable queries branch club degree and search queries /?=...&..
 router.route('/projects').get(async (req, res) => {
-  console.log(req.query)
   if (Object.keys(req.query).length == 0) {
     projectsModel.find().limit(30)
       .then(project => res.json(project))
