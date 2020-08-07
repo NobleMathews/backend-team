@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const newsModel = require('../models/News.model')
-const adminAuth = require('../middleware/adminAuth');
+const adminAuth = require('../middleware/adminAuth')
+const moment = require('moment')
 
 // for rendering the create news page
 router.route('/create/').get(adminAuth, (req, res) => {
@@ -71,7 +72,7 @@ res.redirect('/news/view_all')
 router.route('/view_all').get(adminAuth, (req, res) => {
     newsModel.find()
     .then(newss=>{
-        res.render('view_news', { alerts: req.flash('error'),newss:newss,page_name:'news'})
+        res.render('view_news', { alerts: req.flash('error'),newss:newss,page_name:'news',moment:moment})
     })
 })
 
