@@ -12,13 +12,16 @@
 
    <div class="container">
     <% if(newss && newss.length) { %>
-            <div class="card-group">
+        <h3 style="text-align: center; text-decoration: underline; padding-top: 30px;">Current news</h3>
+        <a class="btn btn-warning" href="/news/create" style="margin-left: 20px;" role="button">Post News</a>
+            <div class="card-deck" style="margin-top: 10px;">
                 <% newss.forEach((news)=>{ %>
                     <div class="card" style="width: 18rem;">
                         <div class="card-body">
                             <p class="card-text">
                                 <%= news.snippet%>
                             </p>
+                            <p class="card-text"><small class="text-muted">Last updated <%= moment(news.updatedAt).startOf('month').fromNow(); %></small></p>
                         </div>
                         <p style="text-align: center;">
                             <a href="/news/update/<%=news._id%>">edit</a> | <a href="/news/delete/<%=news._id%>">delete</a>
@@ -29,10 +32,14 @@
                <% }) %>
             </div>
         <% } else { %>
-             <h1>No news created yet</h1>
+            <div class="container">
+                <h1 class="display-5">No News exist yet</h1>
+            </div>
+            <div >
+                <a class="btn btn-warning" href="/news/create" style="margin-left: 20px;" role="button">Post News</a>
+            </div>
        <% } %>
 
-      <br> <a href="/news/create">Create news</a>
    </div>
 <%- include('partials/bottom_spacing.ejs') %>
 </body>
