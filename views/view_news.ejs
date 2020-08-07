@@ -21,7 +21,7 @@
                             <p class="card-text">
                                 <%= news.snippet%>
                             </p>
-                            <p class="card-text"><small class="text-muted">Last updated <%= moment(news.updatedAt).startOf('month').fromNow(); %></small></p>
+                            <p class="card-text"><small class="text-muted">Posted on <%= moment(news.createdAt).format('Do MMMM, YYYY'); %></small></p>
                         </div>
                         <p style="text-align: center;">
                             <a href="/news/update/<%=news._id%>">edit</a> | <a href="/news/delete/<%=news._id%>">delete</a>
