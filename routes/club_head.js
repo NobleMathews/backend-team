@@ -133,7 +133,8 @@ router.route('/login').post(async (req, res) => {
     res.render('landing_clubHead', { alerts: req.flash('error'),user : user,page_name:'home'})
 
   }catch(e){
-    res.render('index',{alerts:req.flash("Please check UserID / Password")})
+    req.flash("error",["Please check UserID / Password"])
+    res.render('index',{alerts:req.flash('error')})
   }
  
 })
