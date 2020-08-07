@@ -104,6 +104,9 @@ router.route('/gallery/:club_name').get((req, res) => {
         }).catch(err => { res.json(err) })
     }).catch(err => { res.json(err) })
 })
+function insensitive(expr){
+  return new RegExp('^'+ expr + '$', "i")
+}
 // take multiple chainable queries branch club degree and search queries /?=...&..
 router.route('/projects').get(async (req, res) => {
   if (Object.keys(req.query).length == 0) {
@@ -116,9 +119,9 @@ router.route('/projects').get(async (req, res) => {
     const deg_name = req.query.degree
     const query_string = req.query.query_string
     const filters = {
-      branch: branch_name == undefined ? /.*/ : branch_name.split(','),
-      club: club_name == undefined ? /.*/ : club_name.split(','),
-      degree: deg_name == undefined ? /.*/ : deg_name.split(','),
+      branch: branch_name == undefined ? /.*/ : branch_name.split(',').map(el=>insensitive(el)),
+      club: club_name == undefined ? /.*/ : club_name.split(',').map(el=>insensitive(el)),
+      degree: deg_name == undefined ? /.*/ : deg_name.split(',').map(el=>insensitive(el)),
       $text: { $search: query_string }
     }
     query_string === undefined && delete filters.$text
@@ -126,7 +129,8 @@ router.route('/projects').get(async (req, res) => {
     try {
       projects = await projectsModel.find(filters, { score: { $meta: 'textScore' } }).limit(30).sort({ score: { $meta: 'textScore' } })
       var finalList = _.map(projects, function (b) {
-        if (b.published) return b
+        if (b.published) 
+        return b
       })
       res.json(finalList)
     } catch (error) {
