@@ -94,6 +94,7 @@ router.route('/club/:club').get(async (req, res) => {
       'Club Head contact': club_head.contact,
       'Club Head email_id': club_head.email_id,
       'Member details': members,
+      'Club resources' : club.resources,
       'Events' : events,
       'Blogs': blogs
     })
@@ -191,11 +192,16 @@ router.route('/events/:filter').get((req, res) => {
   efilter = ikeyMap[efilter]
   eventsModel.filterByType(efilter)
     .then((events) => {
-      if (efilter != 'all') { res.send(events) } else {
-        filteredEvents = _.groupBy(events, 'categories')
+      if (efilter != 'all') {
+        sortedEvents = _.orderBy(events,['date'],['asc']) 
+        res.send(sortedEvents) 
+      } 
+      else {
+        sortedEvents = _.orderBy(events,['date'],['asc'])
+        filteredEvents = _.groupBy(sortedEvents, 'categories')
         respJson = _.mapKeys(filteredEvents, function (value, key) {
-          return keyMap[key]
-        })
+        return keyMap[key]
+      })
         res.send(respJson)
       }
     })
