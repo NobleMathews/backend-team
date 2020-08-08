@@ -15,9 +15,28 @@ const techTeamModel = require('../models/TechTeam.model')
 const editorModel = require('../models/Editor.model')
 const feed_url = 'https://www.hackerrank.com/calendar/feed'
 const _ = require('lodash')
+const fetch = require("node-fetch");
+var mcache = require('memory-cache');
 const { Octokit } = require("@octokit/rest");
 const octokit = new Octokit();
 const { constant } = require('lodash')
+var cache = (duration=12) => {
+  return (req, res, next) => {
+    let key = '__express__' + req.originalUrl || req.url
+    let cachedBody = mcache.get(key)
+    if (cachedBody) {
+      res.send(cachedBody)
+      return
+    } else {
+      res.sendResponse = res.send
+      res.send = (body) => {
+        mcache.put(key, body, duration * 3600000);
+        res.sendResponse(body)
+      }
+      next()
+    }
+  }
+}
 
 router.route('/home').get((req, res) => {
   const homedata = async function () {
@@ -369,16 +388,28 @@ router.route('/committee').get((req, res) => {
     .catch(err => res.json(err))
 })
 
-router.route('/contributors/:target').get( async(req, res) => {
+router.route('/contributors/:target').get( cache(12), async(req, res) => {
   const param = req.params.target=="frontend"?{owner: 'mir-sam-ali',repo: 'frontend-team'}:{owner: 'shobhi1310',repo: 'backend-team'}
   const response=await octokit.request('GET /repos/{owner}/{repo}/stats/contributors',param)
   const datam=response.data;
-  const filtered = datam.map((data) => ({
+  let url = `https://api.github.com/repos/${param.owner}/${param.repo}/contributors`;
+  let bypassresponse = await fetch(url);
+  let commits = await bypassresponse.json();
+  // bypass filtered is only to include main contributors who had github related issues
+  // its legacy and shouldnt be used for any other reason - only the default octokit method would be used for new contrib  
+  const bypassfiltered = commits.map((data) => ({
+    id:_.get(data,'login'),
+    img: _.get(data, 'avatar_url'),
+    url:_.get(data, 'html_url'),
+    total:_.get(data, 'contributions')
+  })); 
+  const mainfiltered = datam.map((data) => ({
       id:_.get(data,'author.login'),
       img: _.get(data, 'author.avatar_url'),
       url:_.get(data, 'author.html_url'),
       ..._.pick(data, 'total')
   }));
+  const filtered = _.unionBy(mainfiltered,bypassfiltered, 'id');
   const winners = datam.map((data) => ({
       id:_.get(data,'author.login'),
       img: _.get(data, 'author.avatar_url'),
