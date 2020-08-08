@@ -110,7 +110,7 @@ function insensitive(expr){
 // take multiple chainable queries branch club degree and search queries /?=...&..
 router.route('/projects').get(async (req, res) => {
   if (Object.keys(req.query).length == 0) {
-    projectsModel.find().limit(30)
+    projectsModel.find({published: true}).limit(30)
       .then(project => res.json(project))
       .catch(err => res.json(err))
   } else {
@@ -119,20 +119,17 @@ router.route('/projects').get(async (req, res) => {
     const deg_name = req.query.degree
     const query_string = req.query.query_string
     const filters = {
+      published: true,
       branch: branch_name == undefined ? /.*/ : branch_name.split(',').map(el=>insensitive(el)),
       club: club_name == undefined ? /.*/ : club_name.split(',').map(el=>insensitive(el)),
       degree: deg_name == undefined ? /.*/ : deg_name.split(',').map(el=>insensitive(el)),
-      $text: { $search: query_string }
+      $text: { $search: insensitive(query_string) }
     }
     query_string === undefined && delete filters.$text
     let projects
     try {
       projects = await projectsModel.find(filters, { score: { $meta: 'textScore' } }).limit(30).sort({ score: { $meta: 'textScore' } })
-      var finalList = _.map(projects, function (b) {
-        if (b.published) 
-        return b
-      })
-      res.json(finalList)
+      res.json(projects)
     } catch (error) {
       res.json(error)
     }
