@@ -2,8 +2,28 @@ const router = require('express').Router()
 const { Octokit } = require("@octokit/rest");
 const octokit = new Octokit();
 const _ = require('lodash');
+const fetch = require("node-fetch");
+var mcache = require('memory-cache');
 
-router.route('/:target').get( async(req, res) => {
+var cache = (duration=12) => {
+  return (req, res, next) => {
+    let key = '__express__' + req.originalUrl || req.url
+    let cachedBody = mcache.get(key)
+    if (cachedBody) {
+      res.send(cachedBody)
+      return
+    } else {
+      res.sendResponse = res.send
+      res.send = (body) => {
+        mcache.put(key, body, duration * 3600000);
+        res.sendResponse(body)
+      }
+      next()
+    }
+  }
+}
+
+router.route('/:target').get( cache(12),async(req, res) => {
     const param = req.params.target=="frontend"?{owner: 'mir-sam-ali',repo: 'frontend-team'}:{owner: 'shobhi1310',repo: 'backend-team'}
     const response=await octokit.request('GET /repos/{owner}/{repo}/stats/contributors',param)
     const datam=response.data;
