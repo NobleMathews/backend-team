@@ -173,13 +173,13 @@ router.route('/events/:filter').get((req, res) => {
   eventsModel.filterByType(efilter)
     .then((events) => {
       if (efilter != 'all') {
-        sortedEvents = _.orderBy(events,['date'],['desc']) 
+        sortedEvents = _.orderBy(events,['date'],['asc']) 
         res.send(sortedEvents) 
       } 
       else {
-        filteredEvents = _.groupBy(events, 'categories')
-        sortedEvents = _.orderBy(filteredEvents,['date'],['desc'])
-        respJson = _.mapKeys(sortedEvents, function (value, key) {
+        sortedEvents = _.orderBy(events,['date'],['asc'])
+        filteredEvents = _.groupBy(sortedEvents, 'categories')
+        respJson = _.mapKeys(filteredEvents, function (value, key) {
         return keyMap[key]
       })
         res.send(respJson)
