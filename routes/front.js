@@ -75,6 +75,7 @@ router.route('/club/:club').get(async (req, res) => {
       'Club Head contact': club_head.contact,
       'Club Head email_id': club_head.email_id,
       'Member details': members,
+      'Club resources' : club.resources,
       'Events' : events,
       'Blogs': blogs
     })
