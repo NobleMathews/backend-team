@@ -59,7 +59,6 @@ router.route('/push_notification/send/:id').post((req, res) => {
             </ul>
             <h3>Message</h3>
           `;
-          var atc=req.body.file;
      
     
           let transporter = nodemailer.createTransport({
@@ -82,12 +81,7 @@ router.route('/push_notification/send/:id').post((req, res) => {
               subject: `${req.body.subject}`, // Subject line
               
               html: output, // html body
-              attachments: [
-                
-                { 
-                  filename:atc, //For now There is only 1 possible atachments, we can add more if required
-                }
-              ]
+              
               
           };
   
