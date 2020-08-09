@@ -29,7 +29,7 @@ router.route('/create/').post(adminAuth, upload.single('dp_url'), async (req, re
       members: member
     })
     // console.log(committee)
-    committeemodel.findOneAndUpdate({}, { $push: { members: member } }, (err, user) => {
+    committeemodel.findOneAndUpdate({},{ $push: { members: member }}, {  upsert: true, new: true, setDefaultsOnInsert: true }, (err, user) => {
       if (err) {
         req.flash('error', err.message)
         res.redirect('/committee_members/view_all')
