@@ -315,9 +315,10 @@ router.route('/public/post').post(isLoggedIn, upload.any('snapshot_url', 20), (r
     project.save((err) => {
       if (err) {
         req.flash("error",err.message)
+        res.redirect('/project/public/create')
       }
       // req.flash("error", "Your post has been received by admin, will contact you soon!")
-      res.redirect('/')
+      res.redirect('https://mir-sam-ali.github.io/frontend-team/#/projects')
     })
   })
 })

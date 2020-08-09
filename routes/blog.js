@@ -447,10 +447,10 @@ router.route('/public/post').post(isLoggedIn, uploadf.fields([{name:'chief_guest
     evsum.save((err, event) => {
        if (err) {
          req.flash("error",err.message)
-         res.redirect('/')
+         res.redirect('/blog/public/create')
          } else {
             // req.flash("Success", "Your post has been received by admin, will contact you soon!")
-            res.redirect("/")
+            res.redirect("https://mir-sam-ali.github.io/frontend-team/#/Blogs")
          }
    })
   })

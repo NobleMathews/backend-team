@@ -23,7 +23,6 @@
                     <th scope="col">Status</th>
                     <th scope="col">Club</th>
                     <th scope="col">Branch</th>
-                    <th scope="col">Members</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -40,12 +39,6 @@
                         <%}%></td>
                         <td><%= project.club %></td>
                         <td><%= project.branch %></td>
-                        <td><% if (project.team_members && project.team_members.length) { %>
-
-                            <% (project.team_members).forEach((person) => { %>
-                                <p><%=person%></p>
-                            <% }) %>
-                            <% } %></td>
                         <td><a href="/projects/details/<%=project._id%>">details</a> | <a href="/projects/update/<%=project._id%>">edit</a>  |  <a href="/projects/delete/<%=project._id%>">delete</a></td>
                     </tr>
                 <%})%>   
